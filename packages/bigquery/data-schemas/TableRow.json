@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bigquery/TableRow",
+  "x-source": {
+    "adapter": "bigquery",
+    "openapi": "https://bigquery.googleapis.com/$discovery/rest?version=v2",
+    "component": "TableRow",
+    "ingestedAt": "2026-05-14"
+  },
+  "id": "TableRow",
+  "properties": {
+    "f": {
+      "description": "Represents a single row in the result set, consisting of one or more fields.",
+      "items": {
+        "x-openapi-ref": "#/schemas/TableCell",
+        "id": "TableCell",
+        "properties": {
+          "v": {
+            "type": "any"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "type": "object"
+}

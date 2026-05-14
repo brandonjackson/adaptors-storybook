@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "twilio/api.v2010.account.recording",
+  "x-source": {
+    "adapter": "twilio",
+    "openapi": "https://github.com/twilio/twilio-oai/raw/main/spec/json/twilio_api_v2010.json",
+    "component": "api.v2010.account.recording",
+    "ingestedAt": "2026-05-14"
+  },
+  "type": "object",
+  "properties": {
+    "account_sid": {
+      "type": "string",
+      "minLength": 34,
+      "maxLength": 34,
+      "pattern": "^AC[0-9a-fA-F]{32}$",
+      "nullable": true,
+      "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the Recording resource."
+    },
+    "api_version": {
+      "type": "string",
+      "nullable": true,
+      "description": "The API version used during the recording."
+    },
+    "call_sid": {
+      "type": "string",
+      "minLength": 34,
+      "maxLength": 34,
+      "pattern": "^CA[0-9a-fA-F]{32}$",
+      "nullable": true,
+      "description": "The SID of the [Call](https://www.twilio.com/docs/voice/api/call-resource) the Recording resource is associated with. This will always refer to the parent leg of a two-leg call."
+    },
+    "conference_sid": {
+      "type": "string",
+      "minLength": 34,
+      "maxLength": 34,
+      "pattern": "^CF[0-9a-fA-F]{32}$",
+      "nullable": true,
+      "description": "The Conference SID that identifies the conference associated with the recording, if a conference recording."
+    },
+    "date_created": {
+      "type": "string",
+      "format": "date-time-rfc-2822",
+      "nullable": true,
+      "description": "The date and time in GMT that the resource was created specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format."
+    },
+    "date_updated": {
+      "type": "string",
+      "format": "date-time-rfc-2822",
+      "nullable": true,
+      "description": "The date and time in GMT that the resource was last updated specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format."
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time-rfc-2822",
+      "nullable": true,
+      "description": "The start time of the recording in GMT and in [RFC 2822](https://www.php.net/manual/en/class.datetime.php#datetime.constants.rfc2822) format."
+    },
+    "duration": {
+      "type": "string",
+      "nullable": true,
+      "description": "The length of the recording in seconds."
+    },
+    "sid": {
+      "type": "string",
+      "minLength": 34,
+      "maxLength": 34,
+      "pattern": "^RE[0-9a-fA-F]{32}$",
+      "nullable": true,
+      "description": "The unique string that that we created to identify the Recording resource."
+    },
+    "price": {
+      "type": "string",
+      "nullable": true,
+      "description": "The one-time cost of creating the recording in the `price_unit` currency."
+    },
+    "price_unit": {
+      "type": "string",
+      "nullable": true,
+      "description": "The currency used in the `price` property. Example: `USD`."
+    },
+    "status": {
+      "x-openapi-ref": "#/components/schemas/recording_enum_status",
+      "type": "string",
+      "enum": [
+        "in-progress",
+        "paused",
+        "stopped",
+        "processing",
+        "completed",
+        "absent",
+        "deleted"
+      ],
+      "description": "The status of the recording. Can be: `processing`, `completed`, `absent` or `deleted`. For information about more detailed statuses on in-progress recordings, check out how to [Update a Recording Resource](https://www.twilio.com/docs/voice/api/recording#update-a-recording-resource)."
+    },
+    "channels": {
+      "type": "integer",
+      "nullable": true,
+      "description": "The number of channels in the recording resource. For information on specifying the number of channels in the downloaded recording file, check out [Fetch a Recording’s media file](https://www.twilio.com/docs/voice/api/recording#download-dual-channel-media-file)."
+    },
+    "source": {
+      "x-openapi-ref": "#/components/schemas/recording_enum_source",
+      "type": "string",
+      "enum": [
+        "DialVerb",
+        "Conference",
+        "OutboundAPI",
+        "Trunking",
+        "RecordVerb",
+        "StartCallRecordingAPI",
+        "StartConferenceRecordingAPI"
+      ],
+      "description": "How the recording was created. Can be: `DialVerb`, `Conference`, `OutboundAPI`, `Trunking`, `RecordVerb`, `StartCallRecordingAPI`, and `StartConferenceRecordingAPI`."
+    },
+    "error_code": {
+      "type": "integer",
+      "nullable": true,
+      "description": "The error code that describes why the recording is `absent`. The error code is described in our [Error Dictionary](https://www.twilio.com/docs/api/errors). This value is null if the recording `status` is not `absent`."
+    },
+    "uri": {
+      "type": "string",
+      "nullable": true,
+      "description": "The URI of the resource, relative to `https://api.twilio.com`."
+    },
+    "encryption_details": {
+      "nullable": true,
+      "description": "How to decrypt the recording if it was encrypted using [Call Recording Encryption](https://www.twilio.com/docs/voice/tutorials/voice-recording-encryption) feature."
+    },
+    "subresource_uris": {
+      "type": "object",
+      "format": "uri-map",
+      "nullable": true,
+      "description": "A list of related resources identified by their relative URIs."
+    },
+    "media_url": {
+      "type": "string",
+      "format": "uri",
+      "nullable": true,
+      "description": "The URL of the media file associated with this recording resource. When stored externally, this is the full URL location of the media file."
+    }
+  }
+}

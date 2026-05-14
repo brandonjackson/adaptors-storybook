@@ -10,6 +10,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Twilio Call resource",
+        "schemaRef": "api.v2010.account.call",
         "fields": ["sid", "from", "to", "direction", "status", "duration", "startTime", "endTime"]
       }
     },
@@ -20,6 +21,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Twilio Recording resource",
+        "schemaRef": "api.v2010.account.recording",
         "fields": ["sid", "callSid", "duration", "channels", "uri", "mediaUrl", "dateCreated"]
       }
     },
@@ -30,6 +32,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Twilio Message resource",
+        "schemaRef": "api.v2010.account.message",
         "fields": ["sid", "from", "to", "body", "numMedia", "status", "direction", "dateCreated"]
       }
     }

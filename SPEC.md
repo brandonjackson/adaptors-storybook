@@ -63,7 +63,7 @@ Every adapter folder is being grown toward this shape:
 | Credentials          | `packages/<a>/configuration-schema.json`              | done          |
 | Snippets             | `packages/<a>/snippets.json`                          | 27 / 104      |
 | Triggers             | `packages/<a>/triggers.json`                          | 30 / 104      |
-| Data schemas         | `packages/<a>/data-schemas/` (OpenAPI-ingested)       | 2 / 30        |
+| Data schemas         | `packages/<a>/data-schemas/` (OpenAPI-ingested)       | 8 / 30        |
 | Integration ideas    | Cross-adapter, location TBD                           | not started   |
 
 ## Roadmap snapshot
@@ -79,8 +79,15 @@ Every adapter folder is being grown toward this shape:
       adapter's OpenAPI spec listed in `metadata.json`, extracts the
       `components.schemas` named by each trigger's `output.schemaRef`, and
       writes them into `packages/<a>/data-schemas/`. Seeded for stripe + asana.
-- [x] **Next**: expand `schemaRef` coverage across the other 18 adapters with
-      OpenAPI sources in `metadata.json` and rerun the ingestor.
+- [x] Expand `schemaRef` coverage across more OpenAPI-backed adapters and
+      rerun the ingestor. Now covers stripe, asana, twilio, msgraph, bigquery,
+      gmail, googledrive, googlesheets. The ingestor also handles Google
+      Discovery docs (bare `$ref` names → `spec.schemas.<name>`).
+- [ ] **Next**: harder ingestion targets — mailchimp's Swagger 2.0 splits
+      schemas into remote `$ref` files (definitions block is empty);
+      nexmo/Vonage upstream paths have moved; mongodb's Atlas Admin spec
+      doesn't cover the driver-level triggers we have. Each needs custom
+      handling before its `schemaRef`s can resolve.
 - [ ] Cross-adapter integration ideas — render as recipe pages
 - [ ] Fill in snippets that arrived with empty `code` fields
 - [ ] Extend ingestion beyond OpenAPI: WSDL, AsyncAPI, GraphQL SDL — the

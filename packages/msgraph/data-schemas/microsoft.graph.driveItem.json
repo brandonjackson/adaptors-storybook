@@ -1,0 +1,2051 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "msgraph/microsoft.graph.driveItem",
+  "x-source": {
+    "adapter": "msgraph",
+    "openapi": "https://github.com/microsoftgraph/msgraph-metadata/raw/master/openapi/v1.0/openapi.yaml",
+    "component": "microsoft.graph.driveItem",
+    "ingestedAt": "2026-05-14"
+  },
+  "allOf": [
+    {
+      "x-openapi-ref": "#/components/schemas/microsoft.graph.baseItem",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/microsoft.graph.entity"
+        },
+        {
+          "title": "baseItem",
+          "required": [
+            "@odata.type"
+          ],
+          "type": "object",
+          "properties": {
+            "createdBy": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                },
+                {
+                  "type": "object",
+                  "nullable": true
+                }
+              ],
+              "description": "Identity of the user, device, or application that created the item. Read-only."
+            },
+            "createdDateTime": {
+              "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+              "type": "string",
+              "description": "Date and time of item creation. Read-only.",
+              "format": "date-time"
+            },
+            "description": {
+              "type": "string",
+              "description": "Provides a user-visible description of the item. Optional.",
+              "nullable": true
+            },
+            "eTag": {
+              "type": "string",
+              "description": "ETag for the item. Read-only.",
+              "nullable": true
+            },
+            "lastModifiedBy": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                },
+                {
+                  "type": "object",
+                  "nullable": true
+                }
+              ],
+              "description": "Identity of the user, device, and application that last modified the item. Read-only."
+            },
+            "lastModifiedDateTime": {
+              "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+              "type": "string",
+              "description": "Date and time the item was last modified. Read-only.",
+              "format": "date-time"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the item. Read-write.",
+              "nullable": true
+            },
+            "parentReference": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/microsoft.graph.itemReference"
+                },
+                {
+                  "type": "object",
+                  "nullable": true
+                }
+              ],
+              "description": "Parent information, if the item has a parent. Read-write."
+            },
+            "webUrl": {
+              "type": "string",
+              "description": "URL that either displays the resource in the browser (for Office file formats), or is a direct link to the file (for other formats). Read-only.",
+              "nullable": true
+            },
+            "createdByUser": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/microsoft.graph.user"
+                },
+                {
+                  "type": "object",
+                  "nullable": true
+                }
+              ],
+              "description": "Identity of the user who created the item. Read-only.",
+              "x-ms-navigationProperty": true
+            },
+            "lastModifiedByUser": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/microsoft.graph.user"
+                },
+                {
+                  "type": "object",
+                  "nullable": true
+                }
+              ],
+              "description": "Identity of the user who last modified the item. Read-only.",
+              "x-ms-navigationProperty": true
+            },
+            "@odata.type": {
+              "type": "string"
+            }
+          },
+          "discriminator": {
+            "propertyName": "@odata.type",
+            "mapping": {
+              "#microsoft.graph.baseSitePage": "#/components/schemas/microsoft.graph.baseSitePage",
+              "#microsoft.graph.sitePage": "#/components/schemas/microsoft.graph.sitePage",
+              "#microsoft.graph.drive": "#/components/schemas/microsoft.graph.drive",
+              "#microsoft.graph.driveItem": "#/components/schemas/microsoft.graph.driveItem",
+              "#microsoft.graph.list": "#/components/schemas/microsoft.graph.list",
+              "#microsoft.graph.listItem": "#/components/schemas/microsoft.graph.listItem",
+              "#microsoft.graph.recycleBin": "#/components/schemas/microsoft.graph.recycleBin",
+              "#microsoft.graph.recycleBinItem": "#/components/schemas/microsoft.graph.recycleBinItem",
+              "#microsoft.graph.sharedDriveItem": "#/components/schemas/microsoft.graph.sharedDriveItem",
+              "#microsoft.graph.site": "#/components/schemas/microsoft.graph.site"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "driveItem",
+      "required": [
+        "@odata.type"
+      ],
+      "type": "object",
+      "properties": {
+        "audio": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.audio",
+              "title": "audio",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "album": {
+                  "type": "string",
+                  "description": "The title of the album for this audio file.",
+                  "nullable": true
+                },
+                "albumArtist": {
+                  "type": "string",
+                  "description": "The artist named on the album for the audio file.",
+                  "nullable": true
+                },
+                "artist": {
+                  "type": "string",
+                  "description": "The performing artist for the audio file.",
+                  "nullable": true
+                },
+                "bitrate": {
+                  "type": "number",
+                  "description": "Bitrate expressed in kbps.",
+                  "format": "int64",
+                  "nullable": true
+                },
+                "composers": {
+                  "type": "string",
+                  "description": "The name of the composer of the audio file.",
+                  "nullable": true
+                },
+                "copyright": {
+                  "type": "string",
+                  "description": "Copyright information for the audio file.",
+                  "nullable": true
+                },
+                "disc": {
+                  "maximum": 32767,
+                  "minimum": -32768,
+                  "type": "number",
+                  "description": "The number of the disc this audio file came from.",
+                  "format": "int16",
+                  "nullable": true
+                },
+                "discCount": {
+                  "maximum": 32767,
+                  "minimum": -32768,
+                  "type": "number",
+                  "description": "The total number of discs in this album.",
+                  "format": "int16",
+                  "nullable": true
+                },
+                "duration": {
+                  "type": "number",
+                  "description": "Duration of the audio file, expressed in milliseconds",
+                  "format": "int64",
+                  "nullable": true
+                },
+                "genre": {
+                  "type": "string",
+                  "description": "The genre of this audio file.",
+                  "nullable": true
+                },
+                "hasDrm": {
+                  "type": "boolean",
+                  "description": "Indicates if the file is protected with digital rights management.",
+                  "nullable": true
+                },
+                "isVariableBitrate": {
+                  "type": "boolean",
+                  "description": "Indicates if the file is encoded with a variable bitrate.",
+                  "nullable": true
+                },
+                "title": {
+                  "type": "string",
+                  "description": "The title of the audio file.",
+                  "nullable": true
+                },
+                "track": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "The number of the track on the original disc for this audio file.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "trackCount": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "The total number of tracks on the original disc for this audio file.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "year": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "The year the audio file was recorded.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Audio metadata, if the item is an audio file. Read-only. Read-only. Only on OneDrive Personal."
+        },
+        "bundle": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.bundle",
+              "title": "bundle",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "album": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.album"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "If the bundle is an album, then the album property is included"
+                },
+                "childCount": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Number of children contained immediately within this container.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Bundle metadata, if the item is a bundle. Read-only."
+        },
+        "content": {
+          "type": "string",
+          "description": "The content stream, if the item represents a file.",
+          "format": "base64url",
+          "nullable": true
+        },
+        "cTag": {
+          "type": "string",
+          "description": "An eTag for the content of the item. This eTag isn't changed if only the metadata is changed. Note This property isn't returned if the item is a folder. Read-only.",
+          "nullable": true
+        },
+        "deleted": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.deleted",
+              "title": "deleted",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "description": "Represents the state of the deleted item.",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Information about the deleted state of the item. Read-only."
+        },
+        "file": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.file",
+              "title": "file",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "hashes": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.hashes"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Hashes of the file's binary content, if available. Read-only."
+                },
+                "mimeType": {
+                  "type": "string",
+                  "description": "The MIME type for the file. This is determined by logic on the server and might not be the value provided when the file was uploaded. Read-only.",
+                  "nullable": true
+                },
+                "processingMetadata": {
+                  "type": "boolean",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "File metadata, if the item is a file. Read-only."
+        },
+        "fileSystemInfo": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.fileSystemInfo",
+              "title": "fileSystemInfo",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "createdDateTime": {
+                  "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                  "type": "string",
+                  "description": "The UTC date and time the file was created on a client.",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "lastAccessedDateTime": {
+                  "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                  "type": "string",
+                  "description": "The UTC date and time the file was last accessed. Available for the recent file list only.",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "lastModifiedDateTime": {
+                  "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                  "type": "string",
+                  "description": "The UTC date and time the file was last modified on a client.",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "File system information on client. Read-write."
+        },
+        "folder": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.folder",
+              "title": "folder",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "childCount": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Number of children contained immediately within this container.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "view": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.folderView"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "A collection of properties defining the recommended view for the folder."
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Folder metadata, if the item is a folder. Read-only."
+        },
+        "image": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.image",
+              "title": "image",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "height": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Optional. Height of the image, in pixels. Read-only.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "width": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Optional. Width of the image, in pixels. Read-only.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Image metadata, if the item is an image. Read-only."
+        },
+        "location": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.geoCoordinates",
+              "title": "geoCoordinates",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "altitude": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "nullable": true
+                    },
+                    {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReferenceNumeric"
+                    }
+                  ],
+                  "description": "Optional. The altitude (height), in feet,  above sea level for the item. Read-only."
+                },
+                "latitude": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "nullable": true
+                    },
+                    {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReferenceNumeric"
+                    }
+                  ],
+                  "description": "Optional. The latitude, in decimal, for the item. Read-only."
+                },
+                "longitude": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "nullable": true
+                    },
+                    {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReferenceNumeric"
+                    }
+                  ],
+                  "description": "Optional. The longitude, in decimal, for the item. Read-only."
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Location metadata, if the item has location data. Read-only."
+        },
+        "malware": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.malware",
+              "title": "malware",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "description": {
+                  "type": "string",
+                  "description": "Contains the virus details for the malware facet.",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Malware metadata, if the item was detected to contain malware. Read-only."
+        },
+        "package": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.package",
+              "title": "package",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "A string indicating the type of package. While oneNote is the only currently defined value, you should expect other package types to be returned and handle them accordingly.",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "If present, indicates that this item is a package instead of a folder or file. Packages are treated like files in some contexts and folders in others. Read-only."
+        },
+        "pendingOperations": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.pendingOperations",
+              "title": "pendingOperations",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "pendingContentUpdate": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.pendingContentUpdate"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "A property that indicates that an operation that might update the binary content of a file is pending completion."
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "If present, indicates that one or more operations that might affect the state of the driveItem are pending completion. Read-only."
+        },
+        "photo": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.photo",
+              "title": "photo",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "cameraMake": {
+                  "type": "string",
+                  "description": "Camera manufacturer. Read-only.",
+                  "nullable": true
+                },
+                "cameraModel": {
+                  "type": "string",
+                  "description": "Camera model. Read-only.",
+                  "nullable": true
+                },
+                "exposureDenominator": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "nullable": true
+                    },
+                    {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReferenceNumeric"
+                    }
+                  ],
+                  "description": "The denominator for the exposure time fraction from the camera. Read-only."
+                },
+                "exposureNumerator": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "nullable": true
+                    },
+                    {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReferenceNumeric"
+                    }
+                  ],
+                  "description": "The numerator for the exposure time fraction from the camera. Read-only."
+                },
+                "fNumber": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "nullable": true
+                    },
+                    {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReferenceNumeric"
+                    }
+                  ],
+                  "description": "The F-stop value from the camera. Read-only."
+                },
+                "focalLength": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "nullable": true
+                    },
+                    {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReferenceNumeric"
+                    }
+                  ],
+                  "description": "The focal length from the camera. Read-only."
+                },
+                "iso": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "The ISO value from the camera. Read-only.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "orientation": {
+                  "maximum": 32767,
+                  "minimum": -32768,
+                  "type": "number",
+                  "description": "The orientation value from the camera. Writable on OneDrive Personal.",
+                  "format": "int16",
+                  "nullable": true
+                },
+                "takenDateTime": {
+                  "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                  "type": "string",
+                  "description": "Represents the date and time the photo was taken. Read-only.",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Photo metadata, if the item is a photo. Read-only."
+        },
+        "publication": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.publicationFacet",
+              "title": "publicationFacet",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "checkedOutBy": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The user who checked out the file."
+                },
+                "level": {
+                  "type": "string",
+                  "description": "The state of publication for this document. Either published or checkout. Read-only.",
+                  "nullable": true
+                },
+                "versionId": {
+                  "type": "string",
+                  "description": "The unique identifier for the version that is visible to the current caller. Read-only.",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Provides information about the published or checked-out state of an item, in locations that support such actions. This property isn't returned by default. Read-only."
+        },
+        "remoteItem": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.remoteItem",
+              "title": "remoteItem",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "createdBy": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Identity of the user, device, and application which created the item. Read-only."
+                },
+                "createdDateTime": {
+                  "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                  "type": "string",
+                  "description": "Date and time of item creation. Read-only.",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "file": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.file"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Indicates that the remote item is a file. Read-only."
+                },
+                "fileSystemInfo": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.fileSystemInfo"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Information about the remote item from the local file system. Read-only."
+                },
+                "folder": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.folder"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Indicates that the remote item is a folder. Read-only."
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Unique identifier for the remote item in its drive. Read-only.",
+                  "nullable": true
+                },
+                "image": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.image"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Image metadata, if the item is an image. Read-only."
+                },
+                "lastModifiedBy": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Identity of the user, device, and application which last modified the item. Read-only."
+                },
+                "lastModifiedDateTime": {
+                  "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                  "type": "string",
+                  "description": "Date and time the item was last modified. Read-only.",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Optional. Filename of the remote item. Read-only.",
+                  "nullable": true
+                },
+                "package": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.package"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "If present, indicates that this item is a package instead of a folder or file. Packages are treated like files in some contexts and folders in others. Read-only."
+                },
+                "parentReference": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.itemReference"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Properties of the parent of the remote item. Read-only."
+                },
+                "shared": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.shared"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Indicates that the item has been shared with others and provides information about the shared state of the item. Read-only."
+                },
+                "sharepointIds": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.sharepointIds"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Provides interop between items in OneDrive for Business and SharePoint with the full set of item identifiers. Read-only."
+                },
+                "size": {
+                  "type": "number",
+                  "description": "Size of the remote item. Read-only.",
+                  "format": "int64",
+                  "nullable": true
+                },
+                "specialFolder": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.specialFolder"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "If the current item is also available as a special folder, this facet is returned. Read-only."
+                },
+                "video": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.video"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "Video metadata, if the item is a video. Read-only."
+                },
+                "webDavUrl": {
+                  "type": "string",
+                  "description": "DAV compatible URL for the item.",
+                  "nullable": true
+                },
+                "webUrl": {
+                  "type": "string",
+                  "description": "URL that displays the resource in the browser. Read-only.",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Remote item data, if the item is shared from a drive other than the one being accessed. Read-only."
+        },
+        "root": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.root",
+              "title": "root",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "If this property is non-null, it indicates that the driveItem is the top-most driveItem in the drive."
+        },
+        "searchResult": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.searchResult",
+              "title": "searchResult",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "onClickTelemetryUrl": {
+                  "type": "string",
+                  "description": "A callback URL that can be used to record telemetry information. The application should issue a GET on this URL if the user interacts with this item to improve the quality of results.",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Search metadata, if the item is from a search result. Read-only."
+        },
+        "shared": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.shared",
+              "title": "shared",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The identity of the owner of the shared item. Read-only."
+                },
+                "scope": {
+                  "type": "string",
+                  "description": "Indicates the scope of how the item is shared. The possible values are: anonymous, organization, or users. Read-only.",
+                  "nullable": true
+                },
+                "sharedBy": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The identity of the user who shared the item. Read-only."
+                },
+                "sharedDateTime": {
+                  "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                  "type": "string",
+                  "description": "The UTC date and time when the item was shared. Read-only.",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Indicates that the item was shared with others and provides information about the shared state of the item. Read-only."
+        },
+        "sharepointIds": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.sharepointIds",
+              "title": "sharepointIds",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "listId": {
+                  "type": "string",
+                  "description": "The unique identifier (guid) for the item's list in SharePoint.",
+                  "nullable": true
+                },
+                "listItemId": {
+                  "type": "string",
+                  "description": "An integer identifier for the item within the containing list.",
+                  "nullable": true
+                },
+                "listItemUniqueId": {
+                  "type": "string",
+                  "description": "The unique identifier (guid) for the item within OneDrive for Business or a SharePoint site.",
+                  "nullable": true
+                },
+                "siteId": {
+                  "type": "string",
+                  "description": "The unique identifier (guid) for the item's site collection (SPSite).",
+                  "nullable": true
+                },
+                "siteUrl": {
+                  "type": "string",
+                  "description": "The SharePoint URL for the site that contains the item.",
+                  "nullable": true
+                },
+                "tenantId": {
+                  "type": "string",
+                  "description": "The unique identifier (guid) for the tenancy.",
+                  "nullable": true
+                },
+                "webId": {
+                  "type": "string",
+                  "description": "The unique identifier (guid) for the item's site (SPWeb).",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Returns identifiers useful for SharePoint REST compatibility. Read-only."
+        },
+        "size": {
+          "type": "number",
+          "description": "Size of the item in bytes. Read-only.",
+          "format": "int64",
+          "nullable": true
+        },
+        "specialFolder": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.specialFolder",
+              "title": "specialFolder",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The unique identifier for this item in the /drive/special collection",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "If the current item is also available as a special folder, this facet is returned. Read-only."
+        },
+        "video": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.video",
+              "title": "video",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "audioBitsPerSample": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Number of audio bits per sample.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "audioChannels": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Number of audio channels.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "audioFormat": {
+                  "type": "string",
+                  "description": "Name of the audio format (AAC, MP3, etc.).",
+                  "nullable": true
+                },
+                "audioSamplesPerSecond": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Number of audio samples per second.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "bitrate": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Bit rate of the video in bits per second.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "duration": {
+                  "type": "number",
+                  "description": "Duration of the file in milliseconds.",
+                  "format": "int64",
+                  "nullable": true
+                },
+                "fourCC": {
+                  "type": "string",
+                  "description": "'Four character code' name of the video format.",
+                  "nullable": true
+                },
+                "frameRate": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "nullable": true
+                    },
+                    {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReferenceNumeric"
+                    }
+                  ],
+                  "description": "Frame rate of the video."
+                },
+                "height": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Height of the video, in pixels.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "width": {
+                  "maximum": 2147483647,
+                  "minimum": -2147483648,
+                  "type": "number",
+                  "description": "Width of the video, in pixels.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Video metadata, if the item is a video. Read-only."
+        },
+        "webDavUrl": {
+          "type": "string",
+          "description": "WebDAV compatible URL for the item.",
+          "nullable": true
+        },
+        "analytics": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.itemAnalytics",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/microsoft.graph.entity"
+                },
+                {
+                  "title": "itemAnalytics",
+                  "required": [
+                    "@odata.type"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "allTime": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.itemActivityStat"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "x-ms-navigationProperty": true
+                    },
+                    "itemActivityStats": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/microsoft.graph.itemActivityStat"
+                      },
+                      "x-ms-navigationProperty": true
+                    },
+                    "lastSevenDays": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.itemActivityStat"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "x-ms-navigationProperty": true
+                    },
+                    "@odata.type": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ],
+              "x-ms-discriminator-value": "#microsoft.graph.itemAnalytics"
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Analytics about the view activities that took place on this item.",
+          "x-ms-navigationProperty": true
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/microsoft.graph.driveItem"
+          },
+          "description": "Collection containing Item objects for the immediate children of Item. Only items representing folders have children. Read-only. Nullable.",
+          "x-ms-navigationProperty": true
+        },
+        "listItem": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.listItem",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/microsoft.graph.baseItem"
+                },
+                {
+                  "title": "listItem",
+                  "required": [
+                    "@odata.type"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "contentType": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.contentTypeInfo"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "description": "The content type of this list item"
+                    },
+                    "deleted": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.deleted"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "description": "If present in the result of a delta enumeration, indicates that the item was deleted. Read-only."
+                    },
+                    "sharepointIds": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.sharepointIds"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "description": "Returns identifiers useful for SharePoint REST compatibility. Read-only."
+                    },
+                    "analytics": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.itemAnalytics"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "description": "Analytics about the view activities that took place on this item.",
+                      "x-ms-navigationProperty": true
+                    },
+                    "documentSetVersions": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/microsoft.graph.documentSetVersion"
+                      },
+                      "description": "Version information for a document set version created by a user.",
+                      "x-ms-navigationProperty": true
+                    },
+                    "driveItem": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.driveItem"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "description": "For document libraries, the driveItem relationship exposes the listItem as a driveItem",
+                      "x-ms-navigationProperty": true
+                    },
+                    "fields": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.fieldValueSet"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "description": "The values of the columns set on this list item.",
+                      "x-ms-navigationProperty": true
+                    },
+                    "versions": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/microsoft.graph.listItemVersion"
+                      },
+                      "description": "The list of previous versions of the list item.",
+                      "x-ms-navigationProperty": true
+                    },
+                    "@odata.type": {
+                      "type": "string",
+                      "default": "#microsoft.graph.listItem"
+                    }
+                  }
+                }
+              ],
+              "x-ms-discriminator-value": "#microsoft.graph.listItem"
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "For drives in SharePoint, the associated document library list item. Read-only. Nullable.",
+          "x-ms-navigationProperty": true
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.permission",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/microsoft.graph.entity"
+              },
+              {
+                "title": "permission",
+                "required": [
+                  "@odata.type"
+                ],
+                "type": "object",
+                "properties": {
+                  "expirationDateTime": {
+                    "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                    "type": "string",
+                    "description": "A format of yyyy-MM-ddTHH:mm:ssZ of DateTimeOffset indicates the expiration time of the permission. DateTime.MinValue indicates there's no expiration set for this permission. Optional.",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "grantedTo": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                      },
+                      {
+                        "type": "object",
+                        "nullable": true
+                      }
+                    ],
+                    "description": "For user type permissions, the details of the users and applications for this permission. Read-only."
+                  },
+                  "grantedToIdentities": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                    },
+                    "description": "For type permissions, the details of the users to whom permission was granted. Read-only."
+                  },
+                  "grantedToIdentitiesV2": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/microsoft.graph.sharePointIdentitySet"
+                    },
+                    "description": "For link type permissions, the details of the users to whom permission was granted. Read-only."
+                  },
+                  "grantedToV2": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/microsoft.graph.sharePointIdentitySet"
+                      },
+                      {
+                        "type": "object",
+                        "nullable": true
+                      }
+                    ],
+                    "description": "For user type permissions, the details of the users and applications for this permission. Read-only."
+                  },
+                  "hasPassword": {
+                    "type": "boolean",
+                    "description": "Indicates whether the password is set for this permission. This property only appears in the response. Optional. Read-only. For OneDrive Personal only..",
+                    "nullable": true
+                  },
+                  "inheritedFrom": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/microsoft.graph.itemReference"
+                      },
+                      {
+                        "type": "object",
+                        "nullable": true
+                      }
+                    ],
+                    "description": "Provides a reference to the ancestor of the current permission, if it's inherited from an ancestor. Read-only."
+                  },
+                  "invitation": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/microsoft.graph.sharingInvitation"
+                      },
+                      {
+                        "type": "object",
+                        "nullable": true
+                      }
+                    ],
+                    "description": "Details of any associated sharing invitation for this permission. Read-only."
+                  },
+                  "link": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/microsoft.graph.sharingLink"
+                      },
+                      {
+                        "type": "object",
+                        "nullable": true
+                      }
+                    ],
+                    "description": "Provides the link details of the current permission, if it's a link type permission. Read-only."
+                  },
+                  "roles": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "description": "The type of permission, for example, read. See below for the full list of roles. Read-only."
+                  },
+                  "shareId": {
+                    "type": "string",
+                    "description": "A unique token that can be used to access this shared item via the shares API. Read-only.",
+                    "nullable": true
+                  },
+                  "@odata.type": {
+                    "type": "string"
+                  }
+                }
+              }
+            ],
+            "x-ms-discriminator-value": "#microsoft.graph.permission"
+          },
+          "description": "The set of permissions for the item. Read-only. Nullable.",
+          "x-ms-navigationProperty": true
+        },
+        "retentionLabel": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.itemRetentionLabel",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/microsoft.graph.entity"
+                },
+                {
+                  "title": "itemRetentionLabel",
+                  "required": [
+                    "@odata.type"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "isLabelAppliedExplicitly": {
+                      "type": "boolean",
+                      "description": "Specifies whether the label is applied explicitly on the item. True indicates that the label is applied explicitly; otherwise, the label is inherited from its parent. Read-only.",
+                      "nullable": true
+                    },
+                    "labelAppliedBy": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.identitySet"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "description": "Identity of the user who applied the label. Read-only."
+                    },
+                    "labelAppliedDateTime": {
+                      "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                      "type": "string",
+                      "description": "The date and time when the label was applied on the item. The timestamp type represents date and time information using ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. Read-only.",
+                      "format": "date-time",
+                      "nullable": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The retention label on the document. Read-write.",
+                      "nullable": true
+                    },
+                    "retentionSettings": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.retentionLabelSettings"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "description": "The retention settings enforced on the item. Read-write."
+                    },
+                    "@odata.type": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ],
+              "x-ms-discriminator-value": "#microsoft.graph.itemRetentionLabel"
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Information about retention label and settings enforced on the driveItem. Read-write.",
+          "x-ms-navigationProperty": true
+        },
+        "subscriptions": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.subscription",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/microsoft.graph.entity"
+              },
+              {
+                "title": "subscription",
+                "required": [
+                  "@odata.type"
+                ],
+                "type": "object",
+                "properties": {
+                  "applicationId": {
+                    "type": "string",
+                    "description": "Optional. Identifier of the application used to create the subscription. Read-only.",
+                    "nullable": true
+                  },
+                  "changeType": {
+                    "type": "string",
+                    "description": "Required. Indicates the type of change in the subscribed resource that raises a change notification. The supported values are: created, updated, deleted. Multiple values can be combined using a comma-separated list. Note:  Drive root item and list change notifications support only the updated changeType. User and group change notifications support updated and deleted changeType. Use updated to receive notifications when user or group is created, updated, or soft deleted. Use deleted to receive notifications when user or group is permanently deleted."
+                  },
+                  "clientState": {
+                    "type": "string",
+                    "description": "Optional. Specifies the value of the clientState property sent by the service in each change notification. The maximum length is 128 characters. The client can check that the change notification came from the service by comparing the value of the clientState property sent with the subscription with the value of the clientState property received with each change notification.",
+                    "nullable": true
+                  },
+                  "creatorId": {
+                    "type": "string",
+                    "description": "Optional. Identifier of the user or service principal that created the subscription. If the app used delegated permissions to create the subscription, this field contains the ID of the signed-in user the app called on behalf of. If the app used application permissions, this field contains the ID of the service principal corresponding to the app. Read-only.",
+                    "nullable": true
+                  },
+                  "encryptionCertificate": {
+                    "type": "string",
+                    "description": "Optional. A base64-encoded representation of a certificate with a public key used to encrypt resource data in change notifications. Optional but required when includeResourceData is true.",
+                    "nullable": true
+                  },
+                  "encryptionCertificateId": {
+                    "type": "string",
+                    "description": "Optional. A custom app-provided identifier to help identify the certificate needed to decrypt resource data.",
+                    "nullable": true
+                  },
+                  "expirationDateTime": {
+                    "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                    "type": "string",
+                    "description": "Required. Specifies the date and time when the webhook subscription expires. The time is in UTC, and can be an amount of time from subscription creation that varies for the resource subscribed to. Any value under 45 minutes after the time of the request is automatically set to 45 minutes after the request time. For the maximum supported subscription length of time, see Subscription lifetime.",
+                    "format": "date-time"
+                  },
+                  "includeResourceData": {
+                    "type": "boolean",
+                    "description": "Optional. When set to true, change notifications include resource data (such as content of a chat message).",
+                    "nullable": true
+                  },
+                  "latestSupportedTlsVersion": {
+                    "type": "string",
+                    "description": "Optional. Specifies the latest version of Transport Layer Security (TLS) that the notification endpoint, specified by notificationUrl, supports. The possible values are: v10, v11, v12, v13. For subscribers whose notification endpoint supports a version lower than the currently recommended version (TLS 1.2), specifying this property by a set timeline allows them to temporarily use their deprecated version of TLS before completing their upgrade to TLS 1.2. For these subscribers, not setting this property per the timeline would result in subscription operations failing. For subscribers whose notification endpoint already supports TLS 1.2, setting this property is optional. In such cases, Microsoft Graph defaults the property to v1_2.",
+                    "nullable": true
+                  },
+                  "lifecycleNotificationUrl": {
+                    "type": "string",
+                    "description": "Required for Teams resources if  the expirationDateTime value is more than 1 hour from now; optional otherwise. The URL of the endpoint that receives lifecycle notifications, including subscriptionRemoved, reauthorizationRequired, and missed notifications. This URL must make use of the HTTPS protocol. For more information, see Reduce missing subscriptions and change notifications.",
+                    "nullable": true
+                  },
+                  "notificationQueryOptions": {
+                    "type": "string",
+                    "description": "Optional. OData query options for specifying value for the targeting resource. Clients receive notifications when resource reaches the state matching the query options provided here. With this new property in the subscription creation payload along with all existing properties, Webhooks deliver notifications whenever a resource reaches the desired state mentioned in the notificationQueryOptions property. For example, when the print job is completed or when a print job resource isFetchable property value becomes true etc.  Supported only for Universal Print Service. For more information, see Subscribe to change notifications from cloud printing APIs using Microsoft Graph.",
+                    "nullable": true
+                  },
+                  "notificationUrl": {
+                    "type": "string",
+                    "description": "Required. The URL of the endpoint that receives the change notifications. This URL must make use of the HTTPS protocol. Any query string parameter included in the notificationUrl property is included in the HTTP POST request when Microsoft Graph sends the change notifications."
+                  },
+                  "notificationUrlAppId": {
+                    "type": "string",
+                    "description": "Optional. The app ID that the subscription service can use to generate the validation token. The value allows the client to validate the authenticity of the notification received.",
+                    "nullable": true
+                  },
+                  "resource": {
+                    "type": "string",
+                    "description": "Required. Specifies the resource that is monitored for changes. Don't include the base URL (https://graph.microsoft.com/v1.0/). See the possible resource path values for each supported resource."
+                  },
+                  "@odata.type": {
+                    "type": "string"
+                  }
+                }
+              }
+            ],
+            "x-ms-discriminator-value": "#microsoft.graph.subscription"
+          },
+          "description": "The set of subscriptions on the item. Only supported on the root of a drive.",
+          "x-ms-navigationProperty": true
+        },
+        "thumbnails": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.thumbnailSet",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/microsoft.graph.entity"
+              },
+              {
+                "title": "thumbnailSet",
+                "required": [
+                  "@odata.type"
+                ],
+                "type": "object",
+                "properties": {
+                  "large": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/microsoft.graph.thumbnail"
+                      },
+                      {
+                        "type": "object",
+                        "nullable": true
+                      }
+                    ],
+                    "description": "A 1920x1920 scaled thumbnail."
+                  },
+                  "medium": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/microsoft.graph.thumbnail"
+                      },
+                      {
+                        "type": "object",
+                        "nullable": true
+                      }
+                    ],
+                    "description": "A 176x176 scaled thumbnail."
+                  },
+                  "small": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/microsoft.graph.thumbnail"
+                      },
+                      {
+                        "type": "object",
+                        "nullable": true
+                      }
+                    ],
+                    "description": "A 48x48 cropped thumbnail."
+                  },
+                  "source": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/microsoft.graph.thumbnail"
+                      },
+                      {
+                        "type": "object",
+                        "nullable": true
+                      }
+                    ],
+                    "description": "A custom thumbnail image or the original image used to generate other thumbnails."
+                  },
+                  "@odata.type": {
+                    "type": "string"
+                  }
+                }
+              }
+            ],
+            "x-ms-discriminator-value": "#microsoft.graph.thumbnailSet"
+          },
+          "description": "Collection of thumbnailSet objects associated with the item. For more information, see getting thumbnails. Read-only. Nullable.",
+          "x-ms-navigationProperty": true
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.driveItemVersion",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/microsoft.graph.baseItemVersion"
+              },
+              {
+                "title": "driveItemVersion",
+                "required": [
+                  "@odata.type"
+                ],
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "The content stream for this version of the item.",
+                    "format": "base64url",
+                    "nullable": true
+                  },
+                  "size": {
+                    "type": "number",
+                    "description": "Indicates the size of the content stream for this version of the item.",
+                    "format": "int64",
+                    "nullable": true
+                  },
+                  "@odata.type": {
+                    "type": "string",
+                    "default": "#microsoft.graph.driveItemVersion"
+                  }
+                }
+              }
+            ],
+            "x-ms-discriminator-value": "#microsoft.graph.driveItemVersion"
+          },
+          "description": "The list of previous versions of the item. For more info, see getting previous versions. Read-only. Nullable.",
+          "x-ms-navigationProperty": true
+        },
+        "workbook": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.workbook",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/microsoft.graph.entity"
+                },
+                {
+                  "title": "workbook",
+                  "required": [
+                    "@odata.type"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "application": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.workbookApplication"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "x-ms-navigationProperty": true
+                    },
+                    "comments": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/microsoft.graph.workbookComment"
+                      },
+                      "description": "Represents a collection of comments in a workbook.",
+                      "x-ms-navigationProperty": true
+                    },
+                    "functions": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/microsoft.graph.workbookFunctions"
+                        },
+                        {
+                          "type": "object",
+                          "nullable": true
+                        }
+                      ],
+                      "x-ms-navigationProperty": true
+                    },
+                    "names": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/microsoft.graph.workbookNamedItem"
+                      },
+                      "description": "Represents a collection of workbooks scoped named items (named ranges and constants). Read-only.",
+                      "x-ms-navigationProperty": true
+                    },
+                    "operations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/microsoft.graph.workbookOperation"
+                      },
+                      "description": "The status of workbook operations. Getting an operation collection is not supported, but you can get the status of a long-running operation if the Location header is returned in the response. Read-only.",
+                      "x-ms-navigationProperty": true
+                    },
+                    "tables": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/microsoft.graph.workbookTable"
+                      },
+                      "description": "Represents a collection of tables associated with the workbook. Read-only.",
+                      "x-ms-navigationProperty": true
+                    },
+                    "worksheets": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/microsoft.graph.workbookWorksheet"
+                      },
+                      "description": "Represents a collection of worksheets associated with the workbook. Read-only.",
+                      "x-ms-navigationProperty": true
+                    },
+                    "@odata.type": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ],
+              "x-ms-discriminator-value": "#microsoft.graph.workbook"
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "For files that are Excel spreadsheets, access to the workbook API to work with the spreadsheet's contents. Nullable.",
+          "x-ms-navigationProperty": true
+        },
+        "@odata.type": {
+          "type": "string",
+          "default": "#microsoft.graph.driveItem"
+        }
+      }
+    }
+  ],
+  "x-ms-discriminator-value": "#microsoft.graph.driveItem"
+}

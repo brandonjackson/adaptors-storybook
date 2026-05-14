@@ -10,6 +10,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Row object (header name → cell value)",
+        "schemaRef": "RowData",
         "fields": ["row_id", "row_number", "_sheet", "_spreadsheet"]
       }
     },
@@ -20,6 +21,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Drive File resource for the spreadsheet",
+        "schemaRef": "Spreadsheet",
         "fields": ["id", "name", "createdTime", "owners", "webViewLink"]
       }
     },
@@ -30,6 +32,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Row object (header name → cell value)",
+        "schemaRef": "RowData",
         "fields": ["row_id", "row_number", "_sheet", "_spreadsheet"]
       }
     },
@@ -40,6 +43,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Sheet metadata",
+        "schemaRef": "SheetProperties",
         "fields": ["sheetId", "title", "index", "spreadsheetId"]
       }
     }

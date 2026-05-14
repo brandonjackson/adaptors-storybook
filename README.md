@@ -38,9 +38,10 @@ The bones are in place; metadata is what we'll fill in next.
 - [x] Build manifest pipeline that aggregates `package.json`,
       `configuration-schema.json`, `ast.json` per adapter
 - [x] UI: left-nav + overview / operations / credentials tabs
-- [ ] Pull snippets from
+- [x] Pull snippets from
       [`openfn/adaptors@prototype-snippets-feature-QYQu9`](https://github.com/openfn/adaptors/tree/prototype-snippets-feature-QYQu9)
-      into `packages/<adapter>/snippets/` and wire them to the Snippets tab
+      into `packages/<adapter>/snippets.json` and wire them to the Snippets tab
+      (27 adapters covered so far)
 - [ ] Define `triggers.json` schema and render in the Triggers tab
 - [ ] Define `data-schemas/` for the shapes that come in on each trigger
 - [ ] Integration ideas: cross-adapter recipe pages

@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import OperationsTable from './OperationsTable.jsx';
 import ConfigurationSchema from './ConfigurationSchema.jsx';
+import Snippets from './Snippets.jsx';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
@@ -55,6 +56,9 @@ export default function AdapterView({ name }) {
               <code className="font-mono">{manifest.packageName}</code>
               {manifest.version && <span>v{manifest.version}</span>}
               <span>{manifest.operationCount} operations</span>
+              {manifest.snippetCount > 0 && (
+                <span>{manifest.snippetCount} snippets</span>
+              )}
             </div>
           </div>
         </div>
@@ -93,7 +97,7 @@ export default function AdapterView({ name }) {
           />
         )}
         {tab === 'triggers' && <Placeholder label="Triggers" />}
-        {tab === 'snippets' && <Placeholder label="Snippets" />}
+        {tab === 'snippets' && <Snippets snippets={manifest.snippets || []} />}
         {tab === 'readme' && (
           <article className="prose prose-slate max-w-3xl">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{readme}</ReactMarkdown>

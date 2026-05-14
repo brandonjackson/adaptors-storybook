@@ -51,16 +51,31 @@ export default function Sidebar({
                   <span className="inline-block h-6 w-6 shrink-0 rounded-sm bg-slate-200" />
                 )}
                 <span className="flex-1 truncate">{a.label || a.name}</span>
-                <span
-                  className={[
-                    'shrink-0 rounded px-1.5 py-0.5 text-[10px] font-mono',
-                    active
-                      ? 'bg-white/20 text-white'
-                      : 'bg-slate-200 text-slate-600',
-                  ].join(' ')}
-                  title={`${a.operationCount} operations`}
-                >
-                  {a.operationCount}
+                <span className="flex shrink-0 items-center gap-1">
+                  {a.snippetCount > 0 && (
+                    <span
+                      className={[
+                        'rounded px-1.5 py-0.5 text-[10px] font-mono',
+                        active
+                          ? 'bg-emerald-300/30 text-emerald-100'
+                          : 'bg-emerald-100 text-emerald-700',
+                      ].join(' ')}
+                      title={`${a.snippetCount} snippets`}
+                    >
+                      ✦{a.snippetCount}
+                    </span>
+                  )}
+                  <span
+                    className={[
+                      'rounded px-1.5 py-0.5 text-[10px] font-mono',
+                      active
+                        ? 'bg-white/20 text-white'
+                        : 'bg-slate-200 text-slate-600',
+                    ].join(' ')}
+                    title={`${a.operationCount} operations`}
+                  >
+                    {a.operationCount}
+                  </span>
                 </span>
               </button>
             </li>

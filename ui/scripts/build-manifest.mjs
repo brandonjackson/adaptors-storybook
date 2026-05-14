@@ -37,6 +37,23 @@ function copyIfExists(src, dest) {
   return false;
 }
 
+function buildSnippetSummary(raw) {
+  if (!raw || typeof raw !== 'object') return [];
+  const out = [];
+  for (const [category, group] of Object.entries(raw)) {
+    if (!group || typeof group !== 'object') continue;
+    for (const [title, body] of Object.entries(group)) {
+      out.push({
+        category,
+        title,
+        description: body?.description || '',
+        code: body?.code || '',
+      });
+    }
+  }
+  return out;
+}
+
 function buildOperationSummary(ast) {
   if (!ast || !Array.isArray(ast.operations)) return [];
   return ast.operations.map((op) => {
@@ -75,6 +92,8 @@ for (const name of pkgNames) {
   const oauthSchema =
     readJsonSafe(path.join(pkgDir, 'oauth-configuration-schema.json')) || null;
   const ast = readJsonSafe(path.join(pkgDir, 'ast.json')) || null;
+  const snippetsRaw =
+    readJsonSafe(path.join(pkgDir, 'snippets.json')) || null;
   const readme = readTextSafe(path.join(pkgDir, 'README.md')) || '';
 
   const outPkgDir = path.join(OUT_DIR, name);
@@ -90,6 +109,7 @@ for (const name of pkgNames) {
   );
 
   const operations = buildOperationSummary(ast);
+  const snippets = buildSnippetSummary(snippetsRaw);
 
   const manifest = {
     name,
@@ -107,6 +127,8 @@ for (const name of pkgNames) {
     oauthConfigurationSchema: oauthSchema,
     operations,
     operationCount: operations.length,
+    snippets,
+    snippetCount: snippets.length,
     readmePath: `/adapters/${name}/README.md`,
   };
 
@@ -121,6 +143,7 @@ for (const name of pkgNames) {
     label: manifest.label,
     description: manifest.description,
     operationCount: manifest.operationCount,
+    snippetCount: manifest.snippetCount,
     icon: manifest.icons.square,
   });
 }

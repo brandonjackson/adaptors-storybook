@@ -102,7 +102,7 @@ function answerConnect(m) {
     return (
       <p>
         No credential schema is published for this adaptor yet. Check the{' '}
-        <strong>Sources</strong> tab for vendor auth docs.
+        <strong>Source quality</strong> section on the Overview for vendor auth docs.
       </p>
     );
   }
@@ -112,7 +112,7 @@ function answerConnect(m) {
   return (
     <>
       <p>
-        Create a credential in the <strong>Credentials</strong> tab. The
+        Create a credential in the <strong>Auth</strong> tab. The
         adaptor expects{oauth ? ' OAuth tokens or ' : ' '}the following{' '}
         configuration values:
       </p>
@@ -133,7 +133,7 @@ function answerConnect(m) {
       )}
       {oauth && (
         <p className="mt-2">
-          OAuth is supported: see the <strong>Credentials</strong> tab for the
+          OAuth is supported: see the <strong>Auth</strong> tab for the
           OAuth scope list and redirect setup.
         </p>
       )}

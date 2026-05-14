@@ -6,18 +6,17 @@ import ConfigurationSchema from './ConfigurationSchema.jsx';
 import Snippets from './Snippets.jsx';
 import Triggers from './Triggers.jsx';
 import DataSchemas from './DataSchemas.jsx';
-import Sources from './Sources.jsx';
+import Sources, { SourceQuality, SourceList, VendorPanel } from './Sources.jsx';
 import Faq from './Faq.jsx';
+import AuthOverview from './AuthOverview.jsx';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
-  { id: 'operations', label: 'Operations' },
-  { id: 'credentials', label: 'Credentials' },
+  { id: 'auth', label: 'Auth' },
   { id: 'triggers', label: 'Triggers' },
   { id: 'data', label: 'Data' },
+  { id: 'operations', label: 'Operations' },
   { id: 'snippets', label: 'Snippets' },
-  { id: 'sources', label: 'Sources' },
-  { id: 'readme', label: 'README' },
 ];
 
 export default function AdapterView({ name }) {
@@ -98,15 +97,18 @@ export default function AdapterView({ name }) {
       </header>
 
       <div className="flex-1 overflow-y-auto px-8 py-6">
-        {tab === 'overview' && <Overview manifest={manifest} />}
+        {tab === 'overview' && <Overview manifest={manifest} readme={readme} />}
         {tab === 'operations' && (
           <OperationsTable operations={manifest.operations} />
         )}
-        {tab === 'credentials' && (
-          <ConfigurationSchema
-            schema={manifest.configurationSchema}
-            oauthSchema={manifest.oauthConfigurationSchema}
-          />
+        {tab === 'auth' && (
+          <div className="grid max-w-4xl gap-6">
+            <AuthOverview manifest={manifest} />
+            <ConfigurationSchema
+              schema={manifest.configurationSchema}
+              oauthSchema={manifest.oauthConfigurationSchema}
+            />
+          </div>
         )}
         {tab === 'triggers' && (
           <Triggers
@@ -122,18 +124,18 @@ export default function AdapterView({ name }) {
           />
         )}
         {tab === 'snippets' && <Snippets snippets={manifest.snippets || []} />}
-        {tab === 'sources' && <Sources metadata={manifest.metadata} />}
-        {tab === 'readme' && (
-          <article className="prose prose-slate max-w-3xl">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{readme}</ReactMarkdown>
-          </article>
-        )}
       </div>
     </div>
   );
 }
 
-function Overview({ manifest }) {
+function Overview({ manifest, readme }) {
+  const scrollToSources = (e) => {
+    e.preventDefault();
+    const el = document.getElementById('source-details');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <div className="grid max-w-4xl gap-6 md:grid-cols-2">
       <Card title="At a glance">
@@ -148,46 +150,40 @@ function Overview({ manifest }) {
           k="OAuth schema"
           v={manifest.oauthConfigurationSchema ? 'yes' : '—'}
         />
+        <Row
+          k="Branding assets"
+          v={
+            manifest.icons.square || manifest.icons.rectangle ? '✅' : '❌'
+          }
+        />
       </Card>
-      <Card title="Branding">
-        <div className="flex gap-4">
-          {manifest.icons.rectangle && (
-            <img
-              src={manifest.icons.rectangle}
-              alt="rectangle"
-              className="h-16 bg-white object-contain ring-1 ring-slate-200"
-            />
-          )}
-          {manifest.icons.square && (
-            <img
-              src={manifest.icons.square}
-              alt="square"
-              className="h-16 w-16 bg-white object-contain ring-1 ring-slate-200"
-            />
-          )}
+      <Card title="Source quality">
+        <SourceQuality metadata={manifest.metadata} />
+        <div className="mt-3 text-right">
+          <a
+            href="#source-details"
+            onClick={scrollToSources}
+            className="text-xs text-sky-600 underline hover:text-sky-800"
+          >
+            see more →
+          </a>
         </div>
       </Card>
-      <Card title="Top operations" className="md:col-span-2">
-        {manifest.operations.length === 0 ? (
-          <div className="text-sm text-slate-400">No operations parsed.</div>
-        ) : (
-          <ul className="divide-y divide-slate-100">
-            {manifest.operations.slice(0, 8).map((op) => (
-              <li key={op.name} className="py-2">
-                <code className="text-sm font-semibold text-slate-800">
-                  {op.name}({op.params.join(', ')})
-                </code>
-                {op.description && (
-                  <p className="mt-0.5 text-sm text-slate-600">
-                    {op.description}
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </Card>
       <Faq manifest={manifest} overrides={manifest.faq} />
+      {readme && (
+        <section className="rounded border border-slate-200 bg-white p-4 md:col-span-2">
+          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            README
+          </h2>
+          <article className="prose prose-slate max-w-none prose-sm">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{readme}</ReactMarkdown>
+          </article>
+        </section>
+      )}
+      <section id="source-details" className="md:col-span-2 space-y-6 scroll-mt-6">
+        <VendorPanel metadata={manifest.metadata} />
+        <SourceList metadata={manifest.metadata} />
+      </section>
     </div>
   );
 }
@@ -213,4 +209,3 @@ function Row({ k, v }) {
     </div>
   );
 }
-

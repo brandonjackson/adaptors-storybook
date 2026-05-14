@@ -1,84 +1,49 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "OpenFn",
+  "product": "OpenFn Platform API (Lightning / v1)",
+  "homepage": "https://www.openfn.org",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "https://app.openfn.org/api",
+    "https://app.openfn.org"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["api-key", "bearer", "basic"],
+    "docs": "https://docs.openfn.org/documentation/api-tokens"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://docs.openfn.org",
+      "notes": "OpenFn platform docs landing page"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://docs.openfn.org/documentation/api-tokens",
+      "notes": "Auth + API token reference"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/OpenFn/lightning",
+      "language": "elixir",
+      "notes": "Lightning — current OpenFn platform server (source of truth for v2 API)"
     },
     {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenFn/openfn.org",
+      "language": "javascript",
+      "notes": "Legacy v1 OpenFn platform (this adapter targets the v1 REST API)"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://docs.openfn.org/documentation/build/triggers"
   },
 
-  "notes": ""
+  "notes": "Adapter targets OpenFn's own platform v1 REST API. No published OpenAPI spec yet; Lightning's Phoenix routes are the canonical source for the v2 surface."
 }

@@ -1,77 +1,34 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "CARTO",
+  "product": "CARTO (formerly CartoDB) SQL & Import APIs",
+  "homepage": "https://carto.com",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "https://{username}.carto.com/api/v2"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["api-key"],
+    "docs": "https://carto.com/developers/sql-api/guides/authentication/"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://carto.com/developers/sql-api/",
+      "notes": "CARTO SQL API developer docs (the surface this adapter uses)"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://carto.com/developers/sql-api/reference/",
+      "notes": "SQL API endpoint reference"
     },
     {
-      "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "kind": "docs-page",
+      "url": "http://docs.cartodb.com/cartodb-platform/sql-api/",
+      "notes": "Legacy CartoDB SQL API docs referenced in adapter README"
     }
   ],
 
@@ -80,5 +37,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "CARTO does not publish an OpenAPI spec; SQL API is a thin HTTP wrapper around PostGIS queries."
 }

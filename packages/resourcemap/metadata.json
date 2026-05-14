@@ -1,77 +1,35 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "InSTEDD",
+  "product": "ResourceMap REST API",
+  "homepage": "http://resourcemap.instedd.org",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "http://resourcemap.instedd.org/api"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["basic", "oauth2"],
+    "docs": "https://github.com/instedd/resourcemap/wiki/REST_API"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://github.com/instedd/resourcemap/wiki/REST_API",
+      "notes": "ResourceMap REST API wiki (primary reference)"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://github.com/instedd/resourcemap/wiki/REST_API#create-site",
+      "notes": "Create-site endpoint used by submitSite()"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://github.com/instedd/resourcemap",
+      "language": "ruby",
+      "notes": "InSTEDD ResourceMap server source — schemas live here"
     }
   ],
 
@@ -80,5 +38,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Community-maintained Rails app; documentation lives entirely in the project wiki."
 }

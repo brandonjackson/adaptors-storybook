@@ -1,77 +1,33 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
+  "vendor": "PostgreSQL Global Development Group",
+  "product": "PostgreSQL",
+  "homepage": "https://www.postgresql.org",
+  "status": "partial",
 
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
-
-  "apiStyle": "rest",
+  "apiStyle": "sdk",
   "baseUrls": [],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["basic", "scram-sha-256", "md5"],
+    "docs": "https://www.postgresql.org/docs/current/auth-methods.html"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
+      "kind": "sdk-repo",
+      "url": "https://github.com/brianc/node-postgres",
+      "language": "javascript",
+      "notes": "node-postgres (pg) driver this adapter wraps"
     },
     {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://www.postgresql.org/docs/current/",
+      "notes": "PostgreSQL reference docs (SQL + protocol)"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
-    },
-    {
-      "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://www.postgresql.org/docs/current/protocol.html",
+      "notes": "Frontend/backend wire protocol"
     }
   ],
 
@@ -80,5 +36,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Generic database driver adapter — no vendor REST API. Surface is SQL via the node-postgres driver over the PostgreSQL wire protocol."
 }

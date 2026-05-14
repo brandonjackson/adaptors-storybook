@@ -1,12 +1,10 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
+  "vendor": "OpenFn / generic",
+  "product": "Ping (connectivity probe)",
+  "homepage": "https://datatracker.ietf.org/doc/html/rfc792",
   "status": "stub",
 
-  "apiStyle": "rest",
+  "apiStyle": "sdk",
   "baseUrls": [],
 
   "auth": {
@@ -16,62 +14,9 @@
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
-      "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
-    },
-    {
-      "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://datatracker.ietf.org/doc/html/rfc792",
+      "notes": "RFC 792 — Internet Control Message Protocol (ICMP echo / ping)"
     }
   ],
 
@@ -80,5 +25,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Generic connectivity-probe adapter — no vendor API. Used as a smoke-test to verify network reachability; reference is ICMP (RFC 792) or a plain HTTP GET depending on implementation."
 }

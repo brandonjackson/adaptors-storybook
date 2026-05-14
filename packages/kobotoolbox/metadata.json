@@ -1,84 +1,55 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "KoboToolbox (OCHA / Kobo Inc.)",
+  "product": "KoboToolbox API (KPI + KoBoCAT)",
+  "homepage": "https://www.kobotoolbox.org",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "https://kf.kobotoolbox.org",
+    "https://kc.kobotoolbox.org",
+    "https://eu.kobotoolbox.org"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["api-key", "basic"],
+    "docs": "https://support.kobotoolbox.org/api.html"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://support.kobotoolbox.org/api.html",
+      "notes": "KoboToolbox API support docs"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://kf.kobotoolbox.org/api/v2/",
+      "notes": "KPI v2 browsable API root"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://kc.kobotoolbox.org/api/v1/",
+      "notes": "KoBoCAT v1 (legacy data API)"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/kobotoolbox/kpi",
+      "language": "python",
+      "notes": "KPI (forms + projects) backend source"
     },
     {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "kind": "sdk-repo",
+      "url": "https://github.com/kobotoolbox/kobocat",
+      "language": "python",
+      "notes": "Legacy data collection API (XForms / submissions)"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://support.kobotoolbox.org/rest_services.html"
   },
 
-  "notes": ""
+  "notes": "Two stacks: KPI (modern, /api/v2/) and KoBoCAT (legacy, /api/v1/). REST Services push new submissions to external endpoints."
 }

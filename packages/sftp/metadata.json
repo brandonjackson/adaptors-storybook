@@ -1,77 +1,39 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
+  "vendor": "IETF / SSH protocol",
+  "product": "SFTP (SSH File Transfer Protocol)",
+  "homepage": "https://datatracker.ietf.org/doc/html/rfc4251",
+  "status": "partial",
 
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
-
-  "apiStyle": "rest",
+  "apiStyle": "sdk",
   "baseUrls": [],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["basic", "ssh-key"],
+    "docs": "https://datatracker.ietf.org/doc/html/rfc4252"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
-      "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "kind": "sdk-repo",
+      "url": "https://github.com/theophilusx/ssh2-sftp-client",
+      "language": "javascript",
+      "notes": "ssh2-sftp-client — Node SFTP client this adapter wraps"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/mscdex/ssh2",
+      "language": "javascript",
+      "notes": "ssh2 — underlying SSH/SFTP protocol implementation"
     },
     {
-      "kind": "changelog",
-      "url": ""
+      "kind": "docs-page",
+      "url": "https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-13",
+      "notes": "IETF SSH File Transfer Protocol draft (SFTP v6)"
     },
     {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "kind": "docs-page",
+      "url": "https://datatracker.ietf.org/doc/html/rfc4251",
+      "notes": "RFC 4251 — SSH protocol architecture"
     }
   ],
 
@@ -80,5 +42,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Generic file-transfer protocol adapter — no vendor API. Surface is the SFTP subsystem of SSH; canonical reference is the IETF secsh-filexfer drafts plus the ssh2-sftp-client driver."
 }

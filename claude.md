@@ -105,6 +105,17 @@ the user clicks into the **Data** tab — so even huge specs (Stripe Charge is
 ~250KB) don't bloat the manifest. The **Triggers** tab shows a `schema:<ref>`
 chip that jumps over to the **Data** tab.
 
+## faq.json (overview FAQ overrides)
+
+`ui/src/components/Faq.jsx` renders seven canned questions (`what`, `connect`,
+`when`, `how`, `wire`, `scale`, `best`). Each adapter folder ships a
+`faq.json` with adapter-specific override text for those keys; the manifest
+builder picks it up automatically. Regenerate with
+`node tools/generate-faqs.mjs [adapter ...]` (no args = `--all`). The
+generator pulls from `package.json`, `metadata.json`, `ast.json`,
+`snippets.json`, `triggers.json`, and `configuration-schema.json`, so update
+those first if the FAQ output looks stale.
+
 ## What's next
 
 Anything unchecked in [SPEC.md § Roadmap snapshot](./SPEC.md#roadmap-snapshot).

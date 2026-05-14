@@ -1,84 +1,23 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
+  "vendor": "Government of Ghana",
+  "product": "Ghana Births and Deaths Registry (HBDRP) API",
+  "homepage": "https://bdr.gov.gh/",
   "status": "stub",
 
   "apiStyle": "rest",
   "baseUrls": [],
 
   "auth": {
-    "schemes": [],
+    "schemes": ["basic"],
     "docs": ""
   },
 
-  "sources": [
-    {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
-      "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
-    },
-    {
-      "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
-    }
-  ],
+  "sources": [],
 
   "webhooks": {
     "supported": false,
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "No public documentation for the Ghana HBDRP API. Endpoint URL and credentials are provisioned per-integration; baseUrl is supplied via configuration."
 }

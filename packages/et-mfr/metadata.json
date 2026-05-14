@@ -1,77 +1,29 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "Ethiopia Ministry of Health",
+  "product": "Ethiopia Master Facility Registry (MFR)",
+  "homepage": "https://mfr.moh.gov.et",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": ["https://mfr.moh.gov.et"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["basic"],
+    "docs": "https://mfr.moh.gov.et/swagger/index.html"
   },
 
   "sources": [
     {
       "kind": "openapi",
-      "url": "",
-      "format": "yaml",
+      "url": "https://mfr.moh.gov.et/swagger/v1/swagger.json",
+      "format": "json",
       "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
+      "notes": "Likely Swagger JSON path served alongside the Swagger UI — confirm before ingestion."
     },
     {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
-    },
-    {
-      "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://mfr.moh.gov.et/swagger/index.html",
+      "notes": "Swagger UI for the Ethiopia MFR API"
     }
   ],
 
@@ -80,5 +32,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "FHIR-flavored facility registry for Ethiopia. Swagger UI is exposed publicly; the JSON spec URL above is the conventional .NET Swashbuckle path and should be verified."
 }

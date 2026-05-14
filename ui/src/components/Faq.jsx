@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const QUESTIONS = [
   { id: 'what', q: 'What can this tool do?', build: answerWhat },
@@ -11,59 +13,73 @@ const QUESTIONS = [
 ];
 
 export default function Faq({ manifest, overrides }) {
-  const [open, setOpen] = useState(() => new Set(['what']));
-  const toggle = (id) => {
-    setOpen((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
   return (
-    <section className="rounded border border-slate-200 bg-white p-4 md:col-span-2">
-      <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+    <section className="rounded border border-slate-200 bg-white p-6 md:col-span-2">
+      <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
         FAQ
       </h2>
-      <ul className="divide-y divide-slate-100">
+      <div className="space-y-8">
         {QUESTIONS.map((entry) => {
-          const isOpen = open.has(entry.id);
           const override = overrides?.[entry.id];
-          const answer = override
-            ? <Markdownish text={override} />
-            : entry.build(manifest);
           return (
-            <li key={entry.id}>
-              <button
-                onClick={() => toggle(entry.id)}
-                className="flex w-full items-center justify-between py-3 text-left text-sm font-medium text-slate-800 hover:text-slate-900"
-              >
-                <span>{entry.q}</span>
-                <span className="text-slate-400">{isOpen ? '–' : '+'}</span>
-              </button>
-              {isOpen && (
-                <div className="pb-4 text-sm text-slate-600">{answer}</div>
-              )}
-            </li>
+            <article key={entry.id}>
+              <h3 className="text-base font-semibold text-slate-900">
+                {entry.q}
+              </h3>
+              <div className="mt-2 text-sm leading-relaxed text-slate-700">
+                {override ? <Markdown text={override} /> : entry.build(manifest)}
+              </div>
+            </article>
           );
         })}
-      </ul>
+      </div>
     </section>
   );
 }
 
-function Markdownish({ text }) {
-  // Cheap renderer: split paragraphs on blank lines.
-  const paragraphs = String(text).split(/\n\s*\n/);
+const MD_COMPONENTS = {
+  p: (props) => <p className="mt-2 first:mt-0" {...props} />,
+  ul: (props) => <ul className="mt-2 list-disc space-y-1 pl-5" {...props} />,
+  ol: (props) => <ol className="mt-2 list-decimal space-y-1 pl-5" {...props} />,
+  li: (props) => <li {...props} />,
+  strong: (props) => (
+    <strong className="font-semibold text-slate-900" {...props} />
+  ),
+  em: (props) => <em className="italic" {...props} />,
+  a: (props) => (
+    <a
+      className="text-sky-700 underline decoration-sky-300 hover:decoration-sky-700"
+      target="_blank"
+      rel="noreferrer"
+      {...props}
+    />
+  ),
+  code: ({ inline, className, children, ...props }) =>
+    inline === false || className?.startsWith('language-') ? (
+      <code className={className} {...props}>
+        {children}
+      </code>
+    ) : (
+      <code
+        className="rounded bg-slate-100 px-1 py-0.5 font-mono text-xs text-slate-800"
+        {...props}
+      >
+        {children}
+      </code>
+    ),
+  pre: (props) => (
+    <pre
+      className="mt-2 overflow-x-auto rounded bg-slate-900 px-3 py-2 text-xs leading-relaxed text-slate-100"
+      {...props}
+    />
+  ),
+};
+
+function Markdown({ text }) {
   return (
-    <>
-      {paragraphs.map((p, i) => (
-        <p key={i} className={i === 0 ? '' : 'mt-2'}>
-          {p}
-        </p>
-      ))}
-    </>
+    <ReactMarkdown remarkPlugins={[remarkGfm]} components={MD_COMPONENTS}>
+      {String(text)}
+    </ReactMarkdown>
   );
 }
 
@@ -266,30 +282,28 @@ function answerScale(m) {
 
 function answerBest(m) {
   return (
-    <>
-      <ul className="list-disc pl-5">
-        <li>
-          Store credentials in OpenFn's credential store, never inline in job
-          code.
-        </li>
-        <li>
-          Keep each step small and composable — one HTTP call per operation
-          makes failures easier to diagnose.
-        </li>
-        <li>
-          Validate inbound payloads against the <strong>Data</strong> schemas
-          before transforming them; trigger payloads can drift.
-        </li>
-        <li>
-          Pin the adaptor version in <code>package.json</code> so an upstream
-          change doesn't break a production workflow silently.
-        </li>
-        <li>
-          Log enough context (resource ID, run ID, vendor request ID) to make
-          incidents traceable end-to-end.
-        </li>
-      </ul>
-    </>
+    <ul className="list-disc pl-5">
+      <li>
+        Store credentials in OpenFn's credential store, never inline in job
+        code.
+      </li>
+      <li>
+        Keep each step small and composable — one HTTP call per operation
+        makes failures easier to diagnose.
+      </li>
+      <li>
+        Validate inbound payloads against the <strong>Data</strong> schemas
+        before transforming them; trigger payloads can drift.
+      </li>
+      <li>
+        Pin the adaptor version in <code>package.json</code> so an upstream
+        change doesn't break a production workflow silently.
+      </li>
+      <li>
+        Log enough context (resource ID, run ID, vendor request ID) to make
+        incidents traceable end-to-end.
+      </li>
+    </ul>
   );
 }
 

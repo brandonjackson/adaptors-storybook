@@ -2,9 +2,15 @@
 // Walks packages/* and emits packages/<adapter>/faq.json with overrides for
 // the seven FAQ questions surfaced by ui/src/components/Faq.jsx.
 //
-// The Faq component renders the override string with a paragraph splitter
-// (blank lines), so each value is plain prose, not JSX or markdown — markdown
-// bold/italic won't render. Use simple sentences.
+// The Faq component renders override strings as markdown, so values may use
+// paragraphs, lists, code fences, and inline emphasis.
+//
+// Authoring: drop a hand-written packages/<adapter>/faq.overrides.json with
+// any subset of the keys (what, connect, when, how, wire, scale, best). Those
+// authored values take precedence over the auto-generated answers and survive
+// regeneration. Use this when the autogen prose is too generic to describe
+// the connected system itself (e.g. a walk-through of the vendor product's
+// main functionalities).
 //
 // Usage:
 //   node tools/generate-faqs.mjs [adapter ...]
@@ -334,9 +340,7 @@ function generateFor(name) {
     hasDataSchemas,
   };
 
-  const faq = {
-    generatedAt: new Date().toISOString().slice(0, 10),
-    source: 'tools/generate-faqs.mjs',
+  const generated = {
     what: answerWhat(ctx),
     connect: answerConnect(ctx),
     when: answerWhen(ctx),
@@ -344,6 +348,22 @@ function generateFor(name) {
     wire: answerWire(ctx),
     scale: answerScale(ctx),
     best: answerBest(ctx),
+  };
+
+  const overrides = readJson(path.join(pkgDir, 'faq.overrides.json')) || {};
+  const authored = [];
+  for (const key of Object.keys(generated)) {
+    if (typeof overrides[key] === 'string' && overrides[key].trim()) {
+      generated[key] = overrides[key];
+      authored.push(key);
+    }
+  }
+
+  const faq = {
+    generatedAt: new Date().toISOString().slice(0, 10),
+    source: 'tools/generate-faqs.mjs',
+    ...(authored.length ? { authored } : {}),
+    ...generated,
   };
 
   fs.writeFileSync(

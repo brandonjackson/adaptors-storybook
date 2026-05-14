@@ -37,6 +37,40 @@ function copyIfExists(src, dest) {
   return false;
 }
 
+function buildDataSchemas(pkgDir, outPkgDir, adapter) {
+  // packages/<a>/data-schemas/*.json — each file is a JSON Schema. We copy
+  // them into ui/public/adapters/<a>/data-schemas/ for lazy fetch, and return
+  // a lightweight summary so the manifest stays small.
+  const srcDir = path.join(pkgDir, 'data-schemas');
+  if (!fs.existsSync(srcDir)) return [];
+  const outDir = path.join(outPkgDir, 'data-schemas');
+  fs.mkdirSync(outDir, { recursive: true });
+  const summaries = [];
+  for (const f of fs.readdirSync(srcDir)) {
+    if (!f.endsWith('.json')) continue;
+    const id = f.replace(/\.json$/, '');
+    const schema = readJsonSafe(path.join(srcDir, f));
+    if (!schema) continue;
+    fs.copyFileSync(path.join(srcDir, f), path.join(outDir, f));
+    summaries.push({
+      id,
+      title: schema.title || id,
+      description:
+        typeof schema.description === 'string'
+          ? schema.description.split('\n').slice(0, 4).join('\n')
+          : '',
+      type: schema.type || null,
+      propertyCount: schema.properties
+        ? Object.keys(schema.properties).length
+        : null,
+      source: schema['x-source'] || null,
+      path: `/adapters/${adapter}/data-schemas/${f}`,
+    });
+  }
+  summaries.sort((a, b) => a.id.localeCompare(b.id));
+  return summaries;
+}
+
 function buildSnippetSummary(raw) {
   if (!raw || typeof raw !== 'object') return [];
   const out = [];
@@ -127,6 +161,7 @@ for (const name of pkgNames) {
   const snippets = buildSnippetSummary(snippetsRaw);
   const triggersInfo = buildTriggerSummary(triggersRaw);
   const triggerCount = triggersInfo ? triggersInfo.triggers.length : 0;
+  const dataSchemas = buildDataSchemas(pkgDir, outPkgDir, name);
 
   const manifest = {
     name,
@@ -148,6 +183,8 @@ for (const name of pkgNames) {
     snippetCount: snippets.length,
     triggers: triggersInfo,
     triggerCount,
+    dataSchemas,
+    dataSchemaCount: dataSchemas.length,
     metadata,
     readmePath: `/adapters/${name}/README.md`,
   };
@@ -165,6 +202,7 @@ for (const name of pkgNames) {
     operationCount: manifest.operationCount,
     snippetCount: manifest.snippetCount,
     triggerCount: manifest.triggerCount,
+    dataSchemaCount: manifest.dataSchemaCount,
     icon: manifest.icons.square,
   });
 }

@@ -23,15 +23,23 @@ packages/
     oauth-configuration-schema.json    # optional, e.g. salesforce
     ast.json                           # parsed JSDoc for every operation
     snippets.json                      # CREATE / SEARCH snippets (27 adapters)
+    triggers.json                      # event triggers (30 adapters)
+    data-schemas/                      # OpenAPI-ingested JSON Schemas per trigger payload
     metadata.json                      # vendor/API source links for ingestion
     README.md                          # adapter-level docs
     assets/{square,rectangle}.png      # logos used in the UI
     src/Adaptor.js                     # kept for reference (imports broken, code not built)
 
+tools/
+  ingest-openapi.mjs                   # reads metadata.json + triggers.json,
+                                       # fetches the OpenAPI spec, extracts the
+                                       # schemas named by output.schemaRef
+
 ui/                                    # Vite + React + Tailwind app
   scripts/build-manifest.mjs           # walks packages/* -> public/adapters/
   src/components/                      # Sidebar, AdapterView, OperationsTable,
-                                       # ConfigurationSchema, Snippets
+                                       # ConfigurationSchema, Snippets,
+                                       # Triggers, DataSchemas, Sources
 ```
 
 Per-package files that aren't on every adapter but stay because they're useful
@@ -111,14 +119,47 @@ first, which scans every `packages/*` folder and writes
 for the nav). When you add new metadata files to a package, re-run
 `npm run manifest` (or just restart the dev server).
 
+## Ingesting data schemas from OpenAPI
+
+Triggers describe _when_ something happens; `data-schemas/` describes _what_
+arrives. Rather than hand-writing payload schemas, we pull them from each
+vendor's OpenAPI spec (the `kind: openapi` entry in `metadata.json`).
+
+1. Add `output.schemaRef` to a trigger in `packages/<adapter>/triggers.json`,
+   naming the OpenAPI component to extract:
+
+   ```json
+   "output": {
+     "summary": "Stripe Charge object",
+     "schemaRef": "charge"
+   }
+   ```
+
+2. Run the ingestor:
+
+   ```bash
+   node tools/ingest-openapi.mjs stripe          # one adapter
+   node tools/ingest-openapi.mjs --all           # every adapter with refs
+   node tools/ingest-openapi.mjs stripe --refresh  # bypass .cache/openapi
+   ```
+
+   The fetched spec is cached under `.cache/openapi/` (gitignored). Output
+   lands in `packages/<adapter>/data-schemas/<schemaRef>.json` — a self-contained
+   JSON Schema with one level of `$ref` inlined; deeper refs stay as
+   `{"$ref": "..."}` so the UI can link rather than recursively expand.
+
+3. Restart the dev server (or run `npm run manifest`) to surface the schemas
+   in the **Data** tab. The **Triggers** tab also shows a `schema: <ref>` chip
+   on each trigger that jumps to the matching schema.
+
 ## Roadmap
 
 See [SPEC.md](./SPEC.md#roadmap-snapshot). Short form:
 
 - [x] Strip packages, scaffold UI, wire credentials + operations + snippets tabs
 - [x] Triggers (`triggers.json` + Triggers tab) — seeded for 30 adapters
-- [ ] Data schemas (`data-schemas/` for trigger payloads)
+- [x] Data schemas (`data-schemas/` for trigger payloads) — seeded for stripe + asana
 - [ ] Cross-adapter integration ideas
 - [ ] Fill empty `code` fields in existing snippets
 - [x] Seed `metadata.json` for every adapter (69 partial, 35 stub)
-- [ ] OpenAPI ingestion pipeline
+- [x] OpenAPI ingestion pipeline (`tools/ingest-openapi.mjs`)

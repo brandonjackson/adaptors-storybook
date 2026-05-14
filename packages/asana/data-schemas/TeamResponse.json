@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "asana/TeamResponse",
+  "x-source": {
+    "adapter": "asana",
+    "openapi": "https://raw.githubusercontent.com/Asana/openapi/master/defs/asana_oas.yaml",
+    "component": "TeamResponse",
+    "ingestedAt": "2026-05-14"
+  },
+  "allOf": [
+    {
+      "x-openapi-ref": "#/components/schemas/TeamBase",
+      "$ref": "#/components/schemas/TeamCompact"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "[Opt In](/docs/inputoutput-options). The description of the team.\n",
+          "type": "string",
+          "example": "All developers should be members of this team."
+        },
+        "html_description": {
+          "description": "[Opt In](/docs/inputoutput-options). The description of the team with formatting as HTML.\n",
+          "type": "string",
+          "example": "<body><em>All</em> developers should be members of this team.</body>"
+        },
+        "organization": {
+          "allOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/WorkspaceCompact",
+              "description": "A *workspace* is the highest-level organizational unit in Asana. All projects and tasks have an associated workspace.",
+              "type": "object",
+              "properties": {
+                "gid": {
+                  "description": "Globally unique identifier of the resource, as a string.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "12345",
+                  "x-insert-after": false
+                },
+                "resource_type": {
+                  "description": "The base type of this resource.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "workspace",
+                  "x-insert-after": "gid"
+                },
+                "name": {
+                  "description": "The name of the workspace.",
+                  "type": "string",
+                  "example": "My Company Workspace"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "description": "The organization/workspace the team belongs to.\n"
+            }
+          ]
+        },
+        "permalink_url": {
+          "type": "string",
+          "readOnly": true,
+          "description": "A url that points directly to the object within Asana.",
+          "example": "https://app.asana.com/0/resource/123456789/list"
+        },
+        "visibility": {
+          "description": "The visibility of the team to users in the same organization\n",
+          "type": "string",
+          "enum": [
+            "secret",
+            "request_to_join",
+            "public"
+          ]
+        },
+        "edit_team_name_or_description_access_level": {
+          "description": "Controls who can edit team name and description\n",
+          "type": "string",
+          "enum": [
+            "all_team_members",
+            "only_team_admins"
+          ]
+        },
+        "edit_team_visibility_or_trash_team_access_level": {
+          "description": "Controls who can edit team visibility and trash teams\n",
+          "type": "string",
+          "enum": [
+            "all_team_members",
+            "only_team_admins"
+          ]
+        },
+        "member_invite_management_access_level": {
+          "description": "Controls who can accept or deny member invites for a given team\n",
+          "type": "string",
+          "enum": [
+            "all_team_members",
+            "only_team_admins"
+          ]
+        },
+        "guest_invite_management_access_level": {
+          "description": "Controls who can accept or deny guest invites for a given team\n",
+          "type": "string",
+          "enum": [
+            "all_team_members",
+            "only_team_admins"
+          ]
+        },
+        "join_request_management_access_level": {
+          "description": "Controls who can accept or deny join team requests for a Membership by Request team. This field can only be updated when the team's `visibility` field is `request_to_join`.\n",
+          "type": "string",
+          "enum": [
+            "all_team_members",
+            "only_team_admins"
+          ]
+        },
+        "team_member_removal_access_level": {
+          "description": "Controls who can remove team members\n",
+          "type": "string",
+          "enum": [
+            "all_team_members",
+            "only_team_admins"
+          ]
+        },
+        "team_content_management_access_level": {
+          "description": "Controls who can create and share content with the team\n",
+          "type": "string",
+          "enum": [
+            "no_restriction",
+            "only_team_admins"
+          ]
+        },
+        "endorsed": {
+          "description": "Whether the team has been endorsed\n",
+          "type": "boolean",
+          "example": false
+        },
+        "custom_field_settings": {
+          "description": "Array of Custom Field Settings applied to the team.",
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/CustomFieldSettingResponse",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomFieldSettingBase"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "project": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ProjectCompact"
+                      },
+                      {
+                        "type": "object",
+                        "description": "*Deprecated: new integrations should prefer the `parent` field.* The id of the project that this custom field settings refers to.",
+                        "readOnly": true
+                      }
+                    ]
+                  },
+                  "is_important": {
+                    "description": "`is_important` is used in the Asana web application to determine if this custom field is displayed in the list/grid view of a project or portfolio.",
+                    "type": "boolean",
+                    "readOnly": true,
+                    "example": false
+                  },
+                  "parent": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ProjectCompact"
+                      },
+                      {
+                        "type": "object",
+                        "description": "The parent to which the custom field is applied. This can be a project or portfolio and indicates that the tasks or projects that the parent contains may be given custom field values for this custom field.",
+                        "readOnly": true
+                      }
+                    ]
+                  },
+                  "custom_field": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/CustomFieldResponse"
+                      },
+                      {
+                        "type": "object",
+                        "description": "The custom field that is applied to the `parent`.",
+                        "readOnly": true
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

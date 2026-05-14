@@ -1,0 +1,646 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "asana/ProjectResponse",
+  "x-source": {
+    "adapter": "asana",
+    "openapi": "https://raw.githubusercontent.com/Asana/openapi/master/defs/asana_oas.yaml",
+    "component": "ProjectResponse",
+    "ingestedAt": "2026-05-14"
+  },
+  "allOf": [
+    {
+      "x-openapi-ref": "#/components/schemas/ProjectBase",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/ProjectCompact"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "archived": {
+              "description": "True if the project is archived, false if not. Archived projects do not show in the UI by default and may be treated differently for queries.",
+              "type": "boolean",
+              "example": false
+            },
+            "color": {
+              "description": "Color of the project.",
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                "dark-pink",
+                "dark-green",
+                "dark-blue",
+                "dark-red",
+                "dark-teal",
+                "dark-brown",
+                "dark-orange",
+                "dark-purple",
+                "dark-warm-gray",
+                "light-pink",
+                "light-green",
+                "light-blue",
+                "light-red",
+                "light-teal",
+                "light-brown",
+                "light-orange",
+                "light-purple",
+                "light-warm-gray",
+                "none",
+                null
+              ],
+              "example": "light-green"
+            },
+            "icon": {
+              "description": "The icon for a project.",
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                "list",
+                "board",
+                "timeline",
+                "calendar",
+                "rocket",
+                "people",
+                "graph",
+                "star",
+                "bug",
+                "light_bulb",
+                "globe",
+                "gear",
+                "notebook",
+                "computer",
+                "check",
+                "target",
+                "html",
+                "megaphone",
+                "chat_bubbles",
+                "briefcase",
+                "page_layout",
+                "mountain_flag",
+                "puzzle",
+                "presentation",
+                "line_and_symbols",
+                "speed_dial",
+                "ribbon",
+                "shoe",
+                "shopping_basket",
+                "map",
+                "ticket",
+                "coins"
+              ],
+              "example": "chat_bubbles"
+            },
+            "created_at": {
+              "description": "The time at which this resource was created.",
+              "type": "string",
+              "format": "date-time",
+              "readOnly": true,
+              "example": "2012-02-22T02:06:58.147Z"
+            },
+            "current_status": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ProjectStatusResponse"
+                },
+                {
+                  "type": "object",
+                  "nullable": true,
+                  "description": "*Deprecated: new integrations should prefer the `current_status_update` resource.*"
+                }
+              ]
+            },
+            "current_status_update": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/StatusUpdateCompact"
+                },
+                {
+                  "type": "object",
+                  "nullable": true,
+                  "description": "The latest `status_update` posted to this project."
+                }
+              ]
+            },
+            "custom_field_settings": {
+              "description": "Array of custom field definitions that are enabled for the project. These represent which custom fields are available to be used on tasks within the project, but do not include any values.",
+              "readOnly": true,
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CustomFieldSettingResponse"
+              }
+            },
+            "default_view": {
+              "description": "The default view (list, board, calendar, or timeline) of a project.",
+              "type": "string",
+              "enum": [
+                "list",
+                "board",
+                "calendar",
+                "timeline"
+              ],
+              "example": "calendar"
+            },
+            "due_date": {
+              "description": "*Deprecated: new integrations should prefer the `due_on` field.*",
+              "type": "string",
+              "nullable": true,
+              "format": "date",
+              "example": "2019-09-15"
+            },
+            "due_on": {
+              "description": "The day on which this project is due. This takes a date with format YYYY-MM-DD.",
+              "type": "string",
+              "nullable": true,
+              "format": "date",
+              "example": "2019-09-15"
+            },
+            "html_notes": {
+              "description": "[Opt In](/docs/inputoutput-options). The notes of the project with formatting as HTML.",
+              "type": "string",
+              "example": "<body>These are things we need to purchase.</body>"
+            },
+            "members": {
+              "description": "Array of users who are members of this project.",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/UserCompact"
+              },
+              "readOnly": true
+            },
+            "modified_at": {
+              "description": "The time at which this project was last modified.\n*Note: This does not currently reflect any changes in associations such as tasks or comments that may have been added or removed from the project.*",
+              "type": "string",
+              "readOnly": true,
+              "format": "date-time",
+              "example": "2012-02-22T02:06:58.147Z"
+            },
+            "notes": {
+              "description": "Free-form textual information associated with the project (ie., its description).",
+              "type": "string",
+              "example": "These are things we need to purchase."
+            },
+            "public": {
+              "description": "*Deprecated:* new integrations use `privacy_setting` instead.",
+              "type": "boolean",
+              "deprecated": true,
+              "example": false
+            },
+            "privacy_setting": {
+              "description": "The privacy setting of the project. *Note: Administrators in your organization may restrict the values of `privacy_setting`.* The value `private_to_team` is deprecated. Use `POST /memberships` to share a project with a team after creation.",
+              "type": "string",
+              "enum": [
+                "public_to_workspace",
+                "private_to_team",
+                "private"
+              ],
+              "example": "public_to_workspace"
+            },
+            "start_on": {
+              "description": "The day on which work for this project begins, or null if the project has no start date. This takes a date with `YYYY-MM-DD` format. *Note: `due_on` or `due_at` must be present in the request when setting or unsetting the `start_on` parameter. Additionally, `start_on` and `due_on` cannot be the same date.*",
+              "type": "string",
+              "nullable": true,
+              "format": "date",
+              "example": "2019-09-14"
+            },
+            "default_access_level": {
+              "description": "The default access for users or teams who join or are added as members to the project.",
+              "type": "string",
+              "enum": [
+                "admin",
+                "editor",
+                "commenter",
+                "viewer"
+              ],
+              "example": "admin"
+            },
+            "minimum_access_level_for_customization": {
+              "description": "The minimum access level needed for project members to modify this project's workflow and appearance.",
+              "type": "string",
+              "enum": [
+                "admin",
+                "editor"
+              ],
+              "example": "admin"
+            },
+            "minimum_access_level_for_sharing": {
+              "description": "The minimum access level needed for project members to share the project and manage project memberships.",
+              "type": "string",
+              "enum": [
+                "admin",
+                "editor"
+              ],
+              "example": "admin"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "custom_fields": {
+          "description": "Array of custom field values applied directly to the project itself. These represent the values set on the project, not the fields available for tasks in the project.",
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/CustomFieldCompact",
+            "description": "Custom Fields store the metadata that is used in order to add user-specified information to tasks in Asana. Be sure to reference the [custom fields](/reference/custom-fields) developer documentation for more information about how custom fields relate to various resources in Asana.\n\nUsers in Asana can [lock custom fields](https://asana.com/guide/help/premium/custom-fields#gl-lock-fields), which will make them read-only when accessed by other users. Attempting to edit a locked custom field will return HTTP error code `403 Forbidden`.",
+            "type": "object",
+            "properties": {
+              "gid": {
+                "description": "Globally unique identifier of the resource, as a string.",
+                "type": "string",
+                "readOnly": true,
+                "example": "12345",
+                "x-insert-after": false
+              },
+              "resource_type": {
+                "description": "The base type of this resource.",
+                "type": "string",
+                "readOnly": true,
+                "example": "custom_field",
+                "x-insert-after": "gid"
+              },
+              "name": {
+                "description": "The name of the custom field.",
+                "type": "string",
+                "example": "Status"
+              },
+              "type": {
+                "description": "*Deprecated: new integrations should prefer the resource_subtype field.* The type of the custom field. Must be one of the given values.\n",
+                "type": "string",
+                "readOnly": true,
+                "enum": [
+                  "text",
+                  "enum",
+                  "multi_enum",
+                  "number",
+                  "date",
+                  "people"
+                ]
+              },
+              "enum_options": {
+                "description": "*Conditional*. Only relevant for custom fields of type `enum` or `multi_enum`. This array specifies the possible values which an `enum` custom field can adopt. To modify the enum options, refer to [working with enum options](/reference/createenumoptionforcustomfield).",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EnumOption"
+                }
+              },
+              "enabled": {
+                "description": "*Conditional*. This field applies only to [custom field values](/docs/custom-fields-guide#/accessing-custom-field-values-on-tasks-or-projects) and is not available for [custom field definitions](/docs/custom-fields-guide#/accessing-custom-field-definitions).\nDetermines if the custom field is enabled or not. For more details, see the [Custom Fields documentation](/docs/custom-fields-guide#/enabled-and-disabled-values).",
+                "type": "boolean",
+                "readOnly": true,
+                "example": true
+              },
+              "representation_type": {
+                "description": "This field tells the type of the custom field.",
+                "type": "string",
+                "example": "number",
+                "readOnly": true,
+                "enum": [
+                  "text",
+                  "enum",
+                  "multi_enum",
+                  "number",
+                  "date",
+                  "people",
+                  "formula",
+                  "custom_id"
+                ]
+              },
+              "id_prefix": {
+                "description": "This field is the unique custom ID string for the custom field.",
+                "type": "string",
+                "nullable": true,
+                "example": "ID"
+              },
+              "input_restrictions": {
+                "description": "*Conditional*. Only relevant for custom fields of type `reference`. This array of strings reflects the allowed types of objects that can be written to a `reference` custom field value.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": "task"
+              },
+              "is_formula_field": {
+                "description": "*Conditional*. This flag describes whether a custom field is a formula custom field.",
+                "type": "boolean",
+                "example": false
+              },
+              "date_value": {
+                "description": "*Conditional*. Only relevant for custom fields of type `date`. This object reflects the chosen date (and optionally, time) value of a `date` custom field. If no date is selected, the value of `date_value` will be `null`.",
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "description": "A string representing the date in YYYY-MM-DD format.",
+                    "example": "2024-08-23"
+                  },
+                  "date_time": {
+                    "type": "string",
+                    "description": "A string representing the date in ISO 8601 format. If no time value is selected, the value of `date-time` will be `null`.",
+                    "example": "2024-08-23T22:00:00.000Z"
+                  }
+                }
+              },
+              "enum_value": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/EnumOption"
+                  },
+                  {
+                    "type": "object",
+                    "nullable": true,
+                    "description": "*Conditional*. Only relevant for custom fields of type `enum`. This object is the chosen value of an `enum` custom field."
+                  }
+                ]
+              },
+              "multi_enum_values": {
+                "description": "*Conditional*. Only relevant for custom fields of type `multi_enum`. This object is the chosen values of a `multi_enum` custom field.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EnumOption"
+                }
+              },
+              "number_value": {
+                "description": "*Conditional*. This number is the value of a `number` custom field.",
+                "type": "number",
+                "nullable": true,
+                "example": 5.2
+              },
+              "text_value": {
+                "description": "*Conditional*. This string is the value of a `text` custom field.",
+                "type": "string",
+                "nullable": true,
+                "example": "Some Value"
+              },
+              "display_value": {
+                "description": "A string representation for the value of the custom field. Integrations that don't require the underlying type should use this field to read values. Using this field will future-proof an app against new custom field types.",
+                "type": "string",
+                "readOnly": true,
+                "example": "blue",
+                "nullable": true
+              }
+            }
+          }
+        },
+        "completed": {
+          "description": "True if the project is currently marked complete, false if not.",
+          "type": "boolean",
+          "readOnly": true,
+          "example": false
+        },
+        "completed_at": {
+          "description": "The time at which this project was completed, or null if the project is not completed.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "nullable": true,
+          "example": "2012-02-22T02:06:58.147Z"
+        },
+        "completed_by": {
+          "allOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/UserCompact",
+              "description": "A *user* object represents an account in Asana that can be given access to various workspaces, projects, and tasks.",
+              "type": "object",
+              "properties": {
+                "gid": {
+                  "description": "Globally unique identifier of the resource, as a string.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "12345",
+                  "x-insert-after": false
+                },
+                "resource_type": {
+                  "description": "The base type of this resource.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "user",
+                  "x-insert-after": "gid"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "*Read-only except when same user as requester*. The user's name.",
+                  "example": "Greg Sanchez"
+                }
+              }
+            },
+            {
+              "description": "The user that marked this project complete, or null if the project is not completed.",
+              "readOnly": true,
+              "nullable": true
+            }
+          ]
+        },
+        "followers": {
+          "description": "Array of users following this project. Followers are a subset of members who have opted in to receive \"tasks added\" notifications for a project.",
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/UserCompact",
+            "description": "A *user* object represents an account in Asana that can be given access to various workspaces, projects, and tasks.",
+            "type": "object",
+            "properties": {
+              "gid": {
+                "description": "Globally unique identifier of the resource, as a string.",
+                "type": "string",
+                "readOnly": true,
+                "example": "12345",
+                "x-insert-after": false
+              },
+              "resource_type": {
+                "description": "The base type of this resource.",
+                "type": "string",
+                "readOnly": true,
+                "example": "user",
+                "x-insert-after": "gid"
+              },
+              "name": {
+                "type": "string",
+                "description": "*Read-only except when same user as requester*. The user's name.",
+                "example": "Greg Sanchez"
+              }
+            }
+          },
+          "readOnly": true
+        },
+        "owner": {
+          "description": "The current owner of the project, may be null.",
+          "allOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/UserCompact",
+              "description": "A *user* object represents an account in Asana that can be given access to various workspaces, projects, and tasks.",
+              "type": "object",
+              "properties": {
+                "gid": {
+                  "description": "Globally unique identifier of the resource, as a string.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "12345",
+                  "x-insert-after": false
+                },
+                "resource_type": {
+                  "description": "The base type of this resource.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "user",
+                  "x-insert-after": "gid"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "*Read-only except when same user as requester*. The user's name.",
+                  "example": "Greg Sanchez"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ]
+        },
+        "team": {
+          "allOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/TeamCompact",
+              "description": "<p><strong style={{ color: \"#4573D2\" }}>Full object requires scope: </strong><code>teams:read</code></p>\n\nA *team* is used to group related projects and people together within an organization. Each project in an organization is associated with a team.",
+              "type": "object",
+              "properties": {
+                "gid": {
+                  "description": "Globally unique identifier of the resource, as a string.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "12345",
+                  "x-insert-after": false
+                },
+                "resource_type": {
+                  "description": "The base type of this resource.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "team",
+                  "x-insert-after": "gid"
+                },
+                "name": {
+                  "description": "The name of the team.",
+                  "type": "string",
+                  "example": "Marketing"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "description": "The team that this project is shared with."
+            }
+          ]
+        },
+        "permalink_url": {
+          "type": "string",
+          "readOnly": true,
+          "description": "A url that points directly to the object within Asana.",
+          "example": "https://app.asana.com/1/12345/project/123456789"
+        },
+        "project_brief": {
+          "allOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/ProjectBriefCompact",
+              "description": "A *Project Brief* allows you to explain the what and why of the project to your team.",
+              "type": "object",
+              "properties": {
+                "gid": {
+                  "description": "Globally unique identifier of the resource, as a string.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "12345",
+                  "x-insert-after": false
+                },
+                "resource_type": {
+                  "description": "The base type of this resource.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "project_brief",
+                  "x-insert-after": "gid"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "description": "[Opt In](/docs/inputoutput-options). The project brief associated with this project.",
+              "nullable": true
+            }
+          ]
+        },
+        "created_from_template": {
+          "allOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/ProjectTemplateCompact",
+              "description": "A *project template* is an object that allows new projects to be created with a predefined setup, which may include tasks, sections, Rules, etc. It simplifies the process of running a workflow that involves a similar set of work every time.",
+              "type": "object",
+              "properties": {
+                "gid": {
+                  "description": "Globally unique identifier of the resource, as a string.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "12345",
+                  "x-insert-after": false
+                },
+                "resource_type": {
+                  "description": "The base type of this resource.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "project_template",
+                  "x-insert-after": "gid"
+                },
+                "name": {
+                  "description": "Name of the project template.",
+                  "type": "string",
+                  "example": "Packing list"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "description": "[Opt In](/docs/inputoutput-options). The project template from which this project was created. If the project was not created from a template, this field will be null.",
+              "nullable": true
+            }
+          ]
+        },
+        "workspace": {
+          "allOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/WorkspaceCompact",
+              "description": "A *workspace* is the highest-level organizational unit in Asana. All projects and tasks have an associated workspace.",
+              "type": "object",
+              "properties": {
+                "gid": {
+                  "description": "Globally unique identifier of the resource, as a string.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "12345",
+                  "x-insert-after": false
+                },
+                "resource_type": {
+                  "description": "The base type of this resource.",
+                  "type": "string",
+                  "readOnly": true,
+                  "example": "workspace",
+                  "x-insert-after": "gid"
+                },
+                "name": {
+                  "description": "The name of the workspace.",
+                  "type": "string",
+                  "example": "My Company Workspace"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "readOnly": true,
+              "description": "*Create-only*. The workspace or organization this project is associated with. Once created, projects cannot be moved to a different workspace. This attribute can only be specified at creation time. If the workspace for your project is an organization, you must also supply a `team` in the request body."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

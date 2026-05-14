@@ -5,13 +5,17 @@ import OperationsTable from './OperationsTable.jsx';
 import ConfigurationSchema from './ConfigurationSchema.jsx';
 import Snippets from './Snippets.jsx';
 import Triggers from './Triggers.jsx';
+import DataSchemas from './DataSchemas.jsx';
+import Sources from './Sources.jsx';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
   { id: 'operations', label: 'Operations' },
   { id: 'credentials', label: 'Credentials' },
   { id: 'triggers', label: 'Triggers' },
+  { id: 'data', label: 'Data' },
   { id: 'snippets', label: 'Snippets' },
+  { id: 'sources', label: 'Sources' },
   { id: 'readme', label: 'README' },
 ];
 
@@ -63,6 +67,9 @@ export default function AdapterView({ name }) {
               {manifest.triggerCount > 0 && (
                 <span>{manifest.triggerCount} triggers</span>
               )}
+              {manifest.dataSchemaCount > 0 && (
+                <span>{manifest.dataSchemaCount} data schemas</span>
+              )}
             </div>
           </div>
         </div>
@@ -100,8 +107,21 @@ export default function AdapterView({ name }) {
             oauthSchema={manifest.oauthConfigurationSchema}
           />
         )}
-        {tab === 'triggers' && <Triggers triggers={manifest.triggers} />}
+        {tab === 'triggers' && (
+          <Triggers
+            triggers={manifest.triggers}
+            dataSchemas={manifest.dataSchemas || []}
+            onOpenSchema={(id) => setTab('data')}
+          />
+        )}
+        {tab === 'data' && (
+          <DataSchemas
+            adapter={manifest.name}
+            schemas={manifest.dataSchemas || []}
+          />
+        )}
         {tab === 'snippets' && <Snippets snippets={manifest.snippets || []} />}
+        {tab === 'sources' && <Sources metadata={manifest.metadata} />}
         {tab === 'readme' && (
           <article className="prose prose-slate max-w-3xl">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{readme}</ReactMarkdown>

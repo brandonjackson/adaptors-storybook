@@ -1,0 +1,2822 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stripe/payout",
+  "x-source": {
+    "adapter": "stripe",
+    "openapi": "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json",
+    "component": "payout",
+    "ingestedAt": "2026-05-14"
+  },
+  "description": "A `Payout` object is created when you receive funds from Stripe, or when you\ninitiate a payout to either a bank account or debit card of a [connected\nStripe account](/docs/connect/bank-debit-card-payouts). You can retrieve individual payouts,\nand list all payouts. Payouts are made on [varying\nschedules](/docs/connect/manage-payout-schedule), depending on your country and\nindustry.\n\nRelated guide: [Receiving payouts](https://docs.stripe.com/payouts)",
+  "properties": {
+    "amount": {
+      "description": "The amount (in cents (or local equivalent)) that transfers to your bank account or debit card.",
+      "type": "integer"
+    },
+    "application_fee": {
+      "anyOf": [
+        {
+          "maxLength": 5000,
+          "type": "string"
+        },
+        {
+          "x-openapi-ref": "#/components/schemas/application_fee",
+          "description": "",
+          "properties": {
+            "account": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/account"
+                }
+              ],
+              "description": "ID of the Stripe account this fee was taken from.",
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/account"
+                  }
+                ]
+              }
+            },
+            "amount": {
+              "description": "Amount earned, in cents (or local equivalent).",
+              "type": "integer"
+            },
+            "amount_refunded": {
+              "description": "Amount in cents (or local equivalent) refunded (can be less than the amount attribute on the fee if a partial refund was issued)",
+              "type": "integer"
+            },
+            "application": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/application"
+                }
+              ],
+              "description": "ID of the Connect application that earned the fee.",
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/application"
+                  }
+                ]
+              }
+            },
+            "balance_transaction": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/balance_transaction"
+                }
+              ],
+              "description": "Balance transaction that describes the impact of this collected application fee on your account balance (not including refunds).",
+              "nullable": true,
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/balance_transaction"
+                  }
+                ]
+              }
+            },
+            "charge": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/charge"
+                }
+              ],
+              "description": "ID of the charge that the application fee was taken from.",
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/charge"
+                  }
+                ]
+              }
+            },
+            "created": {
+              "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+              "format": "unix-time",
+              "type": "integer"
+            },
+            "currency": {
+              "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+              "format": "currency",
+              "type": "string"
+            },
+            "fee_source": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/platform_earning_fee_source"
+                }
+              ],
+              "description": "Polymorphic source of the application fee. Includes the ID of the object the application fee was created from.",
+              "nullable": true
+            },
+            "id": {
+              "description": "Unique identifier for the object.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "livemode": {
+              "description": "If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.",
+              "type": "boolean"
+            },
+            "object": {
+              "description": "String representing the object's type. Objects of the same type share the same value.",
+              "enum": [
+                "application_fee"
+              ],
+              "type": "string"
+            },
+            "originating_transaction": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/charge"
+                }
+              ],
+              "description": "ID of the corresponding charge on the platform account, if this fee was the result of a charge using the `destination` parameter.",
+              "nullable": true,
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/charge"
+                  }
+                ]
+              }
+            },
+            "refunded": {
+              "description": "Whether the fee has been fully refunded. If the fee is only partially refunded, this attribute will still be false.",
+              "type": "boolean"
+            },
+            "refunds": {
+              "description": "A list of refunds that have been applied to the fee.",
+              "properties": {
+                "data": {
+                  "description": "Details about each object.",
+                  "items": {
+                    "$ref": "#/components/schemas/fee_refund"
+                  },
+                  "type": "array"
+                },
+                "has_more": {
+                  "description": "True if this list has another page of items after this one that can be fetched.",
+                  "type": "boolean"
+                },
+                "object": {
+                  "description": "String representing the object's type. Objects of the same type share the same value. Always has the value `list`.",
+                  "enum": [
+                    "list"
+                  ],
+                  "type": "string"
+                },
+                "url": {
+                  "description": "The URL where this list can be accessed.",
+                  "maxLength": 5000,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "data",
+                "has_more",
+                "object",
+                "url"
+              ],
+              "title": "FeeRefundList",
+              "type": "object",
+              "x-expandableFields": [
+                "data"
+              ]
+            }
+          },
+          "required": [
+            "account",
+            "amount",
+            "amount_refunded",
+            "application",
+            "charge",
+            "created",
+            "currency",
+            "id",
+            "livemode",
+            "object",
+            "refunded",
+            "refunds"
+          ],
+          "title": "PlatformFee",
+          "type": "object",
+          "x-expandableFields": [
+            "account",
+            "application",
+            "balance_transaction",
+            "charge",
+            "fee_source",
+            "originating_transaction",
+            "refunds"
+          ],
+          "x-resourceId": "application_fee"
+        }
+      ],
+      "description": "The application fee (if any) for the payout. [See the Connect documentation](https://docs.stripe.com/connect/instant-payouts#monetization-and-fees) for details.",
+      "nullable": true,
+      "x-expansionResources": {
+        "oneOf": [
+          {
+            "x-openapi-ref": "#/components/schemas/application_fee",
+            "description": "",
+            "properties": {
+              "account": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/account"
+                  }
+                ],
+                "description": "ID of the Stripe account this fee was taken from.",
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/account"
+                    }
+                  ]
+                }
+              },
+              "amount": {
+                "description": "Amount earned, in cents (or local equivalent).",
+                "type": "integer"
+              },
+              "amount_refunded": {
+                "description": "Amount in cents (or local equivalent) refunded (can be less than the amount attribute on the fee if a partial refund was issued)",
+                "type": "integer"
+              },
+              "application": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/application"
+                  }
+                ],
+                "description": "ID of the Connect application that earned the fee.",
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/application"
+                    }
+                  ]
+                }
+              },
+              "balance_transaction": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/balance_transaction"
+                  }
+                ],
+                "description": "Balance transaction that describes the impact of this collected application fee on your account balance (not including refunds).",
+                "nullable": true,
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/balance_transaction"
+                    }
+                  ]
+                }
+              },
+              "charge": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/charge"
+                  }
+                ],
+                "description": "ID of the charge that the application fee was taken from.",
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/charge"
+                    }
+                  ]
+                }
+              },
+              "created": {
+                "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+                "format": "unix-time",
+                "type": "integer"
+              },
+              "currency": {
+                "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+                "format": "currency",
+                "type": "string"
+              },
+              "fee_source": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/platform_earning_fee_source"
+                  }
+                ],
+                "description": "Polymorphic source of the application fee. Includes the ID of the object the application fee was created from.",
+                "nullable": true
+              },
+              "id": {
+                "description": "Unique identifier for the object.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "livemode": {
+                "description": "If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.",
+                "type": "boolean"
+              },
+              "object": {
+                "description": "String representing the object's type. Objects of the same type share the same value.",
+                "enum": [
+                  "application_fee"
+                ],
+                "type": "string"
+              },
+              "originating_transaction": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/charge"
+                  }
+                ],
+                "description": "ID of the corresponding charge on the platform account, if this fee was the result of a charge using the `destination` parameter.",
+                "nullable": true,
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/charge"
+                    }
+                  ]
+                }
+              },
+              "refunded": {
+                "description": "Whether the fee has been fully refunded. If the fee is only partially refunded, this attribute will still be false.",
+                "type": "boolean"
+              },
+              "refunds": {
+                "description": "A list of refunds that have been applied to the fee.",
+                "properties": {
+                  "data": {
+                    "description": "Details about each object.",
+                    "items": {
+                      "$ref": "#/components/schemas/fee_refund"
+                    },
+                    "type": "array"
+                  },
+                  "has_more": {
+                    "description": "True if this list has another page of items after this one that can be fetched.",
+                    "type": "boolean"
+                  },
+                  "object": {
+                    "description": "String representing the object's type. Objects of the same type share the same value. Always has the value `list`.",
+                    "enum": [
+                      "list"
+                    ],
+                    "type": "string"
+                  },
+                  "url": {
+                    "description": "The URL where this list can be accessed.",
+                    "maxLength": 5000,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "data",
+                  "has_more",
+                  "object",
+                  "url"
+                ],
+                "title": "FeeRefundList",
+                "type": "object",
+                "x-expandableFields": [
+                  "data"
+                ]
+              }
+            },
+            "required": [
+              "account",
+              "amount",
+              "amount_refunded",
+              "application",
+              "charge",
+              "created",
+              "currency",
+              "id",
+              "livemode",
+              "object",
+              "refunded",
+              "refunds"
+            ],
+            "title": "PlatformFee",
+            "type": "object",
+            "x-expandableFields": [
+              "account",
+              "application",
+              "balance_transaction",
+              "charge",
+              "fee_source",
+              "originating_transaction",
+              "refunds"
+            ],
+            "x-resourceId": "application_fee"
+          }
+        ]
+      }
+    },
+    "application_fee_amount": {
+      "description": "The amount of the application fee (if any) requested for the payout. [See the Connect documentation](https://docs.stripe.com/connect/instant-payouts#monetization-and-fees) for details.",
+      "nullable": true,
+      "type": "integer"
+    },
+    "arrival_date": {
+      "description": "Date that you can expect the payout to arrive in the bank. This factors in delays to account for weekends or bank holidays.",
+      "format": "unix-time",
+      "type": "integer"
+    },
+    "automatic": {
+      "description": "Returns `true` if the payout is created by an [automated payout schedule](https://docs.stripe.com/payouts#payout-schedule) and `false` if it's [requested manually](https://stripe.com/docs/payouts#manual-payouts).",
+      "type": "boolean"
+    },
+    "balance_transaction": {
+      "anyOf": [
+        {
+          "maxLength": 5000,
+          "type": "string"
+        },
+        {
+          "x-openapi-ref": "#/components/schemas/balance_transaction",
+          "description": "Balance transactions represent funds moving through your Stripe account.\nStripe creates them for every type of transaction that enters or leaves your Stripe account balance.\n\nRelated guide: [Balance transaction types](https://docs.stripe.com/reports/balance-transaction-types)",
+          "properties": {
+            "amount": {
+              "description": "Gross amount of this transaction (in cents (or local equivalent)). A positive value represents funds charged to another party, and a negative value represents funds sent to another party.",
+              "type": "integer"
+            },
+            "available_on": {
+              "description": "The date that the transaction's net funds become available in the Stripe balance.",
+              "format": "unix-time",
+              "type": "integer"
+            },
+            "balance_type": {
+              "description": "The balance that this transaction impacts.",
+              "enum": [
+                "issuing",
+                "payments",
+                "refund_and_dispute_prefunding",
+                "risk_reserved"
+              ],
+              "type": "string",
+              "x-stripeBypassValidation": true
+            },
+            "created": {
+              "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+              "format": "unix-time",
+              "type": "integer"
+            },
+            "currency": {
+              "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+              "format": "currency",
+              "type": "string"
+            },
+            "description": {
+              "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "exchange_rate": {
+              "description": "If applicable, this transaction uses an exchange rate. If money converts from currency A to currency B, then the `amount` in currency A, multipled by the `exchange_rate`, equals the `amount` in currency B. For example, if you charge a customer 10.00 EUR, the PaymentIntent's `amount` is `1000` and `currency` is `eur`. If this converts to 12.34 USD in your Stripe account, the BalanceTransaction's `amount` is `1234`, its `currency` is `usd`, and the `exchange_rate` is `1.234`.",
+              "nullable": true,
+              "type": "number"
+            },
+            "fee": {
+              "description": "Fees (in cents (or local equivalent)) paid for this transaction. Represented as a positive integer when assessed.",
+              "type": "integer"
+            },
+            "fee_details": {
+              "description": "Detailed breakdown of fees (in cents (or local equivalent)) paid for this transaction.",
+              "items": {
+                "$ref": "#/components/schemas/fee"
+              },
+              "type": "array"
+            },
+            "id": {
+              "description": "Unique identifier for the object.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "net": {
+              "description": "Net impact to a Stripe balance (in cents (or local equivalent)). A positive value represents incrementing a Stripe balance, and a negative value decrementing a Stripe balance. You can calculate the net impact of a transaction on a balance by `amount` - `fee`",
+              "type": "integer"
+            },
+            "object": {
+              "description": "String representing the object's type. Objects of the same type share the same value.",
+              "enum": [
+                "balance_transaction"
+              ],
+              "type": "string"
+            },
+            "reporting_category": {
+              "description": "Learn more about how [reporting categories](https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "source": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/application_fee"
+                },
+                {
+                  "$ref": "#/components/schemas/charge"
+                },
+                {
+                  "$ref": "#/components/schemas/connect_collection_transfer"
+                },
+                {
+                  "$ref": "#/components/schemas/customer_cash_balance_transaction"
+                },
+                {
+                  "$ref": "#/components/schemas/dispute"
+                },
+                {
+                  "$ref": "#/components/schemas/fee_refund"
+                },
+                {
+                  "$ref": "#/components/schemas/issuing.authorization"
+                },
+                {
+                  "$ref": "#/components/schemas/issuing.dispute"
+                },
+                {
+                  "$ref": "#/components/schemas/issuing.transaction"
+                },
+                {
+                  "$ref": "#/components/schemas/payout"
+                },
+                {
+                  "$ref": "#/components/schemas/refund"
+                },
+                {
+                  "$ref": "#/components/schemas/reserve_transaction"
+                },
+                {
+                  "$ref": "#/components/schemas/tax_deducted_at_source"
+                },
+                {
+                  "$ref": "#/components/schemas/topup"
+                },
+                {
+                  "$ref": "#/components/schemas/transfer"
+                },
+                {
+                  "$ref": "#/components/schemas/transfer_reversal"
+                }
+              ],
+              "description": "This transaction relates to the Stripe object.",
+              "nullable": true,
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/application_fee"
+                  },
+                  {
+                    "$ref": "#/components/schemas/charge"
+                  },
+                  {
+                    "$ref": "#/components/schemas/connect_collection_transfer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/customer_cash_balance_transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/dispute"
+                  },
+                  {
+                    "$ref": "#/components/schemas/fee_refund"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.authorization"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.dispute"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/payout"
+                  },
+                  {
+                    "$ref": "#/components/schemas/refund"
+                  },
+                  {
+                    "$ref": "#/components/schemas/reserve_transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/tax_deducted_at_source"
+                  },
+                  {
+                    "$ref": "#/components/schemas/topup"
+                  },
+                  {
+                    "$ref": "#/components/schemas/transfer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/transfer_reversal"
+                  }
+                ]
+              },
+              "x-stripeBypassValidation": true
+            },
+            "status": {
+              "description": "The transaction's net funds status in the Stripe balance, which are either `available` or `pending`.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "type": {
+              "description": "Transaction type: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `climate_order_purchase`, `climate_order_refund`, `connect_collection_transfer`, `contribution`, `inbound_transfer`, `inbound_transfer_reversal`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `obligation_outbound`, `obligation_reversal_inbound`, `payment`, `payment_failure_refund`, `payment_network_reserve_hold`, `payment_network_reserve_release`, `payment_refund`, `payment_reversal`, `payment_unreconciled`, `payout`, `payout_cancel`, `payout_failure`, `payout_minimum_balance_hold`, `payout_minimum_balance_release`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `reserve_hold`, `reserve_release`, `stripe_fee`, `stripe_fx_fee`, `stripe_balance_payment_debit`, `stripe_balance_payment_debit_reversal`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, `transfer_refund`, or `fee_credit_funding`. Learn more about [balance transaction types and what they represent](https://stripe.com/docs/reports/balance-transaction-types). To classify transactions for accounting purposes, consider `reporting_category` instead.",
+              "enum": [
+                "adjustment",
+                "advance",
+                "advance_funding",
+                "anticipation_repayment",
+                "application_fee",
+                "application_fee_refund",
+                "charge",
+                "climate_order_purchase",
+                "climate_order_refund",
+                "connect_collection_transfer",
+                "contribution",
+                "fee_credit_funding",
+                "inbound_transfer",
+                "inbound_transfer_reversal",
+                "issuing_authorization_hold",
+                "issuing_authorization_release",
+                "issuing_dispute",
+                "issuing_transaction",
+                "obligation_outbound",
+                "obligation_reversal_inbound",
+                "payment",
+                "payment_failure_refund",
+                "payment_network_reserve_hold",
+                "payment_network_reserve_release",
+                "payment_refund",
+                "payment_reversal",
+                "payment_unreconciled",
+                "payout",
+                "payout_cancel",
+                "payout_failure",
+                "payout_minimum_balance_hold",
+                "payout_minimum_balance_release",
+                "refund",
+                "refund_failure",
+                "reserve_hold",
+                "reserve_release",
+                "reserve_transaction",
+                "reserved_funds",
+                "stripe_balance_payment_debit",
+                "stripe_balance_payment_debit_reversal",
+                "stripe_fee",
+                "stripe_fx_fee",
+                "tax_fee",
+                "topup",
+                "topup_reversal",
+                "transfer",
+                "transfer_cancel",
+                "transfer_failure",
+                "transfer_refund"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "amount",
+            "available_on",
+            "balance_type",
+            "created",
+            "currency",
+            "fee",
+            "fee_details",
+            "id",
+            "net",
+            "object",
+            "reporting_category",
+            "status",
+            "type"
+          ],
+          "title": "BalanceTransaction",
+          "type": "object",
+          "x-expandableFields": [
+            "fee_details",
+            "source"
+          ],
+          "x-resourceId": "balance_transaction"
+        }
+      ],
+      "description": "ID of the balance transaction that describes the impact of this payout on your account balance.",
+      "nullable": true,
+      "x-expansionResources": {
+        "oneOf": [
+          {
+            "x-openapi-ref": "#/components/schemas/balance_transaction",
+            "description": "Balance transactions represent funds moving through your Stripe account.\nStripe creates them for every type of transaction that enters or leaves your Stripe account balance.\n\nRelated guide: [Balance transaction types](https://docs.stripe.com/reports/balance-transaction-types)",
+            "properties": {
+              "amount": {
+                "description": "Gross amount of this transaction (in cents (or local equivalent)). A positive value represents funds charged to another party, and a negative value represents funds sent to another party.",
+                "type": "integer"
+              },
+              "available_on": {
+                "description": "The date that the transaction's net funds become available in the Stripe balance.",
+                "format": "unix-time",
+                "type": "integer"
+              },
+              "balance_type": {
+                "description": "The balance that this transaction impacts.",
+                "enum": [
+                  "issuing",
+                  "payments",
+                  "refund_and_dispute_prefunding",
+                  "risk_reserved"
+                ],
+                "type": "string",
+                "x-stripeBypassValidation": true
+              },
+              "created": {
+                "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+                "format": "unix-time",
+                "type": "integer"
+              },
+              "currency": {
+                "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+                "format": "currency",
+                "type": "string"
+              },
+              "description": {
+                "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "exchange_rate": {
+                "description": "If applicable, this transaction uses an exchange rate. If money converts from currency A to currency B, then the `amount` in currency A, multipled by the `exchange_rate`, equals the `amount` in currency B. For example, if you charge a customer 10.00 EUR, the PaymentIntent's `amount` is `1000` and `currency` is `eur`. If this converts to 12.34 USD in your Stripe account, the BalanceTransaction's `amount` is `1234`, its `currency` is `usd`, and the `exchange_rate` is `1.234`.",
+                "nullable": true,
+                "type": "number"
+              },
+              "fee": {
+                "description": "Fees (in cents (or local equivalent)) paid for this transaction. Represented as a positive integer when assessed.",
+                "type": "integer"
+              },
+              "fee_details": {
+                "description": "Detailed breakdown of fees (in cents (or local equivalent)) paid for this transaction.",
+                "items": {
+                  "$ref": "#/components/schemas/fee"
+                },
+                "type": "array"
+              },
+              "id": {
+                "description": "Unique identifier for the object.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "net": {
+                "description": "Net impact to a Stripe balance (in cents (or local equivalent)). A positive value represents incrementing a Stripe balance, and a negative value decrementing a Stripe balance. You can calculate the net impact of a transaction on a balance by `amount` - `fee`",
+                "type": "integer"
+              },
+              "object": {
+                "description": "String representing the object's type. Objects of the same type share the same value.",
+                "enum": [
+                  "balance_transaction"
+                ],
+                "type": "string"
+              },
+              "reporting_category": {
+                "description": "Learn more about how [reporting categories](https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "source": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/application_fee"
+                  },
+                  {
+                    "$ref": "#/components/schemas/charge"
+                  },
+                  {
+                    "$ref": "#/components/schemas/connect_collection_transfer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/customer_cash_balance_transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/dispute"
+                  },
+                  {
+                    "$ref": "#/components/schemas/fee_refund"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.authorization"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.dispute"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/payout"
+                  },
+                  {
+                    "$ref": "#/components/schemas/refund"
+                  },
+                  {
+                    "$ref": "#/components/schemas/reserve_transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/tax_deducted_at_source"
+                  },
+                  {
+                    "$ref": "#/components/schemas/topup"
+                  },
+                  {
+                    "$ref": "#/components/schemas/transfer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/transfer_reversal"
+                  }
+                ],
+                "description": "This transaction relates to the Stripe object.",
+                "nullable": true,
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/application_fee"
+                    },
+                    {
+                      "$ref": "#/components/schemas/charge"
+                    },
+                    {
+                      "$ref": "#/components/schemas/connect_collection_transfer"
+                    },
+                    {
+                      "$ref": "#/components/schemas/customer_cash_balance_transaction"
+                    },
+                    {
+                      "$ref": "#/components/schemas/dispute"
+                    },
+                    {
+                      "$ref": "#/components/schemas/fee_refund"
+                    },
+                    {
+                      "$ref": "#/components/schemas/issuing.authorization"
+                    },
+                    {
+                      "$ref": "#/components/schemas/issuing.dispute"
+                    },
+                    {
+                      "$ref": "#/components/schemas/issuing.transaction"
+                    },
+                    {
+                      "$ref": "#/components/schemas/payout"
+                    },
+                    {
+                      "$ref": "#/components/schemas/refund"
+                    },
+                    {
+                      "$ref": "#/components/schemas/reserve_transaction"
+                    },
+                    {
+                      "$ref": "#/components/schemas/tax_deducted_at_source"
+                    },
+                    {
+                      "$ref": "#/components/schemas/topup"
+                    },
+                    {
+                      "$ref": "#/components/schemas/transfer"
+                    },
+                    {
+                      "$ref": "#/components/schemas/transfer_reversal"
+                    }
+                  ]
+                },
+                "x-stripeBypassValidation": true
+              },
+              "status": {
+                "description": "The transaction's net funds status in the Stripe balance, which are either `available` or `pending`.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "type": {
+                "description": "Transaction type: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `climate_order_purchase`, `climate_order_refund`, `connect_collection_transfer`, `contribution`, `inbound_transfer`, `inbound_transfer_reversal`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `obligation_outbound`, `obligation_reversal_inbound`, `payment`, `payment_failure_refund`, `payment_network_reserve_hold`, `payment_network_reserve_release`, `payment_refund`, `payment_reversal`, `payment_unreconciled`, `payout`, `payout_cancel`, `payout_failure`, `payout_minimum_balance_hold`, `payout_minimum_balance_release`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `reserve_hold`, `reserve_release`, `stripe_fee`, `stripe_fx_fee`, `stripe_balance_payment_debit`, `stripe_balance_payment_debit_reversal`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, `transfer_refund`, or `fee_credit_funding`. Learn more about [balance transaction types and what they represent](https://stripe.com/docs/reports/balance-transaction-types). To classify transactions for accounting purposes, consider `reporting_category` instead.",
+                "enum": [
+                  "adjustment",
+                  "advance",
+                  "advance_funding",
+                  "anticipation_repayment",
+                  "application_fee",
+                  "application_fee_refund",
+                  "charge",
+                  "climate_order_purchase",
+                  "climate_order_refund",
+                  "connect_collection_transfer",
+                  "contribution",
+                  "fee_credit_funding",
+                  "inbound_transfer",
+                  "inbound_transfer_reversal",
+                  "issuing_authorization_hold",
+                  "issuing_authorization_release",
+                  "issuing_dispute",
+                  "issuing_transaction",
+                  "obligation_outbound",
+                  "obligation_reversal_inbound",
+                  "payment",
+                  "payment_failure_refund",
+                  "payment_network_reserve_hold",
+                  "payment_network_reserve_release",
+                  "payment_refund",
+                  "payment_reversal",
+                  "payment_unreconciled",
+                  "payout",
+                  "payout_cancel",
+                  "payout_failure",
+                  "payout_minimum_balance_hold",
+                  "payout_minimum_balance_release",
+                  "refund",
+                  "refund_failure",
+                  "reserve_hold",
+                  "reserve_release",
+                  "reserve_transaction",
+                  "reserved_funds",
+                  "stripe_balance_payment_debit",
+                  "stripe_balance_payment_debit_reversal",
+                  "stripe_fee",
+                  "stripe_fx_fee",
+                  "tax_fee",
+                  "topup",
+                  "topup_reversal",
+                  "transfer",
+                  "transfer_cancel",
+                  "transfer_failure",
+                  "transfer_refund"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "available_on",
+              "balance_type",
+              "created",
+              "currency",
+              "fee",
+              "fee_details",
+              "id",
+              "net",
+              "object",
+              "reporting_category",
+              "status",
+              "type"
+            ],
+            "title": "BalanceTransaction",
+            "type": "object",
+            "x-expandableFields": [
+              "fee_details",
+              "source"
+            ],
+            "x-resourceId": "balance_transaction"
+          }
+        ]
+      }
+    },
+    "created": {
+      "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+      "format": "unix-time",
+      "type": "integer"
+    },
+    "currency": {
+      "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+      "format": "currency",
+      "type": "string"
+    },
+    "description": {
+      "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
+      "maxLength": 5000,
+      "nullable": true,
+      "type": "string"
+    },
+    "destination": {
+      "anyOf": [
+        {
+          "maxLength": 5000,
+          "type": "string"
+        },
+        {
+          "x-openapi-ref": "#/components/schemas/bank_account",
+          "description": "These bank accounts are payment methods on `Customer` objects.\n\nOn the other hand [External Accounts](/api#external_accounts) are transfer\ndestinations on `Account` objects for connected accounts.\nThey can be bank accounts or debit cards as well, and are documented in the links above.\n\nRelated guide: [Bank debits and transfers](/payments/bank-debits-transfers)",
+          "properties": {
+            "account": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/account"
+                }
+              ],
+              "description": "The account this bank account belongs to. Only applicable on Accounts (not customers or recipients) This property is only available when returned as an [External Account](/api/external_account_bank_accounts/object) where [controller.is_controller](/api/accounts/object#account_object-controller-is_controller) is `true`.",
+              "nullable": true,
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/account"
+                  }
+                ]
+              }
+            },
+            "account_holder_name": {
+              "description": "The name of the person or business that owns the bank account.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "account_holder_type": {
+              "description": "The type of entity that holds the account. This can be either `individual` or `company`.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "account_type": {
+              "description": "The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "available_payout_methods": {
+              "description": "A set of available payout methods for this bank account. Only values from this set should be passed as the `method` when creating a payout.",
+              "items": {
+                "enum": [
+                  "instant",
+                  "standard"
+                ],
+                "type": "string"
+              },
+              "nullable": true,
+              "type": "array"
+            },
+            "bank_name": {
+              "description": "Name of the bank associated with the routing number (e.g., `WELLS FARGO`).",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "country": {
+              "description": "Two-letter ISO code representing the country the bank account is located in.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "currency": {
+              "description": "Three-letter [ISO code for the currency](https://stripe.com/docs/payouts) paid out to the bank account.",
+              "format": "currency",
+              "type": "string"
+            },
+            "customer": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/customer"
+                },
+                {
+                  "$ref": "#/components/schemas/deleted_customer"
+                }
+              ],
+              "description": "The ID of the customer that the bank account is associated with.",
+              "nullable": true,
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/customer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/deleted_customer"
+                  }
+                ]
+              }
+            },
+            "default_for_currency": {
+              "description": "Whether this bank account is the default external account for its currency.",
+              "nullable": true,
+              "type": "boolean"
+            },
+            "fingerprint": {
+              "description": "Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "future_requirements": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/external_account_requirements"
+                }
+              ],
+              "description": "Information about the [upcoming new requirements for the bank account](https://docs.stripe.com/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.",
+              "nullable": true
+            },
+            "id": {
+              "description": "Unique identifier for the object.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "last4": {
+              "description": "The last four digits of the bank account number.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "metadata": {
+              "additionalProperties": {
+                "maxLength": 500,
+                "type": "string"
+              },
+              "description": "Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.",
+              "nullable": true,
+              "type": "object"
+            },
+            "object": {
+              "description": "String representing the object's type. Objects of the same type share the same value.",
+              "enum": [
+                "bank_account"
+              ],
+              "type": "string"
+            },
+            "requirements": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/external_account_requirements"
+                }
+              ],
+              "description": "Information about the requirements for the bank account, including what information needs to be collected.",
+              "nullable": true
+            },
+            "routing_number": {
+              "description": "The routing transit number for the bank account.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "status": {
+              "description": "For bank accounts, possible values are `new`, `validated`, `verified`, `verification_failed`, `tokenized_account_number_deactivated` or `errored`. A bank account that hasn't had any activity or validation performed is `new`. If Stripe can determine that the bank account exists, its status will be `validated`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be `verified`. If the verification failed for any reason, such as microdeposit failure, the status will be `verification_failed`. If the status is `tokenized_account_number_deactivated`, the account utilizes a tokenized account number which has been deactivated due to expiration or revocation. This account will need to be reverified to continue using it for money movement. If a payout sent to this bank account fails, we'll set the status to `errored` and will not continue to send [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) until the bank details are updated.\n\nFor external accounts, possible values are `new`, `errored`, `verification_failed`, and `tokenized_account_number_deactivated`. If a payout fails, the status is set to `errored` and scheduled payouts are stopped until account details are updated. In the US and India, if we can't [verify the owner of the bank account](https://support.stripe.com/questions/bank-account-ownership-verification), we'll set the status to `verification_failed`. Other validations aren't run against external accounts because they're only used for payouts. This means the other statuses don't apply.",
+              "maxLength": 5000,
+              "type": "string"
+            }
+          },
+          "required": [
+            "country",
+            "currency",
+            "id",
+            "last4",
+            "object",
+            "status"
+          ],
+          "title": "BankAccount",
+          "type": "object",
+          "x-expandableFields": [
+            "account",
+            "customer",
+            "future_requirements",
+            "requirements"
+          ],
+          "x-resourceId": "bank_account"
+        },
+        {
+          "x-openapi-ref": "#/components/schemas/card",
+          "description": "You can store multiple cards on a customer in order to charge the customer\nlater. You can also store multiple debit cards on a recipient in order to\ntransfer to those cards later.\n\nRelated guide: [Card payments with Sources](https://docs.stripe.com/sources/cards)",
+          "properties": {
+            "account": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/account"
+                }
+              ],
+              "nullable": true,
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/account"
+                  }
+                ]
+              }
+            },
+            "address_city": {
+              "description": "City/District/Suburb/Town/Village.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "address_country": {
+              "description": "Billing address country, if provided when creating card.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "address_line1": {
+              "description": "Address line 1 (Street address/PO Box/Company name).",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "address_line1_check": {
+              "description": "If `address_line1` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "address_line2": {
+              "description": "Address line 2 (Apartment/Suite/Unit/Building).",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "address_state": {
+              "description": "State/County/Province/Region.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "address_zip": {
+              "description": "ZIP or postal code.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "address_zip_check": {
+              "description": "If `address_zip` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "allow_redisplay": {
+              "description": "This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.",
+              "enum": [
+                "always",
+                "limited",
+                "unspecified"
+              ],
+              "nullable": true,
+              "type": "string"
+            },
+            "available_payout_methods": {
+              "description": "A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.",
+              "items": {
+                "enum": [
+                  "instant",
+                  "standard"
+                ],
+                "type": "string"
+              },
+              "nullable": true,
+              "type": "array"
+            },
+            "brand": {
+              "description": "Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "country": {
+              "description": "Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "currency": {
+              "description": "Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies). Only applicable on accounts (not customers or recipients). The card can be used as a transfer destination for funds in this currency. This property is only available when returned as an [External Account](/api/external_account_cards/object) where [controller.is_controller](/api/accounts/object#account_object-controller-is_controller) is `true`.",
+              "format": "currency",
+              "nullable": true,
+              "type": "string"
+            },
+            "customer": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/customer"
+                },
+                {
+                  "$ref": "#/components/schemas/deleted_customer"
+                }
+              ],
+              "description": "The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.",
+              "nullable": true,
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/customer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/deleted_customer"
+                  }
+                ]
+              }
+            },
+            "cvc_check": {
+              "description": "If a CVC was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`. A result of unchecked indicates that CVC was provided but hasn't been checked yet. Checks are typically performed when attaching a card to a Customer object, or when creating a charge. For more details, see [Check if a card is valid without a charge](https://support.stripe.com/questions/check-if-a-card-is-valid-without-a-charge).",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "default_for_currency": {
+              "description": "Whether this card is the default external account for its currency. This property is only available for accounts where [controller.requirement_collection](/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.",
+              "nullable": true,
+              "type": "boolean"
+            },
+            "dynamic_last4": {
+              "description": "(For tokenized numbers only.) The last four digits of the device account number.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "exp_month": {
+              "description": "Two-digit number representing the card's expiration month.",
+              "type": "integer"
+            },
+            "exp_year": {
+              "description": "Four-digit number representing the card's expiration year.",
+              "type": "integer"
+            },
+            "fingerprint": {
+              "description": "Uniquely identifies this particular card number. You can use this attribute to check whether two customers who’ve signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.\n\n*As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "funding": {
+              "description": "Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "id": {
+              "description": "Unique identifier for the object.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "iin": {
+              "description": "Issuer identification number of the card.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "last4": {
+              "description": "The last four digits of the card.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "metadata": {
+              "additionalProperties": {
+                "maxLength": 500,
+                "type": "string"
+              },
+              "description": "Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.",
+              "nullable": true,
+              "type": "object"
+            },
+            "name": {
+              "description": "Cardholder name.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "networks": {
+              "$ref": "#/components/schemas/token_card_networks"
+            },
+            "object": {
+              "description": "String representing the object's type. Objects of the same type share the same value.",
+              "enum": [
+                "card"
+              ],
+              "type": "string"
+            },
+            "regulated_status": {
+              "description": "Status of a card based on the card issuer.",
+              "enum": [
+                "regulated",
+                "unregulated"
+              ],
+              "nullable": true,
+              "type": "string"
+            },
+            "status": {
+              "description": "For external accounts that are cards, possible values are `new` and `errored`. If a payout fails, the status is set to `errored` and [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) are stopped until account details are updated.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "tokenization_method": {
+              "description": "If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            }
+          },
+          "required": [
+            "brand",
+            "exp_month",
+            "exp_year",
+            "funding",
+            "id",
+            "last4",
+            "object"
+          ],
+          "title": "Card",
+          "type": "object",
+          "x-expandableFields": [
+            "account",
+            "customer",
+            "networks"
+          ],
+          "x-resourceId": "card"
+        },
+        {
+          "x-openapi-ref": "#/components/schemas/deleted_bank_account",
+          "description": "",
+          "properties": {
+            "currency": {
+              "description": "Three-letter [ISO code for the currency](https://stripe.com/docs/payouts) paid out to the bank account.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "deleted": {
+              "description": "Always true for a deleted object",
+              "enum": [
+                true
+              ],
+              "type": "boolean"
+            },
+            "id": {
+              "description": "Unique identifier for the object.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "object": {
+              "description": "String representing the object's type. Objects of the same type share the same value.",
+              "enum": [
+                "bank_account"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "deleted",
+            "id",
+            "object"
+          ],
+          "title": "DeletedBankAccount",
+          "type": "object",
+          "x-expandableFields": []
+        },
+        {
+          "x-openapi-ref": "#/components/schemas/deleted_card",
+          "description": "",
+          "properties": {
+            "currency": {
+              "description": "Three-letter [ISO code for the currency](https://stripe.com/docs/payouts) paid out to the bank account.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "deleted": {
+              "description": "Always true for a deleted object",
+              "enum": [
+                true
+              ],
+              "type": "boolean"
+            },
+            "id": {
+              "description": "Unique identifier for the object.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "object": {
+              "description": "String representing the object's type. Objects of the same type share the same value.",
+              "enum": [
+                "card"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "deleted",
+            "id",
+            "object"
+          ],
+          "title": "DeletedCard",
+          "type": "object",
+          "x-expandableFields": []
+        }
+      ],
+      "description": "ID of the bank account or card the payout is sent to.",
+      "nullable": true,
+      "x-expansionResources": {
+        "oneOf": [
+          {
+            "x-openapi-ref": "#/components/schemas/bank_account",
+            "description": "These bank accounts are payment methods on `Customer` objects.\n\nOn the other hand [External Accounts](/api#external_accounts) are transfer\ndestinations on `Account` objects for connected accounts.\nThey can be bank accounts or debit cards as well, and are documented in the links above.\n\nRelated guide: [Bank debits and transfers](/payments/bank-debits-transfers)",
+            "properties": {
+              "account": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/account"
+                  }
+                ],
+                "description": "The account this bank account belongs to. Only applicable on Accounts (not customers or recipients) This property is only available when returned as an [External Account](/api/external_account_bank_accounts/object) where [controller.is_controller](/api/accounts/object#account_object-controller-is_controller) is `true`.",
+                "nullable": true,
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/account"
+                    }
+                  ]
+                }
+              },
+              "account_holder_name": {
+                "description": "The name of the person or business that owns the bank account.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "account_holder_type": {
+                "description": "The type of entity that holds the account. This can be either `individual` or `company`.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "account_type": {
+                "description": "The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "available_payout_methods": {
+                "description": "A set of available payout methods for this bank account. Only values from this set should be passed as the `method` when creating a payout.",
+                "items": {
+                  "enum": [
+                    "instant",
+                    "standard"
+                  ],
+                  "type": "string"
+                },
+                "nullable": true,
+                "type": "array"
+              },
+              "bank_name": {
+                "description": "Name of the bank associated with the routing number (e.g., `WELLS FARGO`).",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "country": {
+                "description": "Two-letter ISO code representing the country the bank account is located in.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "currency": {
+                "description": "Three-letter [ISO code for the currency](https://stripe.com/docs/payouts) paid out to the bank account.",
+                "format": "currency",
+                "type": "string"
+              },
+              "customer": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/customer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/deleted_customer"
+                  }
+                ],
+                "description": "The ID of the customer that the bank account is associated with.",
+                "nullable": true,
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/customer"
+                    },
+                    {
+                      "$ref": "#/components/schemas/deleted_customer"
+                    }
+                  ]
+                }
+              },
+              "default_for_currency": {
+                "description": "Whether this bank account is the default external account for its currency.",
+                "nullable": true,
+                "type": "boolean"
+              },
+              "fingerprint": {
+                "description": "Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "future_requirements": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/external_account_requirements"
+                  }
+                ],
+                "description": "Information about the [upcoming new requirements for the bank account](https://docs.stripe.com/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.",
+                "nullable": true
+              },
+              "id": {
+                "description": "Unique identifier for the object.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "last4": {
+                "description": "The last four digits of the bank account number.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "metadata": {
+                "additionalProperties": {
+                  "maxLength": 500,
+                  "type": "string"
+                },
+                "description": "Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.",
+                "nullable": true,
+                "type": "object"
+              },
+              "object": {
+                "description": "String representing the object's type. Objects of the same type share the same value.",
+                "enum": [
+                  "bank_account"
+                ],
+                "type": "string"
+              },
+              "requirements": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/external_account_requirements"
+                  }
+                ],
+                "description": "Information about the requirements for the bank account, including what information needs to be collected.",
+                "nullable": true
+              },
+              "routing_number": {
+                "description": "The routing transit number for the bank account.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "status": {
+                "description": "For bank accounts, possible values are `new`, `validated`, `verified`, `verification_failed`, `tokenized_account_number_deactivated` or `errored`. A bank account that hasn't had any activity or validation performed is `new`. If Stripe can determine that the bank account exists, its status will be `validated`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be `verified`. If the verification failed for any reason, such as microdeposit failure, the status will be `verification_failed`. If the status is `tokenized_account_number_deactivated`, the account utilizes a tokenized account number which has been deactivated due to expiration or revocation. This account will need to be reverified to continue using it for money movement. If a payout sent to this bank account fails, we'll set the status to `errored` and will not continue to send [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) until the bank details are updated.\n\nFor external accounts, possible values are `new`, `errored`, `verification_failed`, and `tokenized_account_number_deactivated`. If a payout fails, the status is set to `errored` and scheduled payouts are stopped until account details are updated. In the US and India, if we can't [verify the owner of the bank account](https://support.stripe.com/questions/bank-account-ownership-verification), we'll set the status to `verification_failed`. Other validations aren't run against external accounts because they're only used for payouts. This means the other statuses don't apply.",
+                "maxLength": 5000,
+                "type": "string"
+              }
+            },
+            "required": [
+              "country",
+              "currency",
+              "id",
+              "last4",
+              "object",
+              "status"
+            ],
+            "title": "BankAccount",
+            "type": "object",
+            "x-expandableFields": [
+              "account",
+              "customer",
+              "future_requirements",
+              "requirements"
+            ],
+            "x-resourceId": "bank_account"
+          },
+          {
+            "x-openapi-ref": "#/components/schemas/card",
+            "description": "You can store multiple cards on a customer in order to charge the customer\nlater. You can also store multiple debit cards on a recipient in order to\ntransfer to those cards later.\n\nRelated guide: [Card payments with Sources](https://docs.stripe.com/sources/cards)",
+            "properties": {
+              "account": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/account"
+                  }
+                ],
+                "nullable": true,
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/account"
+                    }
+                  ]
+                }
+              },
+              "address_city": {
+                "description": "City/District/Suburb/Town/Village.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "address_country": {
+                "description": "Billing address country, if provided when creating card.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "address_line1": {
+                "description": "Address line 1 (Street address/PO Box/Company name).",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "address_line1_check": {
+                "description": "If `address_line1` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "address_line2": {
+                "description": "Address line 2 (Apartment/Suite/Unit/Building).",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "address_state": {
+                "description": "State/County/Province/Region.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "address_zip": {
+                "description": "ZIP or postal code.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "address_zip_check": {
+                "description": "If `address_zip` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "allow_redisplay": {
+                "description": "This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.",
+                "enum": [
+                  "always",
+                  "limited",
+                  "unspecified"
+                ],
+                "nullable": true,
+                "type": "string"
+              },
+              "available_payout_methods": {
+                "description": "A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.",
+                "items": {
+                  "enum": [
+                    "instant",
+                    "standard"
+                  ],
+                  "type": "string"
+                },
+                "nullable": true,
+                "type": "array"
+              },
+              "brand": {
+                "description": "Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "country": {
+                "description": "Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "currency": {
+                "description": "Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies). Only applicable on accounts (not customers or recipients). The card can be used as a transfer destination for funds in this currency. This property is only available when returned as an [External Account](/api/external_account_cards/object) where [controller.is_controller](/api/accounts/object#account_object-controller-is_controller) is `true`.",
+                "format": "currency",
+                "nullable": true,
+                "type": "string"
+              },
+              "customer": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/customer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/deleted_customer"
+                  }
+                ],
+                "description": "The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.",
+                "nullable": true,
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/customer"
+                    },
+                    {
+                      "$ref": "#/components/schemas/deleted_customer"
+                    }
+                  ]
+                }
+              },
+              "cvc_check": {
+                "description": "If a CVC was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`. A result of unchecked indicates that CVC was provided but hasn't been checked yet. Checks are typically performed when attaching a card to a Customer object, or when creating a charge. For more details, see [Check if a card is valid without a charge](https://support.stripe.com/questions/check-if-a-card-is-valid-without-a-charge).",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "default_for_currency": {
+                "description": "Whether this card is the default external account for its currency. This property is only available for accounts where [controller.requirement_collection](/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.",
+                "nullable": true,
+                "type": "boolean"
+              },
+              "dynamic_last4": {
+                "description": "(For tokenized numbers only.) The last four digits of the device account number.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "exp_month": {
+                "description": "Two-digit number representing the card's expiration month.",
+                "type": "integer"
+              },
+              "exp_year": {
+                "description": "Four-digit number representing the card's expiration year.",
+                "type": "integer"
+              },
+              "fingerprint": {
+                "description": "Uniquely identifies this particular card number. You can use this attribute to check whether two customers who’ve signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.\n\n*As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "funding": {
+                "description": "Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "id": {
+                "description": "Unique identifier for the object.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "iin": {
+                "description": "Issuer identification number of the card.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "last4": {
+                "description": "The last four digits of the card.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "metadata": {
+                "additionalProperties": {
+                  "maxLength": 500,
+                  "type": "string"
+                },
+                "description": "Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.",
+                "nullable": true,
+                "type": "object"
+              },
+              "name": {
+                "description": "Cardholder name.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "networks": {
+                "$ref": "#/components/schemas/token_card_networks"
+              },
+              "object": {
+                "description": "String representing the object's type. Objects of the same type share the same value.",
+                "enum": [
+                  "card"
+                ],
+                "type": "string"
+              },
+              "regulated_status": {
+                "description": "Status of a card based on the card issuer.",
+                "enum": [
+                  "regulated",
+                  "unregulated"
+                ],
+                "nullable": true,
+                "type": "string"
+              },
+              "status": {
+                "description": "For external accounts that are cards, possible values are `new` and `errored`. If a payout fails, the status is set to `errored` and [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) are stopped until account details are updated.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "tokenization_method": {
+                "description": "If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              }
+            },
+            "required": [
+              "brand",
+              "exp_month",
+              "exp_year",
+              "funding",
+              "id",
+              "last4",
+              "object"
+            ],
+            "title": "Card",
+            "type": "object",
+            "x-expandableFields": [
+              "account",
+              "customer",
+              "networks"
+            ],
+            "x-resourceId": "card"
+          },
+          {
+            "x-openapi-ref": "#/components/schemas/deleted_bank_account",
+            "description": "",
+            "properties": {
+              "currency": {
+                "description": "Three-letter [ISO code for the currency](https://stripe.com/docs/payouts) paid out to the bank account.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "deleted": {
+                "description": "Always true for a deleted object",
+                "enum": [
+                  true
+                ],
+                "type": "boolean"
+              },
+              "id": {
+                "description": "Unique identifier for the object.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "object": {
+                "description": "String representing the object's type. Objects of the same type share the same value.",
+                "enum": [
+                  "bank_account"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "deleted",
+              "id",
+              "object"
+            ],
+            "title": "DeletedBankAccount",
+            "type": "object",
+            "x-expandableFields": []
+          },
+          {
+            "x-openapi-ref": "#/components/schemas/deleted_card",
+            "description": "",
+            "properties": {
+              "currency": {
+                "description": "Three-letter [ISO code for the currency](https://stripe.com/docs/payouts) paid out to the bank account.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "deleted": {
+                "description": "Always true for a deleted object",
+                "enum": [
+                  true
+                ],
+                "type": "boolean"
+              },
+              "id": {
+                "description": "Unique identifier for the object.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "object": {
+                "description": "String representing the object's type. Objects of the same type share the same value.",
+                "enum": [
+                  "card"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "deleted",
+              "id",
+              "object"
+            ],
+            "title": "DeletedCard",
+            "type": "object",
+            "x-expandableFields": []
+          }
+        ]
+      },
+      "x-stripeBypassValidation": true
+    },
+    "failure_balance_transaction": {
+      "anyOf": [
+        {
+          "maxLength": 5000,
+          "type": "string"
+        },
+        {
+          "x-openapi-ref": "#/components/schemas/balance_transaction",
+          "description": "Balance transactions represent funds moving through your Stripe account.\nStripe creates them for every type of transaction that enters or leaves your Stripe account balance.\n\nRelated guide: [Balance transaction types](https://docs.stripe.com/reports/balance-transaction-types)",
+          "properties": {
+            "amount": {
+              "description": "Gross amount of this transaction (in cents (or local equivalent)). A positive value represents funds charged to another party, and a negative value represents funds sent to another party.",
+              "type": "integer"
+            },
+            "available_on": {
+              "description": "The date that the transaction's net funds become available in the Stripe balance.",
+              "format": "unix-time",
+              "type": "integer"
+            },
+            "balance_type": {
+              "description": "The balance that this transaction impacts.",
+              "enum": [
+                "issuing",
+                "payments",
+                "refund_and_dispute_prefunding",
+                "risk_reserved"
+              ],
+              "type": "string",
+              "x-stripeBypassValidation": true
+            },
+            "created": {
+              "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+              "format": "unix-time",
+              "type": "integer"
+            },
+            "currency": {
+              "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+              "format": "currency",
+              "type": "string"
+            },
+            "description": {
+              "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            },
+            "exchange_rate": {
+              "description": "If applicable, this transaction uses an exchange rate. If money converts from currency A to currency B, then the `amount` in currency A, multipled by the `exchange_rate`, equals the `amount` in currency B. For example, if you charge a customer 10.00 EUR, the PaymentIntent's `amount` is `1000` and `currency` is `eur`. If this converts to 12.34 USD in your Stripe account, the BalanceTransaction's `amount` is `1234`, its `currency` is `usd`, and the `exchange_rate` is `1.234`.",
+              "nullable": true,
+              "type": "number"
+            },
+            "fee": {
+              "description": "Fees (in cents (or local equivalent)) paid for this transaction. Represented as a positive integer when assessed.",
+              "type": "integer"
+            },
+            "fee_details": {
+              "description": "Detailed breakdown of fees (in cents (or local equivalent)) paid for this transaction.",
+              "items": {
+                "$ref": "#/components/schemas/fee"
+              },
+              "type": "array"
+            },
+            "id": {
+              "description": "Unique identifier for the object.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "net": {
+              "description": "Net impact to a Stripe balance (in cents (or local equivalent)). A positive value represents incrementing a Stripe balance, and a negative value decrementing a Stripe balance. You can calculate the net impact of a transaction on a balance by `amount` - `fee`",
+              "type": "integer"
+            },
+            "object": {
+              "description": "String representing the object's type. Objects of the same type share the same value.",
+              "enum": [
+                "balance_transaction"
+              ],
+              "type": "string"
+            },
+            "reporting_category": {
+              "description": "Learn more about how [reporting categories](https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "source": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/application_fee"
+                },
+                {
+                  "$ref": "#/components/schemas/charge"
+                },
+                {
+                  "$ref": "#/components/schemas/connect_collection_transfer"
+                },
+                {
+                  "$ref": "#/components/schemas/customer_cash_balance_transaction"
+                },
+                {
+                  "$ref": "#/components/schemas/dispute"
+                },
+                {
+                  "$ref": "#/components/schemas/fee_refund"
+                },
+                {
+                  "$ref": "#/components/schemas/issuing.authorization"
+                },
+                {
+                  "$ref": "#/components/schemas/issuing.dispute"
+                },
+                {
+                  "$ref": "#/components/schemas/issuing.transaction"
+                },
+                {
+                  "$ref": "#/components/schemas/payout"
+                },
+                {
+                  "$ref": "#/components/schemas/refund"
+                },
+                {
+                  "$ref": "#/components/schemas/reserve_transaction"
+                },
+                {
+                  "$ref": "#/components/schemas/tax_deducted_at_source"
+                },
+                {
+                  "$ref": "#/components/schemas/topup"
+                },
+                {
+                  "$ref": "#/components/schemas/transfer"
+                },
+                {
+                  "$ref": "#/components/schemas/transfer_reversal"
+                }
+              ],
+              "description": "This transaction relates to the Stripe object.",
+              "nullable": true,
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/application_fee"
+                  },
+                  {
+                    "$ref": "#/components/schemas/charge"
+                  },
+                  {
+                    "$ref": "#/components/schemas/connect_collection_transfer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/customer_cash_balance_transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/dispute"
+                  },
+                  {
+                    "$ref": "#/components/schemas/fee_refund"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.authorization"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.dispute"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/payout"
+                  },
+                  {
+                    "$ref": "#/components/schemas/refund"
+                  },
+                  {
+                    "$ref": "#/components/schemas/reserve_transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/tax_deducted_at_source"
+                  },
+                  {
+                    "$ref": "#/components/schemas/topup"
+                  },
+                  {
+                    "$ref": "#/components/schemas/transfer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/transfer_reversal"
+                  }
+                ]
+              },
+              "x-stripeBypassValidation": true
+            },
+            "status": {
+              "description": "The transaction's net funds status in the Stripe balance, which are either `available` or `pending`.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "type": {
+              "description": "Transaction type: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `climate_order_purchase`, `climate_order_refund`, `connect_collection_transfer`, `contribution`, `inbound_transfer`, `inbound_transfer_reversal`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `obligation_outbound`, `obligation_reversal_inbound`, `payment`, `payment_failure_refund`, `payment_network_reserve_hold`, `payment_network_reserve_release`, `payment_refund`, `payment_reversal`, `payment_unreconciled`, `payout`, `payout_cancel`, `payout_failure`, `payout_minimum_balance_hold`, `payout_minimum_balance_release`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `reserve_hold`, `reserve_release`, `stripe_fee`, `stripe_fx_fee`, `stripe_balance_payment_debit`, `stripe_balance_payment_debit_reversal`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, `transfer_refund`, or `fee_credit_funding`. Learn more about [balance transaction types and what they represent](https://stripe.com/docs/reports/balance-transaction-types). To classify transactions for accounting purposes, consider `reporting_category` instead.",
+              "enum": [
+                "adjustment",
+                "advance",
+                "advance_funding",
+                "anticipation_repayment",
+                "application_fee",
+                "application_fee_refund",
+                "charge",
+                "climate_order_purchase",
+                "climate_order_refund",
+                "connect_collection_transfer",
+                "contribution",
+                "fee_credit_funding",
+                "inbound_transfer",
+                "inbound_transfer_reversal",
+                "issuing_authorization_hold",
+                "issuing_authorization_release",
+                "issuing_dispute",
+                "issuing_transaction",
+                "obligation_outbound",
+                "obligation_reversal_inbound",
+                "payment",
+                "payment_failure_refund",
+                "payment_network_reserve_hold",
+                "payment_network_reserve_release",
+                "payment_refund",
+                "payment_reversal",
+                "payment_unreconciled",
+                "payout",
+                "payout_cancel",
+                "payout_failure",
+                "payout_minimum_balance_hold",
+                "payout_minimum_balance_release",
+                "refund",
+                "refund_failure",
+                "reserve_hold",
+                "reserve_release",
+                "reserve_transaction",
+                "reserved_funds",
+                "stripe_balance_payment_debit",
+                "stripe_balance_payment_debit_reversal",
+                "stripe_fee",
+                "stripe_fx_fee",
+                "tax_fee",
+                "topup",
+                "topup_reversal",
+                "transfer",
+                "transfer_cancel",
+                "transfer_failure",
+                "transfer_refund"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "amount",
+            "available_on",
+            "balance_type",
+            "created",
+            "currency",
+            "fee",
+            "fee_details",
+            "id",
+            "net",
+            "object",
+            "reporting_category",
+            "status",
+            "type"
+          ],
+          "title": "BalanceTransaction",
+          "type": "object",
+          "x-expandableFields": [
+            "fee_details",
+            "source"
+          ],
+          "x-resourceId": "balance_transaction"
+        }
+      ],
+      "description": "If the payout fails or cancels, this is the ID of the balance transaction that reverses the initial balance transaction and returns the funds from the failed payout back in your balance.",
+      "nullable": true,
+      "x-expansionResources": {
+        "oneOf": [
+          {
+            "x-openapi-ref": "#/components/schemas/balance_transaction",
+            "description": "Balance transactions represent funds moving through your Stripe account.\nStripe creates them for every type of transaction that enters or leaves your Stripe account balance.\n\nRelated guide: [Balance transaction types](https://docs.stripe.com/reports/balance-transaction-types)",
+            "properties": {
+              "amount": {
+                "description": "Gross amount of this transaction (in cents (or local equivalent)). A positive value represents funds charged to another party, and a negative value represents funds sent to another party.",
+                "type": "integer"
+              },
+              "available_on": {
+                "description": "The date that the transaction's net funds become available in the Stripe balance.",
+                "format": "unix-time",
+                "type": "integer"
+              },
+              "balance_type": {
+                "description": "The balance that this transaction impacts.",
+                "enum": [
+                  "issuing",
+                  "payments",
+                  "refund_and_dispute_prefunding",
+                  "risk_reserved"
+                ],
+                "type": "string",
+                "x-stripeBypassValidation": true
+              },
+              "created": {
+                "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+                "format": "unix-time",
+                "type": "integer"
+              },
+              "currency": {
+                "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+                "format": "currency",
+                "type": "string"
+              },
+              "description": {
+                "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
+                "maxLength": 5000,
+                "nullable": true,
+                "type": "string"
+              },
+              "exchange_rate": {
+                "description": "If applicable, this transaction uses an exchange rate. If money converts from currency A to currency B, then the `amount` in currency A, multipled by the `exchange_rate`, equals the `amount` in currency B. For example, if you charge a customer 10.00 EUR, the PaymentIntent's `amount` is `1000` and `currency` is `eur`. If this converts to 12.34 USD in your Stripe account, the BalanceTransaction's `amount` is `1234`, its `currency` is `usd`, and the `exchange_rate` is `1.234`.",
+                "nullable": true,
+                "type": "number"
+              },
+              "fee": {
+                "description": "Fees (in cents (or local equivalent)) paid for this transaction. Represented as a positive integer when assessed.",
+                "type": "integer"
+              },
+              "fee_details": {
+                "description": "Detailed breakdown of fees (in cents (or local equivalent)) paid for this transaction.",
+                "items": {
+                  "$ref": "#/components/schemas/fee"
+                },
+                "type": "array"
+              },
+              "id": {
+                "description": "Unique identifier for the object.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "net": {
+                "description": "Net impact to a Stripe balance (in cents (or local equivalent)). A positive value represents incrementing a Stripe balance, and a negative value decrementing a Stripe balance. You can calculate the net impact of a transaction on a balance by `amount` - `fee`",
+                "type": "integer"
+              },
+              "object": {
+                "description": "String representing the object's type. Objects of the same type share the same value.",
+                "enum": [
+                  "balance_transaction"
+                ],
+                "type": "string"
+              },
+              "reporting_category": {
+                "description": "Learn more about how [reporting categories](https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "source": {
+                "anyOf": [
+                  {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/application_fee"
+                  },
+                  {
+                    "$ref": "#/components/schemas/charge"
+                  },
+                  {
+                    "$ref": "#/components/schemas/connect_collection_transfer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/customer_cash_balance_transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/dispute"
+                  },
+                  {
+                    "$ref": "#/components/schemas/fee_refund"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.authorization"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.dispute"
+                  },
+                  {
+                    "$ref": "#/components/schemas/issuing.transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/payout"
+                  },
+                  {
+                    "$ref": "#/components/schemas/refund"
+                  },
+                  {
+                    "$ref": "#/components/schemas/reserve_transaction"
+                  },
+                  {
+                    "$ref": "#/components/schemas/tax_deducted_at_source"
+                  },
+                  {
+                    "$ref": "#/components/schemas/topup"
+                  },
+                  {
+                    "$ref": "#/components/schemas/transfer"
+                  },
+                  {
+                    "$ref": "#/components/schemas/transfer_reversal"
+                  }
+                ],
+                "description": "This transaction relates to the Stripe object.",
+                "nullable": true,
+                "x-expansionResources": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/application_fee"
+                    },
+                    {
+                      "$ref": "#/components/schemas/charge"
+                    },
+                    {
+                      "$ref": "#/components/schemas/connect_collection_transfer"
+                    },
+                    {
+                      "$ref": "#/components/schemas/customer_cash_balance_transaction"
+                    },
+                    {
+                      "$ref": "#/components/schemas/dispute"
+                    },
+                    {
+                      "$ref": "#/components/schemas/fee_refund"
+                    },
+                    {
+                      "$ref": "#/components/schemas/issuing.authorization"
+                    },
+                    {
+                      "$ref": "#/components/schemas/issuing.dispute"
+                    },
+                    {
+                      "$ref": "#/components/schemas/issuing.transaction"
+                    },
+                    {
+                      "$ref": "#/components/schemas/payout"
+                    },
+                    {
+                      "$ref": "#/components/schemas/refund"
+                    },
+                    {
+                      "$ref": "#/components/schemas/reserve_transaction"
+                    },
+                    {
+                      "$ref": "#/components/schemas/tax_deducted_at_source"
+                    },
+                    {
+                      "$ref": "#/components/schemas/topup"
+                    },
+                    {
+                      "$ref": "#/components/schemas/transfer"
+                    },
+                    {
+                      "$ref": "#/components/schemas/transfer_reversal"
+                    }
+                  ]
+                },
+                "x-stripeBypassValidation": true
+              },
+              "status": {
+                "description": "The transaction's net funds status in the Stripe balance, which are either `available` or `pending`.",
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "type": {
+                "description": "Transaction type: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `climate_order_purchase`, `climate_order_refund`, `connect_collection_transfer`, `contribution`, `inbound_transfer`, `inbound_transfer_reversal`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `obligation_outbound`, `obligation_reversal_inbound`, `payment`, `payment_failure_refund`, `payment_network_reserve_hold`, `payment_network_reserve_release`, `payment_refund`, `payment_reversal`, `payment_unreconciled`, `payout`, `payout_cancel`, `payout_failure`, `payout_minimum_balance_hold`, `payout_minimum_balance_release`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `reserve_hold`, `reserve_release`, `stripe_fee`, `stripe_fx_fee`, `stripe_balance_payment_debit`, `stripe_balance_payment_debit_reversal`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, `transfer_refund`, or `fee_credit_funding`. Learn more about [balance transaction types and what they represent](https://stripe.com/docs/reports/balance-transaction-types). To classify transactions for accounting purposes, consider `reporting_category` instead.",
+                "enum": [
+                  "adjustment",
+                  "advance",
+                  "advance_funding",
+                  "anticipation_repayment",
+                  "application_fee",
+                  "application_fee_refund",
+                  "charge",
+                  "climate_order_purchase",
+                  "climate_order_refund",
+                  "connect_collection_transfer",
+                  "contribution",
+                  "fee_credit_funding",
+                  "inbound_transfer",
+                  "inbound_transfer_reversal",
+                  "issuing_authorization_hold",
+                  "issuing_authorization_release",
+                  "issuing_dispute",
+                  "issuing_transaction",
+                  "obligation_outbound",
+                  "obligation_reversal_inbound",
+                  "payment",
+                  "payment_failure_refund",
+                  "payment_network_reserve_hold",
+                  "payment_network_reserve_release",
+                  "payment_refund",
+                  "payment_reversal",
+                  "payment_unreconciled",
+                  "payout",
+                  "payout_cancel",
+                  "payout_failure",
+                  "payout_minimum_balance_hold",
+                  "payout_minimum_balance_release",
+                  "refund",
+                  "refund_failure",
+                  "reserve_hold",
+                  "reserve_release",
+                  "reserve_transaction",
+                  "reserved_funds",
+                  "stripe_balance_payment_debit",
+                  "stripe_balance_payment_debit_reversal",
+                  "stripe_fee",
+                  "stripe_fx_fee",
+                  "tax_fee",
+                  "topup",
+                  "topup_reversal",
+                  "transfer",
+                  "transfer_cancel",
+                  "transfer_failure",
+                  "transfer_refund"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "available_on",
+              "balance_type",
+              "created",
+              "currency",
+              "fee",
+              "fee_details",
+              "id",
+              "net",
+              "object",
+              "reporting_category",
+              "status",
+              "type"
+            ],
+            "title": "BalanceTransaction",
+            "type": "object",
+            "x-expandableFields": [
+              "fee_details",
+              "source"
+            ],
+            "x-resourceId": "balance_transaction"
+          }
+        ]
+      }
+    },
+    "failure_code": {
+      "description": "Error code that provides a reason for a payout failure, if available. View our [list of failure codes](https://docs.stripe.com/api#payout_failures).",
+      "maxLength": 5000,
+      "nullable": true,
+      "type": "string"
+    },
+    "failure_message": {
+      "description": "Message that provides the reason for a payout failure, if available.",
+      "maxLength": 5000,
+      "nullable": true,
+      "type": "string"
+    },
+    "id": {
+      "description": "Unique identifier for the object.",
+      "maxLength": 5000,
+      "type": "string"
+    },
+    "livemode": {
+      "description": "If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.",
+      "type": "boolean"
+    },
+    "metadata": {
+      "additionalProperties": {
+        "maxLength": 500,
+        "type": "string"
+      },
+      "description": "Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.",
+      "nullable": true,
+      "type": "object"
+    },
+    "method": {
+      "description": "The method used to send this payout, which can be `standard` or `instant`. `instant` is supported for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks).",
+      "maxLength": 5000,
+      "type": "string"
+    },
+    "object": {
+      "description": "String representing the object's type. Objects of the same type share the same value.",
+      "enum": [
+        "payout"
+      ],
+      "type": "string"
+    },
+    "original_payout": {
+      "anyOf": [
+        {
+          "maxLength": 5000,
+          "type": "string"
+        },
+        {
+          "$ref": "#/components/schemas/payout"
+        }
+      ],
+      "description": "If the payout reverses another, this is the ID of the original payout.",
+      "nullable": true,
+      "x-expansionResources": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/payout"
+          }
+        ]
+      }
+    },
+    "payout_method": {
+      "description": "ID of the v2 FinancialAccount the funds are sent to.",
+      "maxLength": 5000,
+      "nullable": true,
+      "type": "string"
+    },
+    "reconciliation_status": {
+      "description": "If `completed`, you can use the [Balance Transactions API](https://docs.stripe.com/api/balance_transactions/list#balance_transaction_list-payout) to list all balance transactions that are paid out in this payout.",
+      "enum": [
+        "completed",
+        "in_progress",
+        "not_applicable"
+      ],
+      "type": "string"
+    },
+    "reversed_by": {
+      "anyOf": [
+        {
+          "maxLength": 5000,
+          "type": "string"
+        },
+        {
+          "$ref": "#/components/schemas/payout"
+        }
+      ],
+      "description": "If the payout reverses, this is the ID of the payout that reverses this payout.",
+      "nullable": true,
+      "x-expansionResources": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/payout"
+          }
+        ]
+      }
+    },
+    "source_type": {
+      "description": "The source balance this payout came from, which can be one of the following: `card`, `fpx`, or `bank_account`.",
+      "maxLength": 5000,
+      "type": "string"
+    },
+    "statement_descriptor": {
+      "description": "Extra information about a payout that displays on the user's bank statement.",
+      "maxLength": 5000,
+      "nullable": true,
+      "type": "string"
+    },
+    "status": {
+      "description": "Current status of the payout: `paid`, `pending`, `in_transit`, `canceled` or `failed`. A payout is `pending` until it's submitted to the bank, when it becomes `in_transit`. The status changes to `paid` if the transaction succeeds, or to `failed` or `canceled` (within 5 business days). Some payouts that fail might initially show as `paid`, then change to `failed`.",
+      "maxLength": 5000,
+      "type": "string"
+    },
+    "trace_id": {
+      "anyOf": [
+        {
+          "x-openapi-ref": "#/components/schemas/payouts_trace_id",
+          "description": "",
+          "properties": {
+            "status": {
+              "description": "Possible values are `pending`, `supported`, and `unsupported`. When `payout.status` is `pending` or `in_transit`, this will be `pending`. When the payout transitions to `paid`, `failed`, or `canceled`, this status will become `supported` or `unsupported` shortly after in most cases. In some cases, this may appear as `pending` for up to 10 days after `arrival_date` until transitioning to `supported` or `unsupported`.",
+              "maxLength": 5000,
+              "type": "string"
+            },
+            "value": {
+              "description": "The trace ID value if `trace_id.status` is `supported`, otherwise `nil`.",
+              "maxLength": 5000,
+              "nullable": true,
+              "type": "string"
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "title": "PayoutsTraceID",
+          "type": "object",
+          "x-expandableFields": []
+        }
+      ],
+      "description": "A value that generates from the beneficiary's bank that allows users to track payouts with their bank. Banks might call this a \"reference number\" or something similar.",
+      "nullable": true
+    },
+    "type": {
+      "description": "Can be `bank_account` or `card`.",
+      "enum": [
+        "bank_account",
+        "card"
+      ],
+      "type": "string",
+      "x-stripeBypassValidation": true
+    }
+  },
+  "required": [
+    "amount",
+    "arrival_date",
+    "automatic",
+    "created",
+    "currency",
+    "id",
+    "livemode",
+    "method",
+    "object",
+    "reconciliation_status",
+    "source_type",
+    "status",
+    "type"
+  ],
+  "title": "Payout",
+  "type": "object",
+  "x-expandableFields": [
+    "application_fee",
+    "balance_transaction",
+    "destination",
+    "failure_balance_transaction",
+    "original_payout",
+    "reversed_by",
+    "trace_id"
+  ],
+  "x-resourceId": "payout"
+}

@@ -143,6 +143,7 @@ for (const name of pkgNames) {
   const triggersRaw =
     readJsonSafe(path.join(pkgDir, 'triggers.json')) || null;
   const metadata = readJsonSafe(path.join(pkgDir, 'metadata.json')) || null;
+  const faq = readJsonSafe(path.join(pkgDir, 'faq.json')) || null;
   const readme = readTextSafe(path.join(pkgDir, 'README.md')) || '';
 
   const outPkgDir = path.join(OUT_DIR, name);
@@ -186,6 +187,7 @@ for (const name of pkgNames) {
     dataSchemas,
     dataSchemaCount: dataSchemas.length,
     metadata,
+    faq,
     readmePath: `/adapters/${name}/README.md`,
   };
 

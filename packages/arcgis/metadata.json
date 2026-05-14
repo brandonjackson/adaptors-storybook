@@ -1,0 +1,43 @@
+{
+  "vendor": "Esri",
+  "product": "ArcGIS REST API",
+  "homepage": "https://www.esri.com/en-us/arcgis/products/arcgis-online/overview",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://www.arcgis.com/sharing/rest",
+    "https://services.arcgis.com"
+  ],
+
+  "auth": {
+    "schemes": ["oauth2", "api-key", "token"],
+    "docs": "https://developers.arcgis.com/documentation/security-and-authentication/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://developers.arcgis.com/rest/",
+      "notes": "ArcGIS REST API reference landing page"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developers.arcgis.com/rest/users-groups-and-items/overview-of-the-arcgis-rest-api.htm",
+      "notes": "Overview of users/groups/items endpoints used by the adapter"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/Esri/arcgis-rest-js",
+      "language": "typescript",
+      "notes": "Official ArcGIS REST JS SDK — useful source of types/operations"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developers.arcgis.com/rest/users-groups-and-items/webhooks.htm"
+  },
+
+  "notes": "ArcGIS exposes a sprawling REST surface (Online, Enterprise/Portal, feature services). No single OpenAPI spec is published; arcgis-rest-js is the closest machine-readable source."
+}

@@ -108,6 +108,7 @@ for (const name of pkgNames) {
     readJsonSafe(path.join(pkgDir, 'snippets.json')) || null;
   const triggersRaw =
     readJsonSafe(path.join(pkgDir, 'triggers.json')) || null;
+  const metadata = readJsonSafe(path.join(pkgDir, 'metadata.json')) || null;
   const readme = readTextSafe(path.join(pkgDir, 'README.md')) || '';
 
   const outPkgDir = path.join(OUT_DIR, name);
@@ -147,6 +148,7 @@ for (const name of pkgNames) {
     snippetCount: snippets.length,
     triggers: triggersInfo,
     triggerCount,
+    metadata,
     readmePath: `/adapters/${name}/README.md`,
   };
 

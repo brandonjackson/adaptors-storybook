@@ -120,5 +120,5 @@ See [SPEC.md](./SPEC.md#roadmap-snapshot). Short form:
 - [ ] Data schemas (`data-schemas/` for trigger payloads)
 - [ ] Cross-adapter integration ideas
 - [ ] Fill empty `code` fields in existing snippets
-- [ ] Seed `metadata.json` for every adapter (vendor + API source links)
+- [x] Seed `metadata.json` for every adapter (69 partial, 35 stub)
 - [ ] OpenAPI ingestion pipeline

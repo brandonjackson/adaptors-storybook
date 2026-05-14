@@ -9,6 +9,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Asana Task object",
+        "schemaRef": "TaskResponse",
         "fields": ["gid", "name", "completed", "completed_at", "assignee", "projects", "notes", "modified_at"]
       }
     },
@@ -19,6 +20,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Asana Story object",
+        "schemaRef": "StoryResponse",
         "fields": ["gid", "type", "text", "html_text", "created_at", "created_by", "target"]
       }
     },
@@ -29,6 +31,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Asana Task object (subtask)",
+        "schemaRef": "TaskResponse",
         "fields": ["gid", "name", "parent", "completed", "completed_at", "assignee"]
       }
     },
@@ -39,6 +42,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Asana Project object",
+        "schemaRef": "ProjectResponse",
         "fields": ["gid", "name", "owner", "team", "workspace", "created_at", "due_on"]
       }
     },
@@ -49,6 +53,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Asana Story object",
+        "schemaRef": "StoryResponse",
         "fields": ["gid", "type", "text", "created_at", "created_by", "target"]
       }
     },
@@ -59,6 +64,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Asana Task object (subtask)",
+        "schemaRef": "TaskResponse",
         "fields": ["gid", "name", "parent", "assignee", "created_at"]
       }
     },
@@ -69,6 +75,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Asana Tag object",
+        "schemaRef": "TagResponse",
         "fields": ["gid", "name", "color", "workspace", "created_at"]
       }
     },
@@ -79,6 +86,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Asana Task object",
+        "schemaRef": "TaskResponse",
         "fields": ["gid", "name", "notes", "assignee", "projects", "due_on", "completed", "created_at", "modified_at"]
       }
     },
@@ -89,6 +97,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Asana Team object",
+        "schemaRef": "TeamResponse",
         "fields": ["gid", "name", "organization", "description"]
       }
     },
@@ -99,6 +108,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Asana User object",
+        "schemaRef": "UserResponse",
         "fields": ["gid", "name", "email", "workspaces"]
       }
     },
@@ -109,6 +119,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Asana Task object with section reference",
+        "schemaRef": "TaskResponse",
         "fields": ["gid", "name", "memberships", "projects", "modified_at"]
       }
     },
@@ -119,6 +130,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Asana Task object",
+        "schemaRef": "TaskResponse",
         "fields": ["gid", "name", "notes", "assignee", "due_on", "completed", "modified_at"]
       }
     }

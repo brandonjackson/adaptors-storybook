@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "asana/TagResponse",
+  "x-source": {
+    "adapter": "asana",
+    "openapi": "https://raw.githubusercontent.com/Asana/openapi/master/defs/asana_oas.yaml",
+    "component": "TagResponse",
+    "ingestedAt": "2026-05-14"
+  },
+  "allOf": [
+    {
+      "x-openapi-ref": "#/components/schemas/TagBase",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/TagCompact"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "color": {
+              "type": "string",
+              "description": "Color of the tag.",
+              "nullable": true,
+              "enum": [
+                "dark-pink",
+                "dark-green",
+                "dark-blue",
+                "dark-red",
+                "dark-teal",
+                "dark-brown",
+                "dark-orange",
+                "dark-purple",
+                "dark-warm-gray",
+                "light-pink",
+                "light-green",
+                "light-blue",
+                "light-red",
+                "light-teal",
+                "light-brown",
+                "light-orange",
+                "light-purple",
+                "light-warm-gray",
+                null
+              ],
+              "example": "light-green"
+            },
+            "notes": {
+              "description": "Free-form textual information associated with the tag (i.e. its description).",
+              "type": "string",
+              "example": "Mittens really likes the stuff from Humboldt."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "description": "The time at which this resource was created.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "example": "2012-02-22T02:06:58.147Z"
+        },
+        "followers": {
+          "description": "Array of users following this tag.",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "x-openapi-ref": "#/components/schemas/UserCompact",
+            "description": "A *user* object represents an account in Asana that can be given access to various workspaces, projects, and tasks.",
+            "type": "object",
+            "properties": {
+              "gid": {
+                "description": "Globally unique identifier of the resource, as a string.",
+                "type": "string",
+                "readOnly": true,
+                "example": "12345",
+                "x-insert-after": false
+              },
+              "resource_type": {
+                "description": "The base type of this resource.",
+                "type": "string",
+                "readOnly": true,
+                "example": "user",
+                "x-insert-after": "gid"
+              },
+              "name": {
+                "type": "string",
+                "description": "*Read-only except when same user as requester*. The user's name.",
+                "example": "Greg Sanchez"
+              }
+            }
+          }
+        },
+        "workspace": {
+          "x-openapi-ref": "#/components/schemas/WorkspaceCompact",
+          "description": "A *workspace* is the highest-level organizational unit in Asana. All projects and tasks have an associated workspace.",
+          "type": "object",
+          "properties": {
+            "gid": {
+              "description": "Globally unique identifier of the resource, as a string.",
+              "type": "string",
+              "readOnly": true,
+              "example": "12345",
+              "x-insert-after": false
+            },
+            "resource_type": {
+              "description": "The base type of this resource.",
+              "type": "string",
+              "readOnly": true,
+              "example": "workspace",
+              "x-insert-after": "gid"
+            },
+            "name": {
+              "description": "The name of the workspace.",
+              "type": "string",
+              "example": "My Company Workspace"
+            }
+          }
+        },
+        "permalink_url": {
+          "type": "string",
+          "readOnly": true,
+          "description": "A url that points directly to the object within Asana.",
+          "example": "https://app.asana.com/0/resource/123456789/list"
+        }
+      }
+    }
+  ]
+}

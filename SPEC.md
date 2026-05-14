@@ -63,7 +63,7 @@ Every adapter folder is being grown toward this shape:
 | Credentials          | `packages/<a>/configuration-schema.json`              | done          |
 | Snippets             | `packages/<a>/snippets.json`                          | 27 / 104      |
 | Triggers             | `packages/<a>/triggers.json`                          | 30 / 104      |
-| Data schemas         | `packages/<a>/data-schemas/` *(not yet defined)*      | not started   |
+| Data schemas         | `packages/<a>/data-schemas/` (OpenAPI-ingested)       | 2 / 30        |
 | Integration ideas    | Cross-adapter, location TBD                           | not started   |
 
 ## Roadmap snapshot
@@ -75,8 +75,13 @@ Every adapter folder is being grown toward this shape:
 - [x] Pull snippets from the prototype-snippets branch (27 adapters)
 - [x] Define `triggers.json` schema and render in the Triggers tab
       (seeded for the 30 Zapier-overlap adapters; 142 triggers total)
-- [ ] **Next**: define `data-schemas/` for the shapes that come in on each trigger
+- [x] Bootstrap `data-schemas/` via `tools/ingest-openapi.mjs` — pulls each
+      adapter's OpenAPI spec listed in `metadata.json`, extracts the
+      `components.schemas` named by each trigger's `output.schemaRef`, and
+      writes them into `packages/<a>/data-schemas/`. Seeded for stripe + asana.
+- [x] **Next**: expand `schemaRef` coverage across the other 18 adapters with
+      OpenAPI sources in `metadata.json` and rerun the ingestor.
 - [ ] Cross-adapter integration ideas — render as recipe pages
 - [ ] Fill in snippets that arrived with empty `code` fields
-- [ ] Automated ingestion: scrape vendor sites for OpenAPI docs and transform
-      them into our schemas
+- [ ] Extend ingestion beyond OpenAPI: WSDL, AsyncAPI, GraphQL SDL — the
+      `kind` discriminator in `metadata.json` already enumerates the targets.

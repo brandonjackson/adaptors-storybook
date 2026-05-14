@@ -2,8 +2,13 @@ import React, { useMemo, useState } from 'react';
 
 const FILTERS = ['ALL', 'webhook', 'polling'];
 
-export default function Triggers({ triggers }) {
+export default function Triggers({ triggers, dataSchemas = [], onOpenSchema }) {
   const [filter, setFilter] = useState('ALL');
+  const schemaIndex = useMemo(() => {
+    const m = new Map();
+    for (const s of dataSchemas) m.set(s.id, s);
+    return m;
+  }, [dataSchemas]);
 
   if (!triggers) {
     return (
@@ -101,7 +106,17 @@ export default function Triggers({ triggers }) {
                   {t.description}
                 </p>
               )}
-              {t.output && <Output output={t.output} />}
+              {t.output && (
+                <Output
+                  output={t.output}
+                  schema={
+                    t.output.schemaRef
+                      ? schemaIndex.get(t.output.schemaRef)
+                      : null
+                  }
+                  onOpenSchema={onOpenSchema}
+                />
+              )}
             </li>
           ))}
         </ul>
@@ -149,11 +164,38 @@ function PatternBadge({ pattern }) {
   );
 }
 
-function Output({ output }) {
+function Output({ output, schema, onOpenSchema }) {
   return (
     <div className="border-t border-slate-100 px-4 py-3">
-      <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-        Output → next step
+      <div className="flex items-center justify-between">
+        <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+          Output → next step
+        </div>
+        {output.schemaRef && (
+          <button
+            type="button"
+            onClick={() => onOpenSchema?.(output.schemaRef)}
+            disabled={!schema}
+            className={[
+              'rounded px-1.5 py-0.5 font-mono text-[11px]',
+              schema
+                ? 'bg-emerald-100 text-emerald-900 hover:bg-emerald-200'
+                : 'bg-slate-100 text-slate-500',
+            ].join(' ')}
+            title={
+              schema
+                ? `Open ${output.schemaRef} data schema`
+                : `No ingested data schema for ${output.schemaRef}`
+            }
+          >
+            schema: {output.schemaRef}
+            {schema?.propertyCount != null && (
+              <span className="ml-1 opacity-70">
+                ({schema.propertyCount})
+              </span>
+            )}
+          </button>
+        )}
       </div>
       {output.summary && (
         <div className="mt-1 text-sm text-slate-700">{output.summary}</div>

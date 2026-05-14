@@ -24,21 +24,29 @@ packages/<adapter>/
   oauth-configuration-schema.json    # optional
   ast.json                           # parsed JSDoc for every operation
   snippets.json                      # { CATEGORY: { Title: {description, code} } }
+  triggers.json                      # event triggers + output.schemaRef
+  data-schemas/                      # OpenAPI-ingested JSON Schemas (one per ref)
+  metadata.json                      # vendor info + spec source URLs
   README.md                          # adapter docs
   assets/{square,rectangle}.png      # logos used in the UI
   src/Adaptor.js                     # kept for reference, imports broken, not built
 
+tools/
+  ingest-openapi.mjs                 # metadata.json + triggers.json → data-schemas/
+
 ui/                                  # Vite + React + Tailwind
   scripts/build-manifest.mjs         # packages/* -> public/adapters/
   src/components/                    # Sidebar, AdapterView, OperationsTable,
-                                     # ConfigurationSchema, Snippets
+                                     # ConfigurationSchema, Snippets,
+                                     # Triggers, DataSchemas, Sources
 ```
 
 ## Working principles
 
-- **Do not** restore `tools/`, `scripts/`, build configs, tests, pnpm
-  workspace, or other tooling from the upstream `openfn/adaptors` repo.
-  This repo is intentionally not buildable as adapter code.
+- **Do not** restore the upstream `tools/`, `scripts/`, build configs, tests,
+  pnpm workspace, or other tooling from `openfn/adaptors`. This repo is
+  intentionally not buildable as adapter code. (Our own `tools/` directory
+  for ingestion scripts is fine — it's not the upstream one.)
 - **Do** add new metadata files inside `packages/<adapter>/` (e.g.
   `triggers.json`, `data-schemas/`). When you do:
   1. Update `ui/scripts/build-manifest.mjs` to surface them.
@@ -76,9 +84,32 @@ the matching OpenFn workflow trigger — polling → cron schedule that calls th
 adapter's list operation with a since-cursor; webhook → vendor POSTs to an
 OpenFn webhook URL.
 
+## data-schemas via OpenAPI ingestion
+
+`tools/ingest-openapi.mjs <adapter>` reads the adapter's
+`metadata.json`, finds the `kind: openapi` source, fetches it (cached at
+`.cache/openapi/<adapter>.{json,yaml}`), then for every trigger in
+`triggers.json` that has `output.schemaRef`, extracts
+`components.schemas[<schemaRef>]` from the spec and writes it to
+`packages/<adapter>/data-schemas/<schemaRef>.json`. Internal `$ref`s are
+inlined one hop deep — deeper refs stay as `{"$ref": ...}`.
+
+YAML specs are parsed by shelling out to `python3 -c 'import yaml,json...'`
+to avoid pulling a JS yaml dep. If you run this somewhere without python3 +
+pyyaml, switch to a JSON-format OpenAPI source in `metadata.json` or add a
+`yaml` npm dep.
+
+The build-manifest copies each `data-schemas/<id>.json` to
+`ui/public/adapters/<adapter>/data-schemas/` and the UI lazy-fetches it when
+the user clicks into the **Data** tab — so even huge specs (Stripe Charge is
+~250KB) don't bloat the manifest. The **Triggers** tab shows a `schema:<ref>`
+chip that jumps over to the **Data** tab.
+
 ## What's next
 
 Anything unchecked in [SPEC.md § Roadmap snapshot](./SPEC.md#roadmap-snapshot).
-The most natural next pick is **data-schemas** — define the shape of the
-output object each trigger produces (Asana Task, Stripe Charge, etc.) so the
-Triggers tab can link from `output.summary` into a full schema view.
+Most natural next pick: walk the other 18 adapters with `kind: openapi` in
+their `metadata.json`, add `output.schemaRef` values to their triggers, and
+rerun `node tools/ingest-openapi.mjs --all`. After that, the WSDL / GraphQL /
+AsyncAPI sources still need their own ingestors (the `kind` enum in
+`metadata.json` already lists them).

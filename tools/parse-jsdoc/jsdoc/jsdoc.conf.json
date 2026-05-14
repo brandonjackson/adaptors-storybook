@@ -1,6 +1,0 @@
-{
-  "tags": {
-    "allowUnknownTags": true
-  },
-  "plugins": ["./lookup-tags.cjs"]
-}

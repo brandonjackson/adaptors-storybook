@@ -1,0 +1,177 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier classifies all of these as polling (against /v1/events or /v1/<resource>). Stripe's native push channel is webhooks (events.send signed with Stripe-Signature header), which is the recommended pattern in OpenFn — most of these can be implemented either way.",
+  "triggers": [
+    {
+      "name": "Balance Transaction",
+      "description": "Fires when a new balance transaction occurs.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe BalanceTransaction object",
+        "fields": ["id", "amount", "currency", "fee", "net", "type", "source", "status", "created"]
+      }
+    },
+    {
+      "name": "Charge Refunded",
+      "description": "Fires when a charge is refunded.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Charge object (with refunds)",
+        "fields": ["id", "amount", "amount_refunded", "currency", "customer", "refunds", "status", "created"]
+      }
+    },
+    {
+      "name": "Checkout Session Completed",
+      "description": "Fires when a Checkout Session is completed.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Checkout Session object",
+        "fields": ["id", "customer", "customer_email", "payment_status", "amount_total", "currency", "mode", "metadata", "created"]
+      }
+    },
+    {
+      "name": "Customer Subscription Updated",
+      "description": "Fires when a subscription is updated.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Subscription object",
+        "fields": ["id", "customer", "status", "items", "current_period_end", "cancel_at_period_end", "metadata"]
+      }
+    },
+    {
+      "name": "Dispute Created",
+      "description": "Fires when a new dispute is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Dispute object",
+        "fields": ["id", "charge", "amount", "currency", "reason", "status", "evidence_details", "created"]
+      }
+    },
+    {
+      "name": "Failed Payment",
+      "description": "Fires when a payment fails.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Charge object (status=failed)",
+        "fields": ["id", "amount", "currency", "customer", "failure_code", "failure_message", "status", "created"]
+      }
+    },
+    {
+      "name": "Invoice Payment Failed",
+      "description": "Fires when an invoice payment attempt fails.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Invoice object",
+        "fields": ["id", "customer", "amount_due", "attempt_count", "next_payment_attempt", "status", "hosted_invoice_url"]
+      }
+    },
+    {
+      "name": "New Charge",
+      "description": "Fires when a new charge is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Charge object",
+        "fields": ["id", "amount", "currency", "customer", "description", "status", "created"]
+      }
+    },
+    {
+      "name": "New Customer",
+      "description": "Fires when a new customer is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Customer object",
+        "fields": ["id", "email", "name", "phone", "description", "metadata", "created"]
+      }
+    },
+    {
+      "name": "New Event",
+      "description": "Fires on any new event.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Event envelope",
+        "fields": ["id", "type", "api_version", "data.object", "created", "livemode"]
+      }
+    },
+    {
+      "name": "New Invoice",
+      "description": "Fires when a new invoice is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Invoice object",
+        "fields": ["id", "customer", "amount_due", "status", "lines", "hosted_invoice_url", "created"]
+      }
+    },
+    {
+      "name": "New Invoice Item",
+      "description": "Fires when a new invoice item is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe InvoiceItem object",
+        "fields": ["id", "customer", "invoice", "amount", "currency", "description", "quantity", "date"]
+      }
+    },
+    {
+      "name": "New Payment Intent",
+      "description": "Fires when a new payment intent is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe PaymentIntent object",
+        "fields": ["id", "amount", "currency", "customer", "status", "payment_method", "created"]
+      }
+    },
+    {
+      "name": "New Payout",
+      "description": "Fires when a new payout is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Payout object",
+        "fields": ["id", "amount", "currency", "arrival_date", "destination", "status", "type", "created"]
+      }
+    },
+    {
+      "name": "New Subscription",
+      "description": "Fires when a new subscription is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Subscription object",
+        "fields": ["id", "customer", "status", "items", "current_period_end", "trial_end", "created"]
+      }
+    },
+    {
+      "name": "Subscription Canceled",
+      "description": "Fires when a subscription is canceled.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Subscription object (status=canceled)",
+        "fields": ["id", "customer", "status", "canceled_at", "ended_at", "cancellation_details"]
+      }
+    },
+    {
+      "name": "Successful Payment",
+      "description": "Fires when a new charge succeeds.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Stripe Charge object (status=succeeded)",
+        "fields": ["id", "amount", "currency", "customer", "payment_method_details", "receipt_url", "status", "created"]
+      }
+    }
+  ]
+}

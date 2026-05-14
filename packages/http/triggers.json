@@ -1,0 +1,37 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "The HTTP adapter is the generic webhook/REST pattern. In OpenFn, the workflow itself is the webhook endpoint — no per-vendor subscription. The 'Retrieve Poll' equivalent is a cron schedule that calls request().",
+  "triggers": [
+    {
+      "name": "Catch Hook",
+      "description": "Fires when a POST, PUT, or GET request is made to the OpenFn webhook URL. Request body is parsed (JSON/form).",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Parsed HTTP request",
+        "fields": ["body", "query", "headers", "method", "path"]
+      }
+    },
+    {
+      "name": "Catch Raw Hook",
+      "description": "Fires when a POST, PUT, or GET request is made to the OpenFn webhook URL. Body is delivered unparsed.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Raw HTTP request",
+        "fields": ["rawBody", "headers", "method", "path"]
+      }
+    },
+    {
+      "name": "Retrieve Poll",
+      "description": "Fires when a request to a configured URL returns new entries.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Response body from the polled URL",
+        "fields": ["data", "status", "headers"]
+      }
+    }
+  ]
+}

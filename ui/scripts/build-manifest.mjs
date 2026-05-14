@@ -54,6 +54,18 @@ function buildSnippetSummary(raw) {
   return out;
 }
 
+function buildTriggerSummary(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const triggers = Array.isArray(raw.triggers) ? raw.triggers : [];
+  return {
+    source: raw.source || null,
+    sourceUrl: raw.sourceUrl || null,
+    scrapedAt: raw.scrapedAt || null,
+    notes: raw.notes || null,
+    triggers,
+  };
+}
+
 function buildOperationSummary(ast) {
   if (!ast || !Array.isArray(ast.operations)) return [];
   return ast.operations.map((op) => {
@@ -94,6 +106,8 @@ for (const name of pkgNames) {
   const ast = readJsonSafe(path.join(pkgDir, 'ast.json')) || null;
   const snippetsRaw =
     readJsonSafe(path.join(pkgDir, 'snippets.json')) || null;
+  const triggersRaw =
+    readJsonSafe(path.join(pkgDir, 'triggers.json')) || null;
   const readme = readTextSafe(path.join(pkgDir, 'README.md')) || '';
 
   const outPkgDir = path.join(OUT_DIR, name);
@@ -110,6 +124,8 @@ for (const name of pkgNames) {
 
   const operations = buildOperationSummary(ast);
   const snippets = buildSnippetSummary(snippetsRaw);
+  const triggersInfo = buildTriggerSummary(triggersRaw);
+  const triggerCount = triggersInfo ? triggersInfo.triggers.length : 0;
 
   const manifest = {
     name,
@@ -129,6 +145,8 @@ for (const name of pkgNames) {
     operationCount: operations.length,
     snippets,
     snippetCount: snippets.length,
+    triggers: triggersInfo,
+    triggerCount,
     readmePath: `/adapters/${name}/README.md`,
   };
 
@@ -144,6 +162,7 @@ for (const name of pkgNames) {
     description: manifest.description,
     operationCount: manifest.operationCount,
     snippetCount: manifest.snippetCount,
+    triggerCount: manifest.triggerCount,
     icon: manifest.icons.square,
   });
 }

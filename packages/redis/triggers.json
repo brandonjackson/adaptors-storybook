@@ -1,0 +1,6 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier has no native Redis integration. Redis itself supports Pub/Sub channels and keyspace notifications — those map to a webhook-style or long-running consumer trigger in OpenFn — but no triggers are defined here yet.",
+  "triggers": []
+}

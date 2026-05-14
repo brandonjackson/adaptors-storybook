@@ -1,0 +1,27 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "WhatsApp Business (Cloud API) delivers all events as webhooks. Verify the X-Hub-Signature-256 header.",
+  "triggers": [
+    {
+      "name": "Message Status Updated",
+      "description": "Fires when a message you sent changes status (sent, delivered, read, or failed).",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "WhatsApp status webhook payload",
+        "fields": ["entry[].changes[].value.statuses[].id", "entry[].changes[].value.statuses[].status", "entry[].changes[].value.statuses[].timestamp", "entry[].changes[].value.statuses[].recipient_id", "entry[].changes[].value.statuses[].errors"]
+      }
+    },
+    {
+      "name": "New Message Received",
+      "description": "Fires when a customer sends a message to your WhatsApp Business number.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "WhatsApp inbound message webhook payload",
+        "fields": ["entry[].changes[].value.messages[].id", "entry[].changes[].value.messages[].from", "entry[].changes[].value.messages[].type", "entry[].changes[].value.messages[].text.body", "entry[].changes[].value.messages[].timestamp", "entry[].changes[].value.contacts[].profile.name"]
+      }
+    }
+  ]
+}

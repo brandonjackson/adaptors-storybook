@@ -1,0 +1,26 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "triggers": [
+    {
+      "name": "New Query Job",
+      "description": "Fires when a query job completes.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "BigQuery Job object (query result rows)",
+        "fields": ["jobId", "state", "configuration.query", "statistics", "rows"]
+      }
+    },
+    {
+      "name": "New Row",
+      "description": "Fires when a new row is added to a table.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Row from the watched table (schema-defined columns)",
+        "fields": []
+      }
+    }
+  ]
+}

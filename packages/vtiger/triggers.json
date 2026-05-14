@@ -1,0 +1,17 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Vtiger's Zapier integration is community-built with limited trigger support.",
+  "triggers": [
+    {
+      "name": "New Contact",
+      "description": "Fires when a new contact is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Vtiger Contacts record",
+        "fields": ["id", "firstname", "lastname", "email", "phone", "account_id", "assigned_user_id", "createdtime"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Google Sheets has no row-level push API. Zapier implements all of these as polling. In OpenFn, a cron schedule + a since-cursor (timestamp column or row count) is the typical pattern.",
+  "triggers": [
+    {
+      "name": "New or Updated Spreadsheet Row",
+      "description": "Fires when a new row is added or an existing row is updated.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Row object (header name → cell value)",
+        "fields": ["row_id", "row_number", "_sheet", "_spreadsheet"]
+      }
+    },
+    {
+      "name": "New Spreadsheet",
+      "description": "Fires when a new spreadsheet is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Drive File resource for the spreadsheet",
+        "fields": ["id", "name", "createdTime", "owners", "webViewLink"]
+      }
+    },
+    {
+      "name": "New Spreadsheet Row",
+      "description": "Fires when a new row is added to the bottom of a spreadsheet.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Row object (header name → cell value)",
+        "fields": ["row_id", "row_number", "_sheet", "_spreadsheet"]
+      }
+    },
+    {
+      "name": "New Worksheet",
+      "description": "Fires when a new worksheet is added to a spreadsheet.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Sheet metadata",
+        "fields": ["sheetId", "title", "index", "spreadsheetId"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Most Gmail triggers are 'instant' via the Gmail push notification API (users.watch + Cloud Pub/Sub). 'New Email Matching Search' falls back to polling because Gmail doesn't push search-result deltas.",
+  "triggers": [
+    {
+      "name": "New Attachment",
+      "description": "Fires when a new attachment arrives.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Message + Attachment metadata",
+        "fields": ["messageId", "threadId", "from", "subject", "filename", "mimeType", "size", "attachmentId"]
+      }
+    },
+    {
+      "name": "New Email",
+      "description": "Fires when a new email appears in the specified mailbox.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Gmail Message resource",
+        "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "payload.body", "internalDate"]
+      }
+    },
+    {
+      "name": "New Email Matching Search",
+      "description": "Fires when a new email matches a Gmail search string.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Gmail Message resource",
+        "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "payload.body", "internalDate"]
+      }
+    },
+    {
+      "name": "New Label",
+      "description": "Fires when a new label is created.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Gmail Label resource",
+        "fields": ["id", "name", "type", "messageListVisibility", "labelListVisibility"]
+      }
+    },
+    {
+      "name": "New Labeled Email",
+      "description": "Fires when an email is labeled. Also fires when a reply is added to the conversation.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Gmail Message resource",
+        "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "internalDate"]
+      }
+    },
+    {
+      "name": "New Labeled Email (First Only)",
+      "description": "Fires the first time a label is added to a conversation. Replies within that conversation do not fire again.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Gmail Message resource",
+        "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "internalDate"]
+      }
+    },
+    {
+      "name": "New Starred Email",
+      "description": "Fires when an incoming email is starred within two days of arrival.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Gmail Message resource",
+        "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "internalDate"]
+      }
+    },
+    {
+      "name": "New Thread",
+      "description": "Fires when a new email conversation begins in your inbox.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Gmail Thread resource",
+        "fields": ["id", "historyId", "messages", "snippet"]
+      }
+    }
+  ]
+}

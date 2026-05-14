@@ -1,0 +1,17 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Vonage/Nexmo inbound SMS is delivered via a webhook URL configured on the virtual number.",
+  "triggers": [
+    {
+      "name": "New Inbound SMS",
+      "description": "Fires when an SMS is received.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Vonage inbound message payload",
+        "fields": ["msisdn", "to", "messageId", "text", "type", "keyword", "message-timestamp", "concat", "concat-ref", "concat-total", "concat-part"]
+      }
+    }
+  ]
+}

@@ -86,7 +86,7 @@ Top-level fields:
 - `vendor` / `product` — human names for the system.
 - `homepage` — vendor home page.
 - `status` — `stub` | `partial` | `complete`, our coverage flag.
-- `apiStyle` — `rest` | `soap` | `graphql` | `grpc` | `sdk` | `mixed`.
+- `apiStyle` — `rest` | `soap` | `graphql` | `grpc` | `jsonrpc` | `sdk` | `mixed`.
 - `baseUrls` — array of API base URLs.
 - `auth.schemes` — e.g. `["oauth2", "api-key"]`. Detail lives in
   `configuration-schema.json`; this is just a hint for ingestion.

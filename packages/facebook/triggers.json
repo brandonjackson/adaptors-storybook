@@ -1,0 +1,47 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Maps to Zapier's 'Facebook Pages' app. 'New Lead' is fulfilled by the separate Facebook Lead Ads integration upstream.",
+  "triggers": [
+    {
+      "name": "New Comment on Post",
+      "description": "Fires when a comment is added on a post you made.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Facebook Comment object",
+        "fields": ["id", "message", "from", "created_time", "parent.id", "permalink_url"]
+      }
+    },
+    {
+      "name": "New Lead",
+      "description": "Fires when a new lead is generated from a Facebook Lead Ad.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Facebook Lead object (Lead Ads)",
+        "fields": ["leadgen_id", "created_time", "ad_id", "form_id", "field_data"]
+      }
+    },
+    {
+      "name": "New Post by Others on Page",
+      "description": "Fires when a visitor writes on your page.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Facebook Post object",
+        "fields": ["id", "message", "from", "created_time", "permalink_url"]
+      }
+    },
+    {
+      "name": "New Post by You",
+      "description": "Fires when you post to your Page's Timeline.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Facebook Post object",
+        "fields": ["id", "message", "created_time", "permalink_url", "attachments"]
+      }
+    }
+  ]
+}

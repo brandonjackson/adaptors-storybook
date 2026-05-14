@@ -1,0 +1,57 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier polls. In OpenFn, use a cron schedule with a since-cursor column. Postgres can also push via LISTEN/NOTIFY, but Zapier does not use it.",
+  "triggers": [
+    {
+      "name": "New Column",
+      "description": "Fires when a new column is added.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Column metadata (information_schema.columns)",
+        "fields": ["table_schema", "table_name", "column_name", "data_type", "is_nullable"]
+      }
+    },
+    {
+      "name": "New or Updated Row",
+      "description": "Fires when a new row is added or modified.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Row from the watched table (schema-defined columns)",
+        "fields": []
+      }
+    },
+    {
+      "name": "New Row",
+      "description": "Fires when a new row is added.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Row from the watched table (schema-defined columns)",
+        "fields": []
+      }
+    },
+    {
+      "name": "New Row (Custom Query)",
+      "description": "Fires when new rows are returned from a custom query.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Row shape determined by the SELECT statement",
+        "fields": []
+      }
+    },
+    {
+      "name": "New Table",
+      "description": "Fires when a new table is added.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Table metadata (information_schema.tables)",
+        "fields": ["table_schema", "table_name", "table_type"]
+      }
+    }
+  ]
+}

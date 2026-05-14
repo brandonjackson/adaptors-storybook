@@ -1,0 +1,47 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier polls MongoDB. In OpenFn, the cron pattern uses a since-cursor (ObjectId of last seen _id, or a timestamp field). MongoDB Change Streams could power a webhook-style trigger but Zapier does not use them.",
+  "triggers": [
+    {
+      "name": "New Collection",
+      "description": "Fires when a new collection is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Collection info",
+        "fields": ["name", "database"]
+      }
+    },
+    {
+      "name": "New Database",
+      "description": "Fires when a new database is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Database info",
+        "fields": ["name", "sizeOnDisk"]
+      }
+    },
+    {
+      "name": "New Document",
+      "description": "Fires when a new document is added to a collection.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "The inserted document",
+        "fields": ["_id"]
+      }
+    },
+    {
+      "name": "New Field",
+      "description": "Fires when a new field appears in a document.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Document containing the new field",
+        "fields": ["_id"]
+      }
+    }
+  ]
+}

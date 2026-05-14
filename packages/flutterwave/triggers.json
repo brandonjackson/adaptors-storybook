@@ -1,0 +1,47 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "All Flutterwave triggers are vendor webhooks. OpenFn workflows should expose a webhook URL and verify the 'verif-hash' header.",
+  "triggers": [
+    {
+      "name": "Cancel Subscription",
+      "description": "Fires when a subscription is cancelled.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Subscription event payload",
+        "fields": ["event", "data.id", "data.customer", "data.plan", "data.status", "data.cancelled_at"]
+      }
+    },
+    {
+      "name": "New Subscription",
+      "description": "Fires when a new subscription is added.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Subscription event payload",
+        "fields": ["event", "data.id", "data.customer", "data.plan", "data.amount", "data.status", "data.created_at"]
+      }
+    },
+    {
+      "name": "New Transaction",
+      "description": "Fires when a new transaction is added.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Charge / transaction event payload",
+        "fields": ["event", "data.id", "data.tx_ref", "data.flw_ref", "data.amount", "data.currency", "data.status", "data.customer", "data.created_at"]
+      }
+    },
+    {
+      "name": "New Transfer",
+      "description": "Fires when a new transfer is added.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Transfer event payload",
+        "fields": ["event", "data.id", "data.reference", "data.amount", "data.currency", "data.status", "data.account_number", "data.created_at"]
+      }
+    }
+  ]
+}

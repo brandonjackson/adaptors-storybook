@@ -57,7 +57,7 @@ for the nav). When you add new metadata files to a package, re-run
 See [SPEC.md](./SPEC.md#roadmap-snapshot). Short form:
 
 - [x] Strip packages, scaffold UI, wire credentials + operations + snippets tabs
-- [ ] Triggers (`triggers.json` + Triggers tab)
+- [x] Triggers (`triggers.json` + Triggers tab) — seeded for 30 adapters
 - [ ] Data schemas (`data-schemas/` for trigger payloads)
 - [ ] Cross-adapter integration ideas
 - [ ] Fill empty `code` fields in existing snippets

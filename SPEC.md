@@ -62,7 +62,7 @@ Every adapter folder is being grown toward this shape:
 | Operations (API fns) | `packages/<a>/ast.json` (parsed JSDoc)                | done          |
 | Credentials          | `packages/<a>/configuration-schema.json`              | done          |
 | Snippets             | `packages/<a>/snippets.json`                          | 27 / 104      |
-| Triggers             | `packages/<a>/triggers.json` *(not yet defined)*      | not started   |
+| Triggers             | `packages/<a>/triggers.json`                          | 30 / 104      |
 | Data schemas         | `packages/<a>/data-schemas/` *(not yet defined)*      | not started   |
 | Integration ideas    | Cross-adapter, location TBD                           | not started   |
 
@@ -73,8 +73,9 @@ Every adapter folder is being grown toward this shape:
       `configuration-schema.json`, `ast.json`, `snippets.json` per adapter
 - [x] UI: left-nav + overview / operations / credentials / snippets tabs
 - [x] Pull snippets from the prototype-snippets branch (27 adapters)
-- [ ] **Next**: define `triggers.json` schema and render in the Triggers tab
-- [ ] Define `data-schemas/` for the shapes that come in on each trigger
+- [x] Define `triggers.json` schema and render in the Triggers tab
+      (seeded for the 30 Zapier-overlap adapters; 142 triggers total)
+- [ ] **Next**: define `data-schemas/` for the shapes that come in on each trigger
 - [ ] Cross-adapter integration ideas — render as recipe pages
 - [ ] Fill in snippets that arrived with empty `code` fields
 - [ ] Automated ingestion: scrape vendor sites for OpenAPI docs and transform

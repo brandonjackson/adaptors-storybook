@@ -1,0 +1,77 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Per-message events (delivery/bounce/unsubscribe/inbound/alert) are vendor webhooks configured via Mailgun's Webhooks API. Mailing-list and log resources are polled.",
+  "triggers": [
+    {
+      "name": "New Alert",
+      "description": "Fires when a Mailgun alert occurs.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Mailgun alert event",
+        "fields": ["event", "timestamp", "domain", "reason", "message"]
+      }
+    },
+    {
+      "name": "New Bounce Event",
+      "description": "Fires when an email permanently or temporarily fails.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Mailgun event (event=failed)",
+        "fields": ["event", "timestamp", "recipient", "severity", "reason", "delivery-status", "message"]
+      }
+    },
+    {
+      "name": "New Delivery Event",
+      "description": "Fires when an email is successfully delivered.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Mailgun event (event=delivered)",
+        "fields": ["event", "timestamp", "recipient", "message-id", "envelope", "delivery-status"]
+      }
+    },
+    {
+      "name": "New Inbound Email via Route",
+      "description": "Fires when an incoming email matches a Mailgun route.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Parsed inbound email",
+        "fields": ["recipient", "sender", "from", "subject", "body-plain", "body-html", "stripped-text", "attachments", "Message-Id"]
+      }
+    },
+    {
+      "name": "New List",
+      "description": "Fires when a new mailing list is added to your account.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Mailgun Mailing List object",
+        "fields": ["address", "name", "description", "access_level", "members_count", "created_at"]
+      }
+    },
+    {
+      "name": "New Log Data",
+      "description": "Fires when new log entries are found.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Mailgun event-log record",
+        "fields": ["event", "timestamp", "recipient", "message", "log-level"]
+      }
+    },
+    {
+      "name": "New Unsubscribe Event",
+      "description": "Fires when a recipient unsubscribes.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Mailgun event (event=unsubscribed)",
+        "fields": ["event", "timestamp", "recipient", "tag", "campaigns"]
+      }
+    }
+  ]
+}

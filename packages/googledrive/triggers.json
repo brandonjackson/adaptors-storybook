@@ -1,0 +1,47 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Folder-scoped change events use Drive's changes.watch push channel (webhook). Account-wide and worksheet-level deltas fall back to polling.",
+  "triggers": [
+    {
+      "name": "New File",
+      "description": "Fires when any new file is added (inside any folder).",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Drive File resource",
+        "fields": ["id", "name", "mimeType", "parents", "createdTime", "modifiedTime", "webViewLink", "owners"]
+      }
+    },
+    {
+      "name": "New File in Folder",
+      "description": "Fires when a new file is created within, moved to, or uploaded directly to a specific folder. Optionally includes subfolders.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Drive File resource",
+        "fields": ["id", "name", "mimeType", "parents", "createdTime", "modifiedTime", "webViewLink", "owners"]
+      }
+    },
+    {
+      "name": "New Folder",
+      "description": "Fires when a new folder is added directly to a specific folder (not subfolders).",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Drive File resource (mimeType=application/vnd.google-apps.folder)",
+        "fields": ["id", "name", "parents", "createdTime", "owners"]
+      }
+    },
+    {
+      "name": "Updated File",
+      "description": "Fires when a file is updated in a specific folder (not subfolders).",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Drive File resource",
+        "fields": ["id", "name", "mimeType", "parents", "modifiedTime", "lastModifyingUser", "version"]
+      }
+    }
+  ]
+}

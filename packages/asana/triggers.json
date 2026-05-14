@@ -1,0 +1,126 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "triggers": [
+    {
+      "name": "Completed Task",
+      "description": "Fires when a task within a project is marked completed. Does not fire on completed subtasks.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Asana Task object",
+        "fields": ["gid", "name", "completed", "completed_at", "assignee", "projects", "notes", "modified_at"]
+      }
+    },
+    {
+      "name": "New Comment on a Task",
+      "description": "Fires when a new comment (story) is added to a task.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Asana Story object",
+        "fields": ["gid", "type", "text", "html_text", "created_at", "created_by", "target"]
+      }
+    },
+    {
+      "name": "New Completed Subtask",
+      "description": "Fires when a subtask is completed.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Asana Task object (subtask)",
+        "fields": ["gid", "name", "parent", "completed", "completed_at", "assignee"]
+      }
+    },
+    {
+      "name": "New Project",
+      "description": "Fires when a new project is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Asana Project object",
+        "fields": ["gid", "name", "owner", "team", "workspace", "created_at", "due_on"]
+      }
+    },
+    {
+      "name": "New Story",
+      "description": "Fires when a new story (activity record) is added.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Asana Story object",
+        "fields": ["gid", "type", "text", "created_at", "created_by", "target"]
+      }
+    },
+    {
+      "name": "New Subtask",
+      "description": "Fires when a new subtask is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Asana Task object (subtask)",
+        "fields": ["gid", "name", "parent", "assignee", "created_at"]
+      }
+    },
+    {
+      "name": "New Tag Created",
+      "description": "Fires when a new tag is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Asana Tag object",
+        "fields": ["gid", "name", "color", "workspace", "created_at"]
+      }
+    },
+    {
+      "name": "New Task in Project",
+      "description": "Fires when a new task is added to a project.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Asana Task object",
+        "fields": ["gid", "name", "notes", "assignee", "projects", "due_on", "completed", "created_at", "modified_at"]
+      }
+    },
+    {
+      "name": "New Team",
+      "description": "Fires when a new team is added.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Asana Team object",
+        "fields": ["gid", "name", "organization", "description"]
+      }
+    },
+    {
+      "name": "New User",
+      "description": "Fires when a new user is added.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Asana User object",
+        "fields": ["gid", "name", "email", "workspaces"]
+      }
+    },
+    {
+      "name": "Task Moved to Section",
+      "description": "Fires when a task is moved to a section.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Asana Task object with section reference",
+        "fields": ["gid", "name", "memberships", "projects", "modified_at"]
+      }
+    },
+    {
+      "name": "Updated Task",
+      "description": "Fires when a task is updated.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Asana Task object",
+        "fields": ["gid", "name", "notes", "assignee", "due_on", "completed", "modified_at"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zoho CRM Module Entry triggers use Zoho's Notifications API (vendor-side webhook subscription). Contact/Lead/User triggers are polled.",
+  "triggers": [
+    {
+      "name": "New Contact",
+      "description": "Fires when a new contact is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Zoho CRM Contact record",
+        "fields": ["id", "First_Name", "Last_Name", "Email", "Phone", "Account_Name", "Owner", "Created_Time"]
+      }
+    },
+    {
+      "name": "New Lead",
+      "description": "Fires when a new lead is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Zoho CRM Lead record",
+        "fields": ["id", "First_Name", "Last_Name", "Email", "Phone", "Company", "Lead_Status", "Owner", "Created_Time"]
+      }
+    },
+    {
+      "name": "New Module Entry",
+      "description": "Fires instantaneously when any entry is created in the specified module.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Zoho CRM notification payload (insert)",
+        "fields": ["module", "operation", "ids", "resource_uri", "server_time", "query_params", "token"]
+      }
+    },
+    {
+      "name": "New or Updated Contact",
+      "description": "Fires when a contact is added or modified.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Zoho CRM Contact record",
+        "fields": ["id", "First_Name", "Last_Name", "Email", "Modified_Time"]
+      }
+    },
+    {
+      "name": "New or Updated Lead",
+      "description": "Fires when a lead is added or modified.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Zoho CRM Lead record",
+        "fields": ["id", "First_Name", "Last_Name", "Email", "Lead_Status", "Modified_Time"]
+      }
+    },
+    {
+      "name": "New User",
+      "description": "Fires when a new active user is added to your account.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Zoho CRM User record",
+        "fields": ["id", "full_name", "email", "role", "profile", "status", "created_time"]
+      }
+    },
+    {
+      "name": "New/Updated Module Entry",
+      "description": "Fires instantaneously when any entry is created or updated in the specified module.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Zoho CRM notification payload (insert or update)",
+        "fields": ["module", "operation", "ids", "resource_uri", "server_time", "query_params", "token"]
+      }
+    },
+    {
+      "name": "Updated Module Entry",
+      "description": "Fires instantaneously when a module entry is updated.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Zoho CRM notification payload (update)",
+        "fields": ["module", "operation", "ids", "resource_uri", "server_time", "query_params", "token"]
+      }
+    }
+  ]
+}

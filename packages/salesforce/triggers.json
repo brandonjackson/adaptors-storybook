@@ -1,0 +1,97 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier polls SOQL for most of these (SystemModstamp/LastModifiedDate cursor). 'New Outbound Message' uses Salesforce Outbound Messaging — a vendor webhook configured in Workflow Rules — which maps to OpenFn's webhook pattern. Salesforce also exposes Platform Events / CDC / Streaming API for push, but Zapier does not use them.",
+  "triggers": [
+    {
+      "name": "New Attachment on Record",
+      "description": "Fires when an attachment, note, or content document is added or updated on any record of the specified object.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Salesforce ContentDocumentLink or Attachment record",
+        "fields": ["Id", "ParentId", "ContentDocumentId", "Title", "FileType", "CreatedDate"]
+      }
+    },
+    {
+      "name": "New Case Attachment",
+      "description": "Fires when a new attachment is added to a Case.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Salesforce Attachment record on Case",
+        "fields": ["Id", "ParentId", "Name", "ContentType", "BodyLength", "CreatedDate"]
+      }
+    },
+    {
+      "name": "New Contact",
+      "description": "Fires when a new Contact is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Salesforce Contact record",
+        "fields": ["Id", "FirstName", "LastName", "Email", "Phone", "AccountId", "CreatedDate"]
+      }
+    },
+    {
+      "name": "New Field Update",
+      "description": "Fires when a chosen field is updated on any record of a specified object.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "The record (post-update)",
+        "fields": ["Id", "LastModifiedDate"]
+      }
+    },
+    {
+      "name": "New Field Values Changed",
+      "description": "Fires when a field is updated on the object specified. Outputs old and new field values.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Record diff",
+        "fields": ["Id", "field", "oldValue", "newValue", "LastModifiedDate"]
+      }
+    },
+    {
+      "name": "New Lead",
+      "description": "Fires when a new Lead is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Salesforce Lead record",
+        "fields": ["Id", "FirstName", "LastName", "Email", "Company", "Status", "OwnerId", "CreatedDate"]
+      }
+    },
+    {
+      "name": "New Outbound Message",
+      "description": "Fires when a new outbound message is received from Salesforce (Workflow Rule → Outbound Messaging).",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "SOAP notification envelope with the record snapshot",
+        "fields": ["OrganizationId", "ActionId", "SessionId", "EnterpriseUrl", "PartnerUrl", "Notification.sObject"]
+      }
+    },
+    {
+      "name": "New Record",
+      "description": "Fires when a record of the specified object is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Any Salesforce sObject record",
+        "fields": ["Id", "CreatedDate"]
+      }
+    },
+    {
+      "name": "Updated Record",
+      "description": "Fires when any record of the specified object is updated.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Any Salesforce sObject record",
+        "fields": ["Id", "LastModifiedDate"]
+      }
+    }
+  ]
+}

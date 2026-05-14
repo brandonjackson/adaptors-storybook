@@ -1,0 +1,6 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Action-only on Zapier. No native triggers — the Anthropic API does not push events. In OpenFn, a workflow using this adapter would be triggered by upstream data (cron or webhook from another system).",
+  "triggers": []
+}

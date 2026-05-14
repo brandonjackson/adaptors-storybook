@@ -1,0 +1,27 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier polls Odoo's XML-RPC/JSON-RPC API. Odoo also supports server-side automated actions that POST to a URL — those would be the webhook pattern in OpenFn — but Zapier does not use them.",
+  "triggers": [
+    {
+      "name": "New Contact",
+      "description": "Fires when a new contact (res.partner) is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Odoo res.partner record",
+        "fields": ["id", "name", "email", "phone", "is_company", "create_date"]
+      }
+    },
+    {
+      "name": "New Lead",
+      "description": "Fires when a new lead (crm.lead) is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Odoo crm.lead record",
+        "fields": ["id", "name", "partner_id", "email_from", "phone", "stage_id", "user_id", "expected_revenue", "create_date"]
+      }
+    }
+  ]
+}

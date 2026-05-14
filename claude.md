@@ -49,9 +49,36 @@ ui/                                  # Vite + React + Tailwind
 - Snippets shape (already in use): `{ CATEGORY: { Title: { description, code } } }`.
   Categories so far are `CREATE` and `SEARCH`.
 
+## triggers.json shape
+
+```json
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Optional adapter-level note",
+  "triggers": [
+    {
+      "name": "New Task in Project",
+      "description": "Fires when a new task is added to a project.",
+      "mechanism": "polling",          // polling | webhook
+      "openfnPattern": "cron",         // cron | webhook
+      "output": {
+        "summary": "Asana Task object",
+        "fields": ["gid", "name", "assignee", "due_on"]
+      }
+    }
+  ]
+}
+```
+
+`mechanism` describes how the vendor surfaces the event. `openfnPattern` is
+the matching OpenFn workflow trigger — polling → cron schedule that calls the
+adapter's list operation with a since-cursor; webhook → vendor POSTs to an
+OpenFn webhook URL.
+
 ## What's next
 
 Anything unchecked in [SPEC.md § Roadmap snapshot](./SPEC.md#roadmap-snapshot).
-The most natural next pick is **triggers** — define a `triggers.json` shape,
-seed one or two adapters, surface in the manifest, render in the Triggers tab
-(currently a placeholder in `AdapterView.jsx`).
+The most natural next pick is **data-schemas** — define the shape of the
+output object each trigger produces (Asana Task, Stripe Charge, etc.) so the
+Triggers tab can link from `output.summary` into a full schema view.

@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import OperationsTable from './OperationsTable.jsx';
 import ConfigurationSchema from './ConfigurationSchema.jsx';
 import Snippets from './Snippets.jsx';
+import Triggers from './Triggers.jsx';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
@@ -59,6 +60,9 @@ export default function AdapterView({ name }) {
               {manifest.snippetCount > 0 && (
                 <span>{manifest.snippetCount} snippets</span>
               )}
+              {manifest.triggerCount > 0 && (
+                <span>{manifest.triggerCount} triggers</span>
+              )}
             </div>
           </div>
         </div>
@@ -96,7 +100,7 @@ export default function AdapterView({ name }) {
             oauthSchema={manifest.oauthConfigurationSchema}
           />
         )}
-        {tab === 'triggers' && <Placeholder label="Triggers" />}
+        {tab === 'triggers' && <Triggers triggers={manifest.triggers} />}
         {tab === 'snippets' && <Snippets snippets={manifest.snippets || []} />}
         {tab === 'readme' && (
           <article className="prose prose-slate max-w-3xl">
@@ -188,12 +192,3 @@ function Row({ k, v }) {
   );
 }
 
-function Placeholder({ label }) {
-  return (
-    <div className="max-w-2xl rounded border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-500">
-      <strong className="text-slate-700">{label}</strong> — not yet captured for
-      this adapter. Once <code>{label.toLowerCase()}.json</code> files are added
-      to each package, this tab will render them.
-    </div>
-  );
-}

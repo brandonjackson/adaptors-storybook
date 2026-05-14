@@ -1,0 +1,37 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier polls Twilio's REST resources. Twilio's native push mechanism is a webhook URL configured on the phone number — that's the recommended pattern in OpenFn for incoming SMS/calls.",
+  "triggers": [
+    {
+      "name": "New Call",
+      "description": "Fires when a new call is received.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Twilio Call resource",
+        "fields": ["sid", "from", "to", "direction", "status", "duration", "startTime", "endTime"]
+      }
+    },
+    {
+      "name": "New Recording",
+      "description": "Fires when a new recording is available.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Twilio Recording resource",
+        "fields": ["sid", "callSid", "duration", "channels", "uri", "mediaUrl", "dateCreated"]
+      }
+    },
+    {
+      "name": "New SMS",
+      "description": "Fires when a new SMS is received.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Twilio Message resource",
+        "fields": ["sid", "from", "to", "body", "numMedia", "status", "direction", "dateCreated"]
+      }
+    }
+  ]
+}

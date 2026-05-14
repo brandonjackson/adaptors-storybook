@@ -1,0 +1,17 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "SFTP has no push protocol. Zapier polls. In OpenFn, cron + list() against a directory with a since-mtime cursor.",
+  "triggers": [
+    {
+      "name": "New File",
+      "description": "Fires when a file is added or modified in a folder.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "File metadata (and optionally content)",
+        "fields": ["name", "path", "size", "modifyTime", "accessTime", "type"]
+      }
+    }
+  ]
+}

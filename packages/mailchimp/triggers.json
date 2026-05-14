@@ -1,0 +1,77 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Audience-member events use Mailchimp's webhook subscriptions (lists/{id}/webhooks). Audience/campaign/store-level resources are polled via the API.",
+  "triggers": [
+    {
+      "name": "Link Clicked",
+      "description": "Fires when a recipient clicks a pre-specified link in a campaign.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Click activity record",
+        "fields": ["campaign_id", "email_address", "url", "clicked_at", "ip"]
+      }
+    },
+    {
+      "name": "New Audience",
+      "description": "Fires when a new audience (list) is added to your Mailchimp account.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Mailchimp List object",
+        "fields": ["id", "name", "contact", "permission_reminder", "date_created", "stats.member_count"]
+      }
+    },
+    {
+      "name": "New Campaign",
+      "description": "Fires when a new campaign is created or sent.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Mailchimp Campaign object",
+        "fields": ["id", "type", "status", "create_time", "send_time", "settings.subject_line", "recipients.list_id"]
+      }
+    },
+    {
+      "name": "New Customer",
+      "description": "Fires when a new customer is added to a selected store.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "E-commerce Customer object",
+        "fields": ["id", "email_address", "opt_in_status", "first_name", "last_name", "orders_count", "total_spent", "created_at"]
+      }
+    },
+    {
+      "name": "New or Updated Subscriber",
+      "description": "Fires when a subscriber is added or updated in an audience.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Mailchimp List Member event payload",
+        "fields": ["type", "fired_at", "data.id", "data.email", "data.email_type", "data.merges", "data.list_id"]
+      }
+    },
+    {
+      "name": "New Subscriber",
+      "description": "Fires when a new subscriber is added to an audience.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Mailchimp List Member event payload (type=subscribe)",
+        "fields": ["type", "fired_at", "data.id", "data.email", "data.merges", "data.list_id"]
+      }
+    },
+    {
+      "name": "New Unsubscriber",
+      "description": "Fires when any current subscriber unsubscribes from an audience.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Mailchimp List Member event payload (type=unsubscribe)",
+        "fields": ["type", "fired_at", "data.id", "data.email", "data.reason", "data.list_id"]
+      }
+    }
+  ]
+}

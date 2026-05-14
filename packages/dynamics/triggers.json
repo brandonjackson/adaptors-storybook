@@ -1,0 +1,87 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier polls the Dynamics 365 Web API. In OpenFn, the cron pattern uses an OData $filter on modifiedon or createdon. (Dynamics also supports server-side webhook plugins, but Zapier does not use them.)",
+  "triggers": [
+    {
+      "name": "New Account",
+      "description": "Fires when a new account is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Dynamics Account entity",
+        "fields": ["accountid", "name", "emailaddress1", "telephone1", "primarycontactid", "createdon"]
+      }
+    },
+    {
+      "name": "New Contact",
+      "description": "Fires when a new contact is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Dynamics Contact entity",
+        "fields": ["contactid", "firstname", "lastname", "emailaddress1", "parentcustomerid", "createdon"]
+      }
+    },
+    {
+      "name": "New Lead",
+      "description": "Fires when a new lead is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Dynamics Lead entity",
+        "fields": ["leadid", "subject", "firstname", "lastname", "companyname", "emailaddress1", "leadqualitycode", "createdon"]
+      }
+    },
+    {
+      "name": "New Opportunity",
+      "description": "Fires when a new opportunity is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Dynamics Opportunity entity",
+        "fields": ["opportunityid", "name", "estimatedvalue", "estimatedclosedate", "statecode", "customerid", "createdon"]
+      }
+    },
+    {
+      "name": "New Order",
+      "description": "Fires when a new order (salesorder) is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Dynamics SalesOrder entity",
+        "fields": ["salesorderid", "name", "ordernumber", "totalamount", "customerid", "statecode", "createdon"]
+      }
+    },
+    {
+      "name": "New Record",
+      "description": "Fires when a new record of a specified entity is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Any Dynamics entity record",
+        "fields": ["<entity>id", "createdon"]
+      }
+    },
+    {
+      "name": "Updated Order",
+      "description": "Fires when an order is updated.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Dynamics SalesOrder entity",
+        "fields": ["salesorderid", "ordernumber", "statecode", "statuscode", "modifiedon"]
+      }
+    },
+    {
+      "name": "Updated Record",
+      "description": "Fires when a record of a specified entity is updated.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Any Dynamics entity record",
+        "fields": ["<entity>id", "modifiedon"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier polls QuickBooks Online via the Intuit API. QBO also offers webhook notifications for entity changes — those would be the webhook pattern in OpenFn — but Zapier does not use them.",
+  "triggers": [
+    {
+      "name": "New Account",
+      "description": "Fires when a new account is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO Account entity",
+        "fields": ["Id", "Name", "AccountType", "AccountSubType", "Active", "MetaData.CreateTime"]
+      }
+    },
+    {
+      "name": "New Bill",
+      "description": "Fires when a new bill is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO Bill entity",
+        "fields": ["Id", "DocNumber", "TxnDate", "VendorRef", "TotalAmt", "DueDate", "Line", "MetaData.CreateTime"]
+      }
+    },
+    {
+      "name": "New Customer",
+      "description": "Fires when a new customer is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO Customer entity",
+        "fields": ["Id", "DisplayName", "PrimaryEmailAddr", "PrimaryPhone", "BillAddr", "Active", "MetaData.CreateTime"]
+      }
+    },
+    {
+      "name": "New Estimate",
+      "description": "Fires when a new estimate is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO Estimate entity",
+        "fields": ["Id", "DocNumber", "TxnDate", "CustomerRef", "TotalAmt", "ExpirationDate", "Line", "MetaData.CreateTime"]
+      }
+    },
+    {
+      "name": "New Expense",
+      "description": "Fires when a new expense (Purchase) is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO Purchase entity",
+        "fields": ["Id", "TxnDate", "PaymentType", "AccountRef", "EntityRef", "TotalAmt", "Line", "MetaData.CreateTime"]
+      }
+    },
+    {
+      "name": "New Invoice",
+      "description": "Fires when a new invoice is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO Invoice entity",
+        "fields": ["Id", "DocNumber", "TxnDate", "CustomerRef", "TotalAmt", "Balance", "DueDate", "Line", "MetaData.CreateTime"]
+      }
+    },
+    {
+      "name": "New Payment",
+      "description": "Fires when a new payment is recorded.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO Payment entity",
+        "fields": ["Id", "TxnDate", "CustomerRef", "TotalAmt", "PaymentMethodRef", "Line", "MetaData.CreateTime"]
+      }
+    },
+    {
+      "name": "New Purchase Order",
+      "description": "Fires when a new purchase order is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO PurchaseOrder entity",
+        "fields": ["Id", "DocNumber", "TxnDate", "VendorRef", "TotalAmt", "POStatus", "Line", "MetaData.CreateTime"]
+      }
+    },
+    {
+      "name": "New Sales Receipt",
+      "description": "Fires when a new sales receipt is created.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO SalesReceipt entity",
+        "fields": ["Id", "DocNumber", "TxnDate", "CustomerRef", "TotalAmt", "PaymentMethodRef", "Line", "MetaData.CreateTime"]
+      }
+    },
+    {
+      "name": "Updated Customer",
+      "description": "Fires when a customer is updated.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO Customer entity",
+        "fields": ["Id", "DisplayName", "PrimaryEmailAddr", "Active", "MetaData.LastUpdatedTime"]
+      }
+    },
+    {
+      "name": "Updated Invoice",
+      "description": "Fires when an invoice is updated.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "QBO Invoice entity",
+        "fields": ["Id", "DocNumber", "Balance", "TotalAmt", "EmailStatus", "MetaData.LastUpdatedTime"]
+      }
+    }
+  ]
+}

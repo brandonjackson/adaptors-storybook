@@ -1,0 +1,57 @@
+{
+  "source": "zapier",
+  "scrapedAt": "2026-05",
+  "notes": "Zapier splits Microsoft Graph across separate Outlook/Excel/SharePoint/Teams/OneDrive apps; OpenFn's msgraph adaptor calls a single Graph endpoint, so any of these resource types can be the source. Microsoft Graph supports subscriptions (push notifications) for many resources — those map to webhook patterns; everything else is cron polling against the Graph API.",
+  "triggers": [
+    {
+      "name": "New Outlook Email",
+      "description": "Fires when a new message arrives in a mailbox folder.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Graph Message resource",
+        "fields": ["id", "subject", "from", "toRecipients", "receivedDateTime", "bodyPreview", "hasAttachments"]
+      }
+    },
+    {
+      "name": "New Excel Row",
+      "description": "Fires when a new row is added to an Excel table on OneDrive/SharePoint.",
+      "mechanism": "polling",
+      "openfnPattern": "cron",
+      "output": {
+        "summary": "Excel table row (workbookTableRow)",
+        "fields": ["index", "values"]
+      }
+    },
+    {
+      "name": "New SharePoint File",
+      "description": "Fires when a new file is added to a SharePoint library.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Graph DriveItem resource",
+        "fields": ["id", "name", "webUrl", "size", "createdDateTime", "lastModifiedDateTime", "parentReference"]
+      }
+    },
+    {
+      "name": "New Teams Message",
+      "description": "Fires when a new message is posted to a channel.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Graph ChatMessage resource",
+        "fields": ["id", "channelIdentity", "from", "body.content", "createdDateTime", "messageType"]
+      }
+    },
+    {
+      "name": "New OneDrive File",
+      "description": "Fires when a new file is added to OneDrive.",
+      "mechanism": "webhook",
+      "openfnPattern": "webhook",
+      "output": {
+        "summary": "Graph DriveItem resource",
+        "fields": ["id", "name", "webUrl", "size", "createdDateTime", "lastModifiedDateTime", "parentReference"]
+      }
+    }
+  ]
+}

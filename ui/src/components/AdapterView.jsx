@@ -7,6 +7,7 @@ import Snippets from './Snippets.jsx';
 import Triggers from './Triggers.jsx';
 import DataSchemas from './DataSchemas.jsx';
 import Sources from './Sources.jsx';
+import Faq from './Faq.jsx';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
@@ -186,6 +187,7 @@ function Overview({ manifest }) {
           </ul>
         )}
       </Card>
+      <Faq manifest={manifest} overrides={manifest.faq} />
     </div>
   );
 }

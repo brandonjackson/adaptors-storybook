@@ -40,11 +40,15 @@ seed material for future phases: `bigquery/samples/`, `ibipimo/jobs/`,
 
 ## Run the UI
 
+From the repo root:
+
 ```bash
-cd ui
-npm install
+npm install      # also installs ui/ deps via postinstall
 npm run dev      # http://localhost:5173
 ```
+
+`npm install` at the root fans out to `ui/` via a `postinstall` script, so
+you don't need to `cd ui` first.
 
 `npm run dev` and `npm run build` both invoke `scripts/build-manifest.mjs`
 first, which scans every `packages/*` folder and writes

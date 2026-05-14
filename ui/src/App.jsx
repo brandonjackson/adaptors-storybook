@@ -1,10 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Sidebar from './components/Sidebar.jsx';
 import AdapterView from './components/AdapterView.jsx';
+import SystemOverview from './components/SystemOverview.jsx';
+
+const OVERVIEW = '__overview__';
 
 export default function App() {
   const [adapters, setAdapters] = useState([]);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(OVERVIEW);
   const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -14,14 +17,21 @@ export default function App() {
       .then((data) => {
         setAdapters(data);
         const hash = window.location.hash.replace('#/', '');
-        const initial = data.find((a) => a.name === hash) || data[0];
-        if (initial) setSelected(initial.name);
+        if (hash && data.find((a) => a.name === hash)) {
+          setSelected(hash);
+        } else {
+          setSelected(OVERVIEW);
+        }
         setLoading(false);
       });
   }, []);
 
   useEffect(() => {
-    if (selected) window.location.hash = `/${selected}`;
+    if (selected === OVERVIEW) {
+      if (window.location.hash) window.location.hash = '';
+    } else if (selected) {
+      window.location.hash = `/${selected}`;
+    }
   }, [selected]);
 
   const filtered = useMemo(() => {
@@ -44,14 +54,17 @@ export default function App() {
         onSelect={setSelected}
         filter={filter}
         onFilter={setFilter}
+        overviewId={OVERVIEW}
       />
       <main className="flex-1 overflow-y-auto bg-white">
         {loading && (
           <div className="p-8 text-slate-400">Loading adapter manifest…</div>
         )}
-        {!loading && selected && <AdapterView key={selected} name={selected} />}
-        {!loading && !selected && (
-          <div className="p-8 text-slate-400">No adapter selected.</div>
+        {!loading && selected === OVERVIEW && (
+          <SystemOverview adapters={adapters} onSelect={setSelected} />
+        )}
+        {!loading && selected && selected !== OVERVIEW && (
+          <AdapterView key={selected} name={selected} />
         )}
       </main>
     </div>

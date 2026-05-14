@@ -7,7 +7,9 @@ export default function Sidebar({
   onSelect,
   filter,
   onFilter,
+  overviewId,
 }) {
+  const overviewActive = selected === overviewId;
   return (
     <aside className="flex h-full w-72 shrink-0 flex-col border-r border-slate-200 bg-slate-50">
       <div className="border-b border-slate-200 px-4 py-4">
@@ -24,6 +26,41 @@ export default function Sidebar({
           className="mt-3 w-full rounded border border-slate-300 bg-white px-2 py-1 text-sm focus:border-slate-500 focus:outline-none"
         />
       </div>
+      {overviewId && (
+        <button
+          onClick={() => onSelect(overviewId)}
+          className={[
+            'flex w-full items-center gap-2 border-b border-slate-200 px-3 py-2 text-left text-sm transition-colors',
+            overviewActive
+              ? 'bg-slate-900 text-white'
+              : 'text-slate-700 hover:bg-slate-200',
+          ].join(' ')}
+        >
+          <span
+            aria-hidden
+            className={[
+              'inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-sm text-[11px] font-semibold',
+              overviewActive
+                ? 'bg-white/15 text-white'
+                : 'bg-slate-200 text-slate-600',
+            ].join(' ')}
+          >
+            ◎
+          </span>
+          <span className="flex-1 truncate font-medium">Overview</span>
+          <span
+            className={[
+              'shrink-0 rounded px-1.5 py-0.5 text-[10px] font-mono',
+              overviewActive
+                ? 'bg-white/20 text-white'
+                : 'bg-slate-200 text-slate-600',
+            ].join(' ')}
+            title="All adapters"
+          >
+            {totalCount}
+          </span>
+        </button>
+      )}
       <ul className="flex-1 overflow-y-auto">
         {adapters.map((a) => {
           const active = a.name === selected;

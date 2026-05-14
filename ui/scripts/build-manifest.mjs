@@ -197,6 +197,16 @@ for (const name of pkgNames) {
   );
   if (readme) fs.writeFileSync(path.join(outPkgDir, 'README.md'), readme);
 
+  const sourceKinds = Array.isArray(metadata?.sources)
+    ? Array.from(
+        new Set(
+          metadata.sources
+            .filter((s) => s && s.kind && s.url)
+            .map((s) => s.kind)
+        )
+      ).sort()
+    : [];
+
   summaries.push({
     name,
     label: manifest.label,
@@ -206,6 +216,14 @@ for (const name of pkgNames) {
     triggerCount: manifest.triggerCount,
     dataSchemaCount: manifest.dataSchemaCount,
     icon: manifest.icons.square,
+    status: metadata?.status || null,
+    apiStyle: metadata?.apiStyle || null,
+    hasMetadata: Boolean(metadata),
+    hasConfigurationSchema: Boolean(configSchema),
+    hasOauthSchema: Boolean(oauthSchema),
+    hasReadme: Boolean(readme && readme.trim()),
+    webhooksSupported: Boolean(metadata?.webhooks?.supported),
+    sourceKinds,
   });
 }
 

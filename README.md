@@ -158,7 +158,7 @@ See [SPEC.md](./SPEC.md#roadmap-snapshot). Short form:
 
 - [x] Strip packages, scaffold UI, wire credentials + operations + snippets tabs
 - [x] Triggers (`triggers.json` + Triggers tab) — seeded for 30 adapters
-- [x] Data schemas (`data-schemas/` for trigger payloads) — seeded for stripe + asana
+- [x] Data schemas (`data-schemas/` for trigger payloads) — seeded for stripe, asana, twilio, msgraph, bigquery, gmail, googledrive, googlesheets
 - [ ] Cross-adapter integration ideas
 - [ ] Fill empty `code` fields in existing snippets
 - [x] Seed `metadata.json` for every adapter (69 partial, 35 stub)

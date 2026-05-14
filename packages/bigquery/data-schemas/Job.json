@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bigquery/Job",
+  "x-source": {
+    "adapter": "bigquery",
+    "openapi": "https://bigquery.googleapis.com/$discovery/rest?version=v2",
+    "component": "Job",
+    "ingestedAt": "2026-05-14"
+  },
+  "id": "Job",
+  "properties": {
+    "configuration": {
+      "x-openapi-ref": "#/schemas/JobConfiguration",
+      "id": "JobConfiguration",
+      "properties": {
+        "copy": {
+          "$ref": "#/schemas/JobConfigurationTableCopy"
+        },
+        "dryRun": {
+          "description": "Optional. If set, don't actually run this job. A valid query will return a mostly empty response with some processing statistics, while an invalid query will return the same error it would if it wasn't a dry run. Behavior of non-query jobs is undefined.",
+          "type": "boolean"
+        },
+        "extract": {
+          "$ref": "#/schemas/JobConfigurationExtract"
+        },
+        "jobTimeoutMs": {
+          "description": "Optional. Job timeout in milliseconds relative to the job creation time. If this time limit is exceeded, BigQuery attempts to stop the job, but might not always succeed in canceling it before the job completes. For example, a job that takes more than 60 seconds to complete has a better chance of being stopped than a job that takes 10 seconds to complete.",
+          "format": "int64",
+          "type": "string"
+        },
+        "jobType": {
+          "description": "Output only. The type of the job. Can be QUERY, LOAD, EXTRACT, COPY or UNKNOWN.",
+          "type": "string"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The labels associated with this job. You can use these to organize and group your jobs. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter and each label in the list must have a different key.",
+          "type": "object"
+        },
+        "load": {
+          "$ref": "#/schemas/JobConfigurationLoad"
+        },
+        "maxSlots": {
+          "description": "Optional. A target limit on the rate of slot consumption by this job. If set to a value > 0, BigQuery will attempt to limit the rate of slot consumption by this job to keep it below the configured limit, even if the job is eligible for more slots based on fair scheduling. The unused slots will be available for other jobs and queries to use. Note: This feature is not yet generally available.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "query": {
+          "$ref": "#/schemas/JobConfigurationQuery"
+        },
+        "reservation": {
+          "description": "Optional. The reservation that job would use. User can specify a reservation to execute the job. If reservation is not set, reservation is determined based on the rules defined by the reservation assignments. The expected format is `projects/{project}/locations/{location}/reservations/{reservation}`.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "etag": {
+      "description": "Output only. A hash of this resource.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "id": {
+      "description": "Output only. Opaque ID field of the job.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "jobCreationReason": {
+      "x-openapi-ref": "#/schemas/JobCreationReason",
+      "description": "Reason about why a Job was created from a [`jobs.query`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query) method when used with `JOB_CREATION_OPTIONAL` Job creation mode. For [`jobs.insert`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/insert) method calls it will always be `REQUESTED`.",
+      "id": "JobCreationReason",
+      "properties": {
+        "code": {
+          "description": "Output only. Specifies the high level reason why a Job was created.",
+          "enum": [
+            "CODE_UNSPECIFIED",
+            "REQUESTED",
+            "LONG_RUNNING",
+            "LARGE_RESULTS",
+            "OTHER"
+          ],
+          "enumDescriptions": [
+            "Reason is not specified.",
+            "Job creation was requested.",
+            "The query request ran beyond a system defined timeout specified by the [timeoutMs field in the QueryRequest](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query#queryrequest). As a result it was considered a long running operation for which a job was created.",
+            "The results from the query cannot fit in the response.",
+            "BigQuery has determined that the query needs to be executed as a Job."
+          ],
+          "readOnly": true,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "jobReference": {
+      "x-openapi-ref": "#/schemas/JobReference",
+      "description": "A job reference is a fully qualified identifier for referring to a job.",
+      "id": "JobReference",
+      "properties": {
+        "jobId": {
+          "description": "Required. The ID of the job. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). The maximum length is 1,024 characters.",
+          "type": "string"
+        },
+        "location": {
+          "description": "Optional. The geographic location of the job. The default value is US. For more information about BigQuery locations, see: https://cloud.google.com/bigquery/docs/locations",
+          "type": "string"
+        },
+        "projectId": {
+          "description": "Required. The ID of the project containing this job.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "kind": {
+      "default": "bigquery#job",
+      "description": "Output only. The type of the resource.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "principal_subject": {
+      "description": "Output only. [Full-projection-only] String representation of identity of requesting party. Populated for both first- and third-party identities. Only present for APIs that support third-party identities.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "selfLink": {
+      "description": "Output only. A URL that can be used to access the resource again.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "statistics": {
+      "x-openapi-ref": "#/schemas/JobStatistics",
+      "description": "Statistics for a single job execution.",
+      "id": "JobStatistics",
+      "properties": {
+        "completionRatio": {
+          "description": "Output only. [TrustedTester] Job progress (0.0 -> 1.0) for LOAD and EXTRACT jobs.",
+          "format": "double",
+          "readOnly": true,
+          "type": "number"
+        },
+        "copy": {
+          "$ref": "#/schemas/JobStatistics5"
+        },
+        "creationTime": {
+          "description": "Output only. Creation time of this job, in milliseconds since the epoch. This field will be present on all jobs.",
+          "format": "int64",
+          "readOnly": true,
+          "type": "string"
+        },
+        "dataMaskingStatistics": {
+          "$ref": "#/schemas/DataMaskingStatistics"
+        },
+        "edition": {
+          "description": "Output only. Name of edition corresponding to the reservation for this job at the time of this update.",
+          "enum": [
+            "RESERVATION_EDITION_UNSPECIFIED",
+            "STANDARD",
+            "ENTERPRISE",
+            "ENTERPRISE_PLUS"
+          ],
+          "enumDescriptions": [
+            "Default value, which will be treated as ENTERPRISE.",
+            "Standard edition.",
+            "Enterprise edition.",
+            "Enterprise Plus edition."
+          ],
+          "readOnly": true,
+          "type": "string"
+        },
+        "endTime": {
+          "description": "Output only. End time of this job, in milliseconds since the epoch. This field will be present whenever a job is in the DONE state.",
+          "format": "int64",
+          "readOnly": true,
+          "type": "string"
+        },
+        "extract": {
+          "$ref": "#/schemas/JobStatistics4"
+        },
+        "finalExecutionDurationMs": {
+          "description": "Output only. The duration in milliseconds of the execution of the final attempt of this job, as BigQuery may internally re-attempt to execute the job.",
+          "format": "int64",
+          "readOnly": true,
+          "type": "string"
+        },
+        "load": {
+          "$ref": "#/schemas/JobStatistics3"
+        },
+        "numChildJobs": {
+          "description": "Output only. Number of child jobs executed.",
+          "format": "int64",
+          "readOnly": true,
+          "type": "string"
+        },
+        "parentJobId": {
+          "description": "Output only. If this is a child job, specifies the job ID of the parent.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "query": {
+          "$ref": "#/schemas/JobStatistics2"
+        },
+        "quotaDeferments": {
+          "description": "Output only. Quotas which delayed this job's start time.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true,
+          "type": "array"
+        },
+        "reservationGroupPath": {
+          "description": "Output only. The reservation group path of the reservation assigned to this job. This field has a limit of 10 nested reservation groups. This is to maintain consistency between reservatins info schema and jobs info schema. The first reservation group is the root reservation group and the last is the leaf or lowest level reservation group.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true,
+          "type": "array"
+        },
+        "reservationUsage": {
+          "deprecated": true,
+          "description": "Output only. Job resource usage breakdown by reservation. This field reported misleading information and will no longer be populated.",
+          "items": {
+            "description": "Job resource usage breakdown by reservation.",
+            "properties": {
+              "name": {
+                "description": "Reservation name or \"unreserved\" for on-demand resource usage and multi-statement queries.",
+                "type": "string"
+              },
+              "slotMs": {
+                "description": "Total slot milliseconds used by the reservation for a particular job.",
+                "format": "int64",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "readOnly": true,
+          "type": "array"
+        },
+        "reservation_id": {
+          "description": "Output only. Name of the primary reservation assigned to this job. Note that this could be different than reservations reported in the reservation usage field if parent reservations were used to execute this job.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "rowLevelSecurityStatistics": {
+          "$ref": "#/schemas/RowLevelSecurityStatistics"
+        },
+        "scriptStatistics": {
+          "$ref": "#/schemas/ScriptStatistics"
+        },
+        "sessionInfo": {
+          "$ref": "#/schemas/SessionInfo"
+        },
+        "startTime": {
+          "description": "Output only. Start time of this job, in milliseconds since the epoch. This field will be present when the job transitions from the PENDING state to either RUNNING or DONE.",
+          "format": "int64",
+          "readOnly": true,
+          "type": "string"
+        },
+        "totalBytesProcessed": {
+          "description": "Output only. Total bytes processed for the job.",
+          "format": "int64",
+          "readOnly": true,
+          "type": "string"
+        },
+        "totalSlotMs": {
+          "description": "Output only. Slot-milliseconds for the job.",
+          "format": "int64",
+          "readOnly": true,
+          "type": "string"
+        },
+        "transactionInfo": {
+          "$ref": "#/schemas/TransactionInfo"
+        }
+      },
+      "type": "object"
+    },
+    "status": {
+      "x-openapi-ref": "#/schemas/JobStatus",
+      "id": "JobStatus",
+      "properties": {
+        "errorResult": {
+          "$ref": "#/schemas/ErrorProto"
+        },
+        "errors": {
+          "description": "Output only. The first errors encountered during the running of the job. The final message includes the number of errors that caused the process to stop. Errors here do not necessarily mean that the job has not completed or was unsuccessful.",
+          "items": {
+            "$ref": "#/schemas/ErrorProto"
+          },
+          "readOnly": true,
+          "type": "array"
+        },
+        "state": {
+          "description": "Output only. Running state of the job. Valid states include 'PENDING', 'RUNNING', and 'DONE'.",
+          "readOnly": true,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "user_email": {
+      "description": "Output only. Email address of the user who ran the job.",
+      "readOnly": true,
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

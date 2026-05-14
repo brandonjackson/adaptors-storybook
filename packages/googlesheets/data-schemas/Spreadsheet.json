@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "googlesheets/Spreadsheet",
+  "x-source": {
+    "adapter": "googlesheets",
+    "openapi": "https://sheets.googleapis.com/$discovery/rest?version=v4",
+    "component": "Spreadsheet",
+    "ingestedAt": "2026-05-14"
+  },
+  "properties": {
+    "sheets": {
+      "description": "The sheets that are part of a spreadsheet.",
+      "type": "array",
+      "items": {
+        "x-openapi-ref": "#/schemas/Sheet",
+        "properties": {
+          "rowGroups": {
+            "items": {
+              "$ref": "#/schemas/DimensionGroup"
+            },
+            "description": "All row groups on this sheet, ordered by increasing range start index, then by group depth.",
+            "type": "array"
+          },
+          "bandedRanges": {
+            "description": "The banded (alternating colors) ranges on this sheet.",
+            "type": "array",
+            "items": {
+              "$ref": "#/schemas/BandedRange"
+            }
+          },
+          "properties": {
+            "$ref": "#/schemas/SheetProperties"
+          },
+          "basicFilter": {
+            "$ref": "#/schemas/BasicFilter"
+          },
+          "developerMetadata": {
+            "items": {
+              "$ref": "#/schemas/DeveloperMetadata"
+            },
+            "description": "The developer metadata associated with a sheet.",
+            "type": "array"
+          },
+          "tables": {
+            "items": {
+              "$ref": "#/schemas/Table"
+            },
+            "description": "The tables on this sheet.",
+            "type": "array"
+          },
+          "merges": {
+            "description": "The ranges that are merged together.",
+            "type": "array",
+            "items": {
+              "$ref": "#/schemas/GridRange"
+            }
+          },
+          "columnGroups": {
+            "items": {
+              "$ref": "#/schemas/DimensionGroup"
+            },
+            "description": "All column groups on this sheet, ordered by increasing range start index, then by group depth.",
+            "type": "array"
+          },
+          "conditionalFormats": {
+            "description": "The conditional format rules in this sheet.",
+            "type": "array",
+            "items": {
+              "$ref": "#/schemas/ConditionalFormatRule"
+            }
+          },
+          "slicers": {
+            "items": {
+              "$ref": "#/schemas/Slicer"
+            },
+            "description": "The slicers on this sheet.",
+            "type": "array"
+          },
+          "charts": {
+            "items": {
+              "$ref": "#/schemas/EmbeddedChart"
+            },
+            "description": "The specifications of every chart on this sheet.",
+            "type": "array"
+          },
+          "data": {
+            "description": "Data in the grid, if this is a grid sheet. The number of GridData objects returned is dependent on the number of ranges requested on this sheet. For example, if this is representing `Sheet1`, and the spreadsheet was requested with ranges `Sheet1!A1:C10` and `Sheet1!D15:E20`, then the first GridData will have a startRow/startColumn of `0`, while the second one will have `startRow 14` (zero-based row 15), and `startColumn 3` (zero-based column D). For a DATA_SOURCE sheet, you can not request a specific range, the GridData contains all the values.",
+            "type": "array",
+            "items": {
+              "$ref": "#/schemas/GridData"
+            }
+          },
+          "protectedRanges": {
+            "description": "The protected ranges in this sheet.",
+            "type": "array",
+            "items": {
+              "$ref": "#/schemas/ProtectedRange"
+            }
+          },
+          "filterViews": {
+            "description": "The filter views in this sheet.",
+            "type": "array",
+            "items": {
+              "$ref": "#/schemas/FilterView"
+            }
+          }
+        },
+        "id": "Sheet",
+        "description": "A sheet in a spreadsheet.",
+        "type": "object"
+      }
+    },
+    "dataSources": {
+      "items": {
+        "x-openapi-ref": "#/schemas/DataSource",
+        "properties": {
+          "sheetId": {
+            "description": "The ID of the Sheet connected with the data source. The field cannot be changed once set. When creating a data source, an associated DATA_SOURCE sheet is also created, if the field is not specified, the ID of the created sheet will be randomly generated.",
+            "type": "integer",
+            "format": "int32"
+          },
+          "calculatedColumns": {
+            "description": "All calculated columns in the data source.",
+            "type": "array",
+            "items": {
+              "$ref": "#/schemas/DataSourceColumn"
+            }
+          },
+          "dataSourceId": {
+            "description": "The spreadsheet-scoped unique ID that identifies the data source. Example: 1080547365.",
+            "type": "string"
+          },
+          "spec": {
+            "$ref": "#/schemas/DataSourceSpec"
+          }
+        },
+        "id": "DataSource",
+        "description": "Information about an external data source in the spreadsheet.",
+        "type": "object"
+      },
+      "description": "A list of external data sources connected with the spreadsheet.",
+      "type": "array"
+    },
+    "spreadsheetId": {
+      "description": "The ID of the spreadsheet. This field is read-only.",
+      "type": "string"
+    },
+    "spreadsheetUrl": {
+      "description": "The url of the spreadsheet. This field is read-only.",
+      "type": "string"
+    },
+    "developerMetadata": {
+      "description": "The developer metadata associated with a spreadsheet.",
+      "type": "array",
+      "items": {
+        "x-openapi-ref": "#/schemas/DeveloperMetadata",
+        "id": "DeveloperMetadata",
+        "description": "Developer metadata associated with a location or object in a spreadsheet. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). Developer metadata may be used to associate arbitrary data with various parts of a spreadsheet and it will remain associated at those locations as they move around and the spreadsheet is edited. For example, if developer metadata is associated with row 5 and another row is then subsequently inserted above row 5, that original metadata is still associated with the row it was first associated with (what is now row 6). If the associated object is deleted then its metadata is deleted too.",
+        "type": "object",
+        "properties": {
+          "location": {
+            "$ref": "#/schemas/DeveloperMetadataLocation"
+          },
+          "metadataId": {
+            "description": "The spreadsheet-scoped unique ID that identifies the metadata. IDs may be specified when metadata is created, otherwise one will be randomly generated and assigned. Must be positive.",
+            "type": "integer",
+            "format": "int32"
+          },
+          "metadataValue": {
+            "description": "Data associated with the metadata's key.",
+            "type": "string"
+          },
+          "metadataKey": {
+            "description": "The metadata key. There may be multiple metadata in a spreadsheet with the same key. Developer metadata must always have a key specified.",
+            "type": "string"
+          },
+          "visibility": {
+            "enumDescriptions": [
+              "Default value.",
+              "Document-visible metadata is accessible from any developer project with access to the document.",
+              "Project-visible metadata is only visible to and accessible by the developer project that created the metadata."
+            ],
+            "enum": [
+              "DEVELOPER_METADATA_VISIBILITY_UNSPECIFIED",
+              "DOCUMENT",
+              "PROJECT"
+            ],
+            "description": "The metadata visibility. Developer metadata must always have visibility specified.",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "properties": {
+      "x-openapi-ref": "#/schemas/SpreadsheetProperties",
+      "id": "SpreadsheetProperties",
+      "description": "Properties of a spreadsheet.",
+      "type": "object",
+      "properties": {
+        "autoRecalc": {
+          "enumDescriptions": [
+            "Default value. This value must not be used.",
+            "Volatile functions are updated on every change.",
+            "Volatile functions are updated on every change and every minute.",
+            "Volatile functions are updated on every change and hourly."
+          ],
+          "enum": [
+            "RECALCULATION_INTERVAL_UNSPECIFIED",
+            "ON_CHANGE",
+            "MINUTE",
+            "HOUR"
+          ],
+          "description": "The amount of time to wait before volatile functions are recalculated.",
+          "type": "string"
+        },
+        "iterativeCalculationSettings": {
+          "$ref": "#/schemas/IterativeCalculationSettings"
+        },
+        "spreadsheetTheme": {
+          "$ref": "#/schemas/SpreadsheetTheme"
+        },
+        "timeZone": {
+          "description": "The time zone of the spreadsheet, in CLDR format such as `America/New_York`. If the time zone isn't recognized, this may be a custom time zone such as `GMT-07:00`.",
+          "type": "string"
+        },
+        "importFunctionsExternalUrlAccessAllowed": {
+          "description": "Whether to allow external URL access for image and import functions. Read only when true. When false, you can set to true. This value will be bypassed and always return true if the admin has enabled the [allowlisting feature](https://support.google.com/a?p=url_allowlist).",
+          "type": "boolean"
+        },
+        "title": {
+          "description": "The title of the spreadsheet.",
+          "type": "string"
+        },
+        "locale": {
+          "description": "The locale of the spreadsheet in one of the following formats: * an ISO 639-1 language code such as `en` * an ISO 639-2 language code such as `fil`, if no 639-1 code exists * a combination of the ISO language code and country code, such as `en_US` Note: when updating this field, not all locales/languages are supported.",
+          "type": "string"
+        },
+        "defaultFormat": {
+          "$ref": "#/schemas/CellFormat"
+        }
+      }
+    },
+    "namedRanges": {
+      "description": "The named ranges defined in a spreadsheet.",
+      "type": "array",
+      "items": {
+        "x-openapi-ref": "#/schemas/NamedRange",
+        "id": "NamedRange",
+        "description": "A named range.",
+        "type": "object",
+        "properties": {
+          "range": {
+            "$ref": "#/schemas/GridRange"
+          },
+          "namedRangeId": {
+            "description": "The ID of the named range.",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of the named range.",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dataSourceSchedules": {
+      "items": {
+        "x-openapi-ref": "#/schemas/DataSourceRefreshSchedule",
+        "properties": {
+          "refreshScope": {
+            "enum": [
+              "DATA_SOURCE_REFRESH_SCOPE_UNSPECIFIED",
+              "ALL_DATA_SOURCES"
+            ],
+            "enumDescriptions": [
+              "Default value, do not use.",
+              "Refreshes all data sources and their associated data source objects in the spreadsheet."
+            ],
+            "description": "The scope of the refresh. Must be ALL_DATA_SOURCES.",
+            "type": "string"
+          },
+          "dailySchedule": {
+            "$ref": "#/schemas/DataSourceRefreshDailySchedule"
+          },
+          "enabled": {
+            "description": "True if the refresh schedule is enabled, or false otherwise.",
+            "type": "boolean"
+          },
+          "weeklySchedule": {
+            "$ref": "#/schemas/DataSourceRefreshWeeklySchedule"
+          },
+          "monthlySchedule": {
+            "$ref": "#/schemas/DataSourceRefreshMonthlySchedule"
+          },
+          "nextRun": {
+            "$ref": "#/schemas/Interval"
+          }
+        },
+        "id": "DataSourceRefreshSchedule",
+        "description": "Schedule for refreshing the data source. Data sources in the spreadsheet are refreshed within a time interval. You can specify the start time by clicking the Scheduled Refresh button in the Sheets editor, but the interval is fixed at 4 hours. For example, if you specify a start time of 8 AM , the refresh will take place between 8 AM and 12 PM every day.",
+        "type": "object"
+      },
+      "description": "Output only. A list of data source refresh schedules.",
+      "type": "array",
+      "readOnly": true
+    }
+  },
+  "id": "Spreadsheet",
+  "description": "Resource that represents a spreadsheet.",
+  "type": "object"
+}

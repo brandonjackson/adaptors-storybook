@@ -1,0 +1,765 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "msgraph/microsoft.graph.message",
+  "x-source": {
+    "adapter": "msgraph",
+    "openapi": "https://github.com/microsoftgraph/msgraph-metadata/raw/master/openapi/v1.0/openapi.yaml",
+    "component": "microsoft.graph.message",
+    "ingestedAt": "2026-05-14"
+  },
+  "allOf": [
+    {
+      "x-openapi-ref": "#/components/schemas/microsoft.graph.outlookItem",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/microsoft.graph.entity"
+        },
+        {
+          "title": "outlookItem",
+          "required": [
+            "@odata.type"
+          ],
+          "type": "object",
+          "properties": {
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "nullable": true
+              },
+              "description": "The categories associated with the item"
+            },
+            "changeKey": {
+              "type": "string",
+              "description": "Identifies the version of the item. Every time the item is changed, changeKey changes as well. This allows Exchange to apply changes to the correct version of the object. Read-only.",
+              "nullable": true
+            },
+            "createdDateTime": {
+              "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+              "type": "string",
+              "description": "The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z",
+              "format": "date-time",
+              "nullable": true
+            },
+            "lastModifiedDateTime": {
+              "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+              "type": "string",
+              "description": "The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z",
+              "format": "date-time",
+              "nullable": true
+            },
+            "@odata.type": {
+              "type": "string"
+            }
+          },
+          "discriminator": {
+            "propertyName": "@odata.type",
+            "mapping": {
+              "#microsoft.graph.contact": "#/components/schemas/microsoft.graph.contact",
+              "#microsoft.graph.event": "#/components/schemas/microsoft.graph.event",
+              "#microsoft.graph.mailboxItem": "#/components/schemas/microsoft.graph.mailboxItem",
+              "#microsoft.graph.message": "#/components/schemas/microsoft.graph.message",
+              "#microsoft.graph.calendarSharingMessage": "#/components/schemas/microsoft.graph.calendarSharingMessage",
+              "#microsoft.graph.eventMessage": "#/components/schemas/microsoft.graph.eventMessage",
+              "#microsoft.graph.eventMessageRequest": "#/components/schemas/microsoft.graph.eventMessageRequest",
+              "#microsoft.graph.eventMessageResponse": "#/components/schemas/microsoft.graph.eventMessageResponse",
+              "#microsoft.graph.post": "#/components/schemas/microsoft.graph.post"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "message",
+      "required": [
+        "@odata.type"
+      ],
+      "type": "object",
+      "properties": {
+        "bccRecipients": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.recipient",
+            "title": "recipient",
+            "required": [
+              "@odata.type"
+            ],
+            "type": "object",
+            "properties": {
+              "emailAddress": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/microsoft.graph.emailAddress"
+                  },
+                  {
+                    "type": "object",
+                    "nullable": true
+                  }
+                ],
+                "description": "The recipient's email address."
+              },
+              "@odata.type": {
+                "type": "string"
+              }
+            },
+            "discriminator": {
+              "propertyName": "@odata.type",
+              "mapping": {
+                "#microsoft.graph.attendeeBase": "#/components/schemas/microsoft.graph.attendeeBase",
+                "#microsoft.graph.attendee": "#/components/schemas/microsoft.graph.attendee"
+              }
+            }
+          },
+          "description": "The Bcc: recipients for the message."
+        },
+        "body": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.itemBody",
+              "title": "itemBody",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "description": "The content of the item.",
+                  "nullable": true
+                },
+                "contentType": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.bodyType"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The type of the content. Possible values are text and html."
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "The body of the message. It can be in HTML or text format. Find out about safe HTML in a message body."
+        },
+        "bodyPreview": {
+          "type": "string",
+          "description": "The first 255 characters of the message body. It is in text format.",
+          "nullable": true
+        },
+        "ccRecipients": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.recipient",
+            "title": "recipient",
+            "required": [
+              "@odata.type"
+            ],
+            "type": "object",
+            "properties": {
+              "emailAddress": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/microsoft.graph.emailAddress"
+                  },
+                  {
+                    "type": "object",
+                    "nullable": true
+                  }
+                ],
+                "description": "The recipient's email address."
+              },
+              "@odata.type": {
+                "type": "string"
+              }
+            },
+            "discriminator": {
+              "propertyName": "@odata.type",
+              "mapping": {
+                "#microsoft.graph.attendeeBase": "#/components/schemas/microsoft.graph.attendeeBase",
+                "#microsoft.graph.attendee": "#/components/schemas/microsoft.graph.attendee"
+              }
+            }
+          },
+          "description": "The Cc: recipients for the message."
+        },
+        "conversationId": {
+          "type": "string",
+          "description": "The ID of the conversation the email belongs to.",
+          "nullable": true
+        },
+        "conversationIndex": {
+          "type": "string",
+          "description": "Indicates the position of the message within the conversation.",
+          "format": "base64url",
+          "nullable": true
+        },
+        "flag": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.followupFlag",
+              "title": "followupFlag",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "completedDateTime": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.dateTimeTimeZone"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The date and time that the follow-up was finished."
+                },
+                "dueDateTime": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.dateTimeTimeZone"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The date and time that the follow-up is to be finished. Note: To set the due date, you must also specify the startDateTime; otherwise, you get a 400 Bad Request response."
+                },
+                "flagStatus": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.followupFlagStatus"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The status for follow-up for an item. Possible values are notFlagged, complete, and flagged."
+                },
+                "startDateTime": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.dateTimeTimeZone"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The date and time that the follow-up is to begin."
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "Indicates the status, start date, due date, or completion date for the message."
+        },
+        "from": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.recipient",
+              "title": "recipient",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "emailAddress": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.emailAddress"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The recipient's email address."
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              },
+              "discriminator": {
+                "propertyName": "@odata.type",
+                "mapping": {
+                  "#microsoft.graph.attendeeBase": "#/components/schemas/microsoft.graph.attendeeBase",
+                  "#microsoft.graph.attendee": "#/components/schemas/microsoft.graph.attendee"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "The owner of the mailbox from which the message is sent. In most cases, this value is the same as the sender property, except for sharing or delegation scenarios. The value must correspond to the actual mailbox used. Find out more about setting the from and sender properties of a message."
+        },
+        "hasAttachments": {
+          "type": "boolean",
+          "description": "Indicates whether the message has attachments. This property doesn't include inline attachments, so if a message contains only inline attachments, this property is false. To verify the existence of inline attachments, parse the body property to look for a src attribute, such as <IMG src='cid:image001.jpg@01D26CD8.6C05F070'>.",
+          "nullable": true
+        },
+        "importance": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.importance",
+              "title": "importance",
+              "enum": [
+                "low",
+                "normal",
+                "high"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "The importance of the message. The possible values are: low, normal, and high."
+        },
+        "inferenceClassification": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.inferenceClassificationType",
+              "title": "inferenceClassificationType",
+              "enum": [
+                "focused",
+                "other"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "The classification of the message for the user, based on inferred relevance or importance, or on an explicit override. The possible values are: focused or other."
+        },
+        "internetMessageHeaders": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.internetMessageHeader",
+            "title": "internetMessageHeader",
+            "required": [
+              "@odata.type"
+            ],
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Represents the key in a key-value pair.",
+                "nullable": true
+              },
+              "value": {
+                "type": "string",
+                "description": "The value in a key-value pair.",
+                "nullable": true
+              },
+              "@odata.type": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "A collection of message headers defined by RFC5322. The set includes message headers indicating the network path taken by a message from the sender to the recipient. It can also contain custom message headers that hold app data for the message.  Requires $select to retrieve. Read-only."
+        },
+        "internetMessageId": {
+          "type": "string",
+          "description": "The message ID in the format specified by RFC2822.",
+          "nullable": true
+        },
+        "isDeliveryReceiptRequested": {
+          "type": "boolean",
+          "description": "Indicates whether a read receipt is requested for the message.",
+          "nullable": true
+        },
+        "isDraft": {
+          "type": "boolean",
+          "description": "Indicates whether the message is a draft. A message is a draft if it hasn't been sent yet.",
+          "nullable": true
+        },
+        "isRead": {
+          "type": "boolean",
+          "description": "Indicates whether the message has been read.",
+          "nullable": true
+        },
+        "isReadReceiptRequested": {
+          "type": "boolean",
+          "description": "Indicates whether a read receipt is requested for the message.",
+          "nullable": true
+        },
+        "parentFolderId": {
+          "type": "string",
+          "description": "The unique identifier for the message's parent mailFolder.",
+          "nullable": true
+        },
+        "receivedDateTime": {
+          "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+          "type": "string",
+          "description": "The date and time the message was received.  The date and time information uses ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z.",
+          "format": "date-time",
+          "nullable": true
+        },
+        "replyTo": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.recipient",
+            "title": "recipient",
+            "required": [
+              "@odata.type"
+            ],
+            "type": "object",
+            "properties": {
+              "emailAddress": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/microsoft.graph.emailAddress"
+                  },
+                  {
+                    "type": "object",
+                    "nullable": true
+                  }
+                ],
+                "description": "The recipient's email address."
+              },
+              "@odata.type": {
+                "type": "string"
+              }
+            },
+            "discriminator": {
+              "propertyName": "@odata.type",
+              "mapping": {
+                "#microsoft.graph.attendeeBase": "#/components/schemas/microsoft.graph.attendeeBase",
+                "#microsoft.graph.attendee": "#/components/schemas/microsoft.graph.attendee"
+              }
+            }
+          },
+          "description": "The email addresses to use when replying."
+        },
+        "sender": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.recipient",
+              "title": "recipient",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "emailAddress": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.emailAddress"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The recipient's email address."
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              },
+              "discriminator": {
+                "propertyName": "@odata.type",
+                "mapping": {
+                  "#microsoft.graph.attendeeBase": "#/components/schemas/microsoft.graph.attendeeBase",
+                  "#microsoft.graph.attendee": "#/components/schemas/microsoft.graph.attendee"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "The account that is used to generate the message. In most cases, this value is the same as the from property. You can set this property to a different value when sending a message from a shared mailbox, for a shared calendar, or as a delegate. In any case, the value must correspond to the actual mailbox used. Find out more about setting the from and sender properties of a message."
+        },
+        "sentDateTime": {
+          "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+          "type": "string",
+          "description": "The date and time the message was sent.  The date and time information uses ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z.",
+          "format": "date-time",
+          "nullable": true
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject of the message.",
+          "nullable": true
+        },
+        "toRecipients": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.recipient",
+            "title": "recipient",
+            "required": [
+              "@odata.type"
+            ],
+            "type": "object",
+            "properties": {
+              "emailAddress": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/microsoft.graph.emailAddress"
+                  },
+                  {
+                    "type": "object",
+                    "nullable": true
+                  }
+                ],
+                "description": "The recipient's email address."
+              },
+              "@odata.type": {
+                "type": "string"
+              }
+            },
+            "discriminator": {
+              "propertyName": "@odata.type",
+              "mapping": {
+                "#microsoft.graph.attendeeBase": "#/components/schemas/microsoft.graph.attendeeBase",
+                "#microsoft.graph.attendee": "#/components/schemas/microsoft.graph.attendee"
+              }
+            }
+          },
+          "description": "The To: recipients for the message."
+        },
+        "uniqueBody": {
+          "anyOf": [
+            {
+              "x-openapi-ref": "#/components/schemas/microsoft.graph.itemBody",
+              "title": "itemBody",
+              "required": [
+                "@odata.type"
+              ],
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "description": "The content of the item.",
+                  "nullable": true
+                },
+                "contentType": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/microsoft.graph.bodyType"
+                    },
+                    {
+                      "type": "object",
+                      "nullable": true
+                    }
+                  ],
+                  "description": "The type of the content. Possible values are text and html."
+                },
+                "@odata.type": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "nullable": true
+            }
+          ],
+          "description": "The part of the body of the message that is unique to the current message. uniqueBody is not returned by default but can be retrieved for a given message by use of the ?$select=uniqueBody query. It can be in HTML or text format."
+        },
+        "webLink": {
+          "type": "string",
+          "description": "The URL to open the message in Outlook on the web.You can append an ispopout argument to the end of the URL to change how the message is displayed. If ispopout is not present or if it is set to 1, then the message is shown in a popout window. If ispopout is set to 0, the browser shows the message in the Outlook on the web review pane.The message opens in the browser if you are signed in to your mailbox via Outlook on the web. You are prompted to sign in if you are not already signed in with the browser.This URL cannot be accessed from within an iFrame.NOTE: When using this URL to access a message from a mailbox with delegate permissions, both the signed-in user and the target mailbox must be in the same database region. For example, an error is returned when a user with a mailbox in the EUR (Europe) region attempts to access messages from a mailbox in the NAM (North America) region.",
+          "nullable": true
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.attachment",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/microsoft.graph.entity"
+              },
+              {
+                "title": "attachment",
+                "required": [
+                  "@odata.type"
+                ],
+                "type": "object",
+                "properties": {
+                  "contentType": {
+                    "type": "string",
+                    "description": "The MIME type.",
+                    "nullable": true
+                  },
+                  "isInline": {
+                    "type": "boolean",
+                    "description": "true if the attachment is an inline attachment; otherwise, false."
+                  },
+                  "lastModifiedDateTime": {
+                    "pattern": "^[0-9]{4,}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]([.][0-9]{1,12})?(Z|[+-][0-9][0-9]:[0-9][0-9])$",
+                    "type": "string",
+                    "description": "The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The attachment's file name.",
+                    "nullable": true
+                  },
+                  "size": {
+                    "maximum": 2147483647,
+                    "minimum": -2147483648,
+                    "type": "number",
+                    "description": "The length of the attachment in bytes.",
+                    "format": "int32"
+                  },
+                  "@odata.type": {
+                    "type": "string"
+                  }
+                },
+                "discriminator": {
+                  "propertyName": "@odata.type",
+                  "mapping": {
+                    "#microsoft.graph.fileAttachment": "#/components/schemas/microsoft.graph.fileAttachment",
+                    "#microsoft.graph.itemAttachment": "#/components/schemas/microsoft.graph.itemAttachment",
+                    "#microsoft.graph.referenceAttachment": "#/components/schemas/microsoft.graph.referenceAttachment"
+                  }
+                }
+              }
+            ]
+          },
+          "description": "The fileAttachment and itemAttachment attachments for the message.",
+          "x-ms-navigationProperty": true
+        },
+        "extensions": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.extension",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/microsoft.graph.entity"
+              },
+              {
+                "title": "extension",
+                "required": [
+                  "@odata.type"
+                ],
+                "type": "object",
+                "properties": {
+                  "@odata.type": {
+                    "type": "string"
+                  }
+                },
+                "discriminator": {
+                  "propertyName": "@odata.type",
+                  "mapping": {
+                    "#microsoft.graph.openTypeExtension": "#/components/schemas/microsoft.graph.openTypeExtension"
+                  }
+                }
+              }
+            ]
+          },
+          "description": "The collection of open extensions defined for the message. Nullable.",
+          "x-ms-navigationProperty": true
+        },
+        "multiValueExtendedProperties": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.multiValueLegacyExtendedProperty",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/microsoft.graph.entity"
+              },
+              {
+                "title": "multiValueLegacyExtendedProperty",
+                "required": [
+                  "@odata.type"
+                ],
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "description": "A collection of property values."
+                  },
+                  "@odata.type": {
+                    "type": "string"
+                  }
+                }
+              }
+            ],
+            "x-ms-discriminator-value": "#microsoft.graph.multiValueLegacyExtendedProperty"
+          },
+          "description": "The collection of multi-value extended properties defined for the message. Nullable.",
+          "x-ms-navigationProperty": true
+        },
+        "singleValueExtendedProperties": {
+          "type": "array",
+          "items": {
+            "x-openapi-ref": "#/components/schemas/microsoft.graph.singleValueLegacyExtendedProperty",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/microsoft.graph.entity"
+              },
+              {
+                "title": "singleValueLegacyExtendedProperty",
+                "required": [
+                  "@odata.type"
+                ],
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "A property value.",
+                    "nullable": true
+                  },
+                  "@odata.type": {
+                    "type": "string"
+                  }
+                }
+              }
+            ],
+            "x-ms-discriminator-value": "#microsoft.graph.singleValueLegacyExtendedProperty"
+          },
+          "description": "The collection of single-value extended properties defined for the message. Nullable.",
+          "x-ms-navigationProperty": true
+        },
+        "@odata.type": {
+          "type": "string",
+          "default": "#microsoft.graph.message"
+        }
+      },
+      "discriminator": {
+        "propertyName": "@odata.type",
+        "mapping": {
+          "#microsoft.graph.calendarSharingMessage": "#/components/schemas/microsoft.graph.calendarSharingMessage",
+          "#microsoft.graph.eventMessage": "#/components/schemas/microsoft.graph.eventMessage",
+          "#microsoft.graph.eventMessageRequest": "#/components/schemas/microsoft.graph.eventMessageRequest",
+          "#microsoft.graph.eventMessageResponse": "#/components/schemas/microsoft.graph.eventMessageResponse"
+        }
+      }
+    }
+  ]
+}

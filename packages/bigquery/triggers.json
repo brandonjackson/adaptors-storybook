@@ -9,6 +9,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "BigQuery Job object (query result rows)",
+        "schemaRef": "Job",
         "fields": ["jobId", "state", "configuration.query", "statistics", "rows"]
       }
     },
@@ -19,6 +20,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Row from the watched table (schema-defined columns)",
+        "schemaRef": "TableRow",
         "fields": []
       }
     }

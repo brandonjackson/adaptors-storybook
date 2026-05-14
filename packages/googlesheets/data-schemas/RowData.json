@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "googlesheets/RowData",
+  "x-source": {
+    "adapter": "googlesheets",
+    "openapi": "https://sheets.googleapis.com/$discovery/rest?version=v4",
+    "component": "RowData",
+    "ingestedAt": "2026-05-14"
+  },
+  "properties": {
+    "values": {
+      "items": {
+        "x-openapi-ref": "#/schemas/CellData",
+        "id": "CellData",
+        "description": "Data about a specific cell.",
+        "type": "object",
+        "properties": {
+          "chipRuns": {
+            "items": {
+              "$ref": "#/schemas/ChipRun"
+            },
+            "description": "Optional. Runs of chips applied to subsections of the cell. Properties of a run start at a specific index in the text and continue until the next run. When reading, all chipped and non-chipped runs are included. Non-chipped runs will have an empty Chip. When writing, only runs with chips are included. Runs containing chips are of length 1 and are represented in the user-entered text by an “@” placeholder symbol. New runs will overwrite any prior runs. Writing a new user_entered_value will erase previous runs.",
+            "type": "array"
+          },
+          "userEnteredValue": {
+            "$ref": "#/schemas/ExtendedValue"
+          },
+          "dataSourceFormula": {
+            "$ref": "#/schemas/DataSourceFormula"
+          },
+          "textFormatRuns": {
+            "description": "Runs of rich text applied to subsections of the cell. Runs are only valid on user entered strings, not formulas, bools, or numbers. Properties of a run start at a specific index in the text and continue until the next run. Runs will inherit the properties of the cell unless explicitly changed. When writing, the new runs will overwrite any prior runs. When writing a new user_entered_value, previous runs are erased.",
+            "type": "array",
+            "items": {
+              "$ref": "#/schemas/TextFormatRun"
+            }
+          },
+          "dataValidation": {
+            "$ref": "#/schemas/DataValidationRule"
+          },
+          "effectiveFormat": {
+            "$ref": "#/schemas/CellFormat"
+          },
+          "effectiveValue": {
+            "$ref": "#/schemas/ExtendedValue"
+          },
+          "dataSourceTable": {
+            "$ref": "#/schemas/DataSourceTable"
+          },
+          "hyperlink": {
+            "description": "A hyperlink this cell points to, if any. If the cell contains multiple hyperlinks, this field will be empty. This field is read-only. To set it, use a `=HYPERLINK` formula in the userEnteredValue.formulaValue field. A cell-level link can also be set from the userEnteredFormat.textFormat field. Alternatively, set a hyperlink in the textFormatRun.format.link field that spans the entire cell.",
+            "type": "string"
+          },
+          "note": {
+            "description": "Any note on the cell.",
+            "type": "string"
+          },
+          "userEnteredFormat": {
+            "$ref": "#/schemas/CellFormat"
+          },
+          "pivotTable": {
+            "$ref": "#/schemas/PivotTable"
+          },
+          "formattedValue": {
+            "description": "The formatted value of the cell. This is the value as it's shown to the user. This field is read-only.",
+            "type": "string"
+          }
+        }
+      },
+      "description": "The values in the row, one per column.",
+      "type": "array"
+    }
+  },
+  "id": "RowData",
+  "description": "Data about each cell in a row.",
+  "type": "object"
+}

@@ -10,6 +10,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Message + Attachment metadata",
+        "schemaRef": "Message",
         "fields": ["messageId", "threadId", "from", "subject", "filename", "mimeType", "size", "attachmentId"]
       }
     },
@@ -20,6 +21,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Gmail Message resource",
+        "schemaRef": "Message",
         "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "payload.body", "internalDate"]
       }
     },
@@ -30,6 +32,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Gmail Message resource",
+        "schemaRef": "Message",
         "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "payload.body", "internalDate"]
       }
     },
@@ -40,6 +43,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Gmail Label resource",
+        "schemaRef": "Label",
         "fields": ["id", "name", "type", "messageListVisibility", "labelListVisibility"]
       }
     },
@@ -50,6 +54,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Gmail Message resource",
+        "schemaRef": "Message",
         "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "internalDate"]
       }
     },
@@ -60,6 +65,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Gmail Message resource",
+        "schemaRef": "Message",
         "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "internalDate"]
       }
     },
@@ -70,6 +76,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Gmail Message resource",
+        "schemaRef": "Message",
         "fields": ["id", "threadId", "labelIds", "snippet", "payload.headers", "internalDate"]
       }
     },
@@ -80,6 +87,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Gmail Thread resource",
+        "schemaRef": "Thread",
         "fields": ["id", "historyId", "messages", "snippet"]
       }
     }

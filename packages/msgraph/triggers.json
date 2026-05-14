@@ -10,6 +10,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Graph Message resource",
+        "schemaRef": "microsoft.graph.message",
         "fields": ["id", "subject", "from", "toRecipients", "receivedDateTime", "bodyPreview", "hasAttachments"]
       }
     },
@@ -20,6 +21,7 @@
       "openfnPattern": "cron",
       "output": {
         "summary": "Excel table row (workbookTableRow)",
+        "schemaRef": "microsoft.graph.workbookTableRow",
         "fields": ["index", "values"]
       }
     },
@@ -30,6 +32,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Graph DriveItem resource",
+        "schemaRef": "microsoft.graph.driveItem",
         "fields": ["id", "name", "webUrl", "size", "createdDateTime", "lastModifiedDateTime", "parentReference"]
       }
     },
@@ -40,6 +43,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Graph ChatMessage resource",
+        "schemaRef": "microsoft.graph.chatMessage",
         "fields": ["id", "channelIdentity", "from", "body.content", "createdDateTime", "messageType"]
       }
     },
@@ -50,6 +54,7 @@
       "openfnPattern": "webhook",
       "output": {
         "summary": "Graph DriveItem resource",
+        "schemaRef": "microsoft.graph.driveItem",
         "fields": ["id", "name", "webUrl", "size", "createdDateTime", "lastModifiedDateTime", "parentReference"]
       }
     }

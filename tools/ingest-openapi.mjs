@@ -71,9 +71,17 @@ function loadSpec(adapter, source, refresh) {
   );
 }
 
+function isDiscoveryDoc(spec) {
+  return typeof spec?.discoveryVersion === 'string' && spec?.schemas && !spec?.components;
+}
+
 function resolvePointer(root, pointer) {
-  // JSON Pointer like "#/components/schemas/Charge"
-  if (!pointer.startsWith('#/')) return null;
+  // JSON Pointer like "#/components/schemas/Charge", or a bare schema name
+  // for Google Discovery docs (e.g. "MessagePart").
+  if (!pointer.startsWith('#/')) {
+    if (isDiscoveryDoc(root)) return root.schemas?.[pointer] ?? null;
+    return null;
+  }
   const parts = pointer.slice(2).split('/').map((p) => p.replace(/~1/g, '/').replace(/~0/g, '~'));
   let cur = root;
   for (const p of parts) {
@@ -83,13 +91,21 @@ function resolvePointer(root, pointer) {
   return cur;
 }
 
+function normalizeRef(ref, root) {
+  // Google Discovery refs are bare names; normalize to a pointer-shaped key
+  // for cycle tracking & display.
+  if (ref.startsWith('#/')) return ref;
+  if (isDiscoveryDoc(root)) return `#/schemas/${ref}`;
+  return ref;
+}
+
 function inlineRefs(node, root, seen = new Set(), depth = 0) {
   if (node == null || typeof node !== 'object') return node;
   if (Array.isArray(node)) return node.map((x) => inlineRefs(x, root, seen, depth));
   if (typeof node.$ref === 'string') {
-    const ref = node.$ref;
+    const ref = normalizeRef(node.$ref, root);
     if (seen.has(ref) || depth >= MAX_INLINE_DEPTH) return { $ref: ref };
-    const target = resolvePointer(root, ref);
+    const target = resolvePointer(root, node.$ref);
     if (target == null) return { $ref: ref };
     const nextSeen = new Set(seen).add(ref);
     const inlined = inlineRefs(target, root, nextSeen, depth + 1);
@@ -106,19 +122,26 @@ function inlineRefs(node, root, seen = new Set(), depth = 0) {
 }
 
 function extractSchema(spec, schemaRef) {
-  // schemaRef can be "Charge" (components.schemas.Charge) or a full pointer.
+  // schemaRef can be "Charge" (components.schemas.Charge), a full pointer,
+  // or a bare schema name for Google Discovery (spec.schemas.<name>).
   let target;
+  let seedRef;
   if (schemaRef.startsWith('#/')) {
     target = resolvePointer(spec, schemaRef);
+    seedRef = schemaRef;
   } else {
     const schemas =
       spec?.components?.schemas ??
       spec?.definitions ?? // swagger 2.0
+      spec?.schemas ?? // Google Discovery
       {};
     target = schemas[schemaRef];
+    seedRef = isDiscoveryDoc(spec)
+      ? `#/schemas/${schemaRef}`
+      : `#/components/schemas/${schemaRef}`;
   }
   if (!target) return null;
-  return inlineRefs(target, spec, new Set([`#/components/schemas/${schemaRef}`]), 0);
+  return inlineRefs(target, spec, new Set([seedRef]), 0);
 }
 
 function listAdapters() {

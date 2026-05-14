@@ -1,77 +1,36 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "Medic",
+  "product": "Community Health Toolkit (CHT) Core API",
+  "homepage": "https://communityhealthtoolkit.org",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "https://<instance>.app.medicmobile.org/api/v1",
+    "https://<instance>.app.medicmobile.org/medic/_design/medic/_rewrite"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["basic", "cookie-session"],
+    "docs": "https://docs.communityhealthtoolkit.org/apps/reference/api/"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://docs.communityhealthtoolkit.org/apps/reference/api/",
+      "notes": "CHT Core API reference"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://docs.communityhealthtoolkit.org/apps/guides/data/",
+      "notes": "Data model + record shapes"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://github.com/medic/cht-core",
+      "language": "javascript",
+      "notes": "CHT Core monorepo; api/ folder defines REST endpoints"
     }
   ],
 
@@ -80,5 +39,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Backed by CouchDB; some integrations replicate against the underlying _changes feed."
 }

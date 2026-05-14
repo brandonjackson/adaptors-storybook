@@ -1,84 +1,42 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "Dimagi",
+  "product": "CommCare HQ",
+  "homepage": "https://www.commcarehq.org",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "https://www.commcarehq.org/a/{domain}/api/v0.5"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["api-key", "basic", "oauth2"],
+    "docs": "https://dimagi.atlassian.net/wiki/spaces/commcarepublic/pages/2143955600/Authentication"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://dimagi.atlassian.net/wiki/spaces/commcarepublic/pages/2143957549/CommCare+APIs",
+      "notes": "CommCare HQ REST API index"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://dimagi.atlassian.net/wiki/spaces/commcarepublic/pages/2143951603/List+of+APIs",
+      "notes": "Per-resource endpoint listing"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://github.com/dimagi/commcare-hq",
+      "language": "python",
+      "notes": "CommCare HQ source; corehq/apis/ defines the REST surface"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://dimagi.atlassian.net/wiki/spaces/commcarepublic/pages/2143951225/Data+Forwarding"
   },
 
-  "notes": ""
+  "notes": "Tenanted: each project (domain) has its own URL prefix /a/{domain}/."
 }

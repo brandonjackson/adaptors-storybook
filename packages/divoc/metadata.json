@@ -1,77 +1,40 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
+  "vendor": "eGov Foundation / DIVOC",
+  "product": "DIVOC",
+  "homepage": "https://divoc.digit.org",
   "status": "stub",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": ["https://demo-divoc.egov.org.in"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["bearer", "oauth2"],
+    "docs": "https://divoc.digit.org/platform/divoc-implementation-guide/divoc-apis"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://divoc.digit.org/platform/divoc-implementation-guide",
+      "notes": "DIVOC implementation guide"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://divoc.digit.org/platform/divoc-implementation-guide/divoc-apis",
+      "notes": "DIVOC API reference"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/egovernments/DIVOC",
+      "language": "go",
+      "notes": "DIVOC platform source; includes Swagger specs under /interfaces"
     },
     {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "kind": "openapi",
+      "url": "https://github.com/egovernments/DIVOC/blob/main/interfaces/vaccination_api.yaml",
+      "format": "yaml",
+      "version": "2.0",
+      "notes": "Vaccination certification Swagger 2 spec"
     }
   ],
 
@@ -80,5 +43,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Digital vaccination certificate platform; built on Sunbird RC registry."
 }

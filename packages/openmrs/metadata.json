@@ -1,77 +1,40 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "OpenMRS",
+  "product": "OpenMRS REST Web Services",
+  "homepage": "https://openmrs.org",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "https://demo.openmrs.org/openmrs/ws/rest/v1"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["basic", "oauth2", "session-cookie"],
+    "docs": "https://rest.openmrs.org/#authentication"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://rest.openmrs.org/",
+      "notes": "OpenMRS REST API reference (Slate-style)"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://wiki.openmrs.org/display/docs/REST+Web+Services+API+For+Clients",
+      "notes": "OpenMRS wiki — client-facing REST overview"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
+      "url": "https://github.com/openmrs/openmrs-module-webservices.rest",
+      "language": "java",
+      "notes": "Source of the REST module that defines all endpoints"
     },
     {
       "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://demo.openmrs.org",
+      "notes": "Public OpenMRS demo (admin/Admin123)"
     }
   ],
 
@@ -80,5 +43,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Versioned at /ws/rest/v1; additional FHIR module exposes /ws/fhir2 endpoints."
 }

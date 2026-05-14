@@ -1,77 +1,39 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "World Health Organization",
+  "product": "Go.Data",
+  "homepage": "https://www.who.int/tools/godata",
+  "status": "partial",
 
   "apiStyle": "rest",
   "baseUrls": [],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["bearer", "basic"],
+    "docs": "https://worldhealthorganization.github.io/godata/api-docs/"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://worldhealthorganization.github.io/godata/",
+      "notes": "Go.Data documentation hub"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://worldhealthorganization.github.io/godata/api-docs/",
+      "notes": "API reference"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/WorldHealthOrganization/godata",
+      "language": "javascript",
+      "notes": "Go.Data umbrella repo (links to API + frontend repos)"
     },
     {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "kind": "sdk-repo",
+      "url": "https://github.com/WorldHealthOrganization/GoDataSource-API",
+      "language": "javascript",
+      "notes": "Go.Data API server (LoopBack-based)"
     }
   ],
 
@@ -80,5 +42,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "On-prem outbreak management tool; each deployment chooses its own base URL."
 }

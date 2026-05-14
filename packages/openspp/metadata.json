@@ -1,77 +1,34 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
+  "vendor": "OpenSPP",
+  "product": "OpenSPP",
+  "homepage": "https://openspp.org",
   "status": "stub",
 
-  "apiStyle": "rest",
-  "baseUrls": [],
+  "apiStyle": "sdk",
+  "baseUrls": ["https://dev.newlogic-demo.com"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["basic"],
+    "docs": "https://docs.openspp.org"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://docs.openspp.org",
+      "notes": "OpenSPP documentation site"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/OpenSPP/openspp",
+      "language": "python",
+      "notes": "OpenSPP Odoo modules (social protection)"
     },
     {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "kind": "sdk-repo",
+      "url": "https://github.com/vettloffah/odoo-await",
+      "language": "javascript",
+      "notes": "odoo-await client used by the adaptor (Odoo JSON-RPC)"
     }
   ],
 
@@ -80,5 +37,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Built on Odoo; adapter uses Odoo external API (JSON-RPC/XML-RPC) via odoo-await."
 }

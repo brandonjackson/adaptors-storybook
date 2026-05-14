@@ -1,77 +1,28 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
+  "vendor": "LAMISPlus Consortium",
+  "product": "LAMISPlus",
+  "homepage": "https://lamisplus.org",
   "status": "stub",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": ["https://example.com/api"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["basic", "bearer"],
+    "docs": "https://docs.lamisplus.org"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://docs.lamisplus.org",
+      "notes": "LAMISPlus user/dev documentation"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://github.com/LAMIS-Plus-Project",
+      "language": "java",
+      "notes": "LAMISPlus GitHub organisation (Spring Boot services)"
     }
   ],
 
@@ -80,5 +31,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Nigeria HIV/AIDS patient-level info system; Spring Boot REST API, JWT auth."
 }

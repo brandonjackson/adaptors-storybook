@@ -1,84 +1,53 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
+  "vendor": "OpenCRVS",
+  "product": "OpenCRVS Civil Registration",
+  "homepage": "https://www.opencrvs.org",
+  "status": "partial",
 
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
-
-  "apiStyle": "rest",
-  "baseUrls": [],
+  "apiStyle": "mixed",
+  "baseUrls": [
+    "https://gateway.farajaland.opencrvs.org"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["bearer", "jwt"],
+    "docs": "https://documentation.opencrvs.org/technology/interoperability"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://documentation.opencrvs.org/",
+      "notes": "OpenCRVS documentation hub"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://documentation.opencrvs.org/technology/interoperability/integrating-with-opencrvs",
+      "notes": "Integration / API guide"
+    },
+    {
+      "kind": "graphql-schema",
+      "url": "https://gateway.farajaland.opencrvs.org/graphql",
+      "introspection": true,
+      "notes": "GraphQL gateway endpoint (introspection on demo)"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
+      "url": "https://github.com/opencrvs/opencrvs-core",
+      "language": "typescript",
+      "notes": "OpenCRVS core monorepo"
     },
     {
       "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://login.farajaland.opencrvs.org",
+      "notes": "Farajaland reference deployment"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://documentation.opencrvs.org/technology/interoperability/webhook-api"
   },
 
-  "notes": ""
+  "notes": "Primarily GraphQL gateway plus FHIR-shaped resources internally."
 }

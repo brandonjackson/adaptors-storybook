@@ -1,84 +1,40 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "ANS (Agence du Numérique en Santé)",
+  "product": "FR Core FHIR profile",
+  "homepage": "https://interop.esante.gouv.fr/",
+  "status": "partial",
 
   "apiStyle": "rest",
   "baseUrls": [],
 
   "auth": {
-    "schemes": [],
+    "schemes": ["bearer", "smart-on-fhir"],
     "docs": ""
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://hl7.fr/ig/fhir/core/",
+      "notes": "HL7 France FR Core implementation guide"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/hl7-fr/fhir-fr-core",
+      "language": "fsh",
+      "notes": "Source of the FR Core IG"
     },
     {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "kind": "docs-page",
+      "url": "https://hl7.org/fhir/R4/",
+      "notes": "Underlying FHIR R4 spec"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://hl7.org/fhir/R4/subscription.html"
   },
 
-  "notes": ""
+  "notes": "France-specific FHIR profiles layered on top of R4."
 }

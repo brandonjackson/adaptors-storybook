@@ -1,84 +1,47 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "HL7",
+  "product": "FHIR (generic)",
+  "homepage": "https://hl7.org/fhir/",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "https://hapi.fhir.org/baseR4",
+    "https://server.fire.ly"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["bearer", "basic", "smart-on-fhir"],
+    "docs": "https://hl7.org/fhir/security.html"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://hl7.org/fhir/",
+      "notes": "FHIR spec landing page (currently R5)"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://hl7.org/fhir/http.html",
+      "notes": "RESTful API semantics"
     },
     {
-      "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
+      "kind": "json-schema",
+      "url": "https://hl7.org/fhir/fhir.schema.json.zip",
+      "notes": "All resource JSON Schemas"
     },
     {
       "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://hapi.fhir.org",
+      "notes": "Public HAPI FHIR test server"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://hl7.org/fhir/subscription.html"
   },
 
-  "notes": ""
+  "notes": "Server-agnostic; choose a baseUrl per deployment. See fhir-4 for an R4-pinned variant."
 }

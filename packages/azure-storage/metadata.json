@@ -1,84 +1,40 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
+  "vendor": "Microsoft",
+  "product": "Azure Storage (Blob/Queue)",
+  "homepage": "https://azure.microsoft.com/en-us/products/storage/blobs",
+  "status": "partial",
 
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
-
-  "apiStyle": "rest",
-  "baseUrls": [],
+  "apiStyle": "sdk",
+  "baseUrls": ["https://<account>.blob.core.windows.net", "https://<account>.queue.core.windows.net"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["hmac", "oauth2", "sas"],
+    "docs": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-requests-to-azure-storage"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api",
+      "notes": "Blob service REST API reference"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api",
+      "notes": "Queue service REST API reference"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage",
+      "language": "typescript",
+      "notes": "Official Azure Storage SDK for JS"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-event-overview"
   },
 
-  "notes": ""
+  "notes": "REST-based but most integrations use the Azure SDK; auth via shared key, SAS or Azure AD."
 }

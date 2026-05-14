@@ -1,77 +1,28 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "Browserless",
+  "product": "Browserless Browser Automation API",
+  "homepage": "https://www.browserless.io",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": ["https://chrome.browserless.io", "https://production-sfo.browserless.io"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["api-key"],
+    "docs": "https://docs.browserless.io/baas/start"
   },
 
   "sources": [
     {
       "kind": "openapi",
-      "url": "",
-      "format": "yaml",
+      "url": "https://docs.browserless.io/baas/v2/open-api",
+      "format": "json",
       "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
+      "notes": "OpenAPI for the BaaS v2 REST endpoints (/function, /pdf, /screenshot, /content, etc.)"
     },
     {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
-    },
-    {
-      "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://docs.browserless.io/"
     }
   ],
 
@@ -80,5 +31,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Also exposes a websocket Playwright/Puppeteer endpoint; REST endpoints are the documented surface."
 }

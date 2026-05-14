@@ -1,84 +1,45 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "Twilio",
+  "product": "Twilio Communications API",
+  "homepage": "https://www.twilio.com",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": ["https://api.twilio.com/2010-04-01"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["basic"],
+    "docs": "https://www.twilio.com/docs/usage/api"
   },
 
   "sources": [
     {
       "kind": "openapi",
-      "url": "",
-      "format": "yaml",
+      "url": "https://github.com/twilio/twilio-oai/raw/main/spec/json/twilio_api_v2010.json",
+      "format": "json",
       "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
-      "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "notes": "Official Twilio OpenAPI spec (Core API v2010)"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/twilio/twilio-node",
+      "language": "typescript",
+      "notes": "Official Twilio Node SDK"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://www.twilio.com/docs/api"
     },
     {
       "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://www.twilio.com/docs/changelog"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://www.twilio.com/docs/usage/webhooks"
   },
 
-  "notes": ""
+  "notes": "HTTP Basic auth with Account SID + Auth Token; per-product specs (messaging, voice, verify) in twilio-oai."
 }

@@ -1,83 +1,42 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "Google",
+  "product": "Google Drive API",
+  "homepage": "https://developers.google.com/drive",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "https://www.googleapis.com/drive/v3",
+    "https://www.googleapis.com/upload/drive/v3"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["oauth2"],
+    "docs": "https://developers.google.com/drive/api/guides/about-auth"
   },
 
   "sources": [
     {
       "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
+      "url": "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+      "format": "json",
+      "version": "discovery",
+      "notes": "Google Discovery document"
     },
     {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://developers.google.com/drive/api/reference/rest/v3"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://github.com/googleapis/google-api-nodejs-client",
+      "language": "javascript"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://developers.google.com/drive/api/guides/push"
   },
 
   "notes": ""

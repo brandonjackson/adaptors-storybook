@@ -1,84 +1,47 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "Microsoft",
+  "product": "Microsoft Graph",
+  "homepage": "https://developer.microsoft.com/graph",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": [
+    "https://graph.microsoft.com/v1.0",
+    "https://graph.microsoft.com/beta"
+  ],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["oauth2"],
+    "docs": "https://learn.microsoft.com/graph/auth/"
   },
 
   "sources": [
     {
       "kind": "openapi",
-      "url": "",
+      "url": "https://github.com/microsoftgraph/msgraph-metadata/raw/master/openapi/v1.0/openapi.yaml",
       "format": "yaml",
       "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
+      "notes": "Official Microsoft Graph OpenAPI; very large"
     },
     {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://learn.microsoft.com/graph/api/overview"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/microsoftgraph/msgraph-sdk-javascript",
+      "language": "javascript"
     },
     {
       "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://learn.microsoft.com/graph/changelog"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://learn.microsoft.com/graph/webhooks"
   },
 
-  "notes": ""
+  "notes": "OData-based; CSDL metadata also available at https://graph.microsoft.com/v1.0/$metadata."
 }

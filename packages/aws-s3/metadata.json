@@ -1,84 +1,39 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
+  "vendor": "Amazon Web Services",
+  "product": "Amazon S3",
+  "homepage": "https://aws.amazon.com/s3/",
+  "status": "partial",
 
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
-
-  "apiStyle": "rest",
-  "baseUrls": [],
+  "apiStyle": "sdk",
+  "baseUrls": ["https://s3.amazonaws.com", "https://s3.<region>.amazonaws.com"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["hmac"],
+    "docs": "https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html",
+      "notes": "S3 REST API reference index"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-s3",
+      "language": "typescript",
+      "notes": "Official AWS SDK v3 S3 client"
     },
     {
       "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/doc-history.html"
     }
   ],
 
   "webhooks": {
-    "supported": false,
-    "docs": ""
+    "supported": true,
+    "docs": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/NotificationHowTo.html"
   },
 
-  "notes": ""
+  "notes": "S3 is XML/REST under SigV4; most integrations use the AWS SDK rather than raw HTTP."
 }

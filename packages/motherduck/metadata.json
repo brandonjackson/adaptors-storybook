@@ -1,77 +1,32 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
+  "vendor": "MotherDuck",
+  "product": "MotherDuck (Cloud DuckDB)",
+  "homepage": "https://motherduck.com",
+  "status": "partial",
 
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
-
-  "apiStyle": "rest",
-  "baseUrls": [],
+  "apiStyle": "sdk",
+  "baseUrls": ["md:"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["bearer"],
+    "docs": "https://motherduck.com/docs/key-tasks/authenticating-and-connecting-to-motherduck/authenticating-to-motherduck/"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
+      "url": "https://motherduck.com/docs/intro/"
     },
     {
       "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://motherduck.com/docs/sql-reference/motherduck-sql-reference/",
+      "notes": "MotherDuck-specific SQL extensions"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
-    },
-    {
-      "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://github.com/duckdb/duckdb-node",
+      "language": "typescript",
+      "notes": "DuckDB Node bindings — used to connect to MotherDuck via md: URIs"
     }
   ],
 
@@ -80,5 +35,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "Access is via the DuckDB client using an md: connection string and an MD service token."
 }

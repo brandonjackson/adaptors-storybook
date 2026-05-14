@@ -1,77 +1,31 @@
 {
-  "$comment": "Canonical shape for packages/<adapter>/metadata.json. Copy this file into a package and fill it in. Every URL/path field should be concrete enough that an ingestion script can fetch it and dispatch on `kind` without further guessing. Leave a field out (rather than null) if unknown.",
-
-  "vendor": "",
-  "product": "",
-  "homepage": "",
-  "status": "stub",
+  "vendor": "Anthropic",
+  "product": "Claude API",
+  "homepage": "https://www.anthropic.com/api",
+  "status": "partial",
 
   "apiStyle": "rest",
-  "baseUrls": [],
+  "baseUrls": ["https://api.anthropic.com/v1"],
 
   "auth": {
-    "schemes": [],
-    "docs": ""
+    "schemes": ["api-key"],
+    "docs": "https://docs.anthropic.com/en/api/getting-started"
   },
 
   "sources": [
     {
-      "kind": "openapi",
-      "url": "",
-      "format": "yaml",
-      "version": "3.0",
-      "notes": ""
-    },
-    {
-      "kind": "wsdl",
-      "url": "",
-      "notes": "SOAP service description"
-    },
-    {
-      "kind": "graphql-schema",
-      "url": "",
-      "introspection": false,
-      "notes": ""
-    },
-    {
-      "kind": "asyncapi",
-      "url": "",
-      "format": "yaml"
-    },
-    {
-      "kind": "postman-collection",
-      "url": "",
-      "notes": ""
-    },
-    {
-      "kind": "json-schema",
-      "url": "",
-      "notes": "stand-alone resource/event schemas"
-    },
-    {
       "kind": "docs-index",
-      "url": "",
-      "notes": "human-readable docs landing page"
-    },
-    {
-      "kind": "docs-page",
-      "url": "",
-      "notes": "specific page worth scraping"
+      "url": "https://docs.anthropic.com/en/api/overview"
     },
     {
       "kind": "sdk-repo",
-      "url": "",
-      "language": "",
-      "notes": "official SDK source — useful for harvesting types/operations"
+      "url": "https://github.com/anthropics/anthropic-sdk-typescript",
+      "language": "typescript",
+      "notes": "Official Anthropic TypeScript SDK; OpenAPI source lives in Stainless config"
     },
     {
       "kind": "changelog",
-      "url": ""
-    },
-    {
-      "kind": "sandbox",
-      "url": "",
-      "notes": "test/demo environment we can hit"
+      "url": "https://docs.anthropic.com/en/release-notes/api"
     }
   ],
 
@@ -80,5 +34,5 @@
     "docs": ""
   },
 
-  "notes": ""
+  "notes": "REST API uses x-api-key header plus anthropic-version header."
 }

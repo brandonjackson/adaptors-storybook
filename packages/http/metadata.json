@@ -1,0 +1,40 @@
+{
+  "vendor": "IETF / generic",
+  "product": "HTTP client",
+  "homepage": "https://datatracker.ietf.org/doc/html/rfc9110",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic", "bearer", "oauth2", "api-key"],
+    "docs": "https://datatracker.ietf.org/doc/html/rfc7235"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-page",
+      "url": "https://datatracker.ietf.org/doc/html/rfc9110",
+      "notes": "RFC 9110 — HTTP semantics (methods, status codes, headers)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://datatracker.ietf.org/doc/html/rfc7235",
+      "notes": "RFC 7235 — HTTP authentication framework"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/axios/axios",
+      "language": "javascript",
+      "notes": "axios — HTTP client this adapter wraps"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Generic protocol adapter — no vendor API. Exposes a thin, jobs-friendly wrapper around axios for arbitrary HTTP requests."
+}

@@ -1,0 +1,40 @@
+{
+  "vendor": "Telerivet",
+  "product": "Telerivet REST API",
+  "homepage": "https://telerivet.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://api.telerivet.com/v1"],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": "https://telerivet.com/api"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://telerivet.com/api",
+      "notes": "API reference index"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://telerivet.com/api/rest",
+      "notes": "REST API overview"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/telerivet/telerivet-nodejs-client",
+      "language": "javascript",
+      "notes": "Official Node.js client"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://telerivet.com/api/webhook"
+  },
+
+  "notes": "Cloud SMS gateway with webhook callbacks for incoming messages + delivery receipts."
+}

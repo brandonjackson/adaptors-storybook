@@ -1,0 +1,56 @@
+{
+  "vendor": "Salesforce",
+  "product": "Salesforce Platform APIs (REST, SOAP, Bulk, Streaming)",
+  "homepage": "https://www.salesforce.com",
+  "status": "partial",
+
+  "apiStyle": "mixed",
+  "baseUrls": [
+    "https://{instance}.salesforce.com/services/data/v60.0",
+    "https://{instance}.salesforce.com/services/Soap/u/60.0",
+    "https://{instance}.salesforce.com/services/async/60.0"
+  ],
+
+  "auth": {
+    "schemes": ["oauth2"],
+    "docs": "https://help.salesforce.com/s/articleView?id=sf.remoteaccess_oauth_flows.htm"
+  },
+
+  "sources": [
+    {
+      "kind": "wsdl",
+      "url": "https://{instance}.salesforce.com/services/wsdl/partner",
+      "notes": "Partner WSDL; per-org Enterprise WSDL also available"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developer.salesforce.com/docs/atlas.en-us.api_bulk_v2.meta/api_bulk_v2/introduction_bulk_api_2.htm",
+      "notes": "Bulk API 2.0"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/jsforce/jsforce",
+      "language": "javascript"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/release_notes.htm"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://test.salesforce.com",
+      "notes": "Sandbox login endpoint"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developer.salesforce.com/docs/platform/pub-sub-api/overview"
+  },
+
+  "notes": "Multiple APIs: REST, SOAP (Partner/Enterprise WSDL), Bulk 2.0, Streaming/Pub-Sub, Tooling, Metadata."
+}

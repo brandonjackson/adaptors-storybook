@@ -1,0 +1,40 @@
+{
+  "vendor": "UNICEF",
+  "product": "Primero",
+  "homepage": "https://www.primero.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://primero.example.org/api/v2"],
+
+  "auth": {
+    "schemes": ["basic", "jwt"],
+    "docs": "https://github.com/primeroIMS/primero/blob/main/doc/api/README.md"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://www.primero.org/developers",
+      "notes": "Primero developer landing page"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://github.com/primeroIMS/primero/blob/main/doc/api/README.md",
+      "notes": "Primero v2 API documentation"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/primeroIMS/primero",
+      "language": "ruby",
+      "notes": "Primero Rails application"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Case management for child protection / GBV; Rails JSON REST API at /api/v2."
+}

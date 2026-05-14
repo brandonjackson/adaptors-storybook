@@ -1,0 +1,23 @@
+{
+  "vendor": "Gabinete de Coordinacion de Politicas Sociales (Dominican Republic)",
+  "product": "Punto Solidario",
+  "homepage": "https://puntosolidario.gob.do",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": ""
+  },
+
+  "sources": [],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Dominican Republic social-services platform; no public API spec located."
+}

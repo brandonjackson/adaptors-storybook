@@ -1,0 +1,48 @@
+{
+  "vendor": "Jembi Health Systems / OpenHIE",
+  "product": "OpenHIM Interoperability Layer",
+  "homepage": "http://openhim.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://localhost:8080"
+  ],
+
+  "auth": {
+    "schemes": ["basic", "token"],
+    "docs": "http://openhim.org/docs/api/authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "http://openhim.org/docs/introduction/about",
+      "notes": "OpenHIM documentation site"
+    },
+    {
+      "kind": "docs-page",
+      "url": "http://openhim.org/docs/api/intro",
+      "notes": "OpenHIM Core API reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/jembi/openhim-core-js",
+      "language": "javascript",
+      "notes": "OpenHIM Core source — defines all admin/transaction REST endpoints"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/jembi/openhim-mediator-utils",
+      "language": "javascript",
+      "notes": "Helper library for building mediators"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Self-hosted interoperability layer; base URL is deployment-specific (default :8080 for Core API)."
+}

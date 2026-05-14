@@ -1,0 +1,45 @@
+{
+  "vendor": "Apache Software Foundation",
+  "product": "Apache Hive",
+  "homepage": "https://hive.apache.org",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic", "kerberos", "ldap"],
+    "docs": "https://cwiki.apache.org/confluence/display/Hive/Setting+Up+HiveServer2"
+  },
+
+  "sources": [
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/lenchv/hive-driver",
+      "language": "javascript",
+      "notes": "Node Hive driver (Thrift over HiveServer2) commonly used by this adapter"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://cwiki.apache.org/confluence/display/Hive/Home",
+      "notes": "Apache Hive wiki (primary docs)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://cwiki.apache.org/confluence/display/Hive/LanguageManual",
+      "notes": "HiveQL language manual"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://cwiki.apache.org/confluence/display/Hive/HiveServer2+Clients",
+      "notes": "HiveServer2 client / Thrift API reference"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Generic database driver adapter — no vendor REST API. Surface is HiveQL over the HiveServer2 Thrift protocol."
+}

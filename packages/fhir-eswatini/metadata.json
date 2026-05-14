@@ -1,0 +1,29 @@
+{
+  "vendor": "Eswatini Ministry of Health",
+  "product": "Eswatini FHIR profile (HIE)",
+  "homepage": "https://hl7.org/fhir/R4/",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["bearer", "basic"],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://hl7.org/fhir/R4/",
+      "notes": "Base FHIR R4 spec (no public Eswatini-specific IG located)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Eswatini-specific FHIR adapter; country implementation guide not yet linked publicly."
+}

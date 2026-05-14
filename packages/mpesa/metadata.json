@@ -1,0 +1,37 @@
+{
+  "vendor": "Safaricom",
+  "product": "M-Pesa Daraja API",
+  "homepage": "https://developer.safaricom.co.ke",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://api.safaricom.co.ke",
+    "https://sandbox.safaricom.co.ke"
+  ],
+
+  "auth": {
+    "schemes": ["oauth2", "basic"],
+    "docs": "https://developer.safaricom.co.ke/Documentation"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://developer.safaricom.co.ke/APIs",
+      "notes": "Daraja API catalog — STK Push, B2C, C2B, Reversal, Transaction Status, etc."
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://sandbox.safaricom.co.ke",
+      "notes": "Daraja sandbox"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developer.safaricom.co.ke/Documentation"
+  },
+
+  "notes": "Kenya M-Pesa via Safaricom Daraja. Consumer key/secret obtain OAuth bearer; passkey used for STK Push password hashing."
+}

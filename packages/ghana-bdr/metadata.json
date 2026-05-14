@@ -1,0 +1,23 @@
+{
+  "vendor": "Government of Ghana",
+  "product": "Ghana Births and Deaths Registry (HBDRP) API",
+  "homepage": "https://bdr.gov.gh/",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": ""
+  },
+
+  "sources": [],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "No public documentation for the Ghana HBDRP API. Endpoint URL and credentials are provisioned per-integration; baseUrl is supplied via configuration."
+}

@@ -1,0 +1,23 @@
+{
+  "vendor": "SIUBEN (Dominican Republic)",
+  "product": "Sistema Unico de Beneficiarios",
+  "homepage": "https://siuben.gob.do",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": ""
+  },
+
+  "sources": [],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Dominican Republic social registry; no public API spec located."
+}

@@ -1,0 +1,40 @@
+{
+  "vendor": "OpenELIS Global",
+  "product": "OpenELIS Global LIS",
+  "homepage": "https://openelis-global.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic", "oauth2"],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.openelis-global.org/en/latest/",
+      "notes": "OpenELIS Global documentation"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/I-TECH-UW/OpenELIS-Global-2",
+      "language": "java",
+      "notes": "OpenELIS Global v2 source — controllers define REST endpoints"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.openelis-global.org/en/latest/intro.html",
+      "notes": "Project overview / architecture"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Open-source laboratory information system; deployments choose own base URL. FHIR module exposes a /fhir endpoint."
+}

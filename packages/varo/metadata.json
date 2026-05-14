@@ -1,0 +1,29 @@
+{
+  "vendor": "Nexleaf Analytics / WHO",
+  "product": "Varo cold-chain EMS reporting",
+  "homepage": "https://nexleaf.org",
+  "status": "stub",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": [],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "docs-page",
+      "url": "https://nexleaf.org/coldtrace/",
+      "notes": "ColdTrace / Varo background — vaccine cold-chain remote temperature monitoring"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Not a network API — this adaptor transforms Gmail-delivered cold-chain payloads into Varo EMS-format packages. Used in tandem with the gmail and collections adaptors."
+}

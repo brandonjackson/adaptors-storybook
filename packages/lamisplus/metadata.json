@@ -1,0 +1,35 @@
+{
+  "vendor": "LAMISPlus Consortium",
+  "product": "LAMISPlus",
+  "homepage": "https://lamisplus.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://example.com/api"],
+
+  "auth": {
+    "schemes": ["basic", "bearer"],
+    "docs": "https://docs.lamisplus.org"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.lamisplus.org",
+      "notes": "LAMISPlus user/dev documentation"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/LAMIS-Plus-Project",
+      "language": "java",
+      "notes": "LAMISPlus GitHub organisation (Spring Boot services)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Nigeria HIV/AIDS patient-level info system; Spring Boot REST API, JWT auth."
+}

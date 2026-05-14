@@ -1,0 +1,29 @@
+{
+  "vendor": "Beyonic",
+  "product": "Beyonic API",
+  "homepage": "https://beyonic.com",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://app.beyonic.com/api"],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": "https://apidocs.beyonic.com/#authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://apidocs.beyonic.com/",
+      "notes": "Beyonic API reference (Slate-style docs)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://apidocs.beyonic.com/#webhooks"
+  },
+
+  "notes": "East Africa mobile money payments and collections. No public OpenAPI spec; docs are HTML-only."
+}

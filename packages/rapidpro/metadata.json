@@ -1,0 +1,49 @@
+{
+  "vendor": "TextIt / UNICEF",
+  "product": "RapidPro API v2",
+  "homepage": "https://rapidpro.io",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://rapidpro.io/api/v2",
+    "https://textit.com/api/v2"
+  ],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": "https://rapidpro.io/api/v2/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://rapidpro.io/api/v2/",
+      "notes": "Browsable RapidPro API v2 reference"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://textit.com/api/v2/",
+      "notes": "TextIt-hosted mirror of the same API (RapidPro is the OSS basis of TextIt)"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/rapidpro/rapidpro",
+      "language": "python",
+      "notes": "RapidPro server source"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/rapidpro/rapidpro-python",
+      "language": "python",
+      "notes": "Official Python client"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://app.rapidpro.io/api/v2/explorer#webhook-events"
+  },
+
+  "notes": "Self-hostable; UNICEF runs instances per country. Webhooks fire from flows on configurable events."
+}

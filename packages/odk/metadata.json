@@ -1,0 +1,48 @@
+{
+  "vendor": "ODK",
+  "product": "ODK Central API",
+  "homepage": "https://getodk.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://{your-central-server}/v1"],
+
+  "auth": {
+    "schemes": ["basic", "session-token"],
+    "docs": "https://docs.getodk.org/central-api-authentication/"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://github.com/getodk/central-api/blob/master/api.yaml",
+      "format": "yaml",
+      "version": "3.0",
+      "notes": "OpenAPI spec used to render the public Central API docs"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://docs.getodk.org/central-api/",
+      "notes": "Central API overview + endpoints"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/getodk/central-backend",
+      "language": "javascript",
+      "notes": "ODK Central backend source"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/getodk/central-api",
+      "language": "yaml",
+      "notes": "Canonical OpenAPI spec repo"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Self-hosted; OData feed on Central is the recommended pull mechanism for new submissions."
+}

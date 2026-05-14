@@ -1,0 +1,43 @@
+{
+  "vendor": "Asana",
+  "product": "Asana REST API",
+  "homepage": "https://asana.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://app.asana.com/api/1.0"],
+
+  "auth": {
+    "schemes": ["oauth2", "bearer"],
+    "docs": "https://developers.asana.com/docs/authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://raw.githubusercontent.com/Asana/openapi/master/defs/asana_oas.yaml",
+      "format": "yaml",
+      "version": "3.0"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://developers.asana.com/docs"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/Asana/node-asana",
+      "language": "javascript"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://developers.asana.com/docs/api-changelog"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developers.asana.com/docs/webhooks"
+  },
+
+  "notes": ""
+}

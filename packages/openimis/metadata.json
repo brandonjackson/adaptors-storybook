@@ -1,0 +1,40 @@
+{
+  "vendor": "openIMIS Initiative",
+  "product": "openIMIS",
+  "homepage": "https://openimis.org",
+  "status": "stub",
+
+  "apiStyle": "mixed",
+  "baseUrls": ["https://demo.openimis.org"],
+
+  "auth": {
+    "schemes": ["basic", "jwt"],
+    "docs": "https://openimis.atlassian.net/wiki/spaces/OP/overview"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://openimis.atlassian.net/wiki/spaces/OP/overview",
+      "notes": "openIMIS technical wiki"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/openimis/openimis-be_py",
+      "language": "python",
+      "notes": "Django backend; exposes REST + GraphQL"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://demo.openimis.org",
+      "notes": "Public demo environment"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Health-insurance management; Django backend with REST + GraphQL surfaces."
+}

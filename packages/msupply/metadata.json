@@ -1,0 +1,40 @@
+{
+  "vendor": "Sustainable Solutions / mSupply Foundation",
+  "product": "mSupply (Open mSupply)",
+  "homepage": "https://msupply.foundation",
+  "status": "stub",
+
+  "apiStyle": "graphql",
+  "baseUrls": ["https://example.com/graphql"],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://docs.msupply.foundation"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.msupply.foundation",
+      "notes": "mSupply Foundation documentation hub"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/openmsupply/open-msupply",
+      "language": "rust",
+      "notes": "Open mSupply server (Rust + GraphQL)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://github.com/openmsupply/open-msupply/tree/develop/server/graphql",
+      "notes": "GraphQL schema modules; introspection available on a running instance"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "GraphQL API; adapter wraps getItems plus outbound-shipment mutations."
+}

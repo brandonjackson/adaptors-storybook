@@ -1,0 +1,34 @@
+{
+  "vendor": "Flutterwave",
+  "product": "Flutterwave Payments API",
+  "homepage": "https://flutterwave.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://api.flutterwave.com/v3"],
+
+  "auth": {
+    "schemes": ["bearer"],
+    "docs": "https://developer.flutterwave.com/docs/authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://developer.flutterwave.com/docs",
+      "notes": "Flutterwave developer documentation portal"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developer.flutterwave.com/reference",
+      "notes": "API reference"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developer.flutterwave.com/docs/webhooks"
+  },
+
+  "notes": "Pan-African payments platform. Uses Bearer secret-key auth (sk_test_/sk_live_)."
+}

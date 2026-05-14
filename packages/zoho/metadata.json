@@ -1,0 +1,41 @@
+{
+  "vendor": "Zoho",
+  "product": "Zoho CRM REST API",
+  "homepage": "https://www.zoho.com/crm/",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://www.zohoapis.com/crm/v6",
+    "https://www.zohoapis.eu/crm/v6",
+    "https://www.zohoapis.in/crm/v6"
+  ],
+
+  "auth": {
+    "schemes": ["oauth2"],
+    "docs": "https://www.zoho.com/crm/developer/docs/api/v6/auth-request.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://www.zoho.com/crm/developer/docs/api/v6/"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/zoho/zohocrm-nodejs-sdk-6.0",
+      "language": "javascript"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://www.zoho.com/crm/developer/docs/api/v6/release-notes.html"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://www.zoho.com/crm/developer/docs/api/v6/notifications/overview.html"
+  },
+
+  "notes": "Targeted Zoho CRM specifically; Zoho has many products (Books, Desk, Inventory, etc.) on similar regional base URLs."
+}

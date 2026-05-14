@@ -1,0 +1,47 @@
+{
+  "vendor": "eGov Foundation / DIVOC",
+  "product": "DIVOC",
+  "homepage": "https://divoc.digit.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://demo-divoc.egov.org.in"],
+
+  "auth": {
+    "schemes": ["bearer", "oauth2"],
+    "docs": "https://divoc.digit.org/platform/divoc-implementation-guide/divoc-apis"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://divoc.digit.org/platform/divoc-implementation-guide",
+      "notes": "DIVOC implementation guide"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://divoc.digit.org/platform/divoc-implementation-guide/divoc-apis",
+      "notes": "DIVOC API reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/egovernments/DIVOC",
+      "language": "go",
+      "notes": "DIVOC platform source; includes Swagger specs under /interfaces"
+    },
+    {
+      "kind": "openapi",
+      "url": "https://github.com/egovernments/DIVOC/blob/main/interfaces/vaccination_api.yaml",
+      "format": "yaml",
+      "version": "2.0",
+      "notes": "Vaccination certification Swagger 2 spec"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Digital vaccination certificate platform; built on Sunbird RC registry."
+}

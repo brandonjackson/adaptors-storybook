@@ -1,0 +1,41 @@
+{
+  "vendor": "MinIO",
+  "product": "MinIO Object Storage (S3-compatible)",
+  "homepage": "https://min.io",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": ["https://<minio-host>:9000"],
+
+  "auth": {
+    "schemes": ["hmac"],
+    "docs": "https://min.io/docs/minio/linux/developers/security-token-service.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://min.io/docs/minio/linux/developers/javascript/API.html",
+      "notes": "MinIO JS client API reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/minio/minio-js",
+      "language": "javascript",
+      "notes": "Official MinIO JS SDK"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/minio/minio",
+      "language": "go",
+      "notes": "MinIO server source — defines the S3-compatible API surface"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://min.io/docs/minio/linux/administration/monitoring/bucket-notifications.html"
+  },
+
+  "notes": "Implements the S3 wire protocol; same SigV4 auth model as AWS S3."
+}

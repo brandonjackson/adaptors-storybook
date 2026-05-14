@@ -1,0 +1,46 @@
+{
+  "vendor": "IETF / SSH protocol",
+  "product": "SFTP (SSH File Transfer Protocol)",
+  "homepage": "https://datatracker.ietf.org/doc/html/rfc4251",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic", "ssh-key"],
+    "docs": "https://datatracker.ietf.org/doc/html/rfc4252"
+  },
+
+  "sources": [
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/theophilusx/ssh2-sftp-client",
+      "language": "javascript",
+      "notes": "ssh2-sftp-client — Node SFTP client this adapter wraps"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/mscdex/ssh2",
+      "language": "javascript",
+      "notes": "ssh2 — underlying SSH/SFTP protocol implementation"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-13",
+      "notes": "IETF SSH File Transfer Protocol draft (SFTP v6)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://datatracker.ietf.org/doc/html/rfc4251",
+      "notes": "RFC 4251 — SSH protocol architecture"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Generic file-transfer protocol adapter — no vendor API. Surface is the SFTP subsystem of SSH; canonical reference is the IETF secsh-filexfer drafts plus the ssh2-sftp-client driver."
+}

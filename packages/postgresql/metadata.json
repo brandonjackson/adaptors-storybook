@@ -1,0 +1,40 @@
+{
+  "vendor": "PostgreSQL Global Development Group",
+  "product": "PostgreSQL",
+  "homepage": "https://www.postgresql.org",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic", "scram-sha-256", "md5"],
+    "docs": "https://www.postgresql.org/docs/current/auth-methods.html"
+  },
+
+  "sources": [
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/brianc/node-postgres",
+      "language": "javascript",
+      "notes": "node-postgres (pg) driver this adapter wraps"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://www.postgresql.org/docs/current/",
+      "notes": "PostgreSQL reference docs (SQL + protocol)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://www.postgresql.org/docs/current/protocol.html",
+      "notes": "Frontend/backend wire protocol"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Generic database driver adapter — no vendor REST API. Surface is SQL via the node-postgres driver over the PostgreSQL wire protocol."
+}

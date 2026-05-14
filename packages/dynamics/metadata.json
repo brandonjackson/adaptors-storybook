@@ -1,0 +1,33 @@
+{
+  "vendor": "Microsoft",
+  "product": "Microsoft Dynamics 365",
+  "homepage": "https://www.microsoft.com/dynamics-365",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://{organization}.api.crm.dynamics.com/api/data/v9.2"],
+
+  "auth": {
+    "schemes": ["oauth2"],
+    "docs": "https://learn.microsoft.com/power-apps/developer/data-platform/authenticate-oauth"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://learn.microsoft.com/power-apps/developer/data-platform/webapi/overview"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://learn.microsoft.com/power-apps/developer/data-platform/webapi/web-api-types-operations",
+      "notes": "OData v4 entity types and operations reference"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://learn.microsoft.com/power-apps/developer/data-platform/use-webhooks"
+  },
+
+  "notes": "OData v4 service; entity metadata available at per-org $metadata endpoint."
+}

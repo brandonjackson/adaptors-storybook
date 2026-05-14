@@ -1,0 +1,47 @@
+{
+  "vendor": "HL7",
+  "product": "FHIR (generic)",
+  "homepage": "https://hl7.org/fhir/",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://hapi.fhir.org/baseR4",
+    "https://server.fire.ly"
+  ],
+
+  "auth": {
+    "schemes": ["bearer", "basic", "smart-on-fhir"],
+    "docs": "https://hl7.org/fhir/security.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://hl7.org/fhir/",
+      "notes": "FHIR spec landing page (currently R5)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://hl7.org/fhir/http.html",
+      "notes": "RESTful API semantics"
+    },
+    {
+      "kind": "json-schema",
+      "url": "https://hl7.org/fhir/fhir.schema.json.zip",
+      "notes": "All resource JSON Schemas"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://hapi.fhir.org",
+      "notes": "Public HAPI FHIR test server"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://hl7.org/fhir/subscription.html"
+  },
+
+  "notes": "Server-agnostic; choose a baseUrl per deployment. See fhir-4 for an R4-pinned variant."
+}

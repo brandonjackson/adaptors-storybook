@@ -1,0 +1,45 @@
+{
+  "vendor": "Twilio",
+  "product": "Twilio Communications API",
+  "homepage": "https://www.twilio.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://api.twilio.com/2010-04-01"],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://www.twilio.com/docs/usage/api"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://github.com/twilio/twilio-oai/raw/main/spec/json/twilio_api_v2010.json",
+      "format": "json",
+      "version": "3.0",
+      "notes": "Official Twilio OpenAPI spec (Core API v2010)"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/twilio/twilio-node",
+      "language": "typescript",
+      "notes": "Official Twilio Node SDK"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://www.twilio.com/docs/api"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://www.twilio.com/docs/changelog"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://www.twilio.com/docs/usage/webhooks"
+  },
+
+  "notes": "HTTP Basic auth with Account SID + Auth Token; per-product specs (messaging, voice, verify) in twilio-oai."
+}

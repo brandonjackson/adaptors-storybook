@@ -1,0 +1,35 @@
+{
+  "vendor": "Browserless",
+  "product": "Browserless Browser Automation API",
+  "homepage": "https://www.browserless.io",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://chrome.browserless.io", "https://production-sfo.browserless.io"],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": "https://docs.browserless.io/baas/start"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://docs.browserless.io/baas/v2/open-api",
+      "format": "json",
+      "version": "3.0",
+      "notes": "OpenAPI for the BaaS v2 REST endpoints (/function, /pdf, /screenshot, /content, etc.)"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://docs.browserless.io/"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Also exposes a websocket Playwright/Puppeteer endpoint; REST endpoints are the documented surface."
+}

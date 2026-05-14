@@ -1,0 +1,41 @@
+{
+  "vendor": "OpenSPP",
+  "product": "OpenSPP",
+  "homepage": "https://openspp.org",
+  "status": "stub",
+
+  "apiStyle": "sdk",
+  "baseUrls": ["https://dev.newlogic-demo.com"],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://docs.openspp.org"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.openspp.org",
+      "notes": "OpenSPP documentation site"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenSPP/openspp",
+      "language": "python",
+      "notes": "OpenSPP Odoo modules (social protection)"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/vettloffah/odoo-await",
+      "language": "javascript",
+      "notes": "odoo-await client used by the adaptor (Odoo JSON-RPC)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Built on Odoo; adapter uses Odoo external API (JSON-RPC/XML-RPC) via odoo-await."
+}

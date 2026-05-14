@@ -1,0 +1,45 @@
+{
+  "vendor": "Partners In Health",
+  "product": "OpenBoxes",
+  "homepage": "https://openboxes.com",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://demo.openboxes.com/openboxes/api"],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://docs.openboxes.com/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.openboxes.com/",
+      "notes": "OpenBoxes user and developer documentation"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.openboxes.com/en/latest/development/api.html",
+      "notes": "OpenBoxes REST API reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/openboxes/openboxes",
+      "language": "groovy",
+      "notes": "OpenBoxes Grails monolith"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://demo.openboxes.com/openboxes/",
+      "notes": "Public demo instance"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Supply-chain management; Grails-based REST API."
+}

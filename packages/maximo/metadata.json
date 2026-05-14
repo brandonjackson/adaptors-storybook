@@ -1,0 +1,39 @@
+{
+  "vendor": "IBM",
+  "product": "IBM Maximo (EAM / MAS Manage)",
+  "homepage": "https://www.ibm.com/products/maximo",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic", "api-key", "oauth2"],
+    "docs": "https://www.ibm.com/docs/en/mas-cd/continuous-delivery?topic=apis-rest-api-authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://www.ibm.com/docs/en/mas-cd/continuous-delivery?topic=apis-rest-api",
+      "notes": "Maximo Application Suite REST API docs"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://www.ibm.com/docs/en/maximo-eam-saas?topic=apis-rest-api",
+      "notes": "Maximo EAM SaaS REST API reference"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://www.ibm.com/docs/en/mas-cd/continuous-delivery?topic=manage-using-oslc-rest-apis-query-applications",
+      "notes": "OSLC REST API for querying Maximo business objects"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Maximo offers both classic /maxrest and newer /oslc REST endpoints; no public OpenAPI spec — schemas come from MBO metadata."
+}

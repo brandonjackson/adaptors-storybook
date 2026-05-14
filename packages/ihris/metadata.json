@@ -1,0 +1,40 @@
+{
+  "vendor": "IntraHealth International",
+  "product": "iHRIS",
+  "homepage": "https://www.ihris.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://ihris.example.com/fhir"],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://www.ihris.org/docs"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://www.ihris.org/docs",
+      "notes": "iHRIS documentation portal"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/intrahealth/ihris-backend",
+      "language": "javascript",
+      "notes": "iHRIS v5 FHIR-based backend"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://hl7.org/fhir/R4/http.html",
+      "notes": "iHRIS v5 exposes a FHIR R4 REST API"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "iHRIS v5 is built on HAPI FHIR; adapter delegates to language-fhir-4."
+}

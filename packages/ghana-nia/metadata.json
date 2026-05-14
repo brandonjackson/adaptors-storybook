@@ -1,0 +1,23 @@
+{
+  "vendor": "Government of Ghana",
+  "product": "Ghana National Identification Authority (NIA) API",
+  "homepage": "https://nia.gov.gh/",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": ""
+  },
+
+  "sources": [],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "No public documentation for the Ghana NIA system. Auth is via a per-merchant key; baseUrl is supplied per integration."
+}

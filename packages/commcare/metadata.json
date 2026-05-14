@@ -1,0 +1,42 @@
+{
+  "vendor": "Dimagi",
+  "product": "CommCare HQ",
+  "homepage": "https://www.commcarehq.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://www.commcarehq.org/a/{domain}/api/v0.5"
+  ],
+
+  "auth": {
+    "schemes": ["api-key", "basic", "oauth2"],
+    "docs": "https://dimagi.atlassian.net/wiki/spaces/commcarepublic/pages/2143955600/Authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://dimagi.atlassian.net/wiki/spaces/commcarepublic/pages/2143957549/CommCare+APIs",
+      "notes": "CommCare HQ REST API index"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://dimagi.atlassian.net/wiki/spaces/commcarepublic/pages/2143951603/List+of+APIs",
+      "notes": "Per-resource endpoint listing"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/dimagi/commcare-hq",
+      "language": "python",
+      "notes": "CommCare HQ source; corehq/apis/ defines the REST surface"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://dimagi.atlassian.net/wiki/spaces/commcarepublic/pages/2143951225/Data+Forwarding"
+  },
+
+  "notes": "Tenanted: each project (domain) has its own URL prefix /a/{domain}/."
+}

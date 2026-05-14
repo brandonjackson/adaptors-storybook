@@ -1,0 +1,40 @@
+{
+  "vendor": "Medic",
+  "product": "Medic Mobile (legacy; succeeded by Community Health Toolkit / CHT)",
+  "homepage": "https://medic.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://docs.communityhealthtoolkit.org/apps/reference/api/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.communityhealthtoolkit.org/",
+      "notes": "CHT documentation (current home of what was Medic Mobile)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.communityhealthtoolkit.org/apps/reference/api/",
+      "notes": "CHT API reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/medic/cht-core",
+      "language": "javascript",
+      "notes": "CHT Core (successor to medic-webapp)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Legacy adapter — Medic Mobile rebranded to the Community Health Toolkit (CHT). Use the `cht` adapter for new work; kept here for older job compatibility."
+}

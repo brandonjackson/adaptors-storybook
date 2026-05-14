@@ -1,0 +1,29 @@
+{
+  "vendor": "Wigal",
+  "product": "Wigal FROG SMS API",
+  "homepage": "https://wigal.com.gh",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://frogapi.wigal.com.gh"],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": "https://frogdocs.wigal.com.gh/introduction"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://frogdocs.wigal.com.gh/introduction",
+      "notes": "Wigal FROG bulk SMS API documentation"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Ghanaian SMS gateway. Auth via username + API-KEY headers on each request."
+}

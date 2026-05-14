@@ -1,0 +1,46 @@
+{
+  "vendor": "World Health Organization",
+  "product": "Go.Data",
+  "homepage": "https://www.who.int/tools/godata",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["bearer", "basic"],
+    "docs": "https://worldhealthorganization.github.io/godata/api-docs/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://worldhealthorganization.github.io/godata/",
+      "notes": "Go.Data documentation hub"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://worldhealthorganization.github.io/godata/api-docs/",
+      "notes": "API reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/WorldHealthOrganization/godata",
+      "language": "javascript",
+      "notes": "Go.Data umbrella repo (links to API + frontend repos)"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/WorldHealthOrganization/GoDataSource-API",
+      "language": "javascript",
+      "notes": "Go.Data API server (LoopBack-based)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "On-prem outbreak management tool; each deployment chooses its own base URL."
+}

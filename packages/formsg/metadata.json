@@ -1,0 +1,46 @@
+{
+  "vendor": "Open Government Products (GovTech Singapore)",
+  "product": "FormSG",
+  "homepage": "https://form.gov.sg",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://form.gov.sg/api/v3"],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": "https://guide.form.gov.sg/AdvancedGuide/RestAPI.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://guide.form.gov.sg/",
+      "notes": "FormSG user/developer guide"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://guide.form.gov.sg/AdvancedGuide/RestAPI.html",
+      "notes": "REST API for retrieving form responses"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/opengovsg/formsg-javascript-sdk",
+      "language": "javascript",
+      "notes": "official JS SDK; handles decryption of E2EE responses"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/opengovsg/FormSG",
+      "language": "typescript",
+      "notes": "main FormSG application source"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://guide.form.gov.sg/AdvancedGuide/Webhooks.html"
+  },
+
+  "notes": "End-to-end encrypted form responses; webhook payloads must be decrypted with the form secret key via the official SDK."
+}

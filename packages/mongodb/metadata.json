@@ -1,0 +1,46 @@
+{
+  "vendor": "MongoDB",
+  "product": "MongoDB Atlas / Driver",
+  "homepage": "https://www.mongodb.com",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": ["mongodb+srv://<cluster>.mongodb.net", "https://data.mongodb-api.com/app/<app-id>/endpoint/data/v1"],
+
+  "auth": {
+    "schemes": ["basic", "api-key", "bearer"],
+    "docs": "https://www.mongodb.com/docs/atlas/app-services/data-api/authenticate/"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://github.com/mongodb/openapi/raw/main/openapi/v2.json",
+      "format": "json",
+      "version": "3.0",
+      "notes": "MongoDB Atlas Admin API OpenAPI spec"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/mongodb/node-mongodb-native",
+      "language": "typescript",
+      "notes": "Official MongoDB Node driver"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://www.mongodb.com/docs/drivers/node/current/"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://www.mongodb.com/docs/atlas/app-services/data-api/",
+      "notes": "Atlas Data API (HTTPS alternative to driver)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://www.mongodb.com/docs/atlas/app-services/triggers/"
+  },
+
+  "notes": "Primary access is via the native driver over the Mongo wire protocol; Atlas also exposes a REST Data API."
+}

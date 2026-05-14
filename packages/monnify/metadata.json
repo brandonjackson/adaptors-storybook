@@ -1,0 +1,37 @@
+{
+  "vendor": "Monnify (TeamApt / Moniepoint)",
+  "product": "Monnify Payments API",
+  "homepage": "https://monnify.com",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://api.monnify.com",
+    "https://sandbox.monnify.com"
+  ],
+
+  "auth": {
+    "schemes": ["basic", "bearer"],
+    "docs": "https://developers.monnify.com/api/#authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://developers.monnify.com/api/",
+      "notes": "Monnify API reference (Slate-style docs)"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://sandbox.monnify.com",
+      "notes": "Monnify sandbox environment"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developers.monnify.com/api/#webhooks"
+  },
+
+  "notes": "Nigerian payments platform by TeamApt. apiKey + secretKey are exchanged for a bearer token."
+}

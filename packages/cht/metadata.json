@@ -1,0 +1,43 @@
+{
+  "vendor": "Medic",
+  "product": "Community Health Toolkit (CHT) Core API",
+  "homepage": "https://communityhealthtoolkit.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://<instance>.app.medicmobile.org/api/v1",
+    "https://<instance>.app.medicmobile.org/medic/_design/medic/_rewrite"
+  ],
+
+  "auth": {
+    "schemes": ["basic", "cookie-session"],
+    "docs": "https://docs.communityhealthtoolkit.org/apps/reference/api/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.communityhealthtoolkit.org/apps/reference/api/",
+      "notes": "CHT Core API reference"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.communityhealthtoolkit.org/apps/guides/data/",
+      "notes": "Data model + record shapes"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/medic/cht-core",
+      "language": "javascript",
+      "notes": "CHT Core monorepo; api/ folder defines REST endpoints"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Backed by CouchDB; some integrations replicate against the underlying _changes feed."
+}

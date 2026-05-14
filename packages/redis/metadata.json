@@ -1,0 +1,40 @@
+{
+  "vendor": "Redis Ltd.",
+  "product": "Redis",
+  "homepage": "https://redis.io",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic", "acl"],
+    "docs": "https://redis.io/docs/management/security/acl/"
+  },
+
+  "sources": [
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/redis/node-redis",
+      "language": "javascript",
+      "notes": "Official node-redis client this adapter wraps"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://redis.io/commands/",
+      "notes": "Full Redis command reference"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://redis.io/docs/reference/protocol-spec/",
+      "notes": "RESP protocol specification"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Generic key-value driver adapter — no vendor REST API. Surface is the Redis command set over the RESP wire protocol via node-redis."
+}

@@ -1,0 +1,37 @@
+{
+  "vendor": "Pesapal",
+  "product": "Pesapal Payments API v3",
+  "homepage": "https://www.pesapal.com",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://pay.pesapal.com/v3",
+    "https://cybqa.pesapal.com/pesapalv3"
+  ],
+
+  "auth": {
+    "schemes": ["bearer"],
+    "docs": "https://developer.pesapal.com/how-to-integrate/api-30/authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://developer.pesapal.com/how-to-integrate/api-30",
+      "notes": "Pesapal API 3.0 developer documentation"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://cybqa.pesapal.com/pesapalv3",
+      "notes": "Pesapal v3 sandbox (demo)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developer.pesapal.com/how-to-integrate/api-30/ipn-url"
+  },
+
+  "notes": "East Africa payments aggregator. Consumer key/secret exchanged for short-lived JWT bearer token."
+}

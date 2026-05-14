@@ -1,0 +1,45 @@
+{
+  "vendor": "Intuit",
+  "product": "Intuit QuickBooks Online Accounting API",
+  "homepage": "https://developer.intuit.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://quickbooks.api.intuit.com/v3",
+    "https://sandbox-quickbooks.api.intuit.com/v3"
+  ],
+
+  "auth": {
+    "schemes": ["oauth2"],
+    "docs": "https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/account"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api",
+      "notes": "API overview"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://developer.intuit.com/app/developer/qbo/docs/release-notes"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://sandbox-quickbooks.api.intuit.com/v3",
+      "notes": "QBO sandbox environment"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks"
+  },
+
+  "notes": "Intuit does not publish an official OpenAPI; entity references are per-resource HTML pages."
+}

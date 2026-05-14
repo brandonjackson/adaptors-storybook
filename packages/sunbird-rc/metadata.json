@@ -1,0 +1,40 @@
+{
+  "vendor": "Sunbird",
+  "product": "Sunbird RC (Registry & Credentialing)",
+  "homepage": "https://sunbird.org/products/sunbird-rc",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://ndear.xiv.in"],
+
+  "auth": {
+    "schemes": ["bearer"],
+    "docs": "https://docs.sunbirdrc.dev/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.sunbirdrc.dev/",
+      "notes": "Sunbird RC documentation"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.sunbirdrc.dev/learn/registry-api-reference",
+      "notes": "Registry REST API reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/Sunbird-RC/sunbird-rc-core",
+      "language": "java",
+      "notes": "Sunbird RC core services"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Electronic registries and verifiable credentialing toolkit; per-deployment OpenAPI generated from schema definitions."
+}

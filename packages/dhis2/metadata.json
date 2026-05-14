@@ -1,0 +1,50 @@
+{
+  "vendor": "DHIS2",
+  "product": "DHIS2 Web API",
+  "homepage": "https://dhis2.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://play.dhis2.org/dev/api",
+    "https://play.dhis2.org/stable-2-40/api"
+  ],
+
+  "auth": {
+    "schemes": ["basic", "oauth2", "personal-access-token"],
+    "docs": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/web-api.html#webapi_authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://play.dhis2.org/dev/api/openapi/openapi.json",
+      "format": "json",
+      "version": "3.0",
+      "notes": "Live OpenAPI generated from a running DHIS2 instance"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/web-api.html",
+      "notes": "DHIS2 Web API reference (master)"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/dhis2/dhis2-core",
+      "language": "java",
+      "notes": "Source of truth for API controllers"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://play.dhis2.org",
+      "notes": "Public DHIS2 demo servers (admin/district)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Versioned API; choose a base URL matching the target instance's DHIS2 version."
+}

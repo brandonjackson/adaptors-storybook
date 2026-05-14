@@ -1,0 +1,39 @@
+{
+  "vendor": "Dobility",
+  "product": "SurveyCTO Data API",
+  "homepage": "https://www.surveycto.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://{server-name}.surveycto.com"],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://docs.surveycto.com/05-exporting-and-publishing-data/01-overview/09.api-access.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.surveycto.com/",
+      "notes": "SurveyCTO documentation home"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.surveycto.com/05-exporting-and-publishing-data/01-overview/09.api-access.html",
+      "notes": "API access overview (form definitions + submission data)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.surveycto.com/05-exporting-and-publishing-data/03-the-rest-api/01.rest-api.html",
+      "notes": "REST API reference"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://docs.surveycto.com/05-exporting-and-publishing-data/02-publishing-features/01.publishing.html"
+  },
+
+  "notes": "Per-tenant subdomain (e.g. mycompany.surveycto.com). 'Publishing' feature posts submissions to external URLs."
+}

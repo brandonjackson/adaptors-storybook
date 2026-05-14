@@ -1,0 +1,45 @@
+{
+  "vendor": "OpenLMIS Community",
+  "product": "OpenLMIS",
+  "homepage": "https://openlmis.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://test.openlmis.org"],
+
+  "auth": {
+    "schemes": ["oauth2-password"],
+    "docs": "https://openlmis.readthedocs.io/en/latest/conventions/restApiConventions.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://openlmis.readthedocs.io/en/latest/",
+      "notes": "OpenLMIS ReadTheDocs root"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://openlmis.readthedocs.io/en/latest/conventions/restApiConventions.html",
+      "notes": "REST API conventions"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenLMIS",
+      "language": "java",
+      "notes": "OpenLMIS GitHub org; individual services expose RAML/Swagger"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://test.openlmis.org",
+      "notes": "Public test instance"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Microservices architecture; each service has its own Swagger UI at /<service>/docs."
+}

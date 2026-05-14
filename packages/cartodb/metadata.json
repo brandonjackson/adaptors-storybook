@@ -1,0 +1,41 @@
+{
+  "vendor": "CARTO",
+  "product": "CARTO (formerly CartoDB) SQL & Import APIs",
+  "homepage": "https://carto.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://{username}.carto.com/api/v2"
+  ],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": "https://carto.com/developers/sql-api/guides/authentication/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://carto.com/developers/sql-api/",
+      "notes": "CARTO SQL API developer docs (the surface this adapter uses)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://carto.com/developers/sql-api/reference/",
+      "notes": "SQL API endpoint reference"
+    },
+    {
+      "kind": "docs-page",
+      "url": "http://docs.cartodb.com/cartodb-platform/sql-api/",
+      "notes": "Legacy CartoDB SQL API docs referenced in adapter README"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "CARTO does not publish an OpenAPI spec; SQL API is a thin HTTP wrapper around PostGIS queries."
+}

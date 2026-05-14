@@ -1,0 +1,39 @@
+{
+  "vendor": "Vtiger",
+  "product": "Vtiger CRM",
+  "homepage": "https://www.vtiger.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic", "access-token"],
+    "docs": "https://help.vtiger.com/article/147111526-Create-Access-Key"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://help.vtiger.com/category/AKCbidihik-rest-api",
+      "notes": "Vtiger REST API help section"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://www.vtiger.com/docs/rest-api-for-vtiger",
+      "notes": "Vtiger REST API reference"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://help.vtiger.com/article/147111526-Create-Access-Key",
+      "notes": "Auth / access key setup"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://help.vtiger.com/article/157943229-Webhook"
+  },
+
+  "notes": "Per-tenant base URL (https://<org>.od2.vtiger.com/restapi/v1/vtiger/default). The adaptor uses md5(accessKey) as the password."
+}

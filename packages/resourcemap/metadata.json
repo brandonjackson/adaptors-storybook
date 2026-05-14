@@ -1,0 +1,42 @@
+{
+  "vendor": "InSTEDD",
+  "product": "ResourceMap REST API",
+  "homepage": "http://resourcemap.instedd.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "http://resourcemap.instedd.org/api"
+  ],
+
+  "auth": {
+    "schemes": ["basic", "oauth2"],
+    "docs": "https://github.com/instedd/resourcemap/wiki/REST_API"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://github.com/instedd/resourcemap/wiki/REST_API",
+      "notes": "ResourceMap REST API wiki (primary reference)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://github.com/instedd/resourcemap/wiki/REST_API#create-site",
+      "notes": "Create-site endpoint used by submitSite()"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/instedd/resourcemap",
+      "language": "ruby",
+      "notes": "InSTEDD ResourceMap server source — schemas live here"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Community-maintained Rails app; documentation lives entirely in the project wiki."
+}

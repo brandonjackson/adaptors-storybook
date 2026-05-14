@@ -1,0 +1,42 @@
+{
+  "vendor": "Dagu",
+  "product": "Dagu Workflow Engine",
+  "homepage": "https://dagu.readthedocs.io",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://dagu.readthedocs.io/en/latest/config/server.html"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://github.com/dagu-org/dagu/blob/main/api/v2/api.yaml",
+      "format": "yaml",
+      "version": "3.0",
+      "notes": "Dagu v2 API spec"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://dagu.readthedocs.io",
+      "notes": "Dagu docs landing page"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/dagu-org/dagu",
+      "language": "go",
+      "notes": "Upstream Dagu repo"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Self-hosted workflow scheduler; no canonical baseUrl — users supply their own instance URL."
+}

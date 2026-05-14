@@ -1,0 +1,29 @@
+{
+  "vendor": "OpenFn / generic",
+  "product": "Ping (connectivity probe)",
+  "homepage": "https://datatracker.ietf.org/doc/html/rfc792",
+  "status": "stub",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": [],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "docs-page",
+      "url": "https://datatracker.ietf.org/doc/html/rfc792",
+      "notes": "RFC 792 — Internet Control Message Protocol (ICMP echo / ping)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Generic connectivity-probe adapter — no vendor API. Used as a smoke-test to verify network reachability; reference is ICMP (RFC 792) or a plain HTTP GET depending on implementation."
+}

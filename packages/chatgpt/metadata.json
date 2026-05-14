@@ -1,0 +1,45 @@
+{
+  "vendor": "OpenAI",
+  "product": "OpenAI API (ChatGPT / Completions)",
+  "homepage": "https://openai.com/api/",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://api.openai.com/v1"],
+
+  "auth": {
+    "schemes": ["bearer", "api-key"],
+    "docs": "https://platform.openai.com/docs/api-reference/authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://github.com/openai/openai-openapi/raw/master/openapi.yaml",
+      "format": "yaml",
+      "version": "3.0",
+      "notes": "Official OpenAPI spec for the OpenAI REST API"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://platform.openai.com/docs/api-reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/openai/openai-node",
+      "language": "typescript",
+      "notes": "Official Node SDK"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://platform.openai.com/docs/changelog"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": ""
+}

@@ -1,0 +1,46 @@
+{
+  "vendor": "HL7",
+  "product": "FHIR R4",
+  "homepage": "https://hl7.org/fhir/R4/",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://hapi.fhir.org/baseR4"
+  ],
+
+  "auth": {
+    "schemes": ["bearer", "basic", "smart-on-fhir"],
+    "docs": "https://hl7.org/fhir/R4/security.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://hl7.org/fhir/R4/",
+      "notes": "FHIR R4 spec landing page"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://hl7.org/fhir/R4/http.html",
+      "notes": "R4 RESTful API semantics"
+    },
+    {
+      "kind": "json-schema",
+      "url": "https://hl7.org/fhir/R4/fhir.schema.json.zip",
+      "notes": "R4 JSON Schemas for all resources"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://hapi.fhir.org/baseR4",
+      "notes": "Public HAPI R4 endpoint"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://hl7.org/fhir/R4/subscription.html"
+  },
+
+  "notes": "Pinned to FHIR 4.0.1 (R4)."
+}

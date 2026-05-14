@@ -1,0 +1,32 @@
+{
+  "vendor": "MojaTax",
+  "product": "MojaTax e-Invoicing / VFD API",
+  "homepage": "https://mojatax.com",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://vfd.mojatax.com",
+    "https://vfd-staging.mojatax.com"
+  ],
+
+  "auth": {
+    "schemes": ["basic", "bearer"],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://mojatax.com",
+      "notes": "Vendor homepage; public API docs are gated — request access from MojaTax."
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Tax compliance / virtual fiscal device (VFD) integration. Public spec not available; clientId+password used to obtain bearer token."
+}

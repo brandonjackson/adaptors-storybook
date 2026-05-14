@@ -1,0 +1,29 @@
+{
+  "vendor": "Zata",
+  "product": "Zata Tax Compliance API",
+  "homepage": "https://zata.rw",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["bearer-token"],
+    "docs": "https://docs.zata.rw"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.zata.rw",
+      "notes": "Official Zata API docs"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Rwandan tax-compliance platform; per-tenant baseUrl supplied via configuration."
+}

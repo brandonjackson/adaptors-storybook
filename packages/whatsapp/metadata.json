@@ -1,0 +1,43 @@
+{
+  "vendor": "Meta",
+  "product": "WhatsApp Business Cloud API (Graph API)",
+  "homepage": "https://developers.facebook.com/docs/whatsapp/cloud-api",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://graph.facebook.com/v21.0"],
+
+  "auth": {
+    "schemes": ["oauth2", "bearer"],
+    "docs": "https://developers.facebook.com/docs/whatsapp/cloud-api/get-started"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://developers.facebook.com/docs/whatsapp/cloud-api",
+      "notes": "Cloud API reference index"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developers.facebook.com/docs/whatsapp/cloud-api/reference",
+      "notes": "Endpoint reference (messages, media, phone numbers, templates)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks",
+      "notes": "Webhook events spec (messages, statuses)"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://developers.facebook.com/docs/graph-api/changelog/"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks"
+  },
+
+  "notes": "Built on top of Meta Graph API; versioned via Graph API version in the path. Templates require pre-approval."
+}

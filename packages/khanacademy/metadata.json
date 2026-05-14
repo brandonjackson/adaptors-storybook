@@ -1,0 +1,30 @@
+{
+  "vendor": "Khan Academy",
+  "product": "Khan Academy API (legacy, deprecated)",
+  "homepage": "https://www.khanacademy.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://www.khanacademy.org/api/v1"],
+
+  "auth": {
+    "schemes": ["oauth1"],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/Khan/khan-api",
+      "language": "python",
+      "notes": "Archived khan-api repo — primary surviving reference for the legacy v1 API"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Khan Academy's public API is effectively deprecated/unsupported; the original developer docs site is gone. Adapter is legacy."
+}

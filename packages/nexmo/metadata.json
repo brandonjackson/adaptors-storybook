@@ -1,0 +1,41 @@
+{
+  "vendor": "Vonage",
+  "product": "Vonage APIs (formerly Nexmo)",
+  "homepage": "https://www.vonage.com/communications-apis/",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://rest.nexmo.com", "https://api.nexmo.com"],
+
+  "auth": {
+    "schemes": ["api-key", "jwt"],
+    "docs": "https://developer.vonage.com/en/getting-started/concepts/authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://github.com/Vonage/vonage-api-specification/raw/main/definitions/sms.yml",
+      "format": "yaml",
+      "version": "3.0",
+      "notes": "SMS API spec — repo hosts one spec file per product"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/Vonage/vonage-node-sdk",
+      "language": "typescript",
+      "notes": "Official Vonage Node SDK"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://developer.vonage.com/en/api"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developer.vonage.com/en/getting-started/concepts/webhooks"
+  },
+
+  "notes": "Multiple product APIs (SMS, Voice, Verify, Messages); per-product OpenAPI specs in vonage-api-specification."
+}

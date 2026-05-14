@@ -1,0 +1,40 @@
+{
+  "vendor": "Microsoft",
+  "product": "Azure Storage (Blob/Queue)",
+  "homepage": "https://azure.microsoft.com/en-us/products/storage/blobs",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": ["https://<account>.blob.core.windows.net", "https://<account>.queue.core.windows.net"],
+
+  "auth": {
+    "schemes": ["hmac", "oauth2", "sas"],
+    "docs": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-requests-to-azure-storage"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api",
+      "notes": "Blob service REST API reference"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api",
+      "notes": "Queue service REST API reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage",
+      "language": "typescript",
+      "notes": "Official Azure Storage SDK for JS"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-event-overview"
+  },
+
+  "notes": "REST-based but most integrations use the Azure SDK; auth via shared key, SAS or Azure AD."
+}

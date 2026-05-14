@@ -1,0 +1,40 @@
+{
+  "vendor": "Mailchimp (Intuit)",
+  "product": "Mailchimp Marketing API",
+  "homepage": "https://mailchimp.com/developer/",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://{dc}.api.mailchimp.com/3.0"],
+
+  "auth": {
+    "schemes": ["api-key", "oauth2"],
+    "docs": "https://mailchimp.com/developer/marketing/guides/quick-start/"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://api.mailchimp.com/schema/3.0/Swagger.json",
+      "format": "json",
+      "version": "2.0",
+      "notes": "Swagger 2.0 spec"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://mailchimp.com/developer/marketing/api/"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/mailchimp/mailchimp-marketing-node",
+      "language": "javascript"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://mailchimp.com/developer/marketing/guides/sync-audience-data-webhooks/"
+  },
+
+  "notes": "Data center (dc) is derived from the API key suffix."
+}

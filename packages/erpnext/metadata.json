@@ -1,0 +1,51 @@
+{
+  "vendor": "Frappe",
+  "product": "ERPNext",
+  "homepage": "https://erpnext.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": "https://frappeframework.com/docs/user/en/api/rest"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://frappeframework.com/docs/user/en/api",
+      "notes": "Frappe Framework API docs (ERPNext is built on Frappe)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://frappeframework.com/docs/user/en/api/rest",
+      "notes": "REST resource API reference"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.erpnext.com/docs/user/manual/en/api",
+      "notes": "ERPNext API user guide"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/frappe/frappe-js-sdk",
+      "language": "javascript",
+      "notes": "Official Frappe JS SDK used by the adaptor"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/frappe/erpnext",
+      "language": "python",
+      "notes": "ERPNext core source"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://frappeframework.com/docs/user/en/guides/integration/using_webhooks"
+  },
+
+  "notes": "ERPNext exposes both REST resource API and method-call RPC via Frappe Framework."
+}

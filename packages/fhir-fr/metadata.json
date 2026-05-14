@@ -1,0 +1,40 @@
+{
+  "vendor": "ANS (Agence du Numérique en Santé)",
+  "product": "FR Core FHIR profile",
+  "homepage": "https://interop.esante.gouv.fr/",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["bearer", "smart-on-fhir"],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://hl7.fr/ig/fhir/core/",
+      "notes": "HL7 France FR Core implementation guide"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/hl7-fr/fhir-fr-core",
+      "language": "fsh",
+      "notes": "Source of the FR Core IG"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://hl7.org/fhir/R4/",
+      "notes": "Underlying FHIR R4 spec"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://hl7.org/fhir/R4/subscription.html"
+  },
+
+  "notes": "France-specific FHIR profiles layered on top of R4."
+}

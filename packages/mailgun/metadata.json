@@ -1,0 +1,41 @@
+{
+  "vendor": "Mailgun (Sinch)",
+  "product": "Mailgun API",
+  "homepage": "https://www.mailgun.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://api.mailgun.net/v3",
+    "https://api.eu.mailgun.net/v3"
+  ],
+
+  "auth": {
+    "schemes": ["basic", "api-key"],
+    "docs": "https://documentation.mailgun.com/docs/mailgun/api-reference/authentication/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://documentation.mailgun.com/docs/mailgun/api-reference/intro/"
+    },
+    {
+      "kind": "postman-collection",
+      "url": "https://documentation.mailgun.com/docs/mailgun/api-reference/postman-collection/",
+      "notes": "Official Postman collection"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/mailgun/mailgun.js",
+      "language": "javascript"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://documentation.mailgun.com/docs/mailgun/user-manual/webhooks/"
+  },
+
+  "notes": ""
+}

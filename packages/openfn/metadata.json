@@ -1,0 +1,49 @@
+{
+  "vendor": "OpenFn",
+  "product": "OpenFn Platform API (Lightning / v1)",
+  "homepage": "https://www.openfn.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://app.openfn.org/api",
+    "https://app.openfn.org"
+  ],
+
+  "auth": {
+    "schemes": ["api-key", "bearer", "basic"],
+    "docs": "https://docs.openfn.org/documentation/api-tokens"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.openfn.org",
+      "notes": "OpenFn platform docs landing page"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.openfn.org/documentation/api-tokens",
+      "notes": "Auth + API token reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenFn/lightning",
+      "language": "elixir",
+      "notes": "Lightning — current OpenFn platform server (source of truth for v2 API)"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenFn/openfn.org",
+      "language": "javascript",
+      "notes": "Legacy v1 OpenFn platform (this adapter targets the v1 REST API)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://docs.openfn.org/documentation/build/triggers"
+  },
+
+  "notes": "Adapter targets OpenFn's own platform v1 REST API. No published OpenAPI spec yet; Lightning's Phoenix routes are the canonical source for the v2 surface."
+}

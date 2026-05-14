@@ -1,0 +1,38 @@
+{
+  "vendor": "Hubtel",
+  "product": "Hubtel Payments & SMS API",
+  "homepage": "https://hubtel.com",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://smsc.hubtel.com",
+    "https://api-txnstatus.hubtel.com",
+    "https://payproxyapi.hubtel.com"
+  ],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://developers.hubtel.com/documentations/authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://developers.hubtel.com/",
+      "notes": "Hubtel developer portal — SMS, payments, USSD, receive money"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developers.hubtel.com/reference/sendmessage",
+      "notes": "SMS send endpoint"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developers.hubtel.com/documentations/callbacks"
+  },
+
+  "notes": "Ghana-based payments + SMS provider. Uses HTTP Basic auth with clientId/clientSecret."
+}

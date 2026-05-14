@@ -1,0 +1,35 @@
+{
+  "vendor": "Oracle",
+  "product": "MySQL",
+  "homepage": "https://www.mysql.com",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://dev.mysql.com/doc/refman/8.0/en/connecting.html"
+  },
+
+  "sources": [
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/mysqljs/mysql",
+      "language": "javascript",
+      "notes": "Node.js MySQL driver this adapter wraps"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://dev.mysql.com/doc/refman/8.0/en/",
+      "notes": "MySQL 8.0 reference manual (SQL syntax + protocol)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Generic database driver adapter — no vendor REST API. Surface is SQL via the mysqljs/mysql driver over the MySQL wire protocol."
+}

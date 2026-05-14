@@ -1,0 +1,39 @@
+{
+  "vendor": "MotherDuck",
+  "product": "MotherDuck (Cloud DuckDB)",
+  "homepage": "https://motherduck.com",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": ["md:"],
+
+  "auth": {
+    "schemes": ["bearer"],
+    "docs": "https://motherduck.com/docs/key-tasks/authenticating-and-connecting-to-motherduck/authenticating-to-motherduck/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://motherduck.com/docs/intro/"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://motherduck.com/docs/sql-reference/motherduck-sql-reference/",
+      "notes": "MotherDuck-specific SQL extensions"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/duckdb/duckdb-node",
+      "language": "typescript",
+      "notes": "DuckDB Node bindings — used to connect to MotherDuck via md: URIs"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Access is via the DuckDB client using an md: connection string and an MD service token."
+}

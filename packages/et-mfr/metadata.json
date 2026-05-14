@@ -1,0 +1,36 @@
+{
+  "vendor": "Ethiopia Ministry of Health",
+  "product": "Ethiopia Master Facility Registry (MFR)",
+  "homepage": "https://mfr.moh.gov.et",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://mfr.moh.gov.et"],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://mfr.moh.gov.et/swagger/index.html"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://mfr.moh.gov.et/swagger/v1/swagger.json",
+      "format": "json",
+      "version": "3.0",
+      "notes": "Likely Swagger JSON path served alongside the Swagger UI — confirm before ingestion."
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://mfr.moh.gov.et/swagger/index.html",
+      "notes": "Swagger UI for the Ethiopia MFR API"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "FHIR-flavored facility registry for Ethiopia. Swagger UI is exposed publicly; the JSON spec URL above is the conventional .NET Swashbuckle path and should be verified."
+}

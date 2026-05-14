@@ -1,0 +1,23 @@
+{
+  "vendor": "IBIPIMO",
+  "product": "IBIPIMO Laboratory System",
+  "homepage": "https://ibipimo.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://demo.ibipimo.org"],
+
+  "auth": {
+    "schemes": ["bearer-token"],
+    "docs": ""
+  },
+
+  "sources": [],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Burundi lab information system (viral-load test requests/results); no public API docs located."
+}

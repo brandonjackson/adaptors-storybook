@@ -1,0 +1,30 @@
+{
+  "vendor": "OpenFn",
+  "product": "OpenFn Testing Adaptor",
+  "homepage": "https://github.com/OpenFn/adaptors",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": [],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenFn/adaptors/tree/main/packages/testing",
+      "language": "javascript",
+      "notes": "Adaptor source"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Internal OpenFn adaptor used in tests/examples; not a real vendor integration."
+}

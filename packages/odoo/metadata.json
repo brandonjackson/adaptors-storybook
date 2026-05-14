@@ -1,0 +1,41 @@
+{
+  "vendor": "Odoo",
+  "product": "Odoo ERP",
+  "homepage": "https://www.odoo.com",
+  "status": "partial",
+
+  "apiStyle": "jsonrpc",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://www.odoo.com/documentation/master/developer/reference/external_api.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-page",
+      "url": "https://www.odoo.com/documentation/master/developer/reference/external_api.html",
+      "notes": "Odoo External API reference (XML-RPC and JSON-RPC)"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/vettloffah/odoo-await",
+      "language": "javascript",
+      "notes": "odoo-await client used by the adaptor"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/odoo/odoo",
+      "language": "python",
+      "notes": "Odoo source — model definitions are the schema source of truth"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Odoo exposes XML-RPC and JSON-RPC; schemas come from model introspection (ir.model / fields_get), not a static spec. apiStyle=jsonrpc extends the default enum."
+}

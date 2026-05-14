@@ -1,0 +1,35 @@
+{
+  "vendor": "OpenFn",
+  "product": "OpenFn Collections",
+  "homepage": "https://docs.openfn.org/documentation/build/collections",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["bearer-token"],
+    "docs": "https://docs.openfn.org/documentation/build/collections"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-page",
+      "url": "https://docs.openfn.org/documentation/build/collections",
+      "notes": "OpenFn Collections feature docs"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenFn/adaptors/tree/main/packages/collections",
+      "language": "javascript",
+      "notes": "Adaptor source — Collections is consumed via this SDK, no external API to ingest"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Internal OpenFn key-value store for jobs; not a third-party vendor API. No external spec to ingest — operations live in the adaptor itself."
+}

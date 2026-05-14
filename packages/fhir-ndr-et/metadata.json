@@ -1,0 +1,29 @@
+{
+  "vendor": "Ethiopia Ministry of Health",
+  "product": "Ethiopia HIV NDR FHIR profile",
+  "homepage": "https://hl7.org/fhir/R4/",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["bearer", "basic"],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://hl7.org/fhir/R4/",
+      "notes": "Base FHIR R4 spec; Ethiopia NDR HIV IG not publicly hosted at a known URL"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Ethiopia National Data Repository (NDR) HIV FHIR profile; implementation guide reference TBD."
+}

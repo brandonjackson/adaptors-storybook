@@ -1,0 +1,34 @@
+{
+  "vendor": "Mogli Technologies",
+  "product": "Mogli SMS (Salesforce-native SMS app)",
+  "homepage": "https://mogli.com",
+  "status": "stub",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["oauth2"],
+    "docs": "https://help.salesforce.com/s/articleView?id=sf.remoteaccess_oauth_flows.htm"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://mogli.com/resources/",
+      "notes": "Mogli docs/resources hub"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm",
+      "notes": "Mogli is a Salesforce-managed package; integration goes through the Salesforce REST API"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Mogli is a Salesforce-managed package; adapter is effectively a thin wrapper over Salesforce REST/Bulk APIs (see salesforce adapter)."
+}

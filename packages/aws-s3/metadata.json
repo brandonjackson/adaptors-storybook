@@ -1,0 +1,39 @@
+{
+  "vendor": "Amazon Web Services",
+  "product": "Amazon S3",
+  "homepage": "https://aws.amazon.com/s3/",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": ["https://s3.amazonaws.com", "https://s3.<region>.amazonaws.com"],
+
+  "auth": {
+    "schemes": ["hmac"],
+    "docs": "https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html",
+      "notes": "S3 REST API reference index"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-s3",
+      "language": "typescript",
+      "notes": "Official AWS SDK v3 S3 client"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/doc-history.html"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/NotificationHowTo.html"
+  },
+
+  "notes": "S3 is XML/REST under SigV4; most integrations use the AWS SDK rather than raw HTTP."
+}

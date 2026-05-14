@@ -1,0 +1,33 @@
+{
+  "vendor": "PDFShift",
+  "product": "PDFShift PDF Generation API",
+  "homepage": "https://pdfshift.io",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://api.pdfshift.io/v3"],
+
+  "auth": {
+    "schemes": ["api-key", "basic"],
+    "docs": "https://docs.pdfshift.io/#authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.pdfshift.io/"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.pdfshift.io/#convert",
+      "notes": "POST /convert — primary HTML-to-PDF endpoint"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://docs.pdfshift.io/#webhook"
+  },
+
+  "notes": "Single-endpoint REST API; auth via HTTP Basic with API key as username."
+}

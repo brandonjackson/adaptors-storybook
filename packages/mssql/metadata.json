@@ -1,0 +1,35 @@
+{
+  "vendor": "Microsoft",
+  "product": "Microsoft SQL Server",
+  "homepage": "https://www.microsoft.com/en-us/sql-server",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["basic", "windows-auth"],
+    "docs": "https://learn.microsoft.com/en-us/sql/connect/jdbc/setting-the-connection-properties"
+  },
+
+  "sources": [
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/tediousjs/node-mssql",
+      "language": "javascript",
+      "notes": "Driver this adapter wraps (mssql / tedious)"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://learn.microsoft.com/en-us/sql/t-sql/language-reference",
+      "notes": "T-SQL language reference"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Generic database driver adapter — no vendor REST API. Surface is T-SQL via the node-mssql / tedious driver."
+}

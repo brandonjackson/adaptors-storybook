@@ -1,0 +1,52 @@
+{
+  "vendor": "Open Concept Lab",
+  "product": "OCL (Open Concept Lab) Terminology Server",
+  "homepage": "https://openconceptlab.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://api.openconceptlab.org"],
+
+  "auth": {
+    "schemes": ["api-token", "basic"],
+    "docs": "https://docs.openconceptlab.org/en/latest/oclapi/index.html"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.openconceptlab.org/en/latest/",
+      "notes": "OCL ReadTheDocs root"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.openconceptlab.org/en/latest/oclapi/apireference.html",
+      "notes": "OCL API reference"
+    },
+    {
+      "kind": "openapi",
+      "url": "https://api.openconceptlab.org/swagger/",
+      "format": "json",
+      "version": "2.0",
+      "notes": "Swagger UI / spec exposed by the Django OCL API"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenConceptLab/oclapi2",
+      "language": "python",
+      "notes": "Django REST Framework backend for OCL"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://api.openconceptlab.org",
+      "notes": "Public production API (read-only without auth)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Open terminology server for concepts, sources, collections, mappings; also exposes FHIR endpoints."
+}

@@ -1,0 +1,43 @@
+{
+  "vendor": "Google",
+  "product": "Google Drive API",
+  "homepage": "https://developers.google.com/drive",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://www.googleapis.com/drive/v3",
+    "https://www.googleapis.com/upload/drive/v3"
+  ],
+
+  "auth": {
+    "schemes": ["oauth2"],
+    "docs": "https://developers.google.com/drive/api/guides/about-auth"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+      "format": "json",
+      "version": "discovery",
+      "notes": "Google Discovery document"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://developers.google.com/drive/api/reference/rest/v3"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/googleapis/google-api-nodejs-client",
+      "language": "javascript"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developers.google.com/drive/api/guides/push"
+  },
+
+  "notes": ""
+}

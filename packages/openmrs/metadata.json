@@ -1,0 +1,47 @@
+{
+  "vendor": "OpenMRS",
+  "product": "OpenMRS REST Web Services",
+  "homepage": "https://openmrs.org",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://demo.openmrs.org/openmrs/ws/rest/v1"
+  ],
+
+  "auth": {
+    "schemes": ["basic", "oauth2", "session-cookie"],
+    "docs": "https://rest.openmrs.org/#authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://rest.openmrs.org/",
+      "notes": "OpenMRS REST API reference (Slate-style)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://wiki.openmrs.org/display/docs/REST+Web+Services+API+For+Clients",
+      "notes": "OpenMRS wiki — client-facing REST overview"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/openmrs/openmrs-module-webservices.rest",
+      "language": "java",
+      "notes": "Source of the REST module that defines all endpoints"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://demo.openmrs.org",
+      "notes": "Public OpenMRS demo (admin/Admin123)"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Versioned at /ws/rest/v1; additional FHIR module exposes /ws/fhir2 endpoints."
+}

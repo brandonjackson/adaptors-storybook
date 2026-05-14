@@ -1,0 +1,43 @@
+{
+  "vendor": "Meta",
+  "product": "Meta Graph API (Facebook Messenger / Pages)",
+  "homepage": "https://developers.facebook.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://graph.facebook.com/v21.0"],
+
+  "auth": {
+    "schemes": ["oauth2", "bearer"],
+    "docs": "https://developers.facebook.com/docs/facebook-login/guides/access-tokens"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://developers.facebook.com/docs/graph-api",
+      "notes": "Graph API reference index"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developers.facebook.com/docs/messenger-platform",
+      "notes": "Messenger Platform (send API, receive webhooks)"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://developers.facebook.com/docs/messenger-platform/webhooks",
+      "notes": "Messenger webhook events"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://developers.facebook.com/docs/graph-api/changelog/"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://developers.facebook.com/docs/graph-api/webhooks"
+  },
+
+  "notes": "Graph API is versioned (~quarterly). Adapter focus appears to be Messenger Send API + Page webhooks."
+}

@@ -1,0 +1,42 @@
+{
+  "vendor": "MTN",
+  "product": "MTN MoMo Open API",
+  "homepage": "https://momodeveloper.mtn.com",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://proxy.momoapi.mtn.com",
+    "https://sandbox.momodeveloper.mtn.com"
+  ],
+
+  "auth": {
+    "schemes": ["oauth2", "api-key"],
+    "docs": "https://momodeveloper.mtn.com/api-documentation/api-description"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://momodeveloper.mtn.com/api-documentation",
+      "notes": "MTN MoMo developer portal — Collection, Disbursement, Remittance products"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://momodeveloper.mtn.com/API-collections",
+      "notes": "Per-product API collections with try-it console"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://sandbox.momodeveloper.mtn.com",
+      "notes": "MoMo sandbox environment"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://momodeveloper.mtn.com/api-documentation/api-description"
+  },
+
+  "notes": "MTN Mobile Money Open API. Subscription key + apiUser/apiKey are exchanged for OAuth bearer tokens per product."
+}

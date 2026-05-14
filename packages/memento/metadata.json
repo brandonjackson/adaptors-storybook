@@ -1,0 +1,34 @@
+{
+  "vendor": "LuckyDroid",
+  "product": "Memento Database Cloud API",
+  "homepage": "https://mementodatabase.com",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://api.mementodatabase.com/v1"],
+
+  "auth": {
+    "schemes": ["api-key"],
+    "docs": "https://mementodatabase.docs.apiary.io/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://mementodatabase.docs.apiary.io/",
+      "notes": "Apiary-hosted REST API reference"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://help.mementodatabase.com/article/72-cloud-api",
+      "notes": "Cloud API help-center overview"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Cloud-only REST API for libraries + entries; on-device DBs are not exposed."
+}

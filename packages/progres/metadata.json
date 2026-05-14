@@ -1,0 +1,23 @@
+{
+  "vendor": "UNHCR",
+  "product": "proGres v4 (via DTP)",
+  "homepage": "https://www.unhcr.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["mutual-tls", "api-key"],
+    "docs": ""
+  },
+
+  "sources": [],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "UNHCR internal case-management system; integration via DTP middleware requires per-tenant cert + subscription key. No public spec."
+}

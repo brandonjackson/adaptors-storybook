@@ -1,0 +1,45 @@
+{
+  "vendor": "SENAITE Foundation",
+  "product": "SENAITE LIMS",
+  "homepage": "https://www.senaite.com",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://demo.senaite.com/@@API/senaite/v1"],
+
+  "auth": {
+    "schemes": ["basic"],
+    "docs": "https://senaite.github.io/docs/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://senaite.github.io/docs/",
+      "notes": "SENAITE documentation site"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://senaite.github.io/docs/development/senaite.jsonapi/",
+      "notes": "senaite.jsonapi REST endpoints reference"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/senaite/senaite.jsonapi",
+      "language": "python",
+      "notes": "REST JSON API plug-in for SENAITE/Plone"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://demo.senaite.com",
+      "notes": "Public SENAITE demo instance"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Open-source LIMS built on Plone; exposes a JSON REST API via senaite.jsonapi."
+}

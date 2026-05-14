@@ -1,0 +1,40 @@
+{
+  "vendor": "Google",
+  "product": "Google Cloud Healthcare API",
+  "homepage": "https://cloud.google.com/healthcare-api",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://healthcare.googleapis.com"],
+
+  "auth": {
+    "schemes": ["oauth2", "service-account"],
+    "docs": "https://cloud.google.com/healthcare-api/docs/how-tos/authentication"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://healthcare.googleapis.com/$discovery/rest?version=v1",
+      "format": "json",
+      "version": "discovery",
+      "notes": "Google Discovery document"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://cloud.google.com/healthcare-api/docs/reference/rest"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://cloud.google.com/healthcare-api/docs/concepts/fhir",
+      "notes": "FHIR store concepts"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://cloud.google.com/healthcare-api/docs/how-tos/pubsub"
+  },
+
+  "notes": "Hosts FHIR, HL7v2 and DICOM stores; notifications via Pub/Sub."
+}

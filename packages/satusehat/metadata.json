@@ -1,0 +1,42 @@
+{
+  "vendor": "Kementerian Kesehatan Republik Indonesia",
+  "product": "SATUSEHAT Platform",
+  "homepage": "https://satusehat.kemkes.go.id",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://api-satusehat.kemkes.go.id/fhir-r4/v1",
+    "https://api-satusehat-stg.dto.kemkes.go.id/fhir-r4/v1"
+  ],
+
+  "auth": {
+    "schemes": ["oauth2-client-credentials"],
+    "docs": "https://satusehat.kemkes.go.id/platform/docs/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://satusehat.kemkes.go.id/platform/docs/",
+      "notes": "Official SATUSEHAT developer documentation"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://hl7.org/fhir/R4/",
+      "notes": "Underlying FHIR R4 specification used by SATUSEHAT"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://api-satusehat-stg.dto.kemkes.go.id",
+      "notes": "Indonesian MoH staging environment"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Indonesia national health-data exchange; FHIR R4 over OAuth2 client-credentials."
+}

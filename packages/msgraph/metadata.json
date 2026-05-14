@@ -1,0 +1,47 @@
+{
+  "vendor": "Microsoft",
+  "product": "Microsoft Graph",
+  "homepage": "https://developer.microsoft.com/graph",
+  "status": "partial",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://graph.microsoft.com/v1.0",
+    "https://graph.microsoft.com/beta"
+  ],
+
+  "auth": {
+    "schemes": ["oauth2"],
+    "docs": "https://learn.microsoft.com/graph/auth/"
+  },
+
+  "sources": [
+    {
+      "kind": "openapi",
+      "url": "https://github.com/microsoftgraph/msgraph-metadata/raw/master/openapi/v1.0/openapi.yaml",
+      "format": "yaml",
+      "version": "3.0",
+      "notes": "Official Microsoft Graph OpenAPI; very large"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://learn.microsoft.com/graph/api/overview"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/microsoftgraph/msgraph-sdk-javascript",
+      "language": "javascript"
+    },
+    {
+      "kind": "changelog",
+      "url": "https://learn.microsoft.com/graph/changelog"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://learn.microsoft.com/graph/webhooks"
+  },
+
+  "notes": "OData-based; CSDL metadata also available at https://graph.microsoft.com/v1.0/$metadata."
+}

@@ -1,0 +1,23 @@
+{
+  "vendor": "UNICEF",
+  "product": "UNICEF InForm",
+  "homepage": "https://data.inform.unicef.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": ["https://data.inform.unicef.org"],
+
+  "auth": {
+    "schemes": ["bearer-token"],
+    "docs": ""
+  },
+
+  "sources": [],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "UNICEF internal data collection platform; API is gated and no public spec is available."
+}

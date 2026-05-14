@@ -1,0 +1,35 @@
+{
+  "vendor": "OpenFn",
+  "product": "@openfn/language-common (shared expression library)",
+  "homepage": "https://github.com/OpenFn/adaptors/tree/main/packages/common",
+  "status": "partial",
+
+  "apiStyle": "sdk",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": [],
+    "docs": ""
+  },
+
+  "sources": [
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenFn/adaptors/tree/main/packages/common",
+      "language": "javascript",
+      "notes": "Source of the shared common library"
+    },
+    {
+      "kind": "docs-index",
+      "url": "https://docs.openfn.org/adaptors/packages/common-docs",
+      "notes": "Generated JSDoc reference for language-common"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "Not a vendor adapter. @openfn/language-common provides shared helpers (field, fields, dataValue, each, http, etc.) consumed by every other adapter."
+}

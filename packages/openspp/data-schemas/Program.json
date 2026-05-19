@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openspp/Program",
+  "title": "Program",
+  "description": "A social-protection program in OpenSPP (e.g. a cash transfer scheme). Backed by the Odoo model `g2p.program`. Returned by `getProgram` / `getPrograms` / `getEnrolledPrograms`.",
+  "x-source": {
+    "adapter": "openspp",
+    "odooModel": "g2p.program",
+    "docs": "https://docs.openspp.org/users/programs/index.html",
+    "derivedFrom": "packages/openspp/src/Adaptor.js",
+    "ingestedAt": "2026-05-19"
+  },
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Odoo internal record id."
+    },
+    "program_id": {
+      "type": "string",
+      "description": "OpenSPP public identifier for the program, of the form `PROG_<YYYY>_<########>` (e.g. `PROG_2023_00000001`)."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable program name."
+    },
+    "state": {
+      "type": "string",
+      "description": "Lifecycle state of the program (e.g. `draft`, `active`, `ended`).",
+      "enum": ["draft", "active", "ended"]
+    },
+    "target_type": {
+      "type": "string",
+      "description": "Whether the program targets `individual` or `group` registrants.",
+      "enum": ["individual", "group"]
+    },
+    "eligible_beneficiaries_count": {
+      "type": "integer",
+      "description": "Computed count of registrants currently eligible for the program."
+    },
+    "cycles_count": {
+      "type": "integer",
+      "description": "Number of payment / delivery cycles defined on the program."
+    }
+  },
+  "required": ["id", "program_id", "name"]
+}

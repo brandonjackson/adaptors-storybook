@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openspp/Group",
+  "title": "Group",
+  "description": "A group registrant in OpenSPP (e.g. a household). Backed by the Odoo model `res.partner` where `is_registrant=true` and `is_group=true`. Returned by `getGroup` / `searchGroup`.",
+  "x-source": {
+    "adapter": "openspp",
+    "odooModel": "res.partner",
+    "docs": "https://docs.openspp.org/users/group/index.html",
+    "derivedFrom": "packages/openspp/src/Adaptor.js",
+    "ingestedAt": "2026-05-19"
+  },
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Odoo internal record id."
+    },
+    "spp_id": {
+      "type": "string",
+      "description": "OpenSPP public identifier for the group, prefixed with `GRP_` (e.g. `GRP_Q4VGGZPF`)."
+    },
+    "name": {
+      "type": "string",
+      "description": "Group / household name."
+    },
+    "address": {
+      "type": ["string", "boolean"],
+      "description": "Postal address. Odoo returns `false` when unset."
+    },
+    "phone": {
+      "type": ["string", "boolean"],
+      "description": "Primary phone number. Odoo returns `false` when unset."
+    },
+    "kind": {
+      "type": ["array", "boolean"],
+      "description": "Many2one reference `[id, name]` to `g2p.group.kind` (household, family, etc.). `false` when unset.",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "registration_date": {
+      "type": ["string", "boolean"],
+      "format": "date",
+      "description": "Date the group was registered."
+    }
+  },
+  "required": ["id", "spp_id", "name"]
+}

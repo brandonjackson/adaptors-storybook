@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openspp/GroupMembership",
+  "title": "GroupMembership",
+  "description": "Link between an individual and a group (household). Backed by the Odoo model `g2p.group.membership`. Returned by `getGroupMembers`, and written to by `addToGroup` / `removeFromGroup`.",
+  "x-source": {
+    "adapter": "openspp",
+    "odooModel": "g2p.group.membership",
+    "docs": "https://docs.openspp.org/users/group/members.html",
+    "derivedFrom": "packages/openspp/src/Adaptor.js",
+    "ingestedAt": "2026-05-19"
+  },
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Odoo internal record id."
+    },
+    "individual": {
+      "type": "array",
+      "description": "Many2one reference `[id, name]` to the individual `res.partner`.",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "kind": {
+      "type": ["array", "boolean"],
+      "description": "Many2many reference to membership roles (e.g. `Head`, ordinary member). Returned as a list of Odoo ids.",
+      "items": { "type": "integer" }
+    },
+    "start_date": {
+      "type": ["string", "boolean"],
+      "format": "date",
+      "description": "Date the individual joined the group."
+    },
+    "ended_date": {
+      "type": ["string", "boolean"],
+      "format": "date",
+      "description": "Date the individual left the group, if applicable."
+    },
+    "individual_birthdate": {
+      "type": ["string", "boolean"],
+      "format": "date",
+      "description": "Convenience field: birthdate of the linked individual."
+    },
+    "individual_gender": {
+      "type": ["string", "boolean"],
+      "description": "Convenience field: gender of the linked individual."
+    }
+  },
+  "required": ["id", "individual"]
+}

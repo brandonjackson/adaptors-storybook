@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openspp/ProgramMembership",
+  "title": "ProgramMembership",
+  "description": "Link between a registrant (individual or group) and a program. Backed by the Odoo model `g2p.program_membership`. Created by `enroll` and removed by `unenroll`.",
+  "x-source": {
+    "adapter": "openspp",
+    "odooModel": "g2p.program_membership",
+    "docs": "https://docs.openspp.org/users/programs/enrolment.html",
+    "derivedFrom": "packages/openspp/src/Adaptor.js",
+    "ingestedAt": "2026-05-19"
+  },
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Odoo internal record id."
+    },
+    "partner_id": {
+      "type": "array",
+      "description": "Many2one reference `[id, name]` to the enrolled registrant (`res.partner`).",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "program_id": {
+      "type": "array",
+      "description": "Many2one reference `[id, name]` to the `g2p.program` the registrant is enrolled in.",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "state": {
+      "type": "string",
+      "description": "Enrolment state of the membership (e.g. `enrolled`, `not_eligible`, `exited`).",
+      "enum": ["draft", "enrolled", "not_eligible", "exited", "duplicated"]
+    },
+    "enrollment_date": {
+      "type": ["string", "boolean"],
+      "format": "date",
+      "description": "Date the registrant was enrolled in the program."
+    },
+    "exit_date": {
+      "type": ["string", "boolean"],
+      "format": "date",
+      "description": "Date the registrant exited the program, if applicable."
+    }
+  },
+  "required": ["id", "partner_id", "program_id"]
+}

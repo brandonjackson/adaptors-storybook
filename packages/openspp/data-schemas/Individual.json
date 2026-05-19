@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openspp/Individual",
+  "title": "Individual",
+  "description": "An individual registrant in OpenSPP (a single person / beneficiary). Backed by the Odoo model `res.partner` where `is_registrant=true` and `is_group=false`. Returned by `getIndividual` / `searchIndividual`.",
+  "x-source": {
+    "adapter": "openspp",
+    "odooModel": "res.partner",
+    "docs": "https://docs.openspp.org/users/individual/index.html",
+    "derivedFrom": "packages/openspp/src/Adaptor.js",
+    "ingestedAt": "2026-05-19"
+  },
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Odoo internal record id."
+    },
+    "spp_id": {
+      "type": "string",
+      "description": "OpenSPP public identifier for the individual, prefixed with `IND_` (e.g. `IND_Q4VGGZPF`)."
+    },
+    "name": {
+      "type": "string",
+      "description": "Full name."
+    },
+    "address": {
+      "type": ["string", "boolean"],
+      "description": "Postal address. Odoo returns `false` when unset."
+    },
+    "phone": {
+      "type": ["string", "boolean"],
+      "description": "Phone number. Odoo returns `false` when unset."
+    },
+    "email": {
+      "type": ["string", "boolean"],
+      "format": "email",
+      "description": "Email address."
+    },
+    "gender": {
+      "type": ["string", "boolean"],
+      "description": "Gender of the individual. Configured via Odoo selection field on `res.partner`."
+    },
+    "birthdate": {
+      "type": ["string", "boolean"],
+      "format": "date",
+      "description": "Date of birth (ISO `YYYY-MM-DD`). `false` when unset."
+    },
+    "category_id": {
+      "type": "array",
+      "description": "Many2many reference to partner categories / tags. Returned as an array of Odoo ids.",
+      "items": { "type": "integer" }
+    }
+  },
+  "required": ["id", "spp_id", "name"]
+}

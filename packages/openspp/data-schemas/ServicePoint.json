@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openspp/ServicePoint",
+  "title": "ServicePoint",
+  "description": "A service-delivery agent / outlet (e.g. a payment agent, distribution point). Backed by the Odoo model `spp.service.point`. Returned by `getServicePoint` / `searchServicePoint`.",
+  "x-source": {
+    "adapter": "openspp",
+    "odooModel": "spp.service.point",
+    "docs": "https://docs.openspp.org/users/service-points/index.html",
+    "derivedFrom": "packages/openspp/src/Adaptor.js",
+    "ingestedAt": "2026-05-19"
+  },
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Odoo internal record id."
+    },
+    "spp_id": {
+      "type": "string",
+      "description": "OpenSPP public identifier for the service point, prefixed with `SVP_` (e.g. `SVP_8P4KP4RT`)."
+    },
+    "name": {
+      "type": "string",
+      "description": "Service point / agent name."
+    },
+    "area_id": {
+      "type": ["array", "boolean"],
+      "description": "Many2one reference `[id, name]` to the `spp.area` where the service point is located.",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "service_type_ids": {
+      "type": "array",
+      "description": "Many2many references to service-type tags. Returned as a list of Odoo ids.",
+      "items": { "type": "integer" }
+    },
+    "program_ids": {
+      "type": "array",
+      "description": "Many2many references to programs this service point delivers. (The adaptor renames Odoo's `program_id` field to `program_ids` on `searchServicePoint`.)",
+      "items": { "type": "integer" }
+    },
+    "phone_sanitized": {
+      "type": ["string", "boolean"],
+      "description": "Phone number in E.164 form."
+    },
+    "shop_address": {
+      "type": ["string", "boolean"],
+      "description": "Physical address of the agent / outlet."
+    },
+    "is_contract_active": {
+      "type": "boolean",
+      "description": "Whether the agent's contract is currently active."
+    },
+    "is_disabled": {
+      "type": "boolean",
+      "description": "Whether the service point is disabled."
+    }
+  },
+  "required": ["id", "spp_id", "name"]
+}

@@ -1,0 +1,201 @@
+{
+  "source": "dpg-trigger-taxonomy",
+  "scrapedAt": "2026-05",
+  "notes": "Two delivery mechanisms: (1) Hooks API — register a hook against an entity+action pair (e.g. Client:CREATE, Loan:REPAYMENT). Fineract POSTs the API response as the body plus headers X-Mifos-Entity, X-Mifos-Action and X-Mifos-Platform-TenantId. (2) Business Events pipeline — Fineract publishes events like ClientCreated / LoanApproved / LoanDisbursed / SavingsDeposit to Kafka or ActiveMQ JMS. Both are disabled by default in vanilla deployments; the Hooks system is the simpler turn-on, the Kafka pipeline is the production-scale option. Polling with date filters (activatedOnDateFrom, disbursedOnDateFrom) is the universal fallback.",
+  "triggers": [
+    {
+      "name": "New Client Created",
+      "description": "Fires when a new client (individual or entity) is onboarded. Register a hook with entity=Client, action=CREATE. Fineract also publishes a `ClientCreated` Business Event for Kafka/JMS consumers.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Fineract Hooks: Client:CREATE) — also Kafka `ClientCreated`",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "entity": "Client",
+      "action": "CREATE",
+      "output": {
+        "summary": "Fineract Client resource",
+        "fields": ["id", "accountNo", "externalId", "firstname", "middlename", "lastname", "fullname", "displayName", "mobileNo", "dateOfBirth", "officeId", "officeName", "status", "active", "activationDate", "submittedDate"]
+      }
+    },
+    {
+      "name": "Client Updated",
+      "description": "Fires when a client's data is updated. Register a hook with entity=Client, action=UPDATE.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Fineract Hooks: Client:UPDATE)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "entity": "Client",
+      "action": "UPDATE",
+      "output": {
+        "summary": "Updated Fineract Client resource",
+        "fields": ["id", "displayName", "mobileNo", "status", "active"]
+      }
+    },
+    {
+      "name": "New Loan Application",
+      "description": "Fires when a new loan application is created (submitted, pre-approval). Register a hook with entity=Loan, action=CREATE.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Fineract Hooks: Loan:CREATE)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "entity": "Loan",
+      "action": "CREATE",
+      "output": {
+        "summary": "Fineract Loan resource (submitted)",
+        "fields": ["id", "accountNo", "clientId", "clientName", "loanProductId", "loanProductName", "principal", "termFrequency", "termFrequencyType", "status", "submittedOnDate"]
+      }
+    },
+    {
+      "name": "Loan Approved",
+      "description": "Fires when a loan is approved by an authorised user. Register a hook with entity=Loan, action=APPROVE; also published as the `LoanApproved` Business Event on Kafka/JMS.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook + message broker (Kafka `LoanApproved`)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "entity": "Loan",
+      "action": "APPROVE",
+      "output": {
+        "summary": "Approved Fineract Loan",
+        "fields": ["id", "accountNo", "clientId", "principal", "approvedPrincipal", "approvedOnDate", "status", "loanProductName"]
+      }
+    },
+    {
+      "name": "Loan Disbursed",
+      "description": "Fires when loan funds are released to the borrower. Register a hook with entity=Loan, action=DISBURSE; also published as `LoanDisbursed` Business Event on Kafka/JMS. The Kafka path is recommended for production volume.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook + message broker (Kafka `LoanDisbursed`)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "entity": "Loan",
+      "action": "DISBURSE",
+      "output": {
+        "summary": "Disbursed Fineract Loan",
+        "fields": ["id", "accountNo", "clientId", "principalDisbursed", "actualDisbursementDate", "disbursementChannelId", "status", "loanProductName"]
+      }
+    },
+    {
+      "name": "Loan Repayment Made",
+      "description": "Fires when a repayment transaction is recorded against a loan. Register a hook with entity=Loan, action=REPAYMENT (one of the two events confirmed working with the SMS Bridge template). Also published as `LoanRepayment` on Kafka/JMS.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook + message broker",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "entity": "Loan",
+      "action": "REPAYMENT",
+      "output": {
+        "summary": "Loan repayment transaction",
+        "fields": ["id", "loanId", "clientId", "transactionType", "amount", "principalPortion", "interestPortion", "feeChargesPortion", "penaltyChargesPortion", "outstandingLoanBalance", "transactionDate", "paymentTypeId"]
+      }
+    },
+    {
+      "name": "Loan Repayment Failed",
+      "description": "Fires when a scheduled repayment goes overdue / falls into arrears. No dedicated 'repayment failed' hook event is confirmed in public docs. Fallback: poll loans with `overdue=true` / arrears filters on a schedule.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor (loans with arrears filter)",
+      "openfnPattern": "cron",
+      "status": "unconfirmed",
+      "output": {
+        "summary": "Loan with arrears summary",
+        "fields": ["id", "accountNo", "clientId", "summary.principalOverdue", "summary.interestOverdue", "summary.totalOverdue", "delinquent"]
+      }
+    },
+    {
+      "name": "Loan Written Off",
+      "description": "Fires when a loan is written off. Write-off is a loan action but not confirmed in public docs as a specific hook event. Fallback: poll loan status for write-off transitions.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Fineract Hooks: Loan:WRITEOFF, unverified)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "entity": "Loan",
+      "action": "WRITEOFF"
+    },
+    {
+      "name": "New Savings Account",
+      "description": "Fires when a new savings account is created. Register a hook with entity=Savings, action=CREATE.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Fineract Hooks: Savings:CREATE)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "entity": "Savings",
+      "action": "CREATE",
+      "output": {
+        "summary": "Fineract Savings Account resource",
+        "fields": ["id", "accountNo", "clientId", "savingsProductId", "currency", "status", "submittedOnDate", "activationDate"]
+      }
+    },
+    {
+      "name": "Savings Deposit Made",
+      "description": "Fires when a deposit is recorded on a savings account. Deposit is a savings action; the specific hook event is not explicitly confirmed in public docs. Fallback: poll savings transactions; also published on Kafka as `SavingsDeposit`.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook + Kafka `SavingsDeposit`",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "entity": "Savings",
+      "action": "DEPOSIT",
+      "output": {
+        "summary": "Savings deposit transaction",
+        "fields": ["id", "accountId", "transactionType", "amount", "runningBalance", "transactionDate", "paymentTypeId"]
+      }
+    },
+    {
+      "name": "Savings Withdrawal Made",
+      "description": "Fires when a withdrawal is recorded on a savings account. Same uncertainty as deposit. Fallback: poll savings transactions.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook + Kafka",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "entity": "Savings",
+      "action": "WITHDRAWAL"
+    },
+    {
+      "name": "Charge Paid",
+      "description": "Fires when a charge is paid on a savings account. Register a hook with entity=Savings, action=PAYCHARGE. The `paycharge` action is documented as generating webhook payloads.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Fineract Hooks: Savings:PAYCHARGE)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "entity": "Savings",
+      "action": "PAYCHARGE",
+      "output": {
+        "summary": "Charge payment transaction",
+        "fields": ["id", "accountId", "chargeId", "amount", "transactionDate"]
+      }
+    },
+    {
+      "name": "New Share Account",
+      "description": "Fires when a new share account is opened. No confirmed hook event in public docs; poll the share accounts API with a date filter.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "output": {
+        "summary": "Fineract Share Account",
+        "fields": ["id", "accountNo", "clientId", "productId", "totalApprovedShares", "totalPendingForApprovalShares", "status", "submittedDate"]
+      }
+    },
+    {
+      "name": "Fixed Deposit Matured",
+      "description": "Fires when a fixed deposit reaches its maturity date. No confirmed hook event; poll fixed deposit accounts by `maturityDate` on a schedule.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor (maturityDate)",
+      "openfnPattern": "cron",
+      "status": "unconfirmed",
+      "output": {
+        "summary": "Matured fixed deposit account",
+        "fields": ["id", "accountNo", "clientId", "maturityAmount", "maturityDate", "status"]
+      }
+    },
+    {
+      "name": "Close of Business Day Completed",
+      "description": "Fires when the COB batch job finishes for a business date. Published as a Kafka business event (`CloseOfBusiness` / similar) — recommended trigger for end-of-day reconciliation and reporting.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Message broker (Kafka business event)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "output": {
+        "summary": "Close of Business event",
+        "fields": ["businessDate", "tenantId", "status", "completedAt"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "vendor": "Mifos Initiative / Apache Software Foundation",
+  "product": "Apache Fineract",
+  "homepage": "https://mifos.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://demo.mifos.io/fineract-provider/api/v1"
+  ],
+
+  "auth": {
+    "schemes": ["basic", "oauth2"],
+    "docs": "https://fineract.apache.org/docs/current/"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://fineract.apache.org/docs/current/",
+      "notes": "Apache Fineract documentation"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://demo.mifos.io/api-docs/apiLive.htm",
+      "notes": "Live Fineract API explorer (Mifos demo instance)"
+    },
+    {
+      "kind": "openapi",
+      "url": "https://github.com/apache/fineract/raw/develop/fineract-provider/src/main/resources/static/legacy-docs/swagger.json",
+      "format": "json",
+      "version": "2.0",
+      "notes": "Fineract Swagger / OpenAPI spec (legacy 2.0)"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/apache/fineract",
+      "language": "java",
+      "notes": "Apache Fineract core (source of truth)"
+    },
+    {
+      "kind": "sandbox",
+      "url": "https://demo.mifos.io",
+      "notes": "Public Mifos demo instance"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://fineract.apache.org/docs/current/#chapter-hooks-webhooks"
+  },
+
+  "notes": "Two event delivery mechanisms: (1) the built-in Hooks system (entity+action → HTTP POST with X-Mifos-Entity / X-Mifos-Action / X-Mifos-Platform-TenantId headers), and (2) the Business Events pipeline that publishes to Kafka or ActiveMQ JMS (disabled by default, recommended for high-volume production). Multi-tenant — the tenant ID is always in webhook headers."
+}

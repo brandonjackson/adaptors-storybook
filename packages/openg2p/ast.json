@@ -1,0 +1,8 @@
+{
+  "operations": [],
+  "common": {
+    "operations": []
+  },
+  "exports": [],
+  "notes": "OpenG2P adaptor scaffolded for the storybook — no upstream JSDoc yet. Hit the OpenG2P REST endpoints (`/api/v1/registry/...`, `/api/v1/program/...`) or Odoo JSON-RPC via `request` from `@openfn/language-common`."
+}

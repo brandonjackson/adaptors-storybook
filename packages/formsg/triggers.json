@@ -1,0 +1,31 @@
+{
+  "source": "dpg-trigger-taxonomy",
+  "scrapedAt": "2026-05",
+  "notes": "FormSG is a manual webhook DPG — form creators paste a webhook URL into the form's settings UI. On each submission, FormSG sends an end-to-end encrypted POST signed with `X-FormSG-Signature` (ed25519). The subscriber must use `@opengovsg/formsg-sdk` (or its decryption logic) with the form's secret key to verify the signature, decrypt the payload, and resolve attachment download links. FormSG has no programmable subscription API — every form is set up by hand.",
+  "triggers": [
+    {
+      "name": "New Form Submission",
+      "description": "Fires when a respondent submits a form. The form creator pastes the OpenFn webhook URL into the form's settings. The POST body contains the form ID, submission ID and an encrypted payload; verify `X-FormSG-Signature` (ed25519 over timestamp+submissionId+formId) and decrypt with the form's secret key via the FormSG SDK to recover the actual field values.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (E2E encrypted, FormSG SDK required to decrypt)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "output": {
+        "summary": "FormSG submission envelope (encrypted) + decrypted responses",
+        "fields": ["formId", "submissionId", "created", "encryptedContent", "verifiedContent", "attachmentDownloadUrls", "responses[].question", "responses[].answer", "responses[].fieldType"]
+      }
+    },
+    {
+      "name": "New Payment Submission",
+      "description": "Fires when a respondent submits a form that includes Stripe payment fields. FormSG has Stripe integration but it is unclear from the docs whether payment-bearing submissions fire a distinct webhook event vs. arriving as part of the standard submission payload with payment fields populated. Fallback: subscribe to `New Form Submission` and branch on the presence of payment fields in the decrypted payload.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (E2E encrypted)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "output": {
+        "summary": "FormSG submission with embedded payment intent / receipt fields",
+        "fields": ["formId", "submissionId", "paymentIntent", "paymentStatus", "paymentAmount", "paymentReceiptUrl"]
+      }
+    }
+  ]
+}

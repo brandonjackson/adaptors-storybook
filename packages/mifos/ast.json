@@ -1,0 +1,8 @@
+{
+  "operations": [],
+  "common": {
+    "operations": []
+  },
+  "exports": [],
+  "notes": "Mifos / Fineract adaptor scaffolded for the storybook — no upstream JSDoc to ingest yet. Use the `request` operation from `@openfn/language-common` to call Fineract endpoints directly until the adaptor's own operations land."
+}

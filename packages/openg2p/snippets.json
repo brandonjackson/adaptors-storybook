@@ -1,0 +1,38 @@
+{
+  "CREATE": {
+    "Register Individual": {
+      "description": "Register a new individual in the OpenG2P social registry via the G2P Connect-style REST API.",
+      "code": "// Register a new individual.\nrequest('/api/v1/registry/individual', {\n  method: 'POST',\n  data: {\n    given_name: $.data.givenName,\n    family_name: $.data.familyName,\n    gender: $.data.gender,\n    birthdate: $.data.birthdate,\n    phone_numbers: [{ phone_no: $.data.phone }],\n    addresses: [{ address1: $.data.address }],\n  },\n});"
+    },
+    "Register Group": {
+      "description": "Register a new household / group in the social registry.",
+      "code": "// Register a household.\nrequest('/api/v1/registry/group', {\n  method: 'POST',\n  data: {\n    name: $.data.householdName,\n    kind: 'Household',\n    members: $.data.memberIds.map(id => ({ individual: id })),\n  },\n});"
+    },
+    "Enrol Beneficiary in Program": {
+      "description": "Enrol an individual or group in a social protection program.",
+      "code": "// Enrol a beneficiary in a program.\nrequest(`/api/v1/program/${$.data.programId}/enroll`, {\n  method: 'POST',\n  data: { partner_id: $.data.partnerId },\n});"
+    },
+    "Create Payment Batch": {
+      "description": "Trigger payment batch creation for a program cycle (the batch then flows out via the G2P Bridge to Payment Hub EE).",
+      "code": "// Initiate disbursement for a cycle.\nrequest(`/api/v1/program/${$.data.programId}/cycle/${$.data.cycleId}/disburse`, {\n  method: 'POST',\n});"
+    },
+    "API Request (Beta)": {
+      "description": "Raw HTTP request against the OpenG2P REST API.",
+      "code": "// Make an arbitrary request.\nrequest('/api/v1/registry/individual', { method: 'GET', query: { limit: 50 } });"
+    }
+  },
+  "SEARCH": {
+    "Search Individuals": {
+      "description": "Search the registry for individuals matching demographic criteria.",
+      "code": "// Search individuals by phone number.\nrequest('/api/v1/registry/individual', {\n  method: 'GET',\n  query: { phone_no: $.data.phone },\n});"
+    },
+    "Poll Recently Updated Beneficiaries": {
+      "description": "Cursor-style polling for changes in program membership.",
+      "code": "// Poll program members updated since the last cursor.\nrequest(`/api/v1/program/${$.data.programId}/members`, {\n  method: 'GET',\n  query: { updated_after: $.cursor.lastRun },\n});"
+    },
+    "Get Payment Status": {
+      "description": "Check the status of a payment as it flows back from the G2P Bridge.",
+      "code": "// Look up a payment by ID.\nrequest(`/api/v1/payments/${$.data.paymentId}`, {\n  method: 'GET',\n});"
+    }
+  }
+}

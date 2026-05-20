@@ -11,6 +11,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "topic": "metadata",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/event-hooks.html#source",
       "output": {
         "summary": "Event Hook payload wrapping the changed metadata object",
         "fields": ["source", "object", "object.id", "object.name", "object.lastUpdated", "objectType", "user"]
@@ -24,6 +25,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "topic": "metadata.dataElement",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/event-hooks.html#source",
       "output": {
         "summary": "DHIS2 dataElement metadata object",
         "fields": ["id", "code", "name", "shortName", "valueType", "domainType", "categoryCombo", "lastUpdated"]
@@ -37,6 +39,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "topic": "metadata.organisationUnit",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/event-hooks.html#source",
       "output": {
         "summary": "DHIS2 organisationUnit metadata object",
         "fields": ["id", "code", "name", "shortName", "level", "parent", "path", "openingDate", "closedDate", "geometry", "lastUpdated"]
@@ -50,6 +53,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "topic": "scheduler",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/event-hooks.html#source",
       "output": {
         "summary": "Scheduler job completion event",
         "fields": ["jobType", "jobId", "status", "executedAt", "duration"]
@@ -63,6 +67,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "topic": "scheduler.ANALYTICS_TABLE",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/event-hooks.html#source",
       "output": {
         "summary": "Analytics table generation event",
         "fields": ["jobType", "status", "executedAt", "duration"]
@@ -75,6 +80,7 @@
       "mechanismDetail": "Polling with cursor (updatedAfter timestamp)",
       "openfnPattern": "cron",
       "status": "confirmed",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/tracker.html",
       "output": {
         "summary": "DHIS2 tracker event",
         "fields": ["event", "program", "programStage", "trackedEntity", "enrollment", "orgUnit", "status", "occurredAt", "completedAt", "updatedAt", "dataValues"]
@@ -87,6 +93,7 @@
       "mechanismDetail": "Polling with cursor",
       "openfnPattern": "cron",
       "status": "confirmed",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/tracker.html",
       "output": {
         "summary": "DHIS2 tracker enrollment",
         "fields": ["enrollment", "program", "trackedEntity", "orgUnit", "status", "enrolledAt", "occurredAt", "updatedAt"]
@@ -99,6 +106,7 @@
       "mechanismDetail": "Polling with cursor",
       "openfnPattern": "cron",
       "status": "confirmed",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/tracker.html",
       "output": {
         "summary": "DHIS2 tracked entity instance",
         "fields": ["trackedEntity", "trackedEntityType", "orgUnit", "attributes", "enrollments", "createdAt", "updatedAt"]
@@ -111,6 +119,7 @@
       "mechanismDetail": "Polling with cursor",
       "openfnPattern": "cron",
       "status": "confirmed",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data.html#webapi_data_values",
       "output": {
         "summary": "DHIS2 dataValueSet payload",
         "fields": ["dataSet", "completeDate", "period", "orgUnit", "attributeOptionCombo", "dataValues"]
@@ -123,6 +132,7 @@
       "mechanismDetail": "Polling with cursor",
       "openfnPattern": "cron",
       "status": "confirmed",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/data-validation.html",
       "output": {
         "summary": "DHIS2 complete data set registration",
         "fields": ["dataSet", "period", "organisationUnit", "attributeOptionCombo", "date", "storedBy", "completed"]
@@ -135,6 +145,7 @@
       "mechanismDetail": "Programmable webhook (Program Notifications)",
       "openfnPattern": "webhook",
       "status": "unconfirmed",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/tracker.html",
       "output": {
         "summary": "DHIS2 program notification payload"
       }
@@ -146,6 +157,7 @@
       "mechanismDetail": "Polling with cursor",
       "openfnPattern": "cron",
       "status": "unconfirmed",
+      "docsUrl": "https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/messaging.html",
       "output": {
         "summary": "DHIS2 message conversation",
         "fields": ["id", "subject", "messageType", "lastMessage", "lastSender", "lastUpdated", "read"]

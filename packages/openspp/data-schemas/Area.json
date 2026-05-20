@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openspp/Area",
+  "title": "Area",
+  "description": "A geographic / administrative area in OpenSPP's location hierarchy (country, region, district, etc.). Backed by the Odoo model `spp.area`. Returned by `getArea` / `searchArea`.",
+  "x-source": {
+    "adapter": "openspp",
+    "odooModel": "spp.area",
+    "docs": "https://docs.openspp.org/users/locations/index.html",
+    "derivedFrom": "packages/openspp/src/Adaptor.js",
+    "ingestedAt": "2026-05-19"
+  },
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Odoo internal record id."
+    },
+    "spp_id": {
+      "type": "string",
+      "description": "OpenSPP public identifier for the area, prefixed with `LOC_` (e.g. `LOC_7M92NLDH`)."
+    },
+    "name": {
+      "type": "string",
+      "description": "Area name."
+    },
+    "code": {
+      "type": ["string", "boolean"],
+      "description": "Administrative / P-code identifying the area."
+    },
+    "altnames": {
+      "type": ["string", "boolean"],
+      "description": "Alternative names for the area."
+    },
+    "area_level": {
+      "type": ["integer", "boolean"],
+      "description": "Depth in the area hierarchy (0 = root)."
+    },
+    "kind": {
+      "type": ["array", "integer", "boolean"],
+      "description": "Many2one reference `[id, name]` to `spp.area.kind` (country, province, district, etc.)."
+    },
+    "parent_id": {
+      "type": ["array", "boolean"],
+      "description": "Many2one reference `[id, name]` to the parent `spp.area`. `false` for top-level areas.",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    }
+  },
+  "required": ["id", "name"]
+}

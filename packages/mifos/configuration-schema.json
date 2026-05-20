@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "hostUrl": {
+      "title": "Host URL",
+      "type": "string",
+      "description": "Base URL of the Fineract / Mifos provider, including the API prefix (typically `/fineract-provider/api/v1`).",
+      "format": "uri",
+      "minLength": 1,
+      "examples": [
+        "https://demo.mifos.io/fineract-provider/api/v1"
+      ]
+    },
+    "tenantId": {
+      "title": "Tenant ID",
+      "type": "string",
+      "description": "Fineract is multi-tenant. Sent on every request as the `Fineract-Platform-TenantId` header.",
+      "minLength": 1,
+      "default": "default",
+      "examples": ["default"]
+    },
+    "username": {
+      "title": "Username",
+      "type": "string",
+      "description": "Fineract user with the permissions required for the operations the workflow will call.",
+      "minLength": 1,
+      "examples": ["mifos"]
+    },
+    "password": {
+      "title": "Password",
+      "type": "string",
+      "description": "Password for the Fineract user. Sent via HTTP Basic auth.",
+      "writeOnly": true,
+      "minLength": 1,
+      "examples": ["password"]
+    },
+    "accessToken": {
+      "title": "OAuth Access Token",
+      "type": "string",
+      "description": "Optional. If your Fineract deployment is configured for OAuth2 (`fineract.security.basicauth.enabled=false`), use a bearer token instead of basic auth.",
+      "writeOnly": true
+    }
+  },
+  "additionalProperties": true,
+  "required": ["hostUrl", "tenantId", "username", "password"]
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mifos/SavingsAccount",
+  "title": "SavingsAccount",
+  "description": "A Fineract savings account. Returned by `/savingsaccounts/{id}` and used as the payload for `Savings:CREATE`, `Savings:PAYCHARGE` webhook hooks and the Kafka `SavingsDeposit` business event.",
+  "x-source": {
+    "adapter": "mifos",
+    "docs": "https://fineract.apache.org/docs/current/",
+    "ingestedAt": "2026-05-20"
+  },
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer" },
+    "accountNo": { "type": "string" },
+    "clientId": { "type": "integer" },
+    "clientName": { "type": "string" },
+    "savingsProductId": { "type": "integer" },
+    "savingsProductName": { "type": "string" },
+    "fieldOfficerId": { "type": "integer" },
+    "status": {
+      "type": "object",
+      "properties": { "id": { "type": "integer" }, "code": { "type": "string" }, "value": { "type": "string" } }
+    },
+    "subStatus": {
+      "type": "object",
+      "properties": { "id": { "type": "integer" }, "code": { "type": "string" }, "value": { "type": "string" } }
+    },
+    "timeline": {
+      "type": "object",
+      "properties": {
+        "submittedOnDate": { "type": "array", "items": { "type": "integer" } },
+        "approvedOnDate": { "type": "array", "items": { "type": "integer" } },
+        "activatedOnDate": { "type": "array", "items": { "type": "integer" } }
+      }
+    },
+    "currency": {
+      "type": "object",
+      "properties": { "code": { "type": "string" }, "name": { "type": "string" }, "decimalPlaces": { "type": "integer" } }
+    },
+    "nominalAnnualInterestRate": { "type": "number" },
+    "minRequiredOpeningBalance": { "type": "number" },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "accountBalance": { "type": "number" },
+        "totalDeposits": { "type": "number" },
+        "totalWithdrawals": { "type": "number" },
+        "totalInterestEarned": { "type": "number" },
+        "totalFeeCharge": { "type": "number" }
+      }
+    }
+  },
+  "required": ["id", "accountNo", "clientId", "status"]
+}

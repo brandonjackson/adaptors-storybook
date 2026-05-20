@@ -1,0 +1,38 @@
+{
+  "name": "@openfn/language-mifos",
+  "label": "Mifos / Apache Fineract",
+  "version": "0.1.0",
+  "description": "OpenFn adaptor for Mifos / Apache Fineract — the open-source core banking platform used by community microfinance institutions worldwide.",
+  "homepage": "https://docs.openfn.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openfn/adaptors.git"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./types/index.d.ts",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "pnpm clean && build-adaptor mifos",
+    "clean": "rimraf dist types docs",
+    "pack": "pnpm pack --pack-destination ../../dist"
+  },
+  "author": "Open Function Group",
+  "license": "LGPLv3",
+  "files": [
+    "dist/",
+    "types/",
+    "ast.json",
+    "configuration-schema.json"
+  ],
+  "dependencies": {
+    "@openfn/language-common": "workspace:*"
+  },
+  "main": "dist/index.cjs"
+}

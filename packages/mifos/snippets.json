@@ -1,0 +1,42 @@
+{
+  "CREATE": {
+    "Create Client": {
+      "description": "Create a new individual client. Requires officeId; legalFormId 1 = PERSON, 2 = ENTITY. Set `active: true` with an `activationDate` to onboard immediately.",
+      "code": "// Create an individual client and activate them on the spot.\nrequest('/clients', {\n  method: 'POST',\n  data: {\n    officeId: 1,\n    legalFormId: 1, // 1 = PERSON, 2 = ENTITY\n    firstname: $.data.firstName,\n    lastname: $.data.lastName,\n    mobileNo: $.data.phone,\n    dateOfBirth: $.data.dob,            // dd MMMM yyyy\n    dateFormat: 'dd MMMM yyyy',\n    locale: 'en',\n    active: true,\n    activationDate: $.data.activationDate,\n  },\n});"
+    },
+    "Create Loan Application": {
+      "description": "Submit a new loan application for an existing client. The product id determines the schedule terms.",
+      "code": "// Submit a new loan application.\nrequest('/loans', {\n  method: 'POST',\n  data: {\n    clientId: $.data.clientId,\n    productId: $.configuration.loanProductId,\n    principal: $.data.principal,\n    loanTermFrequency: 12,\n    loanTermFrequencyType: 2, // 2 = months\n    numberOfRepayments: 12,\n    repaymentEvery: 1,\n    repaymentFrequencyType: 2,\n    interestRatePerPeriod: 24,\n    amortizationType: 1,\n    interestType: 0,\n    interestCalculationPeriodType: 1,\n    transactionProcessingStrategyCode: 'mifos-standard-strategy',\n    expectedDisbursementDate: $.data.disbursementDate,\n    submittedOnDate: $.data.today,\n    dateFormat: 'dd MMMM yyyy',\n    locale: 'en',\n  },\n});"
+    },
+    "Record Loan Repayment": {
+      "description": "Record a repayment transaction against a loan account.",
+      "code": "// Record a repayment for a loan.\nrequest(`/loans/${$.data.loanId}/transactions?command=repayment`, {\n  method: 'POST',\n  data: {\n    transactionDate: $.data.transactionDate,\n    transactionAmount: $.data.amount,\n    paymentTypeId: $.data.paymentTypeId,\n    dateFormat: 'dd MMMM yyyy',\n    locale: 'en',\n  },\n});"
+    },
+    "Open Savings Account": {
+      "description": "Open a savings account for an existing client.",
+      "code": "// Open a savings account.\nrequest('/savingsaccounts', {\n  method: 'POST',\n  data: {\n    clientId: $.data.clientId,\n    productId: $.configuration.savingsProductId,\n    submittedOnDate: $.data.today,\n    dateFormat: 'dd MMMM yyyy',\n    locale: 'en',\n  },\n});"
+    },
+    "Register Webhook Hook": {
+      "description": "Register a Fineract Hook (Web template) so the platform POSTs an event to your OpenFn webhook URL whenever the chosen entity+action fires.",
+      "code": "// Register a webhook for Loan disbursements.\nrequest('/hooks', {\n  method: 'POST',\n  data: {\n    name: 'Web',\n    isActive: true,\n    displayName: 'OpenFn — Loan Disbursed',\n    events: [{ actionName: 'DISBURSE', entityName: 'LOAN' }],\n    config: {\n      'Content Type': 'json',\n      'Payload URL': $.configuration.openfnWebhookUrl,\n    },\n  },\n});"
+    },
+    "API Request (Beta)": {
+      "description": "Raw HTTP request with authentication and the tenant header applied.",
+      "code": "// Make an arbitrary request against the Fineract API.\nrequest('/clients', {\n  method: 'GET',\n  query: { limit: 50 },\n});"
+    }
+  },
+  "SEARCH": {
+    "Find Client by External ID": {
+      "description": "Look up a client by an external identifier (e.g. national ID) maintained by Fineract.",
+      "code": "// Find a client by externalId.\nrequest('/clients', {\n  method: 'GET',\n  query: { externalId: $.data.nationalId },\n});"
+    },
+    "Get Loan with Repayment Schedule": {
+      "description": "Fetch a loan plus its full repayment schedule and transactions.",
+      "code": "// Fetch a loan with associations.\nrequest(`/loans/${$.data.loanId}`, {\n  method: 'GET',\n  query: { associations: 'repaymentSchedule,transactions' },\n});"
+    },
+    "Poll Recently Updated Loans": {
+      "description": "Cursor-style polling: list loans submitted on or after the last seen date. Useful as a fallback when Hooks / Kafka aren't enabled.",
+      "code": "// Poll loans submitted since the last cursor.\nrequest('/loans', {\n  method: 'GET',\n  query: {\n    submittedOnDateFrom: $.cursor.submittedOnDate,\n    dateFormat: 'dd MMMM yyyy',\n    locale: 'en',\n  },\n});"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "vendor": "MOSIP — Modular Open Source Identity Platform",
+  "product": "MOSIP",
+  "homepage": "https://mosip.io",
+  "status": "stub",
+
+  "apiStyle": "mixed",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["oauth2", "jwt", "partner-keys"],
+    "docs": "https://docs.mosip.io"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.mosip.io",
+      "notes": "MOSIP documentation hub"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.mosip.io/1.2.0/modules/id-repository",
+      "notes": "ID Repository module — UIN/VID + WebSub publication"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://docs.mosip.io/1.2.0/modules/registration-processor",
+      "notes": "Registration Processor — SEDA pipeline stages"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/mosip/id-repository",
+      "language": "java"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/mosip/id-authentication",
+      "language": "java",
+      "notes": "ID Authentication (IDA) service"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/mosip/esignet",
+      "language": "java",
+      "notes": "eSignet — OIDC-compliant authentication for relying parties"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/mosip/mosip-token-seeder",
+      "language": "java",
+      "notes": "Token seeder used by the OpenCRVS-MOSIP mediator pattern"
+    }
+  ],
+
+  "webhooks": {
+    "supported": true,
+    "docs": "https://docs.mosip.io/1.2.0/modules/id-repository#websub-events"
+  },
+
+  "notes": "MOSIP uses W3C WebSub (Ballerina WebSubHub) for internal event distribution between modules. External integration requires either (a) deploying a WebSub subscriber within / alongside the MOSIP cluster with proper partner onboarding, or (b) polling REST APIs (ID Repository, Resident services). eSignet provides OIDC for relying parties — request/response, not event-driven. DataShare creates temporary URLs for sharing credential data; it is used inside the credential issuance pipeline rather than as an event source."
+}

@@ -1,0 +1,123 @@
+{
+  "source": "dpg-trigger-taxonomy",
+  "scrapedAt": "2026-05",
+  "notes": "OpenCRVS exposes a W3C WebSub-compliant webhook system: OpenFn subscribes via OAuth2 client credentials, responds to the verification challenge, validates the HMAC `x-hub-signature` using the `sha_secret`, and receives FHIR Composition bundles. Only `BIRTH_REGISTERED` is explicitly named as a topic string in public docs; deployers can query OpenCRVS for the live list of available topics at runtime. Lifecycle stages (declared / validated / registered / certified / corrected / archived) all exist internally but most are unconfirmed as webhook topics — poll the Record Search API as a fallback.",
+  "triggers": [
+    {
+      "name": "New Birth Registered",
+      "description": "Fires when a birth registration is completed and registered in OpenCRVS. Subscribe via the webhook API with topic `BIRTH_REGISTERED`. The payload is a FHIR Composition bundle containing demographics, attachments, and (when present) biometric references. This is the canonical trigger for downstream national ID creation (e.g. via the MOSIP mediator pattern).",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "BIRTH_REGISTERED",
+      "output": {
+        "summary": "FHIR Composition bundle for the registered birth",
+        "schemaRef": "BirthRegistrationBundle",
+        "fields": ["resourceType", "type", "entry", "entry[0].resource.id", "entry[].resource.resourceType", "entry[].resource.subject", "entry[].resource.identifier"]
+      }
+    },
+    {
+      "name": "New Death Registered",
+      "description": "Fires when a death registration is completed and registered. The OpenCRVS docs reference birth and death registration webhooks; the exact topic string is not published but is queryable at runtime against a live instance.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "DEATH_REGISTERED",
+      "output": {
+        "summary": "FHIR Composition bundle for the registered death",
+        "schemaRef": "DeathRegistrationBundle",
+        "fields": ["resourceType", "type", "entry", "entry[].resource.resourceType", "entry[].resource.deceasedDateTime"]
+      }
+    },
+    {
+      "name": "New Marriage Registered",
+      "description": "Fires when a marriage registration is completed. Marriage support was added in OpenCRVS v1.3+; no `MARRIAGE_REGISTERED` topic string is confirmed in public docs. Fallback: poll the Record Search API filtering by event type and status.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "topic": "MARRIAGE_REGISTERED",
+      "output": {
+        "summary": "FHIR Composition bundle for the registered marriage",
+        "schemaRef": "MarriageRegistrationBundle"
+      }
+    },
+    {
+      "name": "Birth Declared",
+      "description": "Fires when a new birth declaration is submitted (before registration). The DECLARE lifecycle stage exists internally as an ActionType but no `BIRTH_DECLARED` webhook topic is confirmed in public docs. Fallback: poll the Record Search API with a status filter for declared records.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "topic": "BIRTH_DECLARED"
+    },
+    {
+      "name": "Death Declared",
+      "description": "Fires when a new death declaration is submitted (before registration). Same uncertainty as Birth Declared — the DECLARE action exists but the webhook topic is not confirmed. Fallback: poll the Record Search API with a status filter.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "topic": "DEATH_DECLARED"
+    },
+    {
+      "name": "Birth Certified",
+      "description": "Fires when a birth certificate is printed/issued. The PRINT_CERTIFICATE ActionType exists internally; no webhook topic confirmed in public docs. Fallback: poll the Record Search API with a status filter for certified records.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "topic": "BIRTH_CERTIFIED"
+    },
+    {
+      "name": "Death Certified",
+      "description": "Fires when a death certificate is printed/issued. Same uncertainty as Birth Certified. Fallback: poll the Record Search API.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "topic": "DEATH_CERTIFIED"
+    },
+    {
+      "name": "Registration Corrected",
+      "description": "Fires when a registered vital event is corrected. The REQUEST_CORRECTION ActionType exists in the v2 events engine but no corresponding webhook topic is confirmed. Fallback: poll the Record Search API.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "topic": "REGISTRATION_CORRECTED"
+    },
+    {
+      "name": "Registration Archived",
+      "description": "Fires when a registration is archived. ARCHIVE is an internal action but no webhook topic is confirmed in public docs. Fallback: poll the Record Search API.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "topic": "REGISTRATION_ARCHIVED"
+    },
+    {
+      "name": "Duplicate Detected",
+      "description": "Fires when OpenCRVS detects a potential duplicate registration. DUPLICATE_DETECTED is an internal action type but is NOT exposed as a webhook topic. Fallback: poll the Record Search API for duplicate flags, or build a custom mediator that listens for the internal event.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (W3C WebSub)",
+      "openfnPattern": "webhook",
+      "status": "not-available"
+    },
+    {
+      "name": "New Event Notification Received",
+      "description": "Fires when a new FHIR event notification arrives at OpenCRVS via the Event Notification API (e.g. an automated notification from a hospital system). Polled via the documented `/notification` endpoint with FHIR Bundle payloads.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "output": {
+        "summary": "FHIR Bundle from the Event Notification API",
+        "schemaRef": "EventNotificationBundle",
+        "fields": ["resourceType", "type", "entry", "entry[].resource.resourceType"]
+      }
+    }
+  ]
+}

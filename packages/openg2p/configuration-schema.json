@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "baseUrl": {
+      "title": "Base URL",
+      "type": "string",
+      "description": "Base URL of the OpenG2P deployment (Odoo host).",
+      "format": "uri",
+      "minLength": 1,
+      "examples": ["https://openg2p.example.org"]
+    },
+    "database": {
+      "title": "Odoo Database",
+      "type": "string",
+      "description": "Odoo database name behind the OpenG2P deployment.",
+      "minLength": 1,
+      "examples": ["openg2p"]
+    },
+    "username": {
+      "title": "Username",
+      "type": "string",
+      "description": "User to authenticate against the OpenG2P REST / Odoo JSON-RPC APIs.",
+      "minLength": 1,
+      "examples": ["admin"]
+    },
+    "password": {
+      "title": "Password",
+      "type": "string",
+      "description": "Password for the user.",
+      "writeOnly": true,
+      "minLength": 1
+    },
+    "clientId": {
+      "title": "OAuth Client ID",
+      "type": "string",
+      "description": "Optional OAuth 2.0 client id (if the deployment uses OAuth2 for API access)."
+    },
+    "clientSecret": {
+      "title": "OAuth Client Secret",
+      "type": "string",
+      "writeOnly": true,
+      "description": "Optional OAuth 2.0 client secret."
+    }
+  },
+  "additionalProperties": true,
+  "required": ["baseUrl", "database", "username", "password"]
+}

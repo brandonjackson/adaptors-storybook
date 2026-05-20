@@ -1,0 +1,110 @@
+{
+  "source": "dpg-trigger-taxonomy",
+  "scrapedAt": "2026-05",
+  "notes": "MOSIP uses W3C WebSub (Ballerina WebSubHub) internally to push events between modules. Subscribing from outside the cluster requires (a) network access to the WebSub hub and (b) partner onboarding. Where that's not feasible, fall back to polling the REST APIs (ID Repository, Resident, partner management). eSignet provides OIDC for relying parties — that is request/response, not an event source, and doesn't appear as a trigger. The OpenCRVS → MOSIP mediator (OpenCRVS WebSub → mediator → MOSIP Token Seeder → UIN creation) is the canonical cross-DPG integration pattern.",
+  "triggers": [
+    {
+      "name": "New UIN Created",
+      "description": "Fires when a new Unique Identification Number is assigned to a resident — typically as the final stage of the Registration Processor pipeline. ID Repository publishes this event via WebSub.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (WebSub, MOSIP ID Repository)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "UIN_GENERATED",
+      "output": {
+        "summary": "UIN creation event",
+        "fields": ["event_id", "event_topic", "publisher", "publishedOn", "data.id", "data.transactionId", "data.uin", "data.registrationId", "data.dataShareUrl"]
+      }
+    },
+    {
+      "name": "UIN Updated",
+      "description": "Fires when biographic / biometric data tied to a UIN is updated (e.g. address change, biometric refresh). ID Repository publishes UIN update events via WebSub.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (WebSub)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "UIN_UPDATED",
+      "output": {
+        "summary": "UIN update event",
+        "fields": ["event_id", "event_topic", "publishedOn", "data.id", "data.uin", "data.updatedFields", "data.dataShareUrl"]
+      }
+    },
+    {
+      "name": "VID Created",
+      "description": "Fires when a Virtual ID (VID) is generated for a UIN — VIDs are revocable handles used in place of the UIN during authentication. VID Service publishes via WebSub.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (WebSub)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "VID_GENERATED",
+      "output": {
+        "summary": "VID generation event",
+        "fields": ["event_id", "publishedOn", "data.vid", "data.vidType", "data.uin", "data.expiryDate"]
+      }
+    },
+    {
+      "name": "Credential Issued",
+      "description": "Fires when a verifiable credential is issued (print partner package, wallet credential, etc.). Credential issuance is published to WebSub for print partners and IDA — core to the MOSIP architecture.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (WebSub)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "CREDENTIAL_ISSUED",
+      "output": {
+        "summary": "Credential issuance event with DataShare URL",
+        "fields": ["event_id", "publishedOn", "data.id", "data.credentialType", "data.partnerId", "data.dataShareUrl", "data.expiryTimestamp"]
+      }
+    },
+    {
+      "name": "Authentication Completed",
+      "description": "Fires when an authentication transaction completes against IDA. No public API for polling auth events — auth events are internal to IDA. There is no straightforward integration path without a custom IDA extension or direct DB access. This trigger is aspirational.",
+      "mechanism": "polling",
+      "mechanismDetail": "Not available (no public auth event stream)",
+      "openfnPattern": "cron",
+      "status": "not-available"
+    },
+    {
+      "name": "Registration Packet Processed",
+      "description": "Fires when the Registration Processor pipeline finishes processing a packet end-to-end. The final stage triggers credential issuance via WebSub; whether the 'packet processed' event itself is directly subscribable (vs. only the credential issuance that follows) is unclear. Fallback: subscribe to `Credential Issued`.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (WebSub, internal stage)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "topic": "REGISTRATION_PROCESSED"
+    },
+    {
+      "name": "Auth Type Status Changed",
+      "description": "Fires when an authentication type (bio, OTP, demographic) is locked or unlocked for a UIN. ID Repository publishes auth type status updates via WebSub.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (WebSub)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "AUTH_TYPE_STATUS_UPDATE",
+      "output": {
+        "summary": "Auth type status change event",
+        "fields": ["event_id", "publishedOn", "data.id", "data.uin", "data.authType", "data.status", "data.unlockExpiryDateTime"]
+      }
+    },
+    {
+      "name": "ID Deactivated",
+      "description": "Fires when a UIN is deactivated (e.g. on death notification, fraud determination). No confirmed public API for polling deactivation events. Fallback: subscribe to `UIN Updated` if the deactivation triggers an update event.",
+      "mechanism": "polling",
+      "mechanismDetail": "Not available (subscribe to UIN_UPDATED as a proxy)",
+      "openfnPattern": "cron",
+      "status": "not-available"
+    },
+    {
+      "name": "Credential Status Updated",
+      "description": "Fires when a credential's status changes (active, suspended, revoked). WebSub subscribes IDA to credential status notifications.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (WebSub)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "CREDENTIAL_STATUS_UPDATE",
+      "output": {
+        "summary": "Credential status update event",
+        "fields": ["event_id", "publishedOn", "data.id", "data.credentialId", "data.status", "data.statusReason"]
+      }
+    }
+  ]
+}

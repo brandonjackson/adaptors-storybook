@@ -1,0 +1,155 @@
+{
+  "source": "dpg-trigger-taxonomy",
+  "scrapedAt": "2026-05",
+  "notes": "DHIS2 v2.40+ exposes an Event Hooks API (`/api/eventHooks`) for metadata and scheduler events; this needs `event_hooks.enabled = on` in `dhis.conf`. Event Hooks support webhook, Apache Artemis JMS and Kafka targets. Tracker and aggregate data changes are NOT covered by event hooks — use cursor polling with `updatedAfter` / `lastUpdated` filters. Program Notifications can target external URLs but their reliability as production webhooks is unclear.",
+  "triggers": [
+    {
+      "name": "Metadata Changed",
+      "description": "Fires when any metadata object (data element, org unit, indicator, program, etc.) is created, updated or deleted. Subscribe via the Event Hooks API with source path `metadata`. Supports field selection on the source (e.g. `fields=id,code,name`).",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Event Hooks API, v2.40+)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "metadata",
+      "output": {
+        "summary": "Event Hook payload wrapping the changed metadata object",
+        "fields": ["source", "object", "object.id", "object.name", "object.lastUpdated", "objectType", "user"]
+      }
+    },
+    {
+      "name": "Data Element Updated",
+      "description": "Fires when a data element definition is created, updated or deleted. Event Hooks API with source path `metadata.dataElement`. Useful for keeping downstream data dictionaries in sync.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Event Hooks API)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "metadata.dataElement",
+      "output": {
+        "summary": "DHIS2 dataElement metadata object",
+        "fields": ["id", "code", "name", "shortName", "valueType", "domainType", "categoryCombo", "lastUpdated"]
+      }
+    },
+    {
+      "name": "Organisation Unit Updated",
+      "description": "Fires when an organisation unit is created, modified or deleted. Event Hooks API with source path `metadata.organisationUnit`. Use this to mirror DHIS2's facility hierarchy to other systems.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Event Hooks API)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "metadata.organisationUnit",
+      "output": {
+        "summary": "DHIS2 organisationUnit metadata object",
+        "fields": ["id", "code", "name", "shortName", "level", "parent", "path", "openingDate", "closedDate", "geometry", "lastUpdated"]
+      }
+    },
+    {
+      "name": "Scheduler Job Completed",
+      "description": "Fires when a scheduled job (analytics, resource tables, predictors, data integrity, etc.) completes. Event Hooks API with source path `scheduler.{JobType}`. Use to chain workflows off DHIS2's internal scheduler.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Event Hooks API)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "scheduler",
+      "output": {
+        "summary": "Scheduler job completion event",
+        "fields": ["jobType", "jobId", "status", "executedAt", "duration"]
+      }
+    },
+    {
+      "name": "Analytics Table Generated",
+      "description": "Fires when the analytics tables are regenerated. Event Hooks API with source path `scheduler.ANALYTICS_TABLE`. A useful trigger for refreshing dashboards or downstream warehouses.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Event Hooks API)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "topic": "scheduler.ANALYTICS_TABLE",
+      "output": {
+        "summary": "Analytics table generation event",
+        "fields": ["jobType", "status", "executedAt", "duration"]
+      }
+    },
+    {
+      "name": "New Tracker Event",
+      "description": "Fires when a new tracker event is created or updated. Poll `/api/tracker/events?updatedAfter={cursor}` on a schedule, advancing the cursor on success. Supports pagination.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor (updatedAfter timestamp)",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "output": {
+        "summary": "DHIS2 tracker event",
+        "fields": ["event", "program", "programStage", "trackedEntity", "enrollment", "orgUnit", "status", "occurredAt", "completedAt", "updatedAt", "dataValues"]
+      }
+    },
+    {
+      "name": "New Enrollment",
+      "description": "Fires when a new enrollment is created in a tracker program. Poll `/api/tracker/enrollments?updatedAfter={cursor}` on a schedule.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "output": {
+        "summary": "DHIS2 tracker enrollment",
+        "fields": ["enrollment", "program", "trackedEntity", "orgUnit", "status", "enrolledAt", "occurredAt", "updatedAt"]
+      }
+    },
+    {
+      "name": "New Tracked Entity",
+      "description": "Fires when a new tracked entity instance is registered. Poll `/api/tracker/trackedEntities?updatedAfter={cursor}` on a schedule.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "output": {
+        "summary": "DHIS2 tracked entity instance",
+        "fields": ["trackedEntity", "trackedEntityType", "orgUnit", "attributes", "enrollments", "createdAt", "updatedAt"]
+      }
+    },
+    {
+      "name": "New Data Value Set",
+      "description": "Fires when new aggregate data values are submitted. Poll `/api/dataValueSets` with a `lastUpdated` filter on a schedule.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "output": {
+        "summary": "DHIS2 dataValueSet payload",
+        "fields": ["dataSet", "completeDate", "period", "orgUnit", "attributeOptionCombo", "dataValues"]
+      }
+    },
+    {
+      "name": "Data Set Completed",
+      "description": "Fires when an aggregate data set registration is marked complete for a given period and org unit. Poll `/api/completeDataSetRegistrations` on a schedule.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "output": {
+        "summary": "DHIS2 complete data set registration",
+        "fields": ["dataSet", "period", "organisationUnit", "attributeOptionCombo", "date", "storedBy", "completed"]
+      }
+    },
+    {
+      "name": "Program Notification Fired",
+      "description": "Fires when a DHIS2 program notification rule fires (e.g. on enrollment / event completion). Program notifications can target external URLs but delivery semantics are not well documented. Fallback: poll tracker events directly.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Programmable webhook (Program Notifications)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "output": {
+        "summary": "DHIS2 program notification payload"
+      }
+    },
+    {
+      "name": "New Message",
+      "description": "Fires when a new message conversation arrives. DHIS2 has a messaging system but no documented cursor-based polling endpoint. Fallback: poll `/api/messageConversations` if available on the target version.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "unconfirmed",
+      "output": {
+        "summary": "DHIS2 message conversation",
+        "fields": ["id", "subject", "messageType", "lastMessage", "lastSender", "lastUpdated", "read"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openg2p/Individual",
+  "title": "Individual",
+  "description": "An individual record in the OpenG2P social registry, following the G2P Connect data spec. Returned from `/api/v1/registry/individual` and the underlying Odoo `res.partner` records.",
+  "x-source": {
+    "adapter": "openg2p",
+    "odooModel": "res.partner",
+    "docs": "https://spec.ids.global/v/v1.1.0/",
+    "ingestedAt": "2026-05-20"
+  },
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer", "description": "Odoo internal record id." },
+    "name": { "type": "string", "description": "Display name." },
+    "given_name": { "type": "string" },
+    "family_name": { "type": "string" },
+    "addl_name": { "type": "string", "description": "Additional name (e.g. middle name)." },
+    "gender": { "type": "string", "enum": ["Male", "Female", "Other"] },
+    "birthdate": { "type": "string", "format": "date" },
+    "birth_place": { "type": "string" },
+    "marital_status": { "type": "string" },
+    "phone_numbers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": { "phone_no": { "type": "string" }, "phone_sanitized": { "type": "string" } }
+      }
+    },
+    "email": { "type": "string", "format": "email" },
+    "addresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "address1": { "type": "string" },
+          "address2": { "type": "string" },
+          "city": { "type": "string" },
+          "state": { "type": "string" },
+          "country": { "type": "string" }
+        }
+      }
+    },
+    "reg_ids": {
+      "type": "array",
+      "description": "Externally issued identification documents (national ID, passport, etc.).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id_type": { "type": "string" },
+          "value": { "type": "string" },
+          "expiry_date": { "type": "string", "format": "date" }
+        }
+      }
+    },
+    "create_date": { "type": "string", "format": "date-time" },
+    "write_date": { "type": "string", "format": "date-time" }
+  },
+  "required": ["id", "name"]
+}

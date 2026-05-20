@@ -1,0 +1,141 @@
+{
+  "source": "dpg-trigger-taxonomy",
+  "scrapedAt": "2026-05",
+  "notes": "OpenG2P is Odoo-based and exposes REST APIs (`g2p_registry_rest_api`, `g2p_programs_rest_api`) following the G2P Connect specifications. Integration is primarily polling — there is no documented native webhook system at the OpenG2P product level. As with OpenSPP, Odoo 17 Automation Rules can be configured by an admin to POST to OpenFn on record changes; this is an implementation-level workaround rather than a product feature. Payment disbursement goes through a multi-hop chain (OpenG2P → G2P Bridge → Payment Hub EE → Mojaloop / banks), so trigger placement matters: do you fire on OpenG2P's outbound request, or on the bridge's confirmation? Both points are valid depending on the workflow.",
+  "triggers": [
+    {
+      "name": "New Individual Registered",
+      "description": "Fires when a new individual is added to the social registry. Poll the OpenG2P REST API (`g2p_registry_rest_api`) using `create_date` / `write_date` cursors.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor (REST API)",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "odooModel": "res.partner",
+      "output": {
+        "summary": "OpenG2P individual",
+        "fields": ["id", "name", "given_name", "family_name", "phone", "email", "gender", "birthdate", "create_date", "write_date"]
+      }
+    },
+    {
+      "name": "New Group Registered",
+      "description": "Fires when a new household / group is added to the social registry. Polled via REST API or Odoo JSON-RPC on the group model.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "odooModel": "res.partner",
+      "output": {
+        "summary": "OpenG2P household / group",
+        "fields": ["id", "name", "kind", "is_group", "create_date", "write_date"]
+      }
+    },
+    {
+      "name": "Beneficiary Enrolled",
+      "description": "Fires when an individual or group is enrolled in a program cycle. The `g2p_programs_rest_api` module exposes enrollment records; poll by `create_date`.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "odooModel": "g2p.program_membership",
+      "output": {
+        "summary": "Beneficiary enrollment record",
+        "fields": ["id", "partner_id", "program_id", "state", "enrollment_date", "create_date"]
+      }
+    },
+    {
+      "name": "Eligibility Determined",
+      "description": "Fires when an eligibility manager completes assessing a beneficiary. No confirmed REST endpoint for querying assessment results by timestamp. Fallback: poll program membership records and check eligibility status.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "unconfirmed",
+      "odooModel": "g2p.program_membership"
+    },
+    {
+      "name": "Entitlement Created",
+      "description": "Fires when a new entitlement is generated for a beneficiary. Entitlements exist as Odoo models but no dedicated REST endpoint is confirmed. Fallback: poll via Odoo JSON-RPC.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "unconfirmed",
+      "odooModel": "g2p.entitlement",
+      "output": {
+        "summary": "Beneficiary entitlement",
+        "fields": ["id", "partner_id", "program_id", "cycle_id", "initial_amount", "state", "create_date"]
+      }
+    },
+    {
+      "name": "Payment Batch Created",
+      "description": "Fires when OpenG2P creates a payment batch ready to send to the G2P Bridge. No confirmed REST endpoint; poll via Odoo JSON-RPC on the payment batch model.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "unconfirmed",
+      "odooModel": "g2p.payment.batch",
+      "output": {
+        "summary": "Payment batch",
+        "fields": ["id", "name", "program_id", "cycle_id", "status", "total_amount", "beneficiary_count", "create_date"]
+      }
+    },
+    {
+      "name": "Payment Disbursed",
+      "description": "Fires when an individual payment is confirmed disbursed by the downstream payment rail. The confirmation flows back from Payment Hub / G2P Bridge. Two integration points: poll OpenG2P's payment records by status, or poll the G2P Bridge API directly.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor (multi-hop status callback)",
+      "openfnPattern": "cron",
+      "status": "unconfirmed",
+      "odooModel": "g2p.payment",
+      "output": {
+        "summary": "Confirmed disbursed payment",
+        "fields": ["id", "partner_id", "program_id", "cycle_id", "amount", "currency_id", "status", "payment_method", "completed_date"]
+      }
+    },
+    {
+      "name": "Payment Failed",
+      "description": "Fires when a payment fails downstream (rejection by bank / Mojaloop). Same multi-hop confirmation pattern as Payment Disbursed. Fallback: poll payment records by failure status.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "unconfirmed",
+      "odooModel": "g2p.payment",
+      "output": {
+        "summary": "Failed payment",
+        "fields": ["id", "partner_id", "program_id", "amount", "status", "failure_reason", "completed_date"]
+      }
+    },
+    {
+      "name": "Program Cycle Started",
+      "description": "Fires when a program cycle transitions to an active / approved state. Program cycles are Odoo records; poll by `create_date` and state field.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "odooModel": "g2p.cycle",
+      "output": {
+        "summary": "Program cycle (started)",
+        "fields": ["id", "name", "program_id", "state", "start_date", "end_date"]
+      }
+    },
+    {
+      "name": "Program Cycle Completed",
+      "description": "Fires when a program cycle transitions to completed. Poll by state transition.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "confirmed",
+      "odooModel": "g2p.cycle",
+      "output": {
+        "summary": "Program cycle (completed)",
+        "fields": ["id", "name", "program_id", "state", "start_date", "end_date"]
+      }
+    },
+    {
+      "name": "Deduplication Match Found",
+      "description": "Fires when the deduplication manager identifies a potential duplicate registrant. No confirmed REST API for querying match results. Fallback: poll registrant records for duplicate flags if exposed on the model.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "unconfirmed"
+    }
+  ]
+}

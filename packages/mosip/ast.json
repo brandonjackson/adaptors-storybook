@@ -1,0 +1,8 @@
+{
+  "operations": [],
+  "common": {
+    "operations": []
+  },
+  "exports": [],
+  "notes": "MOSIP adaptor scaffolded for the storybook — no upstream JSDoc yet. Until the adaptor lands, call MOSIP partner APIs via `request` from `@openfn/language-common` with the partner client credentials."
+}

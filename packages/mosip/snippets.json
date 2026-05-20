@@ -1,0 +1,30 @@
+{
+  "CREATE": {
+    "Seed Token (OpenCRVS → MOSIP)": {
+      "description": "Seed a token to MOSIP's Token Seeder service — this is the bridge step used by the OpenCRVS-MOSIP mediator pattern to create a national ID from a birth registration.",
+      "code": "// Send a token seed request to MOSIP after an OpenCRVS BIRTH_REGISTERED event.\nrequest('/v1/tokenseeder/authtoken/json', {\n  method: 'POST',\n  data: {\n    authdata: {\n      authtype: 'demo',\n      individualId: $.data.referenceTrackingId,\n      individualIdType: 'UIN',\n      // demographic + biographic fields lifted from the OpenCRVS FHIR bundle\n      demographics: $.data.demographics,\n    },\n  },\n});"
+    },
+    "Request Credential": {
+      "description": "Request a credential issuance from the partner-facing credential service. Includes the DataShare policy id and the partner id.",
+      "code": "// Request a credential to be issued for a UIN.\nrequest('/v1/credentialrequest/requestgenerator', {\n  method: 'POST',\n  data: {\n    request: {\n      credentialType: $.data.credentialType,\n      issuer: $.configuration.partnerId,\n      recepiant: $.configuration.partnerId,\n      sharableAttributes: $.data.attributes,\n      additionalData: { policyId: $.configuration.policyId },\n      id: $.data.uin,\n    },\n  },\n});"
+    },
+    "Subscribe to WebSub Topic": {
+      "description": "Send the WebSub subscription discovery + subscribe request so MOSIP starts publishing the chosen topic to your callback URL.",
+      "code": "// Subscribe to a MOSIP WebSub topic.\nrequest($.configuration.webSubHubUrl, {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },\n  body: new URLSearchParams({\n    'hub.callback': $.configuration.openfnWebhookUrl,\n    'hub.mode': 'subscribe',\n    'hub.topic': 'CREDENTIAL_ISSUED',\n    'hub.secret': $.configuration.webSubSecret,\n  }).toString(),\n});"
+    },
+    "API Request (Beta)": {
+      "description": "Raw HTTP call against any MOSIP partner API.",
+      "code": "// Hit a MOSIP partner endpoint directly.\nrequest('/v1/identity/auth', { method: 'POST', data: { /* ... */ } });"
+    }
+  },
+  "SEARCH": {
+    "Fetch DataShare Payload": {
+      "description": "When a MOSIP event arrives with a DataShare URL, fetch the actual credential / biographic payload from the temporary URL.",
+      "code": "// Download a DataShare payload referenced by a MOSIP event.\nrequest($.data.dataShareUrl, { method: 'GET' });"
+    },
+    "Get UIN Status": {
+      "description": "Look up the current status of a UIN via ID Repository.",
+      "code": "// Get UIN status from ID Repository.\nrequest(`/idrepository/v1/identity/uin/${$.data.uin}`, { method: 'GET' });"
+    }
+  }
+}

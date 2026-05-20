@@ -1,0 +1,58 @@
+{
+  "vendor": "OpenG2P",
+  "product": "OpenG2P",
+  "homepage": "https://openg2p.org",
+  "status": "stub",
+
+  "apiStyle": "rest",
+  "baseUrls": [],
+
+  "auth": {
+    "schemes": ["oauth2", "basic"],
+    "docs": "https://docs.openg2p.org"
+  },
+
+  "sources": [
+    {
+      "kind": "docs-index",
+      "url": "https://docs.openg2p.org",
+      "notes": "OpenG2P documentation"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenG2P/openg2p-registry",
+      "language": "python",
+      "notes": "OpenG2P registry — Odoo modules for individual / group / program registry"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenG2P/openg2p-program",
+      "language": "python",
+      "notes": "OpenG2P program management modules"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenG2P/openg2p-payments",
+      "language": "python",
+      "notes": "OpenG2P payments — outbound payment orchestration"
+    },
+    {
+      "kind": "sdk-repo",
+      "url": "https://github.com/OpenG2P/g2p-bridge",
+      "language": "python",
+      "notes": "G2P Bridge — sits between OpenG2P and Payment Hub EE / Mojaloop"
+    },
+    {
+      "kind": "docs-page",
+      "url": "https://spec.ids.global/v/v1.1.0/",
+      "notes": "G2P Connect data and API specifications"
+    }
+  ],
+
+  "webhooks": {
+    "supported": false,
+    "docs": ""
+  },
+
+  "notes": "OpenG2P is Odoo-based (like OpenSPP). REST APIs are exposed via FastAPI modules (`g2p_registry_rest_api`, `g2p_programs_rest_api`) following the G2P Connect specifications. Payment disbursement goes via the G2P Bridge → Payment Hub EE → Mojaloop / banks. No documented native webhook system — integration is primarily pull-based via REST APIs, with Odoo's Automation Rules as an admin-configurable fallback for push (same pattern as OpenSPP)."
+}

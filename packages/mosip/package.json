@@ -1,0 +1,38 @@
+{
+  "name": "@openfn/language-mosip",
+  "label": "MOSIP",
+  "version": "0.1.0",
+  "description": "OpenFn adaptor for MOSIP — the Modular Open-Source Identity Platform used by countries to issue and manage foundational national IDs.",
+  "homepage": "https://docs.openfn.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openfn/adaptors.git"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./types/index.d.ts",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "pnpm clean && build-adaptor mosip",
+    "clean": "rimraf dist types docs",
+    "pack": "pnpm pack --pack-destination ../../dist"
+  },
+  "author": "Open Function Group",
+  "license": "LGPLv3",
+  "files": [
+    "dist/",
+    "types/",
+    "ast.json",
+    "configuration-schema.json"
+  ],
+  "dependencies": {
+    "@openfn/language-common": "workspace:*"
+  },
+  "main": "dist/index.cjs"
+}

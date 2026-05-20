@@ -1,0 +1,170 @@
+{
+  "source": "dpg-trigger-taxonomy",
+  "scrapedAt": "2026-05",
+  "notes": "OpenSPP is built on Odoo 17, which has native webhook support via the Automation Rules engine (`base_automation`). An OpenSPP admin creates an Automation Rule (Settings → Technical → Automation → Automation Rules), selects the target model, a trigger (record created / updated / stage set to), and a `Send Webhook Notification` action with the OpenFn URL. The payload includes `_model`, `_name`, `_id` and the selected fields. Webhook payloads are flat (no related-record traversal) — for enriched data, treat the webhook as a notification and call the REST API back to fetch full details (hybrid pattern). Polling via the FastAPI modules (`spp_api`, `g2p_registry_rest_api`, `g2p_programs_rest_api`) using `create_date` / `write_date` is the fallback.",
+  "triggers": [
+    {
+      "name": "New Registrant Created",
+      "description": "Fires when a new registrant (individual or group) is created in OpenSPP. Configure an Odoo Automation Rule on the `g2p.registrant` (or `res.partner` with `is_registrant=True`) model with trigger `On Creation` and action `Send Webhook Notification` pointing to OpenFn. The webhook payload covers selected fields only — call back to the REST API for enriched data including group membership.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule → Send Webhook Notification)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "g2p.registrant",
+      "output": {
+        "summary": "OpenSPP registrant — individual or group",
+        "schemaRef": "Individual",
+        "fields": ["_model", "_id", "id", "spp_id", "name", "is_group", "phone", "email", "birthdate", "gender", "create_date"]
+      }
+    },
+    {
+      "name": "Registrant Updated",
+      "description": "Fires when a registrant record is updated. Automation Rule with trigger `On Update` on `g2p.registrant`; can be filtered to specific field changes (e.g. address, phone). Also achievable via polling by `write_date`.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "g2p.registrant",
+      "output": {
+        "summary": "Updated OpenSPP registrant",
+        "schemaRef": "Individual",
+        "fields": ["_model", "_id", "id", "spp_id", "name", "write_date"]
+      }
+    },
+    {
+      "name": "New Group Registered",
+      "description": "Fires when a new household / family group is created. Automation Rule with trigger `On Creation` on `g2p.group` (or `res.partner` with `is_group=True`).",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "g2p.group",
+      "output": {
+        "summary": "OpenSPP household / family group",
+        "schemaRef": "Group",
+        "fields": ["_model", "_id", "id", "spp_id", "name", "kind", "create_date"]
+      }
+    },
+    {
+      "name": "Enrollment Approved",
+      "description": "Fires when a beneficiary enrollment is approved in a program cycle. Automation Rule with trigger `Stage is set to` (approved state) on the program membership model.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "g2p.program_membership",
+      "output": {
+        "summary": "Approved program membership / enrollment",
+        "schemaRef": "ProgramMembership",
+        "fields": ["_model", "_id", "id", "partner_id", "program_id", "state", "enrollment_date"]
+      }
+    },
+    {
+      "name": "Enrollment Rejected",
+      "description": "Fires when an enrollment application is rejected. Same Automation Rule pattern as Enrollment Approved with the rejected stage.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "g2p.program_membership",
+      "output": {
+        "summary": "Rejected program membership / enrollment",
+        "schemaRef": "ProgramMembership",
+        "fields": ["_model", "_id", "id", "partner_id", "program_id", "state", "rejection_reason"]
+      }
+    },
+    {
+      "name": "Payment Completed",
+      "description": "Fires when a payment to a beneficiary is marked complete. Depends on which payment manager module is in use — if the payment status lives on an Odoo model field, an Automation Rule on that field change works. Fallback: poll payment records by status and `write_date`.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "unconfirmed",
+      "odooModel": "g2p.payment",
+      "output": {
+        "summary": "Completed payment",
+        "fields": ["_model", "_id", "partner_id", "program_id", "amount", "currency_id", "status", "payment_method", "completed_date"]
+      }
+    },
+    {
+      "name": "New Program Created",
+      "description": "Fires when a new social protection program is created. Automation Rule with trigger `On Creation` on `g2p.program`.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "g2p.program",
+      "output": {
+        "summary": "OpenSPP program",
+        "schemaRef": "Program",
+        "fields": ["_model", "_id", "id", "name", "state", "create_date"]
+      }
+    },
+    {
+      "name": "Cycle Status Changed",
+      "description": "Fires when a program cycle transitions to a target status (draft → approved → distributed → completed). Automation Rule with trigger `Stage is set to` on the cycle model.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "g2p.cycle",
+      "output": {
+        "summary": "Program cycle with new status",
+        "fields": ["_model", "_id", "id", "program_id", "name", "state", "start_date", "end_date"]
+      }
+    },
+    {
+      "name": "Eligibility Assessed",
+      "description": "Fires when an eligibility manager finishes assessing a beneficiary. If the result is written to a field, an Automation Rule on that change can fire. Eligibility often runs as a batch process — fallback is to poll beneficiary records via REST API.",
+      "mechanism": "polling",
+      "mechanismDetail": "Polling with cursor",
+      "openfnPattern": "cron",
+      "status": "unconfirmed",
+      "odooModel": "g2p.program_membership",
+      "output": {
+        "summary": "Beneficiary with assessed eligibility",
+        "schemaRef": "ProgramMembership",
+        "fields": ["id", "partner_id", "program_id", "state", "eligibility_status", "write_date"]
+      }
+    },
+    {
+      "name": "New Entitlement Created",
+      "description": "Fires when a new entitlement is generated for a beneficiary. Automation Rule with trigger `On Creation` on the entitlement model.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "g2p.entitlement",
+      "output": {
+        "summary": "Beneficiary entitlement",
+        "fields": ["_model", "_id", "id", "partner_id", "program_id", "cycle_id", "initial_amount", "state", "create_date"]
+      }
+    },
+    {
+      "name": "Change Request Submitted",
+      "description": "Fires when a beneficiary submits a change request (address change, household composition update, etc.). Automation Rule with trigger `On Creation` on `spp.change.request`.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "spp.change.request",
+      "output": {
+        "summary": "Change request",
+        "fields": ["_model", "_id", "id", "request_type", "registrant_id", "state", "create_date"]
+      }
+    },
+    {
+      "name": "Grievance Filed",
+      "description": "Fires when a new grievance is filed in the GRM (Grievance Redress Mechanism) module. Automation Rule with trigger `On Creation` on the GRM ticket model.",
+      "mechanism": "webhook",
+      "mechanismDetail": "Manual webhook (Odoo 17 Automation Rule)",
+      "openfnPattern": "webhook",
+      "status": "confirmed",
+      "odooModel": "spp.grievance.ticket",
+      "output": {
+        "summary": "Grievance ticket",
+        "fields": ["_model", "_id", "id", "name", "registrant_id", "category", "priority", "state", "create_date"]
+      }
+    }
+  ]
+}

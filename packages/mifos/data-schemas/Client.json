@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mifos/Client",
+  "title": "Client",
+  "description": "A Fineract client — the entity that holds loan and savings accounts. Returned by `/clients` and as the body of `Client:CREATE` / `Client:UPDATE` webhook payloads.",
+  "x-source": {
+    "adapter": "mifos",
+    "docs": "https://fineract.apache.org/docs/current/",
+    "ingestedAt": "2026-05-20"
+  },
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer", "description": "Fineract internal numeric id." },
+    "accountNo": { "type": "string", "description": "Human-readable client account number." },
+    "externalId": { "type": "string", "description": "Optional external identifier (e.g. national ID)." },
+    "status": {
+      "type": "object",
+      "description": "Status code/value pair (Pending, Active, Closed, etc.).",
+      "properties": {
+        "id": { "type": "integer" },
+        "code": { "type": "string" },
+        "value": { "type": "string" }
+      }
+    },
+    "active": { "type": "boolean", "description": "True once the client has been activated." },
+    "activationDate": {
+      "type": "array",
+      "description": "Activation date as a `[year, month, day]` tuple.",
+      "items": { "type": "integer" }
+    },
+    "firstname": { "type": "string" },
+    "middlename": { "type": "string" },
+    "lastname": { "type": "string" },
+    "fullname": { "type": "string", "description": "Used for ENTITY clients in lieu of first/last name." },
+    "displayName": { "type": "string" },
+    "mobileNo": { "type": "string" },
+    "emailAddress": { "type": "string", "format": "email" },
+    "dateOfBirth": {
+      "type": "array",
+      "description": "Date of birth as a `[year, month, day]` tuple.",
+      "items": { "type": "integer" }
+    },
+    "gender": {
+      "type": "object",
+      "properties": { "id": { "type": "integer" }, "name": { "type": "string" } }
+    },
+    "officeId": { "type": "integer", "description": "ID of the branch office the client belongs to." },
+    "officeName": { "type": "string" },
+    "staffId": { "type": "integer" },
+    "staffName": { "type": "string" },
+    "legalForm": {
+      "type": "object",
+      "description": "1 = PERSON, 2 = ENTITY.",
+      "properties": { "id": { "type": "integer" }, "code": { "type": "string" }, "value": { "type": "string" } }
+    },
+    "submittedDate": {
+      "type": "array",
+      "items": { "type": "integer" }
+    }
+  },
+  "required": ["id", "accountNo", "status", "displayName"]
+}

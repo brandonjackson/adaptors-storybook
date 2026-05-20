@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openg2p/Payment",
+  "title": "Payment",
+  "description": "An OpenG2P payment record — the unit of disbursement to a single beneficiary in a program cycle. Status transitions trace the flow OpenG2P → G2P Bridge → Payment Hub EE → bank / Mojaloop.",
+  "x-source": {
+    "adapter": "openg2p",
+    "odooModel": "g2p.payment",
+    "docs": "https://docs.openg2p.org",
+    "ingestedAt": "2026-05-20"
+  },
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer" },
+    "partner_id": {
+      "type": "array",
+      "description": "Many2one tuple `[id, name]` referring to the beneficiary.",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "program_id": {
+      "type": "array",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "cycle_id": {
+      "type": "array",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "batch_id": {
+      "type": "array",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "amount": { "type": "number" },
+    "currency_id": {
+      "type": "array",
+      "items": [{ "type": "integer" }, { "type": "string" }]
+    },
+    "state": {
+      "type": "string",
+      "enum": ["draft", "issued", "approved", "sent", "paid", "failed", "rejected"]
+    },
+    "payment_method": { "type": "string" },
+    "fa": { "type": "string", "description": "Financial account / mobile money number etc." },
+    "status_reason": { "type": "string" },
+    "create_date": { "type": "string", "format": "date-time" },
+    "completed_date": { "type": "string", "format": "date-time" }
+  },
+  "required": ["id", "partner_id", "amount", "state"]
+}

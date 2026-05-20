@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mifos/Loan",
+  "title": "Loan",
+  "description": "A Fineract loan account. Returned by `/loans/{id}` and as the body of `Loan:CREATE`, `Loan:APPROVE`, `Loan:DISBURSE` and related webhook payloads. Also the payload of the Kafka `LoanApproved` / `LoanDisbursed` business events.",
+  "x-source": {
+    "adapter": "mifos",
+    "docs": "https://fineract.apache.org/docs/current/",
+    "ingestedAt": "2026-05-20"
+  },
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer" },
+    "accountNo": { "type": "string" },
+    "externalId": { "type": "string" },
+    "clientId": { "type": "integer" },
+    "clientAccountNo": { "type": "string" },
+    "clientName": { "type": "string" },
+    "loanProductId": { "type": "integer" },
+    "loanProductName": { "type": "string" },
+    "status": {
+      "type": "object",
+      "description": "Submitted, Approved, Active, Withdrawn, Rejected, Closed (Obligations Met), Closed (Written-Off), etc.",
+      "properties": {
+        "id": { "type": "integer" },
+        "code": { "type": "string" },
+        "value": { "type": "string" }
+      }
+    },
+    "principal": { "type": "number" },
+    "approvedPrincipal": { "type": "number" },
+    "principalDisbursed": { "type": "number" },
+    "currency": {
+      "type": "object",
+      "properties": { "code": { "type": "string" }, "name": { "type": "string" }, "decimalPlaces": { "type": "integer" } }
+    },
+    "termFrequency": { "type": "integer" },
+    "termFrequencyType": {
+      "type": "object",
+      "properties": { "id": { "type": "integer" }, "code": { "type": "string" }, "value": { "type": "string" } }
+    },
+    "numberOfRepayments": { "type": "integer" },
+    "interestRatePerPeriod": { "type": "number" },
+    "submittedOnDate": { "type": "array", "items": { "type": "integer" } },
+    "approvedOnDate": { "type": "array", "items": { "type": "integer" } },
+    "expectedDisbursementDate": { "type": "array", "items": { "type": "integer" } },
+    "actualDisbursementDate": { "type": "array", "items": { "type": "integer" } },
+    "summary": {
+      "type": "object",
+      "description": "Outstanding balances and overdue breakdown.",
+      "properties": {
+        "principalDisbursed": { "type": "number" },
+        "principalOutstanding": { "type": "number" },
+        "principalOverdue": { "type": "number" },
+        "interestCharged": { "type": "number" },
+        "interestOutstanding": { "type": "number" },
+        "interestOverdue": { "type": "number" },
+        "totalOverdue": { "type": "number" },
+        "totalOutstanding": { "type": "number" }
+      }
+    },
+    "delinquent": {
+      "type": "object",
+      "properties": {
+        "pastDueDays": { "type": "integer" },
+        "delinquentDays": { "type": "integer" }
+      }
+    }
+  },
+  "required": ["id", "accountNo", "clientId", "status", "principal"]
+}

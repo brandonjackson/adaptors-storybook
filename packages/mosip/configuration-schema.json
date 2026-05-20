@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "baseUrl": {
+      "title": "Base URL",
+      "type": "string",
+      "description": "Base URL of the MOSIP deployment (api gateway / partner endpoint).",
+      "format": "uri",
+      "minLength": 1,
+      "examples": ["https://api.collab.mosip.net"]
+    },
+    "clientId": {
+      "title": "Partner Client ID",
+      "type": "string",
+      "description": "OAuth2 / partner client id. Issued during the partner onboarding flow.",
+      "minLength": 1
+    },
+    "clientSecret": {
+      "title": "Partner Client Secret",
+      "type": "string",
+      "description": "OAuth2 / partner client secret.",
+      "writeOnly": true,
+      "minLength": 1
+    },
+    "appId": {
+      "title": "App ID",
+      "type": "string",
+      "description": "MOSIP app id (e.g. `IDA`, `PARTNER`) — identifies which client app is calling.",
+      "minLength": 1
+    },
+    "webSubHubUrl": {
+      "title": "WebSub Hub URL",
+      "type": "string",
+      "description": "Optional. WebSub hub endpoint to subscribe to (for credential / UIN / VID events). Required only if your workflow consumes MOSIP WebSub events.",
+      "format": "uri"
+    },
+    "partnerPrivateKeyPath": {
+      "title": "Partner Private Key (PEM)",
+      "type": "string",
+      "writeOnly": true,
+      "description": "Partner private key used to sign requests and decrypt DataShare URLs."
+    }
+  },
+  "additionalProperties": true,
+  "required": ["baseUrl", "clientId", "clientSecret", "appId"]
+}

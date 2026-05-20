@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mosip/WebSubEvent",
+  "title": "WebSubEvent",
+  "description": "Envelope for any MOSIP WebSub event (UIN_GENERATED, UIN_UPDATED, VID_GENERATED, CREDENTIAL_ISSUED, AUTH_TYPE_STATUS_UPDATE, CREDENTIAL_STATUS_UPDATE). The `data` block varies by topic — see the topic-specific schemas where they exist.",
+  "x-source": {
+    "adapter": "mosip",
+    "docs": "https://docs.mosip.io/1.2.0/modules/id-repository#websub-events",
+    "ingestedAt": "2026-05-20"
+  },
+  "type": "object",
+  "properties": {
+    "publisher": { "type": "string", "description": "Module that emitted the event (e.g. `ID_REPO`, `CREDENTIAL_SERVICE`)." },
+    "topic": { "type": "string", "description": "WebSub topic the event was published on." },
+    "publishedOn": { "type": "string", "format": "date-time" },
+    "event": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "UUID identifying this event." },
+        "transactionId": { "type": "string" },
+        "type": {
+          "type": "object",
+          "properties": {
+            "namespace": { "type": "string" },
+            "name": { "type": "string" }
+          }
+        },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "dataShareUri": {
+          "type": "string",
+          "format": "uri",
+          "description": "Temporary DataShare URL — fetch within its TTL to retrieve the full credential / biographic payload."
+        },
+        "data": {
+          "type": "object",
+          "description": "Topic-specific payload (UIN, VID, credentialId, authType, etc.). Shape varies by `topic`.",
+          "additionalProperties": true
+        }
+      },
+      "required": ["id", "type", "timestamp"]
+    }
+  },
+  "required": ["publisher", "topic", "event"]
+}

@@ -11,6 +11,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "topic": "BIRTH_REGISTERED",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients",
       "output": {
         "summary": "FHIR Composition bundle for the registered birth",
         "schemaRef": "BirthRegistrationBundle",
@@ -25,6 +26,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "topic": "DEATH_REGISTERED",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients",
       "output": {
         "summary": "FHIR Composition bundle for the registered death",
         "schemaRef": "DeathRegistrationBundle",
@@ -39,6 +41,7 @@
       "openfnPattern": "webhook",
       "status": "unconfirmed",
       "topic": "MARRIAGE_REGISTERED",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients",
       "output": {
         "summary": "FHIR Composition bundle for the registered marriage",
         "schemaRef": "MarriageRegistrationBundle"
@@ -51,7 +54,8 @@
       "mechanismDetail": "Programmable webhook (W3C WebSub)",
       "openfnPattern": "webhook",
       "status": "unconfirmed",
-      "topic": "BIRTH_DECLARED"
+      "topic": "BIRTH_DECLARED",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients"
     },
     {
       "name": "Death Declared",
@@ -60,7 +64,8 @@
       "mechanismDetail": "Programmable webhook (W3C WebSub)",
       "openfnPattern": "webhook",
       "status": "unconfirmed",
-      "topic": "DEATH_DECLARED"
+      "topic": "DEATH_DECLARED",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients"
     },
     {
       "name": "Birth Certified",
@@ -69,7 +74,8 @@
       "mechanismDetail": "Programmable webhook (W3C WebSub)",
       "openfnPattern": "webhook",
       "status": "unconfirmed",
-      "topic": "BIRTH_CERTIFIED"
+      "topic": "BIRTH_CERTIFIED",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients"
     },
     {
       "name": "Death Certified",
@@ -78,7 +84,8 @@
       "mechanismDetail": "Programmable webhook (W3C WebSub)",
       "openfnPattern": "webhook",
       "status": "unconfirmed",
-      "topic": "DEATH_CERTIFIED"
+      "topic": "DEATH_CERTIFIED",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients"
     },
     {
       "name": "Registration Corrected",
@@ -87,7 +94,8 @@
       "mechanismDetail": "Programmable webhook (W3C WebSub)",
       "openfnPattern": "webhook",
       "status": "unconfirmed",
-      "topic": "REGISTRATION_CORRECTED"
+      "topic": "REGISTRATION_CORRECTED",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients"
     },
     {
       "name": "Registration Archived",
@@ -96,7 +104,8 @@
       "mechanismDetail": "Programmable webhook (W3C WebSub)",
       "openfnPattern": "webhook",
       "status": "unconfirmed",
-      "topic": "REGISTRATION_ARCHIVED"
+      "topic": "REGISTRATION_ARCHIVED",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients"
     },
     {
       "name": "Duplicate Detected",
@@ -104,7 +113,8 @@
       "mechanism": "webhook",
       "mechanismDetail": "Programmable webhook (W3C WebSub)",
       "openfnPattern": "webhook",
-      "status": "not-available"
+      "status": "not-available",
+      "docsUrl": "https://documentation.opencrvs.org/v1.8/technology/interoperability/create-a-client/webhook-clients"
     },
     {
       "name": "New Event Notification Received",
@@ -113,6 +123,7 @@
       "mechanismDetail": "Polling with cursor",
       "openfnPattern": "cron",
       "status": "confirmed",
+      "docsUrl": "https://documentation.opencrvs.org/technology/interoperability/apis-requiring-oauth-credentials/event-notification-clients",
       "output": {
         "summary": "FHIR Bundle from the Event Notification API",
         "schemaRef": "EventNotificationBundle",

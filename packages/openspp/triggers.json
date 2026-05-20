@@ -11,6 +11,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "g2p.registrant",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_registry",
       "output": {
         "summary": "OpenSPP registrant — individual or group",
         "schemaRef": "Individual",
@@ -25,6 +26,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "g2p.registrant",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_registry",
       "output": {
         "summary": "Updated OpenSPP registrant",
         "schemaRef": "Individual",
@@ -39,6 +41,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "g2p.group",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_registry_group_hierarchy",
       "output": {
         "summary": "OpenSPP household / family group",
         "schemaRef": "Group",
@@ -53,6 +56,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "g2p.program_membership",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_programs",
       "output": {
         "summary": "Approved program membership / enrollment",
         "schemaRef": "ProgramMembership",
@@ -67,6 +71,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "g2p.program_membership",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_programs",
       "output": {
         "summary": "Rejected program membership / enrollment",
         "schemaRef": "ProgramMembership",
@@ -81,6 +86,7 @@
       "openfnPattern": "webhook",
       "status": "unconfirmed",
       "odooModel": "g2p.payment",
+      "docsUrl": "https://docs.openspp.org/user_guide/payments/",
       "output": {
         "summary": "Completed payment",
         "fields": ["_model", "_id", "partner_id", "program_id", "amount", "currency_id", "status", "payment_method", "completed_date"]
@@ -94,6 +100,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "g2p.program",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_programs",
       "output": {
         "summary": "OpenSPP program",
         "schemaRef": "Program",
@@ -108,6 +115,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "g2p.cycle",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_api_v2_cycles",
       "output": {
         "summary": "Program cycle with new status",
         "fields": ["_model", "_id", "id", "program_id", "name", "state", "start_date", "end_date"]
@@ -121,6 +129,7 @@
       "openfnPattern": "cron",
       "status": "unconfirmed",
       "odooModel": "g2p.program_membership",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_programs",
       "output": {
         "summary": "Beneficiary with assessed eligibility",
         "schemaRef": "ProgramMembership",
@@ -135,6 +144,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "g2p.entitlement",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_api_v2_entitlements",
       "output": {
         "summary": "Beneficiary entitlement",
         "fields": ["_model", "_id", "id", "partner_id", "program_id", "cycle_id", "initial_amount", "state", "create_date"]
@@ -148,6 +158,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "spp.change.request",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_change_request_v2",
       "output": {
         "summary": "Change request",
         "fields": ["_model", "_id", "id", "request_type", "registrant_id", "state", "create_date"]
@@ -161,6 +172,7 @@
       "openfnPattern": "webhook",
       "status": "confirmed",
       "odooModel": "spp.grievance.ticket",
+      "docsUrl": "https://docs.openspp.org/reference/modules/spp_grm",
       "output": {
         "summary": "Grievance ticket",
         "fields": ["_model", "_id", "id", "name", "registrant_id", "category", "priority", "state", "create_date"]

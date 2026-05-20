@@ -106,6 +106,18 @@ export default function Triggers({ triggers, dataSchemas = [], onOpenSchema }) {
                   {t.description}
                 </p>
               )}
+              {t.docsUrl && (
+                <p className="px-4 pt-2 text-xs">
+                  <a
+                    href={t.docsUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-mono text-sky-700 hover:text-sky-900 hover:underline"
+                  >
+                    docs ↗
+                  </a>
+                </p>
+              )}
               {t.output && (
                 <Output
                   output={t.output}

@@ -64,7 +64,7 @@ function buildDataSchemas(pkgDir, outPkgDir, adapter) {
         ? Object.keys(schema.properties).length
         : null,
       source: schema['x-source'] || null,
-      path: `/adapters/${adapter}/data-schemas/${f}`,
+      path: `adapters/${adapter}/data-schemas/${f}`,
     });
   }
   summaries.sort((a, b) => a.id.localeCompare(b.id));
@@ -173,8 +173,8 @@ for (const name of pkgNames) {
     homepage: pkgJson.homepage || null,
     repository: pkgJson.repository || null,
     icons: {
-      square: hasSquare ? `/adapters/${name}/square.png` : null,
-      rectangle: hasRectangle ? `/adapters/${name}/rectangle.png` : null,
+      square: hasSquare ? `adapters/${name}/square.png` : null,
+      rectangle: hasRectangle ? `adapters/${name}/rectangle.png` : null,
     },
     configurationSchema: configSchema,
     oauthConfigurationSchema: oauthSchema,
@@ -188,7 +188,7 @@ for (const name of pkgNames) {
     dataSchemaCount: dataSchemas.length,
     metadata,
     faq,
-    readmePath: `/adapters/${name}/README.md`,
+    readmePath: `adapters/${name}/README.md`,
   };
 
   fs.writeFileSync(

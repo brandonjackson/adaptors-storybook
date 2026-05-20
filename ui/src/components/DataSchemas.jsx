@@ -70,7 +70,7 @@ function SchemaDetail({ adapter, summary }) {
   useEffect(() => {
     setSchema(null);
     setError(null);
-    fetch(summary.path)
+    fetch(`${import.meta.env.BASE_URL}${summary.path}`)
       .then((r) => {
         if (!r.ok) throw new Error(`${r.status}`);
         return r.json();

@@ -77,7 +77,7 @@ export default function Sidebar({
               >
                 {a.icon ? (
                   <img
-                    src={a.icon}
+                    src={`${import.meta.env.BASE_URL}${a.icon}`}
                     alt=""
                     className="h-6 w-6 shrink-0 rounded-sm bg-white object-contain"
                     onError={(e) => {

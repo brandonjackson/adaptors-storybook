@@ -28,10 +28,11 @@ export default function AdapterView({ name }) {
     setManifest(null);
     setReadme('');
     setTab('overview');
-    fetch(`/adapters/${name}/manifest.json`)
+    const base = import.meta.env.BASE_URL;
+    fetch(`${base}adapters/${name}/manifest.json`)
       .then((r) => r.json())
       .then(setManifest);
-    fetch(`/adapters/${name}/README.md`)
+    fetch(`${base}adapters/${name}/README.md`)
       .then((r) => (r.ok ? r.text() : ''))
       .then(setReadme);
   }, [name]);
@@ -46,7 +47,7 @@ export default function AdapterView({ name }) {
         <div className="flex items-center gap-4">
           {manifest.icons.square ? (
             <img
-              src={manifest.icons.square}
+              src={`${import.meta.env.BASE_URL}${manifest.icons.square}`}
               alt=""
               className="h-12 w-12 rounded bg-white object-contain ring-1 ring-slate-200"
             />

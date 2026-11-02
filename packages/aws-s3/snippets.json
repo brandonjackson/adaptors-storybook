@@ -1,0 +1,38 @@
+{
+  "CREATE": {
+    "Archive Payload As JSON": {
+      "description": "Stores the incoming payload (e.g. a form submission) as a JSON object in S3 for backup or audit.",
+      "code": "// Archive the incoming payload to S3 as JSON.\nput({\n  bucket: $.configuration.bucket, // optional: defaults to the credential's bucket\n  key: `submissions/${new Date().toISOString().slice(0, 10)}/${$.data.id}.json`,\n  body: JSON.stringify($.data),\n  contentType: 'application/json',\n});"
+    },
+    "Upload CSV Export": {
+      "description": "Writes rows as a CSV file to S3, e.g. a daily beneficiary or payment list for a partner to pick up.",
+      "code": "// Build a CSV from rows and upload it to S3.\nput({\n  key: `exports/payments-${new Date().toISOString().slice(0, 10)}.csv`,\n  body: [\n    'beneficiary_id,name,amount,currency',\n    ...$.data.payments.map(p => `${p.beneficiaryId},${p.name},${p.amount},${p.currency}`),\n  ].join('\\n'),\n  contentType: 'text/csv',\n});"
+    },
+    "Upload Encrypted File": {
+      "description": "Uploads a file with server-side encryption, for sensitive health or registry data.",
+      "code": "// Upload a sensitive file with server-side encryption.\nput({\n  key: `lab-results/${$.data.facilityCode}/${$.data.fileName}`,\n  body: Buffer.from($.data.fileBase64, 'base64'), // decode an attachment\n  contentType: $.data.mimeType, // e.g. 'application/pdf'\n  serverSideEncryption: 'AES256', // or 'aws:kms'\n});"
+    },
+    "Archive Each Record Separately": {
+      "description": "Writes one S3 object per record in a batch.",
+      "code": "// Write one object per record.\neach(\n  $.data.patients,\n  put({\n    key: `patients/${$.data.patientId}.json`,\n    body: JSON.stringify($.data),\n    contentType: 'application/json',\n  })\n);"
+    }
+  },
+  "SEARCH": {
+    "List Files In Folder": {
+      "description": "Lists the objects under a key prefix (folder) in a bucket.",
+      "code": "// List objects under a prefix.\nlist({\n  bucket: $.configuration.bucket, // optional: defaults to the credential's bucket\n  prefix: 'incoming/2026-11/',\n  maxKeys: 100,\n});"
+    },
+    "Find New Files Since Last Run": {
+      "description": "Lists files in a drop folder and keeps only those modified since the last run.",
+      "code": "// List a drop folder, then keep files newer than the last run.\nlist({ prefix: 'incoming/' });\nfn(state => {\n  const since = new Date(state.lastRunAt || 0);\n  state.newFiles = state.data.filter(obj => new Date(obj.LastModified) > since);\n  state.lastRunAt = new Date().toISOString();\n  return state;\n});"
+    },
+    "Read JSON File": {
+      "description": "Downloads a JSON object from S3; it is parsed into state automatically.",
+      "code": "// Download and parse a JSON file.\nget({\n  key: `config/facility-mappings.json`,\n});"
+    },
+    "Download Binary File": {
+      "description": "Downloads a non-JSON file (CSV, PDF, image); the content comes back base64-encoded.",
+      "code": "// Download a file. Non-JSON content (CSV, PDF, image) is returned\n// base64-encoded, with its contentType and contentLength.\nget({\n  bucket: $.configuration.bucket, // optional: defaults to the credential's bucket\n  key: $.data.key, // e.g. 'incoming/2026-11/enrolment.csv'\n});"
+    }
+  }
+}

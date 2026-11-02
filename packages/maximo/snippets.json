@@ -1,0 +1,30 @@
+{
+  "CREATE": {
+    "Update Work Order": {
+      "description": "Updates a work order, e.g. to mark maintenance on a cold-chain fridge complete.",
+      "code": "// Update fields on an existing work order.\nupdate({\n  // MBO resource with the WORKORDERID, relative to baseUrl.\n  endpoint: `maxrest/rest/mbo/workorder/${$.data.workOrderId}`,\n  // Only the fields to change.\n  body: {\n    STATUS: 'COMP',\n    DESCRIPTION: $.data.description,\n  },\n});"
+    },
+    "Update Asset": {
+      "description": "Updates an asset record, e.g. its status or location after a site visit.",
+      "code": "// Update an asset by ASSETID.\nupdate({\n  endpoint: `maxrest/rest/mbo/asset/${$.data.assetId}`,\n  body: {\n    STATUS: $.data.status, // e.g. OPERATING, DECOMMISSIONED\n    LOCATION: $.data.location,\n  },\n});"
+    },
+    "Update Inventory Balances (7.5)": {
+      "description": "Updates inventory balances on Maximo 7.5, e.g. after a physical stock count.",
+      "code": "// Post a physical count to inventory balances (Maximo 7.5).\nupdate75({\n  endpoint: 'maxrest/rest/mbo/invbalances',\n  body: {\n    ITEMNUM: $.data.itemNum,\n    LOCATION: $.data.storeroom,\n    SITEID: $.data.siteId,\n    PHYSCNT: $.data.countedQuantity,\n  },\n});"
+    }
+  },
+  "SEARCH": {
+    "Fetch Inventory Item": {
+      "description": "Queries an inventory item and forwards the result to another URL, e.g. an OpenFn webhook.",
+      "code": "// Look up an item's inventory and forward the result.\nfetch({\n  // Object structure path, relative to baseUrl.\n  endpoint: 'maxrest/rest/os/mxinventory',\n  query: {\n    ITEMNUM: $.data.itemNum,\n    _format: 'json',\n  },\n  // The JSON response is POSTed here (e.g. a workflow's webhook URL).\n  postUrl: $.configuration.webhookUrl,\n});"
+    },
+    "Fetch Open Work Orders": {
+      "description": "Queries approved work orders for a site and forwards them to another URL.",
+      "code": "// Get approved work orders for a site and forward them.\nfetch({\n  endpoint: 'maxrest/rest/mbo/workorder',\n  query: {\n    STATUS: 'APPR',\n    SITEID: $.data.siteId,\n    _format: 'json',\n    _maxItems: 100,\n  },\n  postUrl: $.configuration.webhookUrl,\n});"
+    },
+    "Fetch Assets": {
+      "description": "Queries assets at a location and forwards them to another URL.",
+      "code": "// Get assets at a location and forward them.\nfetch({\n  endpoint: 'maxrest/rest/mbo/asset',\n  query: {\n    LOCATION: $.data.location,\n    _format: 'json',\n    _compact: 1,\n  },\n  postUrl: $.configuration.webhookUrl,\n});"
+    }
+  }
+}

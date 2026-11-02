@@ -1,0 +1,50 @@
+{
+  "CREATE": {
+    "Create Person": {
+      "description": "Registers a new person (e.g. a patient) under a household or health facility.",
+      "code": "// Register a new patient under an existing household/place.\npost('/api/v1/person', {\n  name: $.data.fullName,\n  type: 'person', // or a configured contact_type id, e.g. 'patient'\n  parent: $.data.householdId, // uuid of the parent place\n  date_of_birth: $.data.dateOfBirth, // 'YYYY-MM-DD'\n  sex: $.data.sex, // 'female' | 'male'\n  phone: $.data.phone, // e.g. '+254712345678'\n});"
+    },
+    "Create Place": {
+      "description": "Creates a place in the CHT hierarchy, such as a household under a CHW area.",
+      "code": "// Create a household under a community health worker's area.\npost('/api/v1/place', {\n  name: `${$.data.familyName} Household`,\n  type: 'clinic', // household level in the default hierarchy\n  parent: $.data.chwAreaId, // uuid of the parent place\n  place_id: $.data.externalHouseholdId, // optional external id\n});"
+    },
+    "Create Report": {
+      "description": "Submits a JSON form report (e.g. a pregnancy registration) to CHT.",
+      "code": "// Submit a JSON report against a configured form.\npost('/api/v2/records', {\n  _meta: {\n    form: 'P', // form code, e.g. pregnancy registration\n    from: $.data.chwPhone, // reporting phone number\n    reported_date: Date.now(),\n  },\n  patient_id: $.data.patientId,\n  lmp: $.data.weeksSinceLmp, // form fields: strings or numbers only\n});"
+    },
+    "Update Person": {
+      "description": "Updates an existing person's details, e.g. a new phone number.",
+      "code": "// Update a person's record. Use request() because put() takes no body.\nrequest(\n  // 1) HTTP method.\n  'PUT',\n  // 2) Path to the person.\n  `/api/v1/person/${$.data.personId}`,\n  // 3) Updated fields (type, parent and contact_type are read-only).\n  {\n    _id: $.data.personId,\n    name: $.data.fullName,\n    phone: $.data.phone,\n  }\n);"
+    },
+    "Create User": {
+      "description": "Creates a CHT user account for a community health worker linked to their place.",
+      "code": "// Create an offline user for a new community health worker.\npost('/api/v3/users', {\n  username: $.data.username, // e.g. 'chw_amina'\n  fullname: $.data.fullName,\n  roles: ['chw'],\n  place: $.data.chwAreaId, // place the CHW is assigned to\n  contact: $.data.personId, // their person record\n  phone: $.data.phone,\n  token_login: true, // send a magic login link instead of a password\n});"
+    }
+  },
+  "SEARCH": {
+    "Export Reports": {
+      "description": "Exports submitted reports for selected forms within a date range, e.g. to push to DHIS2.",
+      "code": "// Export reports for given forms within a date range.\nget('/api/v2/export/reports', {\n  query: {\n    filters: {\n      forms: { selected: [{ code: 'pregnancy' }, { code: 'delivery' }] },\n      // Epoch milliseconds.\n      date: { from: $.data.fromMs, to: $.data.toMs },\n    },\n  },\n});"
+    },
+    "Export Contacts": {
+      "description": "Exports contacts matching a free-text search.",
+      "code": "// Export contacts that match a search term.\nget('/api/v2/export/contacts', {\n  query: {\n    filters: { search: $.data.searchTerm },\n  },\n});"
+    },
+    "List Persons By Type": {
+      "description": "Lists persons of a given contact type, page by page.",
+      "code": "// List persons of one contact type (paginated with a cursor).\nget('/api/v1/person', {\n  query: {\n    type: 'person', // contact_type id to fetch\n    limit: 100,\n    cursor: $.data.nextCursor, // omit for the first page\n  },\n});"
+    },
+    "Get Person By ID": {
+      "description": "Fetches a single person record by its uuid.",
+      "code": "// Fetch a person by uuid.\nget(`/api/v1/person/${$.data.personId}`);"
+    },
+    "Find Contacts By Phone": {
+      "description": "Finds contacts registered with a given phone number.",
+      "code": "// Find contacts by phone number (e.g. from an incoming SMS).\nget('/api/v1/contacts-by-phone', {\n  query: { phone: $.data.phone },\n});"
+    },
+    "Get Targets": {
+      "description": "Fetches CHW performance targets, e.g. for programme dashboards.",
+      "code": "// Fetch target documents (CHW performance indicators).\nget('/api/v1/target', {\n  query: { limit: 100 },\n});"
+    }
+  }
+}

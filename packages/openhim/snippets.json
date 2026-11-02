@@ -1,0 +1,38 @@
+{
+  "CREATE": {
+    "Create Channel": {
+      "description": "Creates a channel that routes matching requests through OpenHIM to an upstream system, e.g. a FHIR server.",
+      "code": "// Create a channel that proxies /fhir/* to a shared health record.\ncreateChannel({\n  name: 'Shared Health Record (FHIR)',\n  type: 'http',\n  status: 'enabled',\n  // Only clients with one of these roles may use the channel.\n  authType: 'private',\n  allow: ['fhir'],\n  // Requests whose path matches this regex use this channel.\n  urlPattern: '^/fhir/.*$',\n  methods: ['GET', 'POST', 'PUT'],\n  routes: [\n    {\n      name: 'HAPI FHIR',\n      host: 'hapi-fhir',\n      port: 8080,\n      primary: true,\n      secured: false,\n    },\n  ],\n  // Store bodies on transactions for auditing.\n  requestBody: true,\n  responseBody: true,\n});"
+    },
+    "Register Client": {
+      "description": "Registers a client system (e.g. an EMR or OpenFn itself) that can call OpenHIM channels.",
+      "code": "// Register a client system that will call OpenHIM channels.\ncreateClient({\n  // Unique id the client authenticates with.\n  clientID: $.data.clientId,\n  name: 'District EMR',\n  // Roles decide which channels the client may use.\n  roles: ['fhir'],\n  // Basic-auth password, pre-hashed (never store plain text).\n  passwordAlgorithm: 'sha512',\n  passwordSalt: $.data.passwordSalt,\n  passwordHash: $.data.passwordHash,\n});"
+    },
+    "Rerun Failed Transactions": {
+      "description": "Creates a rerun task for a list of transactions, e.g. after an upstream outage is fixed.",
+      "code": "// Queue transactions to be rerun through their channels.\ncreateTask({\n  // Ids of the transactions to rerun (e.g. from getTransactions).\n  tids: $.data.failedTransactionIds,\n  // How many to rerun at once.\n  batchSize: 5,\n  // Start the task immediately.\n  paused: false,\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Failed Transactions": {
+      "description": "Fetches transactions that failed, e.g. to alert on or rerun them.",
+      "code": "// Get the most recent failed transactions.\ngetTransactions({\n  filterLimit: 50,\n  filterPage: 0,\n  // Filters are a JSON string.\n  filters: JSON.stringify({ status: 'Failed' }),\n});"
+    },
+    "Get Transaction": {
+      "description": "Fetches a single transaction by its id.",
+      "code": "// Get one transaction by id.\ngetTransactions({ transactionId: $.data.transactionId });"
+    },
+    "List Channels": {
+      "description": "Lists all channels configured in OpenHIM, or one channel by id.",
+      "code": "// List every channel.\ngetChannels();\n\n// Or fetch one channel by id:\n// getChannels($.data.channelId);"
+    },
+    "List Clients": {
+      "description": "Lists all registered client systems, or one client by id.",
+      "code": "// List every registered client.\ngetClients();\n\n// Or fetch one client by id:\n// getClients($.data.clientId);"
+    },
+    "Get Rerun Tasks": {
+      "description": "Lists rerun tasks and their progress.",
+      "code": "// List rerun tasks.\ngetTasks({\n  filterLimit: 10,\n  filterPage: 0,\n  filters: '{}',\n});"
+    }
+  }
+}

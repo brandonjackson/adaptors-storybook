@@ -1,0 +1,54 @@
+{
+  "CREATE": {
+    "Register Individual": {
+      "description": "Registers a new individual in the social registry.",
+      "code": "// Register a new individual (e.g. from a field enrolment form).\ncreateIndividual({\n  name: $.data.fullName, // e.g. 'Amina Diallo'\n  birthdate: $.data.dateOfBirth, // 'YYYY-MM-DD'\n  gender: $.data.gender,\n  phone: $.data.phone,\n  address: $.data.village,\n});"
+    },
+    "Register Household Group": {
+      "description": "Registers a new group registrant, such as a household.",
+      "code": "// Register a household as a group registrant.\ncreateGroup({\n  name: `${$.data.headOfHousehold} Household`,\n  phone: $.data.phone,\n  address: $.data.village,\n});"
+    },
+    "Add Member To Household": {
+      "description": "Adds an individual to a group with a role, e.g. head of household.",
+      "code": "// Link an individual to a household group.\naddToGroup(\n  // 1) Group spp_id.\n  $.data.groupSppId,\n  // 2) Individual spp_id.\n  $.data.individualSppId,\n  // 3) Optional role in the group.\n  'Head'\n);"
+    },
+    "Update Individual": {
+      "description": "Updates details on an existing individual registrant.",
+      "code": "// Update an individual's contact details.\nupdateIndividual(\n  // 1) Individual spp_id.\n  $.data.individualSppId,\n  // 2) Fields to change.\n  {\n    phone: $.data.newPhone,\n    address: $.data.newAddress,\n  }\n);"
+    },
+    "Enroll In Program": {
+      "description": "Enrolls an individual or group in a social protection programme.",
+      "code": "// Enrol a registrant in a programme, e.g. a cash transfer.\nenroll(\n  // 1) Registrant spp_id (individual or group).\n  $.data.sppId,\n  // 2) Programme id.\n  $.data.programId // e.g. 'PROG_2023_00000001'\n);"
+    },
+    "Unenroll From Program": {
+      "description": "Removes an individual or group from a programme.",
+      "code": "// Exit a registrant from a programme.\nunenroll(\n  // 1) Registrant spp_id.\n  $.data.sppId,\n  // 2) Programme id.\n  $.data.programId\n);"
+    }
+  },
+  "SEARCH": {
+    "Search Individuals": {
+      "description": "Searches individual registrants with an Odoo-style domain filter.",
+      "code": "// Find individuals by phone number.\nsearchIndividual(\n  // 1) Domain: list of [field, operator, value] conditions.\n  [['phone', '=', $.data.phone]],\n  // 2) Options: limit, offset, order.\n  { limit: 10 }\n);"
+    },
+    "Get Individual": {
+      "description": "Gets one individual registrant by spp_id.",
+      "code": "// Fetch an individual by spp_id.\ngetIndividual($.data.individualSppId); // e.g. 'IND_Q4VGGZPF'"
+    },
+    "Get Household Members": {
+      "description": "Lists the members of a group registrant.",
+      "code": "// List the members of a household group.\ngetGroupMembers(\n  // 1) Group spp_id.\n  $.data.groupSppId,\n  // 2) Options: limit, offset, order.\n  { limit: 50 }\n);"
+    },
+    "Get Enrolled Programs": {
+      "description": "Lists the programmes an individual or group is enrolled in.",
+      "code": "// Check which programmes a registrant is enrolled in.\ngetEnrolledPrograms($.data.sppId);"
+    },
+    "List Programs": {
+      "description": "Lists programmes configured in OpenSPP.",
+      "code": "// List programmes (name and program_id).\ngetPrograms({ limit: 100 });"
+    },
+    "Search Areas": {
+      "description": "Searches administrative areas, e.g. to map a district code to an area.",
+      "code": "// Find an area by its code.\nsearchArea([['code', '=', $.data.districtCode]]);"
+    }
+  }
+}

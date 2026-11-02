@@ -1,0 +1,38 @@
+{
+  "CREATE": {
+    "Request Payment": {
+      "description": "Requests a mobile money payment from a payer, e.g. a patient co-payment or school fee.",
+      "code": "// Ask a payer to approve a payment on their phone.\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Path, relative to the baseUrl in your credential.\n  '/collection/v1_0/requesttopay',\n  // 3) The RequestToPay body.\n  {\n    amount: String($.data.amount),\n    currency: 'UGX',\n    // Your own reference for reconciliation.\n    externalId: $.data.invoiceNumber,\n    payer: { partyIdType: 'MSISDN', partyId: $.data.phoneNumber },\n    payerMessage: 'Clinic consultation fee',\n    payeeNote: `Invoice ${$.data.invoiceNumber}`,\n  },\n  // 4) Options: target environment and a UUID to track this request.\n  {\n    headers: {\n      'X-Target-Environment': 'sandbox',\n      'X-Reference-Id': $.data.referenceId,\n    },\n  }\n);"
+    },
+    "Disburse Funds": {
+      "description": "Transfers money to a payee, e.g. a cash transfer to a beneficiary or a CHW stipend.",
+      "code": "// Send a cash transfer to a beneficiary.\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Disbursement transfer endpoint.\n  '/disbursement/v1_0/transfer',\n  // 3) The Transfer body.\n  {\n    amount: String($.data.amount),\n    currency: 'UGX',\n    externalId: $.data.paymentId,\n    payee: { partyIdType: 'MSISDN', partyId: $.data.phoneNumber },\n    payerMessage: 'Monthly cash transfer',\n    payeeNote: `Household ${$.data.householdId}`,\n  },\n  // 4) Options: target environment and a UUID to track this transfer.\n  {\n    headers: {\n      'X-Target-Environment': 'sandbox',\n      'X-Reference-Id': $.data.referenceId,\n    },\n  }\n);"
+    },
+    "Create Invoice": {
+      "description": "Creates an invoice for a payer to settle later.",
+      "code": "// Create an invoice for a payer.\nrequest(\n  'POST',\n  '/collection/v2_0/invoice',\n  {\n    externalId: $.data.invoiceNumber,\n    amount: String($.data.amount),\n    currency: 'UGX',\n    // Seconds the invoice stays valid.\n    validityDuration: '86400',\n    intendedPayer: { partyIdType: 'MSISDN', partyId: $.data.phoneNumber },\n    description: 'Community health insurance premium',\n  },\n  {\n    headers: {\n      'X-Target-Environment': 'sandbox',\n      'X-Reference-Id': $.data.referenceId,\n    },\n  }\n);"
+    }
+  },
+  "SEARCH": {
+    "Get Payment Request Status": {
+      "description": "Checks whether a request-to-pay was approved, rejected or is still pending.",
+      "code": "// Check the status of an earlier request-to-pay.\nrequest(\n  'GET',\n  // The X-Reference-Id used when the payment was requested.\n  `/collection/v1_0/requesttopay/${$.data.referenceId}`,\n  {},\n  { headers: { 'X-Target-Environment': 'sandbox' } }\n);"
+    },
+    "Get Transfer Status": {
+      "description": "Checks whether a disbursement transfer succeeded.",
+      "code": "// Check the status of an earlier transfer.\nrequest(\n  'GET',\n  // The X-Reference-Id used when the transfer was made.\n  `/disbursement/v1_0/transfer/${$.data.referenceId}`,\n  {},\n  { headers: { 'X-Target-Environment': 'sandbox' } }\n);"
+    },
+    "Check Account Is Active": {
+      "description": "Checks a phone number has an active MoMo account before paying it.",
+      "code": "// Validate that a beneficiary's number has an active MoMo wallet.\nrequest(\n  'GET',\n  `/collection/v1_0/accountholder/msisdn/${$.data.phoneNumber}/active`,\n  {},\n  { headers: { 'X-Target-Environment': 'sandbox' } }\n);"
+    },
+    "Get Account Holder Info": {
+      "description": "Gets basic KYC details (name) for a MoMo account holder.",
+      "code": "// Look up the registered name for a phone number.\nrequest(\n  'GET',\n  `/collection/v1_0/accountholder/msisdn/${$.data.phoneNumber}/basicuserinfo`,\n  {},\n  { headers: { 'X-Target-Environment': 'sandbox' } }\n);"
+    },
+    "Get Collection Balance": {
+      "description": "Gets the balance of the collection account.",
+      "code": "// Get the collection account balance.\nrequest(\n  'GET',\n  '/collection/v1_0/account/balance',\n  {},\n  { headers: { 'X-Target-Environment': 'sandbox' } }\n);"
+    }
+  }
+}

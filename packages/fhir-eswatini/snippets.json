@@ -1,0 +1,50 @@
+{
+  "CREATE": {
+    "Register Patient": {
+      "description": "Creates a Patient in the Eswatini client registry.",
+      "code": "// Register a new patient.\ncreate({\n  resourceType: 'Patient',\n  identifier: [\n    {\n      // Replace with your registry's identifier system URL for the national PIN.\n      system: 'http://example.org/fhir/sid/sz-pin',\n      value: $.data.pin,\n    },\n  ],\n  name: [{ use: 'official', family: $.data.surname, given: [$.data.firstName] }],\n  gender: $.data.sex === 'F' ? 'female' : 'male',\n  birthDate: $.data.dateOfBirth, // YYYY-MM-DD\n  telecom: [{ system: 'phone', value: $.data.phone, use: 'mobile' }],\n});"
+    },
+    "Update Patient": {
+      "description": "Updates (upserts) a Patient by id.",
+      "code": "// Replace a patient record with an updated version (PUT, so this also upserts).\nupdate(`Patient/${$.data.patientId}`, {\n  resourceType: 'Patient',\n  id: $.data.patientId,\n  name: [{ use: 'official', family: $.data.surname, given: [$.data.firstName] }],\n  gender: 'female',\n  birthDate: $.data.dateOfBirth,\n  address: [{ use: 'home', city: $.data.town, district: $.data.region }],\n});"
+    },
+    "Record Encounter": {
+      "description": "Creates an Encounter for a patient visit at a facility.",
+      "code": "// Record an outpatient visit.\ncreate({\n  resourceType: 'Encounter',\n  status: 'finished',\n  class: {\n    system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',\n    code: 'AMB',\n    display: 'ambulatory',\n  },\n  subject: { reference: `Patient/${$.data.patientId}` },\n  serviceProvider: { reference: `Organization/${$.data.facilityId}` },\n  period: { start: $.data.visitStart, end: $.data.visitEnd },\n});"
+    },
+    "Record Observation": {
+      "description": "Creates an Observation such as an HIV viral load result.",
+      "code": "// Record a lab result (HIV-1 viral load) against a patient and encounter.\ncreate({\n  resourceType: 'Observation',\n  status: 'final',\n  code: {\n    coding: [{ system: 'http://loinc.org', code: '20447-9', display: 'HIV 1 RNA [#/volume] (viral load) in Serum or Plasma' }],\n  },\n  subject: { reference: `Patient/${$.data.patientId}` },\n  encounter: { reference: `Encounter/${$.data.encounterId}` },\n  effectiveDateTime: $.data.sampleDate,\n  valueQuantity: { value: $.data.viralLoad, unit: 'copies/mL', system: 'http://unitsofmeasure.org', code: '{copies}/mL' },\n});"
+    },
+    "Upload Visit As Transaction Bundle": {
+      "description": "Adds several resources to a bundle and uploads them in one transaction.",
+      "code": "// Each resource needs an id: addToBundle upserts with PUT <resourceType>/<id>.\naddToBundle([$.data.patient, $.data.encounter, ...$.data.observations]);\n\n// Send the bundle (state.bundle) to the server as one transaction.\nuploadBundle();"
+    },
+    "Map Values To A Value Set": {
+      "description": "Registers custom input-to-code mappings for an Eswatini value set.",
+      "code": "// Map free-text inkhundla names from the source system to SzTinkhundlaVS codes.\nmapValues('http://172.209.216.154:3447/fhir/ValueSet/SzTinkhundlaVS', {\n  lobamba: '3', // input value -> value set code\n});"
+    },
+    "Delete Resource": {
+      "description": "Deletes a resource by type and id.",
+      "code": "// Delete a duplicate patient record.\ndelete(`Patient/${$.data.duplicatePatientId}`);"
+    }
+  },
+  "SEARCH": {
+    "Find Patient By Identifier": {
+      "description": "Searches the client registry for a patient by national PIN.",
+      "code": "// Look up a patient by identifier (system|value, or just value).\nsearch('Patient', {\n  query: { identifier: $.data.pin },\n});"
+    },
+    "Get Recently Updated Patients": {
+      "description": "Lists patients updated since the last sync.",
+      "code": "// Set a cursor (last sync time) and fetch patients changed since then.\ncursor($.lastSyncTime || '2026-01-01');\n\nsearch('Patient', {\n  lastUpdated: `ge${$.cursor}`,\n  count: 100,\n});"
+    },
+    "Read Patient": {
+      "description": "Reads a single Patient by id.",
+      "code": "// Read one patient.\nread(`Patient/${$.data.patientId}`);"
+    },
+    "Find Facility By Code": {
+      "description": "Searches for an Organization (health facility) by its facility code.",
+      "code": "// Look up a health facility by its identifier (facility code).\nsearch('Organization', {\n  query: { identifier: $.data.facilityCode },\n});"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "CREATE": {
+    "Send SMS": {
+      "description": "Sends a single SMS to a phone number through the project's default route.",
+      "code": "// Send an SMS to one phone number.\n// The project ID and API key come from the credential.\nsend({\n  // Recipient in international format.\n  to_number: $.data.phone,\n  content: 'Your child is due for the measles vaccine on Monday at Kibera Health Centre.',\n});"
+    },
+    "Send Appointment Reminder": {
+      "description": "Sends a personalised reminder from a specific phone/route and tracks delivery.",
+      "code": "// Send a personalised appointment reminder.\nsend({\n  to_number: $.data.phone,\n  content: `Hello ${$.data.firstName}, your clinic appointment is on ${$.data.appointmentDate}. Reply 1 to confirm.`,\n  // ID of the phone or route to send from (e.g. PN...).\n  route_id: $.data.routeId,\n  // Optional: webhook notified when the message status changes.\n  status_url: 'https://app.openfn.org/i/your-webhook-id',\n  // Optional: custom variables stored with the message for reporting.\n  vars: { programme: 'ANC', facility_code: $.data.facilityCode },\n});"
+    },
+    "Send Message to Contact": {
+      "description": "Sends a message to an existing Telerivet contact, filling in contact variables.",
+      "code": "// Send to an existing contact and fill in [[contact.*]] variables.\nsend({\n  // Telerivet contact ID (e.g. CT...).\n  contact_id: $.data.contactId,\n  content: 'Hi [[contact.name]], your cash transfer of KES 3,000 has been sent.',\n  // Evaluate [[...]] variables in the content.\n  replace_variables: true,\n});"
+    },
+    "Send Voice Call": {
+      "description": "Places a text-to-speech call, e.g. for low-literacy recipients.",
+      "code": "// Place a text-to-speech voice call.\nsend({\n  to_number: $.data.phone,\n  message_type: 'call',\n  // Spoken during the call.\n  content: 'This is a reminder that the distribution takes place tomorrow at the community hall.',\n  tts_lang: 'en-US',\n  tts_voice: 'female',\n});"
+    }
+  }
+}

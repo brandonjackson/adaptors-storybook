@@ -1,0 +1,34 @@
+{
+  "CREATE": {
+    "Generate PDF From HTML": {
+      "description": "Renders an HTML string built from incoming data into a base64-encoded PDF.",
+      "code": "// Render a patient referral letter as a PDF.\n// state.data will hold the PDF as a base64 string.\ngeneratePDF(\n  // 1) HTML string (or a URL) to convert.\n  `<html>\n  <body>\n    <h1>Referral Letter</h1>\n    <p>Patient: ${$.data.patientName}</p>\n    <p>Referred to: ${$.data.referralFacility}</p>\n    <p>Reason: ${$.data.reason}</p>\n  </body>\n</html>`,\n  // 2) Optional PDFShift options.\n  { format: 'A4' }\n);"
+    },
+    "Generate PDF And Get Download Link": {
+      "description": "Converts a web page to PDF and returns a temporary download URL instead of the file.",
+      "code": "// Convert a hosted report page to PDF and get a temporary S3 link.\ngeneratePDF($.data.reportUrl, {\n  // With a filename, PDFShift returns JSON with a download url (kept 2 days).\n  filename: `monthly-report-${$.data.month}`,\n  format: 'A4',\n  landscape: true,\n});"
+    },
+    "Generate Certificate In Sandbox": {
+      "description": "Generates a landscape certificate in sandbox mode, which doesn't use credits.",
+      "code": "// Test a vaccination certificate layout without spending credits.\ngeneratePDF(\n  `<html><body style=\"text-align:center\">\n    <h1>Certificate of Vaccination</h1>\n    <h2>${$.data.fullName}</h2>\n    <p>${$.data.vaccine}, dose ${$.data.doseNumber}, given ${$.data.dateGiven}</p>\n  </body></html>`,\n  {\n    sandbox: true, // watermarked output, free, max 10 docs/minute\n    landscape: true,\n    format: 'A4',\n  }\n);"
+    },
+    "Generate PDF With Header And Footer": {
+      "description": "Adds a branded header and page-numbered footer to a generated PDF.",
+      "code": "// Generate a beneficiary statement with header and page numbers.\ngeneratePDF($.data.statementHtml, {\n  format: 'A4',\n  margin: '20mm',\n  header: {\n    source: '<div style=\"font-size:10px\">Cash Transfer Programme Statement</div>',\n  },\n  footer: {\n    // {{page}} and {{total}} are filled in by PDFShift.\n    source: '<div style=\"font-size:10px\">Page {{page}} of {{total}}</div>',\n  },\n});"
+    },
+    "Convert HTML To PNG": {
+      "description": "Converts HTML to a PNG image using the generic request helper.",
+      "code": "// Render an HTML summary card as a PNG image.\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Path relative to the PDFShift API base URL.\n  '/convert/png',\n  // 3) Request body.\n  { source: $.data.summaryHtml }\n);"
+    }
+  },
+  "SEARCH": {
+    "Get Credits Usage": {
+      "description": "Checks how many conversion credits have been used and remain this period.",
+      "code": "// Check credit usage before a large batch run.\nrequest(\n  'GET',\n  '/credits/usage',\n  {}, // no body needed\n  { parseAs: 'json' }\n);"
+    },
+    "List Recent Failed Conversions": {
+      "description": "Lists recent conversion logs filtered to errors.",
+      "code": "// List recent failed conversions to debug a job.\nrequest('GET', '/logs', {}, {\n  query: { status: 'error', limit: 20 },\n  parseAs: 'json',\n});"
+    }
+  }
+}

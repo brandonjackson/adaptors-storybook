@@ -1,0 +1,34 @@
+{
+  "CREATE": {
+    "Create Entry": {
+      "description": "Creates an entry in a library, using field ids from the library's field list.",
+      "code": "// Add a record to a library (e.g. a new beneficiary visit).\ncreateEntry(\n  // 1) Library id.\n  $.data.libraryId,\n  // 2) Entry body: one { id, value } per field (ids come from getFields).\n  {\n    fields: [\n      { id: 1, value: $.data.beneficiaryName },\n      { id: 2, value: $.data.visitDate },\n      { id: 3, value: $.data.householdSize },\n    ],\n  }\n);"
+    },
+    "Update Entry": {
+      "description": "Updates field values on an existing entry.",
+      "code": "// Update fields on an existing entry.\nupdateEntry(\n  // 1) Library id.\n  $.data.libraryId,\n  // 2) Entry id.\n  $.data.entryId,\n  // 3) Only the fields to change.\n  {\n    fields: [\n      { id: 4, value: 'Follow-up completed' },\n    ],\n  }\n);"
+    }
+  },
+  "SEARCH": {
+    "List Libraries": {
+      "description": "Lists every library the token can access.",
+      "code": "// List all libraries.\nlistLibraries();"
+    },
+    "Get Library Fields": {
+      "description": "Gets a library's fields, to map field ids to names.",
+      "code": "// Get field ids and names for a library.\ngetFields($.data.libraryId);"
+    },
+    "List Entries": {
+      "description": "Lists entries in a library, page by page.",
+      "code": "// List entries in a library.\nlistEntries(\n  // 1) Library id.\n  $.data.libraryId,\n  // 2) Options.\n  {\n    pageSize: 100,\n    fields: 'all', // or a comma-separated list of field ids\n  }\n);"
+    },
+    "List Changed Entries": {
+      "description": "Lists only entries changed since a given library revision, for incremental sync.",
+      "code": "// Fetch entries changed since the last sync.\nlistEntries($.data.libraryId, {\n  // Revision saved from the previous run.\n  startRevision: $.data.lastRevision,\n});"
+    },
+    "Get Entry": {
+      "description": "Gets a single entry by id.",
+      "code": "// Fetch one entry.\ngetEntry(\n  // 1) Library id.\n  $.data.libraryId,\n  // 2) Entry id.\n  $.data.entryId\n);"
+    }
+  }
+}

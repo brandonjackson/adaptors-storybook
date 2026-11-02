@@ -1,0 +1,30 @@
+{
+  "CREATE": {
+    "Register Birth": {
+      "description": "Sends a birth notification from a facility or EMR to the Births and Deaths Registry.",
+      "code": "// Register a birth with the BDR. Auth (token exchange) is handled for you.\npost('/api/v1/UserManagementService/integrations/registrations/birth', {\n  status: 'COMPLETE', // or 'DRAFT'\n  region_id: $.data.regionId, // coded ids from the utility lookup\n  district_id: $.data.districtId,\n  type_of_birth: 'SINGLETON',\n  informant_type: 'MOTHER',\n  informant_first_name: $.data.mother.firstName,\n  informant_last_name: $.data.mother.lastName,\n  informant_phone_number: $.data.mother.phone,\n  child_first_name: $.data.child.firstName,\n  child_last_name: $.data.child.lastName,\n  child_gender: $.data.child.sex, // 'MALE' | 'FEMALE'\n  child_dob: $.data.child.dateOfBirth, // YYYY-MM-DD\n  child_place_of_birth: 'HOSPITAL',\n  child_birth_attendant: 'MID-WIFE',\n  child_birth_institution: $.data.facilityName,\n  mother_first_name: $.data.mother.firstName,\n  mother_last_name: $.data.mother.lastName,\n  mother_national_id_type: 'GHANA CARD',\n  mother_national_id_number: $.data.mother.ghanaCardNumber,\n});"
+    },
+    "Update Birth Record": {
+      "description": "Updates an existing birth registration, e.g. to complete a draft once the father's details are known.",
+      "code": "// Update a birth record by its document number.\npost(\n  // 1) Path including the record's document number.\n  `/api/v1/UserManagementService/integrations/registrations/birth/${$.data.documentNumber}`,\n  // 2) Fields to update (status, region_id and district_id are required).\n  {\n    status: 'COMPLETE',\n    region_id: $.data.regionId,\n    district_id: $.data.districtId,\n    father_first_name: $.data.father.firstName,\n    father_last_name: $.data.father.lastName,\n    father_national_id_type: 'GHANA CARD',\n    father_national_id_number: $.data.father.ghanaCardNumber,\n  }\n);"
+    },
+    "Register Death": {
+      "description": "Sends a death notification, e.g. from a hospital system, to the Births and Deaths Registry.",
+      "code": "// Register a death with the BDR.\npost('/api/v1/UserManagementService/integrations/registrations/death', {\n  status: 'COMPLETE',\n  service_type: 'EARLY_DEATH', // or 'LATE_DEATH'\n  region_id: $.data.regionId,\n  district_id: $.data.districtId,\n  informant_type: $.data.informant.type, // a value from the INFORMANT_TYPE lookup\n  informant_first_name: $.data.informant.firstName,\n  informant_last_name: $.data.informant.lastName,\n  informant_phone_number: $.data.informant.phone,\n  deceased_first_name: $.data.deceased.firstName,\n  deceased_last_name: $.data.deceased.lastName,\n  deceased_gender: $.data.deceased.sex,\n  deceased_age: $.data.deceased.age,\n  deceased_age_unit: 'YEARS',\n  deceased_date_of_death: $.data.dateOfDeath, // YYYY-MM-DD (required)\n  death_institution: $.data.facilityName,\n  examiner_cause_of_death: $.data.causeOfDeath,\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Birth Record": {
+      "description": "Looks up a birth registration and its status by document number.",
+      "code": "// Look up a birth record (and its registration status).\nget(`/api/v1/UserManagementService/integrations/registrations/birth/${$.data.documentNumber}`);"
+    },
+    "Get Death Record": {
+      "description": "Looks up a death registration and its status by document number.",
+      "code": "// Look up a death record (and its registration status).\nget(`/api/v1/UserManagementService/integrations/registrations/death/${$.data.documentNumber}`);"
+    },
+    "Get Districts For Region": {
+      "description": "Fetches the coded district list for a region, to map facility locations to BDR ids.",
+      "code": "// Fetch a coded lookup list. This lookup is a POST, but it only reads.\npost('/api/v1/UserManagementService/integrations/utility', {\n  // COUNTRY, REGION, DISTRICT, REGISTRY, TOWN, GENDER, BIRTH_TYPE, ...\n  utility_type: 'DISTRICT',\n  region_id: $.data.regionId, // required for DISTRICT\n});"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "CREATE": {
+    "Request Payment Via STK Push": {
+      "description": "Sends an M-Pesa PIN prompt to a customer phone to collect a payment.",
+      "code": "// Prompt a member to pay their monthly health insurance contribution.\n// BusinessShortCode, Password and Timestamp are added for you from the credential.\nstkPush({\n  Amount: $.data.amount, // KES, whole shillings\n  PartyA: $.data.phone, // payer, format 2547XXXXXXXX\n  PartyB: $.configuration.short_code, // paybill receiving the funds\n  PhoneNumber: $.data.phone, // phone that receives the PIN prompt\n  CallBackURL: 'https://app.openfn.org/i/<your-webhook-id>', // receives the result\n  AccountReference: $.data.memberNo, // max 12 characters, shown to the payer\n  TransactionDesc: 'Monthly contribution',\n});"
+    },
+    "Register C2B Callback URLs": {
+      "description": "Registers validation and confirmation URLs so paybill payments are pushed to your system.",
+      "code": "// Register the URLs M-Pesa calls when customers pay into your paybill.\nregisterUrl({\n  ShortCode: $.configuration.short_code,\n  ResponseType: 'Completed', // what to do if the validation URL is unreachable\n  ConfirmationURL: 'https://app.openfn.org/i/<confirmation-webhook-id>',\n  ValidationURL: 'https://app.openfn.org/i/<validation-webhook-id>',\n});"
+    },
+    "Pay Supplier Till": {
+      "description": "Pays a supplier till number from your shortcode (B2B buy goods).",
+      "code": "// Pay a pharmacy supplier's till for a medicines order.\nbuyGoods({\n  Initiator: $.configuration.initiatorName, // API operator username\n  SecurityCredential: $.configuration.securityCredential, // encrypted operator password\n  Amount: $.data.amount,\n  PartyA: $.configuration.short_code, // your shortcode (money leaves here)\n  PartyB: $.data.supplierTill, // supplier's till number\n  AccountReference: $.data.orderNo, // up to 13 characters\n  Requester: $.data.requesterPhone, // optional, 2547XXXXXXXX\n  Remarks: 'Medicines order payment',\n  QueueTimeOutURL: 'https://app.openfn.org/i/<timeout-webhook-id>',\n  ResultURL: 'https://app.openfn.org/i/<result-webhook-id>',\n});"
+    },
+    "Remit Tax To KRA": {
+      "description": "Pays tax owed to the Kenya Revenue Authority from your shortcode.",
+      "code": "// Remit tax to KRA using a payment registration number (PRN).\nremitTax({\n  Initiator: $.configuration.initiatorName,\n  SecurityCredential: $.configuration.securityCredential,\n  Amount: $.data.taxAmount,\n  PartyA: $.configuration.short_code,\n  AccountReference: $.data.prn, // PRN issued by KRA\n  Remarks: 'Monthly PAYE remittance',\n  QueueTimeOutURL: 'https://app.openfn.org/i/<timeout-webhook-id>',\n  ResultURL: 'https://app.openfn.org/i/<result-webhook-id>',\n});"
+    },
+    "Request STK Push For Each Member": {
+      "description": "Sends a payment prompt to every member in a list.",
+      "code": "// Send an STK push to each member in the incoming list.\neach(\n  $.data.members,\n  stkPush({\n    Amount: $.data.amount,\n    PartyA: $.data.phone,\n    PartyB: $.configuration.short_code,\n    PhoneNumber: $.data.phone,\n    CallBackURL: 'https://app.openfn.org/i/<your-webhook-id>',\n    AccountReference: $.data.memberNo,\n    TransactionDesc: 'Savings group contribution',\n  })\n);"
+    },
+    "Custom Daraja Request": {
+      "description": "Makes a raw request to any Daraja endpoint with authentication handled for you.",
+      "code": "// Call a Daraja endpoint directly. Paths are relative to the baseUrl.\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Daraja path.\n  '/mpesa/c2b/v1/registerurl',\n  // 3) JSON body.\n  {\n    ShortCode: $.configuration.short_code,\n    ResponseType: 'Completed',\n    ConfirmationURL: 'https://app.openfn.org/i/<confirmation-webhook-id>',\n    ValidationURL: 'https://app.openfn.org/i/<validation-webhook-id>',\n  }\n);"
+    }
+  },
+  "SEARCH": {
+    "Check Transaction Status": {
+      "description": "Queries the status of an M-Pesa transaction by its receipt number.",
+      "code": "// Check whether a payment went through. The result is sent to ResultURL.\ncheckTransactionStatus({\n  Initiator: $.configuration.initiatorName,\n  SecurityCredential: $.configuration.securityCredential,\n  TransactionID: $.data.mpesaReceipt, // e.g. 'OEI2AK4Q16'\n  PartyA: $.configuration.short_code,\n  IdentifierType: 4, // 4 = organisation shortcode\n  ResultURL: 'https://app.openfn.org/i/<result-webhook-id>',\n  QueueTimeOutURL: 'https://app.openfn.org/i/<timeout-webhook-id>',\n  Remarks: 'Reconciliation check',\n  Occassion: 'Monthly reconciliation', // note Daraja's spelling\n});"
+    }
+  }
+}

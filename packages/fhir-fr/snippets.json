@@ -1,0 +1,16 @@
+{
+  "CREATE": {
+    "Build FR Core Patient": {
+      "description": "Maps incoming data to an FR Core Patient resource on state, ready to send to a FHIR server.",
+      "code": "// This adaptor has no HTTP operations yet: build the resource on state,\n// then send it in a later step (e.g. with the fhir-4 or http adaptor).\nfn(state => {\n  state.patient = {\n    resourceType: 'Patient',\n    meta: { profile: ['http://hl7.fr/ig/fhir/core/StructureDefinition/fr-core-patient'] },\n    identifier: [\n      {\n        // INS (Identifiant National de Santé), NIR-based.\n        system: 'urn:oid:1.2.250.1.213.1.4.8',\n        value: state.data.ins,\n      },\n    ],\n    name: [{ use: 'official', family: state.data.nom, given: [state.data.prenom] }],\n    gender: state.data.sexe === 'F' ? 'female' : 'male',\n    birthDate: state.data.dateNaissance, // YYYY-MM-DD\n  };\n  return state;\n});"
+    },
+    "Build FR Core Practitioner": {
+      "description": "Maps a health professional to an FR Core Practitioner resource with their RPPS identifier.",
+      "code": "// Build a Practitioner identified by their RPPS number.\nfn(state => {\n  state.practitioner = {\n    resourceType: 'Practitioner',\n    meta: { profile: ['http://hl7.fr/ig/fhir/core/StructureDefinition/fr-core-practitioner'] },\n    identifier: [\n      {\n        system: 'urn:oid:1.2.250.1.71.4.2.1', // idNatPS (RPPS-based)\n        value: `8${state.data.rpps}`,\n      },\n    ],\n    name: [{ family: state.data.nom, given: [state.data.prenom], prefix: ['Dr'] }],\n  };\n  return state;\n});"
+    },
+    "Build Transaction Bundle": {
+      "description": "Collects mapped resources into a FHIR transaction Bundle on state.",
+      "code": "// Wrap mapped resources in a transaction Bundle (each needs an id).\nfn(state => {\n  const resources = [state.patient, state.practitioner];\n  state.bundle = {\n    resourceType: 'Bundle',\n    type: 'transaction',\n    entry: resources.map(r => ({\n      resource: r,\n      request: { method: 'PUT', url: `${r.resourceType}/${r.id}` },\n    })),\n  };\n  return state;\n});"
+    }
+  }
+}

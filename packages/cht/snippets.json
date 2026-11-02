@@ -14,7 +14,7 @@
     },
     "Update Person": {
       "description": "Updates an existing person's details, e.g. a new phone number.",
-      "code": "// Update a person's record. Use request() because put() takes no body.\nrequest(\n  // 1) HTTP method.\n  'PUT',\n  // 2) Path to the person.\n  `/api/v1/person/${$.data.personId}`,\n  // 3) Updated fields (type, parent and contact_type are read-only).\n  {\n    _id: $.data.personId,\n    name: $.data.fullName,\n    phone: $.data.phone,\n  }\n);"
+      "code": "// Update a person's record. Use request() because put() takes no body.\nrequest(\n  // 1) HTTP method.\n  'PUT',\n  // 2) Path to the person.\n  `/api/v1/person/${$.data.personId}`,\n  // 3) Updated fields (type, parent and contact_type are read-only).\n  {\n    _id: $.data.personId,\n    _rev: $.data.rev, // current revision, from a prior get\n    name: $.data.fullName,\n    phone: $.data.phone,\n  }\n);"
     },
     "Create User": {
       "description": "Creates a CHT user account for a community health worker linked to their place.",

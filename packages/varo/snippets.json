@@ -1,0 +1,30 @@
+{
+  "CREATE": {
+    "Convert Varo Messages To EMS": {
+      "description": "Converts Varo and FridgeTag files pulled from email into EMS-compliant cold-chain reports.",
+      "code": "// Convert message contents (e.g. from gmail's getContentsFromMessages)\n// into EMS-compliant cold-chain reports. state.data becomes the reports.\nconvertToEms(\n  // Array of { metadata, data } or { metadata, fridgeTag } objects,\n  // each part shaped as { filename, content }.\n  $.data\n);"
+    },
+    "Convert Records To EMS Report": {
+      "description": "Groups flat EMS-like fridge readings into reports, one per device, with a records array.",
+      "code": "// Group flat temperature readings into EMS reports (one per device serial).\nconvertItemsToReports(\n  // 1) Flat records, e.g. loaded from a collection.\n  $.data, // e.g. [{ ASER: 'BJBC 08 30', ABST: '20241205T004440Z', TVC: 5.0 }, ...]\n  // 2) Report type: 'ems' or 'rtmd'.\n  'ems'\n);"
+    },
+    "Convert RTMD Records To Reports": {
+      "description": "Converts remote temperature monitoring device (RTMD) records into EMS reports.",
+      "code": "// Convert RTMD records into EMS reports.\nconvertItemsToReports(\n  // 1) RTMD records from the upstream collection.\n  $.data,\n  // 2) Report type.\n  'rtmd'\n);"
+    },
+    "Build Varo Message Contents": {
+      "description": "Turns EMS reports into email-ready message parts (subject, body, data.json) for a Varo inbox.",
+      "code": "// Turn EMS reports into message parts to email to a Varo inbox.\n// state.data becomes [{ subject, body, data: { filename: 'data.json', content } }].\nconvertReportsToMessageContents(\n  // 1) EMS reports, e.g. from convertItemsToReports().\n  $.data,\n  // 2) Report type, used in the subject line.\n  'ems'\n);"
+    }
+  },
+  "SEARCH": {
+    "Get UTC Range For Local Dates": {
+      "description": "Works out the UTC window and collection key patterns for a local date range in a facility's time zone.",
+      "code": "// Work out which UTC window (and collection key patterns) matches\n// yesterday in the facility's time zone.\nfn(state => {\n  const range = parseUtcForDataRange(\n    // 1) IANA time zone of the facility.\n    'Africa/Nairobi',\n    // 2) Local start date (ISO).\n    '2026-11-01',\n    // 3) Local end date (ISO).\n    '2026-11-02'\n  );\n  // range.startUtc, range.endUtc, range.collectionKeys (e.g. ['*20261101*', ...])\n  state.range = range;\n  return state;\n});"
+    },
+    "Filter Keys In Date Range": {
+      "description": "Keeps only the keys whose embedded timestamp falls within a UTC range.",
+      "code": "// Keep only keys like 'device:20261101T101530Z' that fall in the range.\nfn(state => {\n  const { startUtc, endUtc } = state.range; // from parseUtcForDataRange()\n  state.keys = state.data.filter(key =>\n    isKeyInRange(\n      // 1) Key with a timestamp after the colon.\n      key,\n      // 2) Inclusive UTC start.\n      startUtc,\n      // 3) Exclusive UTC end.\n      endUtc\n    )\n  );\n  return state;\n});"
+    }
+  }
+}

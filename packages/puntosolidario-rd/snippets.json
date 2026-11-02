@@ -1,0 +1,12 @@
+{
+  "CREATE": {
+    "Map Beneficiary Records": {
+      "description": "Reshapes incoming household data into beneficiary records on state.",
+      "code": "// This adaptor exposes no API operations yet: prepare records on state\n// so a later step can send them to Punto Solidario.\nfn(state => {\n  state.beneficiarios = state.data.hogares.map(h => ({\n    cedula: h.cedula.replace(/-/g, ''), // national ID, digits only\n    nombres: h.nombres,\n    apellidos: h.apellidos,\n    sexo: h.sexo,\n    fechaNacimiento: h.fechaNacimiento, // YYYY-MM-DD\n    provincia: h.provincia,\n    municipio: h.municipio,\n  }));\n  return state;\n});"
+    },
+    "Group Beneficiaries By Province": {
+      "description": "Groups prepared beneficiary records by province for reporting or batching.",
+      "code": "// Group beneficiaries on state by their province.\ngroup($.beneficiarios, 'provincia');"
+    }
+  }
+}

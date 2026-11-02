@@ -1,0 +1,22 @@
+{
+  "CREATE": {
+    "Send SMS": {
+      "description": "Sends a single SMS from a registered sender ID.",
+      "code": "// Send an SMS.\nsendSMS({\n  // Registered sender ID.\n  from: 'MOH-Ghana',\n  // Recipient in international format.\n  to: $.data.phone, // e.g. '233241234567'\n  content: 'Reminder: your child is due for the measles vaccine this week.',\n});"
+    },
+    "Send Appointment Reminder": {
+      "description": "Sends a personalised SMS built from the incoming record.",
+      "code": "// Send a personalised appointment reminder.\nsendSMS({\n  from: 'ClinicSMS',\n  to: $.data.patient.phone,\n  content: `Hello ${$.data.patient.firstName}, your appointment at ${$.data.facility} is on ${$.data.appointmentDate}.`,\n});"
+    },
+    "Send Payment Confirmation": {
+      "description": "Notifies a beneficiary by SMS that a cash transfer was paid.",
+      "code": "// Confirm a cash transfer to a beneficiary.\nsendSMS({\n  from: 'LEAP',\n  to: $.data.beneficiaryPhone,\n  content: `GHS ${$.data.amount} has been sent to your mobile money wallet. Ref: ${$.data.reference}`,\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Message Status": {
+      "description": "Gets the delivery status of a sent message.",
+      "code": "// Check whether a message was delivered.\nrequest(\n  // 1) HTTP method.\n  'GET',\n  // 2) Message id returned by sendSMS (MessageId).\n  `/messages/${$.data.MessageId}`\n);"
+    }
+  }
+}

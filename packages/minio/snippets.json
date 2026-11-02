@@ -1,0 +1,38 @@
+{
+  "CREATE": {
+    "Archive Records As JSON": {
+      "description": "Uploads incoming records to a bucket as a JSON object, e.g. a raw data lake landing zone.",
+      "code": "// Land the raw payload in the data lake, partitioned by date.\nputObject(\n  // 1) Destination bucket.\n  'raw-health-data',\n  // 2) Object name / path.\n  `openmrs/${new Date().toISOString().slice(0, 10)}/encounters-${$.data.batchId}.json`,\n  // 3) Data to upload (serialised as JSON by default).\n  $.data.encounters\n);"
+    },
+    "Export Report As CSV": {
+      "description": "Uploads rows as a CSV file with custom metadata.",
+      "code": "// Write a monthly indicator report to the bucket as CSV.\nputObject(\n  // 1) Destination bucket.\n  'reports',\n  // 2) Object name / path.\n  `indicators/${$.data.period}/facility-summary.csv`,\n  // 3) Array of row objects.\n  $.data.rows,\n  // 4) Upload options.\n  {\n    format: 'csv',\n    metadata: { 'x-amz-meta-source': 'dhis2' },\n  }\n);"
+    },
+    "Create Bucket": {
+      "description": "Creates a new bucket, optionally with object locking.",
+      "code": "// Create a bucket for a new programme's data.\ncreateBucket(\n  // 1) Bucket name.\n  'cash-transfer-exports',\n  // 2) Region.\n  'us-east-1',\n  // 3) Options.\n  { ObjectLocking: true }\n);"
+    },
+    "Tag Object As Processed": {
+      "description": "Sets tags on an object, e.g. to mark it processed after a pipeline step.",
+      "code": "// Mark a file as processed so it isn't picked up again.\nsetObjectTags(\n  // 1) Bucket.\n  'raw-health-data',\n  // 2) Object name.\n  $.data.objectName,\n  // 3) Tags (overwrites existing tags).\n  { status: 'processed', processedBy: 'openfn' }\n);"
+    }
+  },
+  "SEARCH": {
+    "List Objects By Prefix": {
+      "description": "Lists objects under a prefix, e.g. today's uploads.",
+      "code": "// List files uploaded under a monthly prefix.\nlistObjects('raw-health-data', {\n  prefix: 'openmrs/2026-04/',\n  recursive: true,\n});"
+    },
+    "Get JSON Object": {
+      "description": "Downloads an object and parses it as JSON.",
+      "code": "// Read a JSON file from the bucket into state.data.\ngetObject(\n  // 1) Bucket.\n  'raw-health-data',\n  // 2) Object name.\n  $.data.objectName,\n  // 3) Parse options.\n  { format: 'json' }\n);"
+    },
+    "Get CSV Object": {
+      "description": "Downloads a CSV file and parses it into rows.",
+      "code": "// Read a beneficiary list uploaded as CSV and write it to state.beneficiaries.\ngetObject('imports', 'beneficiaries/latest.csv', {\n  format: 'csv',\n  destination: 'beneficiaries',\n});"
+    },
+    "Get Object Tags": {
+      "description": "Reads the tags on an object, e.g. to check its processing status.",
+      "code": "// Check an object's tags before processing it.\ngetObjectTags('raw-health-data', $.data.objectName);"
+    }
+  }
+}

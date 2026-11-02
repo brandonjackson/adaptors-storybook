@@ -1,0 +1,16 @@
+{
+  "CREATE": {
+    "Create Inbound SMS": {
+      "description": "Logs an inbound SMS in Salesforce via Mogli, e.g. from a telco or SMS gateway webhook.",
+      "code": "// Log an inbound SMS received from an SMS gateway in Mogli.\ncreateSMS({\n  // Sender's phone number (E.164).\n  sender: $.data.from_number,\n  // When the message was received.\n  receivedAt: $.data.timestamp,\n  // Message body.\n  message: $.data.message,\n});"
+    },
+    "Create Inbound SMS With Field Mapping": {
+      "description": "Maps a gateway payload onto a Mogli inbound SMS using field helpers.",
+      "code": "// Map an SMS gateway webhook (e.g. Twilio) to a Mogli inbound SMS.\ncreateSMS(\n  fields(\n    field('sender', dataValue('From')),\n    field('receivedAt', state => new Date().toISOString()),\n    field('message', dataValue('Body'))\n  )\n);"
+    },
+    "Update SMS Status": {
+      "description": "Updates the status of an SMS record, e.g. from a delivery receipt.",
+      "code": "// Update an SMS record's status from a delivery receipt.\nupdateSMS({\n  // Salesforce Id of the Mogli SMS record.\n  Id: $.data.externalId,\n  // New status, e.g. 'Delivered' or 'Failed'.\n  status: $.data.status,\n});"
+    }
+  }
+}

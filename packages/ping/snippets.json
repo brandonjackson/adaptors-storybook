@@ -12,7 +12,7 @@
     },
     "List Records": {
       "description": "Reads a list of records with the generic authenticated request helper.",
-      "code": "// GET a list of records, with query parameters.\nhttp.request(\n  // 1) HTTP method.\n  'GET',\n  // 2) Path, relative to baseUrl.\n  '/records',\n  // 3) Body (none for a GET).\n  null,\n  // 4) Options: query string, extra headers, etc.\n  { query: { updatedSince: $.lastRunAt || '2026-01-01' } }\n);"
+      "code": "// GET a list of records.\nhttp.request(\n  // 1) HTTP method.\n  'GET',\n  // 2) Path, relative to baseUrl.\n  '/records',\n  // 3) Body (none for a GET).\n  null,\n  // 4) Options: query string, extra headers, etc.\n  { query: { query: $.data.searchTerm } }\n);"
     },
     "Get Record By ID": {
       "description": "Fetches a single record by its id.",

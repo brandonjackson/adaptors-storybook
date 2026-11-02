@@ -16,7 +16,7 @@
   "SEARCH": {
     "Find Transaction": {
       "description": "Find a transaction by the transaction id or payment reference.",
-      "code": "// Not supported: this adaptor has no read functions. The API offers\n// GET /charges/{id} to look up a charge, but the adaptor doesn't expose it.\n// Workaround: call GET /charges/{id} from the HTTP adaptor in a separate step,\n// with your secret key as a Bearer token. Keep the charge id returned by\n// initiatePayment (state.data.id) so you can look it up later."
+      "code": "// Not supported: this adaptor has no read functions. The API offers\n// GET /charges/{id} to look up a charge, but the adaptor doesn't expose it.\n// Workaround: call GET /charges/{id} from the HTTP adaptor in a separate step,\n// with your secret key as a Bearer token. Keep the charge id returned by\n// initiatePayment (state.data.data.id) so you can look it up later."
     },
     "Find Transfer": {
       "description": "Find a transfer by the transfer reference.",

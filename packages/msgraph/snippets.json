@@ -28,7 +28,7 @@
     },
     "Download File From SharePoint": {
       "description": "Downloads the contents of a file (e.g. a CSV export) from a SharePoint document library.",
-      "code": "// Load the site's default document library into state.drives.default.\ngetDrive({ id: $.configuration.siteId, owner: 'sites' });\n\n// Then read a file from it by path (or pass a driveItem id).\ngetFile('/Shared Documents/Registrations/registrations.csv', {\n  // Which drive in state.drives to use.\n  driveName: 'default',\n  // false returns the file content, true returns its metadata.\n  metadata: false,\n});"
+      "code": "// Load the site's default document library into state.drives.default.\ngetDrive({ id: $.configuration.siteId, owner: 'sites' });\n\n// Then read a file from it by path (or pass a driveItem id).\n// The path is relative to the drive root: the default drive already is\n// the site's \"Shared Documents\" library, so don't repeat it here.\ngetFile('/Registrations/registrations.csv', {\n  // Which drive in state.drives to use.\n  driveName: 'default',\n  // false returns the file content, true returns its metadata.\n  metadata: false,\n});"
     },
     "List Files in Folder": {
       "description": "Lists the files in a SharePoint or OneDrive folder, e.g. to find new uploads to process.",

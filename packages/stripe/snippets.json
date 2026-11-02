@@ -56,7 +56,7 @@
   "SEARCH": {
     "Find Account Balance": {
       "description": "Finds the account balance for your stripe account",
-      "code": "// Retrieve the current balance for the connected Stripe account.\nget('balance', '');"
+      "code": "// Retrieve the current balance for the Stripe account.\n// get() always appends '/{id}' to the path, and Stripe rejects GET /v1/balance/,\n// so this calls the balance endpoint directly with util.request.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n\n  const response = await util.request('GET', `${baseUrl}/${apiVersion}/balance`, {\n    headers: { Authorization: `Bearer ${apiKey}` },\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Find Account by ID": {
       "description": "Finds a Stripe account by its ID.",

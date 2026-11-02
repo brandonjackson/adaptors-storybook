@@ -10,7 +10,7 @@
     },
     "Archive Subscriber": {
       "description": "Archives an existing subscriber.",
-      "code": "// Archive a single subscriber by email.\narchiveMember({\n  listId: $.configuration.listId,\n  email:  $.data.email,\n});"
+      "code": "// Archive a single subscriber by email.\narchiveMember({\n  listId: $.configuration.listId,\n  // Members are addressed by the MD5 hash of the lowercased email.\n  subscriberHash: md5($.data.email.toLowerCase()),\n});"
     },
     "Create Audience": {
       "description": "Creates a new audience in your MailChimp account.",
@@ -30,15 +30,15 @@
     },
     "Permanently Delete Member": {
       "description": "Deletes all personally identifiable information related to a member.",
-      "code": "// Permanently delete a member (cannot be undone; member can't be re-subscribed).\ndeleteMember({\n  listId: $.configuration.listId,\n  email:  $.data.email,\n});"
+      "code": "// Permanently delete a member (cannot be undone; member can't be re-subscribed).\ndeleteMember({\n  listId: $.configuration.listId,\n  // Members are addressed by the MD5 hash of the lowercased email.\n  subscriberHash: md5($.data.email.toLowerCase()),\n});"
     },
     "Remove Subscriber from Tag": {
       "description": "Removes a subscriber from a tag within an audience.",
-      "code": "// Remove a tag from a subscriber by marking the tag as inactive.\nupdateMemberTags({\n  listId: $.configuration.listId,\n  email:  $.data.email,\n  tags: [\n    { name: $.data.tagName, status: 'inactive' },\n  ],\n});"
+      "code": "// Remove a tag from a subscriber by marking the tag as inactive.\nupdateMemberTags({\n  listId: $.configuration.listId,\n  // Members are addressed by the MD5 hash of the lowercased email.\n  subscriberHash: md5($.data.email.toLowerCase()),\n  tags: [\n    { name: $.data.tagName, status: 'inactive' },\n  ],\n});"
     },
     "Unsubscribe or Delete Contact": {
       "description": "Unsubscribe or delete a contact by email address.",
-      "code": "// Unsubscribe a member (set status to 'unsubscribed').\nupdateMember({\n  listId: $.configuration.listId,\n  email:  $.data.email,\n  status: 'unsubscribed',\n});"
+      "code": "// Unsubscribe a member (set status to 'unsubscribed').\nupdateMember({\n  listId: $.configuration.listId,\n  // Members are addressed by the MD5 hash of the lowercased email.\n  subscriberHash: md5($.data.email.toLowerCase()),\n  // Fields to change go under member.\n  member: { status: 'unsubscribed' },\n});"
     },
     "API Request (Beta)": {
       "description": "Raw HTTP request with authentication.",
@@ -64,15 +64,15 @@
     },
     "Find Customer": {
       "description": "Finds a customer by email address.",
-      "code": "// Fetch an e-commerce customer by id on a store.\nget(`/ecommerce/stores/${$.data.storeId}/customers/${$.data.customerId}`);"
+      "code": "// List a store's e-commerce customers filtered by email address.\n// Matches are in state.data.customers.\nget(`/ecommerce/stores/${$.data.storeId}/customers`, {\n  email_address: $.data.email,\n});"
     },
     "Find or Create Campaign": {
       "description": "Finds an existing campaign.",
-      "code": "// Search campaigns by title or subject.\nget('/search-campaigns', { query: $.data.campaignTitle });\n\n// If nothing matched, create a draft campaign with that title.\nfnIf(\n  state => !state.data.results?.length,\n  post('/campaigns', {\n    type: 'regular',\n    recipients: { list_id: $.configuration.listId },\n    settings: {\n      title: $.data.campaignTitle,\n      subject_line: $.data.campaignTitle,\n      from_name: 'Example Health Foundation',\n      reply_to: 'updates@example.org',\n    },\n  })\n);"
+      "code": "// Keep the incoming record: get() below replaces state.data.\nfn(state => ({ ...state, input: state.data }));\n\n// Search campaigns by title or subject.\nget('/search-campaigns', { query: $.data.campaignTitle });\n\n// If nothing matched, create a draft campaign with that title.\nfnIf(\n  state => !state.data.results?.length,\n  post('/campaigns', {\n    type: 'regular',\n    recipients: { list_id: $.configuration.listId },\n    settings: {\n      title: $.input.campaignTitle,\n      subject_line: $.input.campaignTitle,\n      from_name: 'Example Health Foundation',\n      reply_to: 'updates@example.org',\n    },\n  })\n);"
     },
     "Find or Create Subscriber": {
       "description": "Searches for a subscriber on your MailChimp audience.",
-      "code": "// Look for the subscriber on the audience by email.\nget('/search-members', {\n  query: $.data.email,\n  list_id: $.configuration.listId,\n});\n\n// If there's no exact match, add them as a new subscriber.\nfnIf(\n  state => !state.data.exact_matches?.members?.length,\n  post(`/lists/${$.configuration.listId}/members`, {\n    email_address: $.data.email,\n    status: 'subscribed',\n    merge_fields: { FNAME: $.data.firstName, LNAME: $.data.lastName },\n  })\n);"
+      "code": "// Keep the incoming record: get() below replaces state.data.\nfn(state => ({ ...state, input: state.data }));\n\n// Look for the subscriber on the audience by email.\nget('/search-members', {\n  query: $.data.email,\n  list_id: $.configuration.listId,\n});\n\n// If there's no exact match, add them as a new subscriber.\nfnIf(\n  state => !state.data.exact_matches?.members?.length,\n  post(`/lists/${$.configuration.listId}/members`, {\n    email_address: $.input.email,\n    status: 'subscribed',\n    merge_fields: { FNAME: $.input.firstName, LNAME: $.input.lastName },\n  })\n);"
     },
     "Find Tag": {
       "description": "Find a tag.",

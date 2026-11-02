@@ -2,7 +2,7 @@
   "SEARCH": {
     "List Runs For Project": {
       "description": "Lists runs in a project, e.g. for a monitoring workflow that alerts on failed runs.",
-      "code": "// List runs for a project. Paths are relative to /api/ on your OpenFn host.\nget('runs', {\n  query: { project_id: $.configuration.projectId },\n});\n\n// Keep only failed or crashed runs for alerting.\nfn(state => {\n  const runs = state.data.data ?? state.data;\n  state.failedRuns = runs.filter(r => ['failed', 'crashed'].includes(r.state));\n  return state;\n});"
+      "code": "// List runs for a project. Paths are relative to /api/ on your OpenFn host.\nget('runs', {\n  query: { project_id: $.configuration.projectId },\n});\n\n// Keep only failed or crashed runs for alerting.\nfn(state => {\n  const runs = state.data.runs ?? state.data.data ?? state.data;\n  state.failedRuns = runs.filter(r => ['failed', 'crashed'].includes(r.state));\n  return state;\n});"
     },
     "Get Run": {
       "description": "Fetches one run by id to check its state and timing.",

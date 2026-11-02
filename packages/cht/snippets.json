@@ -14,7 +14,7 @@
     },
     "Update Person": {
       "description": "Updates an existing person's details, e.g. a new phone number.",
-      "code": "// Update a person's record. Use request() because put() takes no body.\nrequest(\n  // 1) HTTP method.\n  'PUT',\n  // 2) Path to the person.\n  `/api/v1/person/${$.data.personId}`,\n  // 3) Updated fields (type, parent and contact_type are read-only).\n  {\n    _id: $.data.personId,\n    _rev: $.data.rev, // current revision, from a prior get\n    name: $.data.fullName,\n    phone: $.data.phone,\n  }\n);"
+      "code": "// Update a person's record. Use request() because put() takes no body.\nrequest(\n  // 1) HTTP method.\n  'PUT',\n  // 2) Path to the person.\n  `/api/v1/person/${$.data.personId}`,\n  // 3) The full current record with the changed fields. _id, _rev and type\n  //    are required; type, parent and contact_type must keep their values.\n  {\n    ...$.data.person, // current record, from a prior get\n    name: $.data.fullName,\n    phone: $.data.phone,\n  }\n);"
     },
     "Create User": {
       "description": "Creates a CHT user account for a community health worker linked to their place.",
@@ -44,7 +44,7 @@
     },
     "Get Targets": {
       "description": "Fetches CHW performance targets, e.g. for programme dashboards.",
-      "code": "// Fetch target documents (CHW performance indicators).\nget('/api/v1/target', {\n  query: { limit: 100 },\n});"
+      "code": "// Fetch target documents (CHW performance indicators) for one contact.\nget('/api/v1/target', {\n  query: {\n    contact_id: $.data.chwContactId, // or contact_ids: 'id1,id2'\n    reporting_period: $.data.reportingPeriod, // required, e.g. '2025-09'\n    limit: 100,\n  },\n});"
     }
   }
 }

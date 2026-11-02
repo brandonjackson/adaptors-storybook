@@ -16,11 +16,11 @@
   "SEARCH": {
     "Find Module Entry": {
       "description": "Finds an entry in a module.",
-      "code": "// Search a model with an Odoo domain filter and pull a single record back.\nsearchReadRecord(\n  'res.partner',\n  // Odoo domain: array of triples or logical operators.\n  [['email', '=', $.data.email]],\n  // Fields to return.\n  ['id', 'name', 'email']\n);"
+      "code": "// Search a model with an Odoo domain filter and pull a single record back.\nsearchReadRecord(\n  'res.partner',\n  // Odoo domain: array of triples or logical operators.\n  [['email', '=', $.data.email]],\n  // Fields to return.\n  ['id', 'name', 'email'],\n  // Only fetch one match; results land in state.data.rows.\n  { limit: 1 }\n);"
     },
     "Find Multiple Module Entries": {
       "description": "Finds multiple entries in a module (with line item support).",
-      "code": "// Search a model and return many records.\nsearchReadRecord(\n  'crm.lead',\n  // Domain — leads created in the last 30 days.\n  [['create_date', '>=', '2026-04-01']],\n  ['id', 'name', 'email_from', 'stage_id']\n);"
+      "code": "// Search a model and return many records.\nsearchReadRecord(\n  'crm.lead',\n  // Domain — leads created on or after 1 April 2026.\n  [['create_date', '>=', '2026-04-01']],\n  ['id', 'name', 'email_from', 'stage_id']\n);"
     }
   }
 }

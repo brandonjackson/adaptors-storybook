@@ -1,0 +1,42 @@
+{
+  "CREATE": {
+    "Create Customer": {
+      "description": "Creates a customer, e.g. a beneficiary organisation or partner.",
+      "code": "// Create a customer.\ncreate(\n  // 1) Doctype.\n  'Customer',\n  // 2) Document fields.\n  {\n    customer_name: $.data.organisationName,\n    customer_type: 'Company',\n    customer_group: 'Non Profit',\n    territory: 'Kenya',\n  }\n);"
+    },
+    "Create Material Request": {
+      "description": "Raises a material request when a facility reports low stock.",
+      "code": "// Raise a material request for low stock at a facility.\ncreate('Material Request', {\n  material_request_type: 'Purchase',\n  transaction_date: $.data.reportDate,\n  schedule_date: $.data.neededBy,\n  items: [\n    {\n      item_code: $.data.itemCode,\n      qty: $.data.quantityNeeded,\n      // Warehouse to deliver to.\n      warehouse: $.data.warehouse,\n    },\n  ],\n});"
+    },
+    "Create Stock Entry": {
+      "description": "Records a stock transfer between warehouses, e.g. central store to clinic.",
+      "code": "// Transfer stock from a central store to a facility.\ncreate('Stock Entry', {\n  stock_entry_type: 'Material Transfer',\n  items: [\n    {\n      item_code: 'ORS-SACHET',\n      qty: 500,\n      s_warehouse: 'Central Medical Store - CMS',\n      t_warehouse: 'Kilifi Clinic - CMS',\n    },\n  ],\n});"
+    },
+    "Create Item": {
+      "description": "Adds an item (e.g. a medicine or commodity) to the item master.",
+      "code": "// Add an item to the item master.\ncreate('Item', {\n  item_code: $.data.itemCode,\n  item_name: 'Amoxicillin 250mg Dispersible Tablets',\n  item_group: 'Medicines',\n  stock_uom: 'Nos',\n});"
+    },
+    "Update Document": {
+      "description": "Updates fields on an existing document by name.",
+      "code": "// Update an existing document.\nupdate(\n  // 1) Doctype.\n  'Customer',\n  // 2) Document name/ID.\n  $.data.customerId,\n  // 3) Fields to change.\n  {\n    mobile_no: $.data.phone,\n    email_id: $.data.email,\n  }\n);"
+    },
+    "Delete Document": {
+      "description": "Deletes a document by name.",
+      "code": "// Delete a draft document.\ndeleteRecord(\n  // 1) Doctype.\n  'Material Request',\n  // 2) Document name/ID.\n  $.data.materialRequestId\n);"
+    }
+  },
+  "SEARCH": {
+    "Read Document": {
+      "description": "Fetches a single document by name.",
+      "code": "// Fetch one document by name.\nread(\n  // 1) Doctype.\n  'Item',\n  // 2) Document name/ID.\n  $.data.itemCode\n);"
+    },
+    "List Documents with Filters": {
+      "description": "Lists documents of a doctype, selecting fields and filtering.",
+      "code": "// List submitted purchase orders for a supplier.\ngetList('Purchase Order', {\n  fields: ['name', 'supplier', 'transaction_date', 'grand_total', 'status'],\n  filters: { supplier: $.data.supplier, docstatus: 1 },\n  orderBy: 'transaction_date desc',\n  limit: 100,\n});"
+    },
+    "Count Documents": {
+      "description": "Counts documents matching filters, e.g. for a dashboard.",
+      "code": "// Count open material requests.\ngetCount(\n  // 1) Doctype.\n  'Material Request',\n  // 2) Filters.\n  { status: 'Pending' }\n);"
+    }
+  }
+}

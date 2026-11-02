@@ -1,0 +1,24 @@
+{
+  "CREATE": {
+    "Send SMS": {
+      "description": "Sends one message to a single phone number.",
+      "code": "// Send a single SMS.\nsendSms({\n  // Sender ID approved on your Wigal account.\n  senderid: $.configuration.senderId,\n  destinations: [{ destination: $.data.phoneNumber }],\n  message: 'Your lab results are ready. Please visit the clinic to collect them.',\n  smstype: 'text',\n});"
+    },
+    "Send Same Message To Many Recipients": {
+      "description": "Sends one message to a list of phone numbers (general send).",
+      "code": "// Alert a list of community health volunteers.\nsendSms({\n  senderid: $.configuration.senderId,\n  // Build one destination per phone number.\n  destinations: $.data.volunteers.map(v => ({ destination: v.phone })),\n  message: 'Reminder: monthly reporting meeting at the district office on Friday, 9am.',\n  smstype: 'text',\n});"
+    },
+    "Send Personalised Messages": {
+      "description": "Sends a different message to each recipient, with your own message IDs for tracking.",
+      "code": "// Send personalised payment notifications to beneficiaries.\nsendSms({\n  senderid: $.configuration.senderId,\n  destinations: $.data.payments.map(p => ({\n    destination: p.phone,\n    // Per-destination message overrides the general one.\n    message: `Hello ${p.firstName}, GHS ${p.amount} has been sent to your mobile money wallet.`,\n    // Your own reference, useful for matching delivery reports.\n    msgid: p.paymentId,\n    smstype: 'text',\n  })),\n});"
+    },
+    "Send Appointment Reminder": {
+      "description": "Sends a templated appointment reminder built from an incoming record.",
+      "code": "// Remind a patient about their next appointment.\nsendSms({\n  senderid: $.configuration.senderId,\n  destinations: [\n    {\n      destination: $.data.patientPhone,\n      message: `Dear ${$.data.patientName}, your next visit at ${$.data.facility} is on ${$.data.nextVisitDate}.`,\n      msgid: $.data.appointmentId,\n    },\n  ],\n  smstype: 'text',\n});"
+    },
+    "Send SMS For Each Record": {
+      "description": "Loops over records and sends one SMS per item.",
+      "code": "// Send one SMS per registered household.\neach(\n  $.data.households,\n  // Inside each(), $.data is the current household.\n  sendSms({\n    senderid: $.configuration.senderId,\n    destinations: [{ destination: $.data.headPhone }],\n    message: 'Your household has been enrolled in the programme. Keep this message for reference.',\n    smstype: 'text',\n  })\n);"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "CREATE": {
+    "Create Patient": {
+      "description": "Creates a Patient using the patient builder.",
+      "code": "// Create a Patient from an incoming registration.\ncreate(\n  b.patient({\n    identifier: [{ system: 'urn:example:national-id', value: $.data.nationalId }],\n    name: { family: $.data.lastName, given: $.data.firstName, use: 'official' },\n    gender: $.data.gender, // 'male' | 'female' | 'other' | 'unknown'\n    birthDate: $.data.dateOfBirth, // 'YYYY-MM-DD'\n  })\n);"
+    },
+    "Create Observation": {
+      "description": "Creates an Observation, e.g. a malaria rapid test result.",
+      "code": "// Create an Observation (any resource with a resourceType can be passed).\ncreate({\n  resourceType: 'Observation',\n  status: 'final',\n  code: {\n    coding: [{ system: 'http://loinc.org', code: '70569-9', display: 'Plasmodium sp Ag [Presence] in Blood by Rapid immunoassay' }],\n  },\n  subject: { reference: `Patient/${$.data.patientId}` },\n  effectiveDateTime: $.data.testedAt,\n  valueCodeableConcept: { text: $.data.result }, // e.g. 'Positive'\n});"
+    },
+    "Create Encounter": {
+      "description": "Creates an outpatient Encounter for a patient.",
+      "code": "// Create an outpatient Encounter.\ncreate({\n  resourceType: 'Encounter',\n  status: 'finished',\n  class: { system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode', code: 'AMB' },\n  subject: { reference: `Patient/${$.data.patientId}` },\n  serviceProvider: { reference: `Organization/${$.data.facilityId}` },\n  period: { start: $.data.visitStart, end: $.data.visitEnd },\n});"
+    },
+    "Update Patient": {
+      "description": "Replaces (or creates) a Patient at a known id.",
+      "code": "// Update a Patient. Creates it (201) if the id doesn't exist yet.\nupdate(\n  // 1) Resource reference, Type/id.\n  `Patient/${$.data.patientId}`,\n  // 2) The full new version of the resource.\n  b.patient({\n    id: $.data.patientId,\n    name: { family: $.data.lastName, given: $.data.firstName, use: 'official' },\n    telecom: [{ system: 'phone', value: $.data.phone }],\n  })\n);"
+    },
+    "Upload Transaction Bundle": {
+      "description": "Collects resources into a transaction Bundle and posts it in one request.",
+      "code": "// Build a transaction bundle and upload it in one request.\ncreateBundle({ type: 'transaction' });\n\n// Add one or more resources to the default bundle.\naddToBundle($.data.resources);\n\n// POST the bundle to the server root.\nuploadBundle();"
+    },
+    "Delete Resource": {
+      "description": "Deletes a single FHIR resource by reference.",
+      "code": "// Delete an Observation entered in error.\ndelete(`Observation/${$.data.observationId}`);"
+    }
+  },
+  "SEARCH": {
+    "Read Patient": {
+      "description": "Fetches a single Patient by id.",
+      "code": "// Read one Patient.\nread(`Patient/${$.data.patientId}`);"
+    },
+    "Search Patients By Identifier": {
+      "description": "Finds Patients matching an identifier, e.g. a national ID.",
+      "code": "// Find a Patient by identifier before creating a duplicate.\nsearch('Patient', {\n  query: { identifier: `urn:example:national-id|${$.data.nationalId}` },\n});"
+    },
+    "Search Recently Updated Observations": {
+      "description": "Fetches Observations for a patient changed since a cursor.",
+      "code": "// Get a patient's Observations updated since the last run.\nsearch('Observation', {\n  // Mapped to _lastUpdated.\n  lastUpdated: `ge${$.cursor}`,\n  // Mapped to _count.\n  count: 100,\n  query: { subject: `Patient/${$.data.patientId}` },\n});"
+    },
+    "Search Encounters By Date": {
+      "description": "Finds Encounters at a facility within a date range.",
+      "code": "// Find Encounters at a facility from a given date.\nsearch('Encounter', {\n  query: {\n    'service-provider': `Organization/${$.data.facilityId}`,\n    date: `ge${$.data.startDate}`,\n  },\n  count: 50,\n});"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "SEARCH": {
+    "List Runs For Project": {
+      "description": "Lists runs in a project, e.g. for a monitoring workflow that alerts on failed runs.",
+      "code": "// List runs for a project. Paths are relative to /api/ on your OpenFn host.\nget('runs', {\n  query: { project_id: $.configuration.projectId },\n});\n\n// Keep only failed or crashed runs for alerting.\nfn(state => {\n  const runs = state.data.data ?? state.data;\n  state.failedRuns = runs.filter(r => ['failed', 'crashed'].includes(r.state));\n  return state;\n});"
+    },
+    "Get Run": {
+      "description": "Fetches one run by id to check its state and timing.",
+      "code": "// Get a single run by id.\nget(`runs/${$.data.runId}`);"
+    },
+    "List Projects": {
+      "description": "Lists the OpenFn projects the API token can access.",
+      "code": "// List projects visible to this API token.\nget('projects');"
+    },
+    "Get Project": {
+      "description": "Fetches one project by id.",
+      "code": "// Get a project by id.\nget(`projects/${$.configuration.projectId}`);"
+    },
+    "List Workflows": {
+      "description": "Lists workflows, e.g. to build an inventory of integrations across projects.",
+      "code": "// List workflows.\nget('workflows');"
+    },
+    "List Jobs": {
+      "description": "Lists jobs (steps) in a project, with paging.",
+      "code": "// List jobs in a project.\nget('jobs', {\n  query: {\n    project_id: $.configuration.projectId,\n    limit: 50,\n    offset: 0,\n  },\n});"
+    },
+    "List Credentials": {
+      "description": "Lists credentials the token can see, e.g. for a periodic access audit (secrets are not returned in snippets' state).",
+      "code": "// List credentials (metadata) for an access audit.\nrequest('GET', 'credentials', {\n  errors: { 403: 'This token cannot list credentials' },\n});"
+    }
+  }
+}

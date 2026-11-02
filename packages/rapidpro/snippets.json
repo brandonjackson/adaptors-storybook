@@ -1,0 +1,36 @@
+{
+  "CREATE": {
+    "Upsert Contact By Phone Number": {
+      "description": "Creates a contact, or updates the existing one with the same URN, keeping registration data in sync.",
+      "code": "// Create or update a contact using their phone number as the key.\nupsertContact({\n  name: $.data.fullName,\n  // ISO 639-3 language code.\n  language: 'eng',\n  // The first URN is used to find an existing contact.\n  urns: [`tel:${$.data.phoneNumber}`],\n  // Custom contact fields (keys must already exist in the workspace).\n  fields: {\n    facility: $.data.facilityName,\n    expected_delivery_date: $.data.edd,\n  },\n});"
+    },
+    "Add Contact To Groups": {
+      "description": "Creates a new contact and places them in one or more contact groups.",
+      "code": "// Register a new caregiver and add them to the reminders group.\naddContact({\n  name: $.data.caregiverName,\n  language: 'fra',\n  urns: [`tel:${$.data.phoneNumber}`],\n  // Group UUIDs from your RapidPro workspace.\n  groups: [$.data.remindersGroupUuid],\n  fields: {\n    child_dob: $.data.childDateOfBirth,\n    district: $.data.district,\n  },\n});"
+    },
+    "Start Flow For Contacts": {
+      "description": "Starts a flow (e.g. an ANC reminder or survey) for specific contacts.",
+      "code": "// Enrol a patient into the antenatal care reminder flow.\nstartFlow({\n  // Flow UUID from RapidPro.\n  flow: $.configuration.ancFlowUuid,\n  // Contact UUIDs, e.g. from an earlier upsertContact().\n  contacts: [$.data.uuid],\n  // Don't restart people who have already been through this flow.\n  restart_participants: false,\n});"
+    },
+    "Start Flow By Phone Number": {
+      "description": "Starts a flow for phone numbers directly, passing extra data into the flow as params.",
+      "code": "// Start a payment confirmation survey for a list of recipients.\nstartFlow({\n  flow: $.configuration.surveyFlowUuid,\n  // URNs work even if the contact doesn't exist yet.\n  urns: $.data.recipients.map(r => `tel:${r.phone}`),\n  // Skip contacts that are already active in another flow.\n  exclude_active: true,\n  // Available in the flow as @trigger.params.\n  params: { payment_cycle: $.data.cycle, amount: $.data.amount },\n});"
+    },
+    "Start Flow For Group": {
+      "description": "Starts a flow for every contact in one or more groups.",
+      "code": "// Start the monthly check-in flow for all community health workers.\nstartFlow({\n  flow: $.configuration.checkInFlowUuid,\n  groups: [$.data.chwGroupUuid],\n  restart_participants: true,\n});"
+    },
+    "Send SMS Broadcast": {
+      "description": "Sends a one-off message to phone numbers and/or existing contacts.",
+      "code": "// Send an appointment reminder.\nsendBroadcast({\n  text: `Hello ${$.data.firstName}, your clinic visit is on ${$.data.appointmentDate}.`,\n  urns: [`tel:${$.data.phoneNumber}`],\n});"
+    },
+    "Send Broadcast To Group": {
+      "description": "Sends the same message to every contact in a group.",
+      "code": "// Alert all contacts in a district group about a vaccination campaign.\nsendBroadcast({\n  text: 'Free measles vaccination this Saturday at your nearest health centre.',\n  groups: [$.data.districtGroupUuid],\n});"
+    },
+    "Upsert Many Contacts": {
+      "description": "Loops over a list of records and upserts one contact per item.",
+      "code": "// Sync a list of beneficiaries into RapidPro contacts.\neach(\n  $.data.beneficiaries,\n  // Inside each(), $.data is the current beneficiary.\n  upsertContact({\n    name: $.data.name,\n    urns: [`tel:${$.data.phone}`],\n    fields: { household_id: $.data.householdId },\n  })\n);"
+    }
+  }
+}

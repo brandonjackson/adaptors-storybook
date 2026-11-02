@@ -1,0 +1,46 @@
+{
+  "CREATE": {
+    "Save Last Sync Timestamp": {
+      "description": "Stores a string value, such as the cursor for the next incremental sync.",
+      "code": "// Remember when this sync ran so the next run can pick up from here.\nset(\n  // 1) Key.\n  'sync:dhis2:lastRun',\n  // 2) String value.\n  new Date().toISOString()\n);"
+    },
+    "Store Patient Hash": {
+      "description": "Writes a patient's fields to a hash so other workflows can look them up quickly.",
+      "code": "// Cache a patient's key fields as a Redis hash.\nhset(\n  // 1) Key, namespaced by record type and id.\n  `patient:${$.data.patientId}`,\n  // 2) Field/value pairs.\n  {\n    name: $.data.name,\n    facility: $.data.facilityCode,\n    ihs_number: $.data.ihsNumber,\n  }\n);"
+    },
+    "Store JSON Document": {
+      "description": "Saves a whole JSON object (e.g. a beneficiary record) under one key.",
+      "code": "// Save a full JSON document under one key (requires RedisJSON).\njSet(\n  // 1) Key.\n  `beneficiary:${$.data.beneficiaryId}`,\n  // 2) Object to store at the root path.\n  {\n    name: $.data.name,\n    household: $.data.householdId,\n    enrolledOn: $.data.enrolledOn,\n    status: 'active',\n  }\n);"
+    },
+    "Store Many JSON Documents": {
+      "description": "Saves a batch of JSON documents in a single call.",
+      "code": "// Save a batch of records as JSON documents in one call.\nmSet(\n  $.data.records.map(record => ({\n    key: `facility:${record.code}`,\n    value: record, // object or string\n  }))\n);"
+    }
+  },
+  "SEARCH": {
+    "Get String Value": {
+      "description": "Reads a string value by key, e.g. the last sync timestamp.",
+      "code": "// Read the timestamp saved by the previous run.\nget('sync:dhis2:lastRun');"
+    },
+    "Get Hash Field": {
+      "description": "Reads a single field from a hash.",
+      "code": "// Read one field from a patient hash.\nhget(\n  // 1) Key.\n  `patient:${$.data.patientId}`,\n  // 2) Field name.\n  'ihs_number'\n);"
+    },
+    "Get Whole Hash": {
+      "description": "Reads all fields of a hash as an object.",
+      "code": "// Read every field of a patient hash as an object.\nhGetAll(`patient:${$.data.patientId}`);"
+    },
+    "Get JSON Document": {
+      "description": "Reads a JSON document stored at a key.",
+      "code": "// Read a JSON document by key.\njGet(`beneficiary:${$.data.beneficiaryId}`);"
+    },
+    "Get Many JSON Documents": {
+      "description": "Reads JSON documents for several keys at once.",
+      "code": "// Read several JSON documents in one call.\nmGet(\n  $.data.facilityCodes.map(code => `facility:${code}`)\n);"
+    },
+    "Scan Keys By Pattern": {
+      "description": "Finds all keys that match a glob pattern, optionally filtered by type.",
+      "code": "// Find all cached patient hashes; state.data becomes an array of keys.\nscan('patient:*', {\n  type: 'hash', // 'string' | 'hash' | 'json' ...\n  count: 500, // keys fetched per scan iteration\n});"
+    }
+  }
+}

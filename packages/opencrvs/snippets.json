@@ -1,0 +1,34 @@
+{
+  "CREATE": {
+    "Submit Birth Notification From Health Facility": {
+      "description": "Creates a v2 birth event and notifies it in one step, e.g. when a hospital EMR records a delivery.",
+      "code": "// Create a birth event and send the declaration in one call.\nsubmitBirthNotification(\n  // 1) Flat, dotted-key declaration.\n  {\n    'child.name': { firstname: $.data.childFirstName, surname: $.data.childSurname },\n    'child.dob': $.data.dateOfBirth,\n    'child.gender': $.data.sex, // 'male' | 'female'\n    'child.placeOfBirth': 'HEALTH_FACILITY',\n    'child.birthLocation': $.data.facilityLocationId,\n    'informant.relation': 'MOTHER',\n  },\n  // 2) Options: the location the notification is made from.\n  { createdAtLocation: $.data.facilityLocationId }\n);"
+    },
+    "Create Event": {
+      "description": "Creates an empty v2 birth or death event; its id is returned on state.data.id.",
+      "code": "// Create a death event at a known location. The new event id is on state.data.id.\ncreateEvent('death', {\n  createdAtLocation: $.data.facilityLocationId,\n});"
+    },
+    "Notify Event": {
+      "description": "Sends declaration data for an event created in an earlier step.",
+      "code": "// Send declaration data for an existing event (e.g. from createEvent).\nnotifyEvent(\n  // 1) Event id from the previous step.\n  $.data.id,\n  // 2) Flat, dotted-key declaration.\n  {\n    'child.name': { firstname: 'Amina', surname: 'Okello' },\n    'child.dob': '2026-10-28',\n    'child.gender': 'female',\n  },\n  // 3) Options.\n  { createdAtLocation: $.configuration.facilityLocationId }\n);"
+    },
+    "Send FHIR Birth Notification Bundle": {
+      "description": "Submits a legacy (v1) FHIR document bundle to the gateway's notification endpoint.",
+      "code": "// Submit a FHIR birth notification for v1 gateway deployments.\n// Build the entries upstream, e.g. with createDocumentEntry() and fhir-4 builders.\ncreateBirthNotification($.data.bundleEntries);"
+    }
+  },
+  "SEARCH": {
+    "Search Registered Births": {
+      "description": "Searches registered birth records in a date range, e.g. to sync new births to a civil ID or social-protection registry.",
+      "code": "// Search registered births (v1 GraphQL advanced search).\nqueryEvents(\n  // 1) Search parameters.\n  {\n    event: 'birth',\n    registrationStatuses: ['REGISTERED'],\n    dateOfRegistrationStart: '2026-10-01T00:00:00.000Z',\n    dateOfRegistrationEnd: '2026-10-31T23:59:59.999Z',\n  },\n  // 2) Paging: count defaults to 10.\n  { count: 50, skip: 0 }\n);"
+    },
+    "Search Deaths By Location": {
+      "description": "Finds death records registered at one location, e.g. for mortality reporting to DHIS2.",
+      "code": "// Search registered deaths at a given location.\nqueryEvents(\n  {\n    event: 'death',\n    registrationStatuses: ['REGISTERED'],\n    eventLocationId: $.data.locationId,\n  },\n  { count: 100 }\n);"
+    },
+    "Get Locations": {
+      "description": "Fetches the country's admin areas and facilities, e.g. to map facility codes to OpenCRVS location ids.",
+      "code": "// List locations from the country config service.\ngetLocations();"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "CREATE": {
+    "Register IPN URL": {
+      "description": "Registers the URL Pesapal notifies when a payment status changes.",
+      "code": "// Register an Instant Payment Notification (IPN) URL.\n// Paths are relative to the Pesapal API base (e.g. .../pesapalv3/api/).\npost('URLSetup/RegisterIPN', {\n  // Where Pesapal sends payment notifications (e.g. an OpenFn webhook).\n  url: 'https://app.openfn.org/i/your-webhook-id',\n  // GET or POST.\n  ipn_notification_type: 'POST',\n});"
+    },
+    "Submit Payment Order": {
+      "description": "Creates a payment order and returns a redirect URL for the payer.",
+      "code": "// Submit an order for payment (e.g. a clinic fee or school levy).\npost('Transactions/SubmitOrderRequest', {\n  // Your unique reference for this order.\n  id: $.data.invoiceNumber,\n  currency: 'KES',\n  amount: $.data.amount,\n  description: 'Community health insurance premium',\n  // Where the payer is sent after paying.\n  callback_url: 'https://example.org/payment-complete',\n  // The ipn_id returned by RegisterIPN.\n  notification_id: $.data.ipnId,\n  billing_address: {\n    email_address: 'member@example.org',\n    phone_number: $.data.phone,\n    country_code: 'KE',\n    first_name: 'Wanjiru',\n    last_name: 'Kamau',\n  },\n});"
+    },
+    "Request Refund": {
+      "description": "Requests a full or partial refund of a completed payment.",
+      "code": "// Request a refund for a confirmed payment.\npost('Transactions/RefundRequest', {\n  // Confirmation code from the completed transaction.\n  confirmation_code: $.data.confirmationCode,\n  amount: $.data.refundAmount,\n  // User requesting the refund.\n  username: 'finance.officer',\n  remarks: 'Duplicate payment',\n});"
+    },
+    "Cancel Pending Order": {
+      "description": "Cancels an order that has not been paid yet.",
+      "code": "// Cancel a pending order.\npost('Transactions/CancelOrder', {\n  // Order tracking ID returned by SubmitOrderRequest.\n  order_tracking_id: $.data.orderTrackingId,\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Transaction Status": {
+      "description": "Checks whether a payment has completed, e.g. after an IPN arrives.",
+      "code": "// Check the status of a transaction.\nget('Transactions/GetTransactionStatus', {\n  query: {\n    // Order tracking ID from SubmitOrderRequest or the IPN.\n    orderTrackingId: $.data.OrderTrackingId,\n  },\n});"
+    },
+    "List IPN URLs": {
+      "description": "Lists the IPN URLs registered for this merchant account.",
+      "code": "// List registered IPN URLs (to find an ipn_id).\nget('URLSetup/GetIpnList');"
+    }
+  }
+}

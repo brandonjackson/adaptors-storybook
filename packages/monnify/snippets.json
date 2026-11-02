@@ -1,0 +1,30 @@
+{
+  "CREATE": {
+    "Disburse Cash Transfer To Beneficiary": {
+      "description": "Sends a single bank transfer, e.g. a cash-transfer payment to a programme beneficiary.",
+      "code": "// Initiate a single disbursement from your Monnify wallet.\npost('/api/v2/disbursements/single', {\n  amount: $.data.amount, // in Naira, e.g. 15000\n  // Your unique reference; reuse it to check status later.\n  reference: $.data.paymentId,\n  narration: 'Cash transfer - October 2026 cycle',\n  destinationBankCode: $.data.bankCode,\n  destinationAccountNumber: $.data.accountNumber,\n  currency: 'NGN',\n  sourceAccountNumber: $.configuration.walletAccountNumber,\n});"
+    },
+    "Reserve Account For Customer": {
+      "description": "Creates a dedicated virtual account so payments from one payer or facility are traced automatically.",
+      "code": "// Reserve a dedicated account number for a customer.\npost('/api/v2/bank-transfer/reserved-accounts', {\n  // Your unique reference for this reserved account.\n  accountReference: $.data.memberId,\n  accountName: $.data.fullName,\n  currencyCode: 'NGN',\n  contractCode: $.configuration.contractCode,\n  customerEmail: $.data.email,\n  customerName: $.data.fullName,\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Transfer Status": {
+      "description": "Checks whether a disbursement succeeded, using the reference sent when it was initiated.",
+      "code": "// Get the status of a single disbursement by its reference.\nget('/api/v2/disbursements/single/transactions', {\n  query: { reference: $.data.paymentId },\n});"
+    },
+    "Search Disbursements For Reconciliation": {
+      "description": "Lists all disbursements from a wallet in a date range; list() pages through every result.",
+      "code": "// List every disbursement from a source account within a date range.\nlist('/api/v2/disbursements/search-transactions', {\n  sourceAccountNumber: $.configuration.walletAccountNumber,\n  startDate: new Date('2026-10-01'),\n  endDate: Date.now(),\n});"
+    },
+    "Search Collection Transactions": {
+      "description": "Fetches incoming payments, e.g. to reconcile premiums or fees against a CRM or ERP.",
+      "code": "// Search collection transactions, one page at a time.\nget('/api/v1/transactions/search', {\n  query: { page: 0, size: 50 },\n});"
+    },
+    "Get Reserved Account": {
+      "description": "Reads a reserved account's details and bank account numbers.",
+      "code": "// Get a reserved account by your account reference.\nget(`/api/v2/bank-transfer/reserved-accounts/${$.data.memberId}`);"
+    }
+  }
+}

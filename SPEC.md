@@ -66,6 +66,10 @@ Every adapter folder is being grown toward this shape:
 | Data schemas         | `packages/<a>/data-schemas/` (OpenAPI-ingested)       | 8 / 30        |
 | Integration ideas    | Cross-adapter, location TBD                           | not started   |
 
+Separately, every adaptor reports **spec, mock and snippet coverage** as
+percentages of its openfn-api-specs spec (see the README's "Spec, mock and
+snippet coverage"). Those numbers are computed, not self-reported.
+
 ## Roadmap snapshot
 
 - [x] Strip adapter packages down to schemas + Adaptor.js + assets

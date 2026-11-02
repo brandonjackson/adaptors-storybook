@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Daily, so spec and mock coverage changes in the sibling repos show up
+  # without a commit here.
+  schedule:
+    - cron: '17 4 * * *'
 
 permissions:
   contents: read
@@ -34,6 +38,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      # Latest spec and mock coverage from openfn-api-specs and openfn-mocker.
+      # On a fetch failure the committed status/ copy is used.
+      - name: Sync spec and mock coverage
+        run: node tools/sync-coverage.mjs || echo "::warning::coverage sync failed; using the committed status/ files"
 
       - name: Build
         env:

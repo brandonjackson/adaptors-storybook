@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { Chip } from './Coverage.jsx';
 
 export default function Snippets({ snippets }) {
   const [category, setCategory] = useState('ALL');
@@ -63,6 +64,7 @@ export default function Snippets({ snippets }) {
             {s.description && (
               <p className="px-4 pt-3 text-sm text-slate-600">{s.description}</p>
             )}
+            {s.check && <SnippetCheck check={s.check} />}
             {s.code ? (
               <pre className="m-4 mt-3 overflow-x-auto rounded bg-slate-900 px-3 py-2 text-xs text-slate-100">
                 <code>{s.code}</code>
@@ -75,6 +77,40 @@ export default function Snippets({ snippets }) {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+const RUN = {
+  ok: { tone: 'good', text: 'ran clean', title: 'Ran against openfn-mocker with no errors' },
+  error: { tone: 'warn', text: 'errored', title: 'Threw when run against openfn-mocker (it may still have sent its request)' },
+  infra: { tone: 'none', text: 'not run', title: 'The adaptor could not be installed or started' },
+};
+
+// What happened when the snippet was run against openfn-mocker
+// (tools/check-snippets.ts): which spec resources its requests reached.
+function SnippetCheck({ check }) {
+  const run = RUN[check.run] || RUN.infra;
+  return (
+    <div className="flex flex-wrap items-center gap-1.5 px-4 pt-3 text-xs text-slate-500">
+      <Chip tone={run.tone} title={check.error ? `${run.title}: ${check.error}` : run.title}>
+        {run.text}
+      </Chip>
+      {check.resources?.length > 0 ? (
+        <>
+          <span>reaches</span>
+          {check.resources.map((r) => (
+            <Chip key={r}>{r}</Chip>
+          ))}
+        </>
+      ) : (
+        <span>reached no spec resource</span>
+      )}
+      {check.offSpec?.length > 0 && (
+        <span title={check.offSpec.join('\n')} className="text-amber-700">
+          {check.offSpec.length} request(s) not in the spec
+        </span>
+      )}
     </div>
   );
 }

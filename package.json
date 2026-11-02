@@ -8,7 +8,9 @@
     "postinstall": "npm --prefix ui install",
     "dev": "npm --prefix ui run dev",
     "build": "npm --prefix ui run build",
-    "manifest": "npm --prefix ui run manifest"
+    "manifest": "npm --prefix ui run manifest",
+    "coverage:sync": "node tools/sync-coverage.mjs",
+    "snippets:check": "npx --yes tsx tools/check-snippets.ts"
   },
   "license": "LGPL-3.0"
 }

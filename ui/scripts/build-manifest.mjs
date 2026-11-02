@@ -119,6 +119,81 @@ function buildOperationSummary(ast) {
   });
 }
 
+// Spec and mock coverage, synced from openfn-api-specs and openfn-mocker by
+// tools/sync-coverage.mjs; snippet coverage from each package's
+// snippet-coverage.json (tools/check-snippets.ts). All three measure against
+// the same thing, the adaptor's spec in openfn-api-specs.
+const COVERAGE_DIR = path.join(REPO_ROOT, 'status');
+const specCoverage = readJsonSafe(path.join(COVERAGE_DIR, 'specs.json'));
+const mockCoverage = readJsonSafe(path.join(COVERAGE_DIR, 'mocks.json'));
+const STALE_DAYS = 90;
+
+const pct1 = (n, d) => (d ? Math.round((n / d) * 1000) / 10 : 0);
+
+function buildCoverage(name, snippetCoverage) {
+  const spec = specCoverage?.adaptors?.[name] ?? null;
+  const mock = mockCoverage?.adaptors?.[name] ?? null;
+  const clock = spec?.lastCheckedAt || spec?.capturedAt;
+  const ageDays = clock ? Math.floor((Date.now() - Date.parse(clock)) / 86400000) : null;
+  return {
+    spec: spec && spec.hasOpenapi
+      ? {
+          origin: spec.origin,
+          upstreamFormat: spec.upstreamFormat,
+          // complete | best-effort | null (no claim made)
+          completeness: spec.completeness,
+          completenessReason: spec.completenessReason,
+          // full | subset | null
+          coverage: spec.coverage,
+          operations: spec.operations,
+          resourceGroups: spec.resourceGroups,
+          lastCheckedAt: clock || null,
+          stale: ageDays !== null && ageDays > STALE_DAYS,
+        }
+      : null,
+    mock: mock
+      ? {
+          system: mock.system,
+          exercised: mock.exercised,
+          specOperations: mock.specOperations,
+          percent: mock.percent,
+          routes: mock.routes,
+          verified: mock.verified,
+        }
+      : null,
+    snippets: snippetCoverage
+      ? snippetCoverage.measured
+        ? {
+            measured: true,
+            covered: snippetCoverage.coveredCount,
+            resourceGroups: snippetCoverage.spec.resourceGroups,
+            percent: snippetCoverage.percent,
+            resources: snippetCoverage.covered,
+            ranClean: snippetCoverage.snippets.filter((s) => s.run === 'ok').length,
+            snippetCount: snippetCoverage.snippets.length,
+            checkedAt: snippetCoverage.checkedAt,
+          }
+        : { measured: false, reason: snippetCoverage.reason, checkedAt: snippetCoverage.checkedAt }
+      : spec?.hasOpenapi && spec.resourceGroups
+        ? // No snippets at all: nothing covered, which is 0%, not "unknown".
+          {
+            measured: true,
+            covered: 0,
+            resourceGroups: spec.resourceGroups,
+            percent: 0,
+            resources: [],
+            ranClean: 0,
+            snippetCount: 0,
+            checkedAt: null,
+          }
+        : null,
+    sources: {
+      specs: specCoverage?.source ?? null,
+      mocks: mockCoverage?.source ?? null,
+    },
+  };
+}
+
 if (fs.existsSync(OUT_DIR)) fs.rmSync(OUT_DIR, { recursive: true });
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
@@ -143,6 +218,8 @@ for (const name of pkgNames) {
   const triggersRaw =
     readJsonSafe(path.join(pkgDir, 'triggers.json')) || null;
   const metadata = readJsonSafe(path.join(pkgDir, 'metadata.json')) || null;
+  const snippetCoverage =
+    readJsonSafe(path.join(pkgDir, 'snippet-coverage.json')) || null;
   const faq = readJsonSafe(path.join(pkgDir, 'faq.json')) || null;
   const readme = readTextSafe(path.join(pkgDir, 'README.md')) || '';
 
@@ -160,6 +237,17 @@ for (const name of pkgNames) {
 
   const operations = buildOperationSummary(ast);
   const snippets = buildSnippetSummary(snippetsRaw);
+  // Attach each snippet's measured result (which resources it reached).
+  if (snippetCoverage?.snippets) {
+    const byKey = new Map(
+      snippetCoverage.snippets.map((r) => [`${r.category}\u0000${r.title}`, r])
+    );
+    for (const s of snippets) {
+      const r = byKey.get(`${s.category}\u0000${s.title}`);
+      if (r) s.check = { run: r.run, resources: r.resources, offSpec: r.offSpec, error: r.error || null };
+    }
+  }
+  const coverage = buildCoverage(name, snippetCoverage);
   const triggersInfo = buildTriggerSummary(triggersRaw);
   const triggerCount = triggersInfo ? triggersInfo.triggers.length : 0;
   const dataSchemas = buildDataSchemas(pkgDir, outPkgDir, name);
@@ -187,6 +275,7 @@ for (const name of pkgNames) {
     dataSchemas,
     dataSchemaCount: dataSchemas.length,
     metadata,
+    coverage,
     faq,
     readmePath: `adapters/${name}/README.md`,
   };
@@ -224,6 +313,34 @@ for (const name of pkgNames) {
     hasReadme: Boolean(readme && readme.trim()),
     webhooksSupported: Boolean(metadata?.webhooks?.supported),
     sourceKinds,
+    coverage: {
+      spec: coverage.spec
+        ? {
+            completeness: coverage.spec.completeness,
+            origin: coverage.spec.origin,
+            stale: coverage.spec.stale,
+            operations: coverage.spec.operations,
+            resourceGroups: coverage.spec.resourceGroups,
+          }
+        : null,
+      mock: coverage.mock
+        ? {
+            exercised: coverage.mock.exercised,
+            specOperations: coverage.mock.specOperations,
+            percent: coverage.mock.percent,
+          }
+        : null,
+      snippets: coverage.snippets
+        ? coverage.snippets.measured
+          ? {
+              measured: true,
+              covered: coverage.snippets.covered,
+              resourceGroups: coverage.snippets.resourceGroups,
+              percent: coverage.snippets.percent,
+            }
+          : { measured: false, reason: coverage.snippets.reason }
+        : null,
+    },
   });
 }
 

@@ -1,0 +1,942 @@
+{
+  "$comment": "Synced from openfn-mocker by `node tools/sync-coverage.mjs`; do not edit by hand.",
+  "source": "openfn-mocker (local clone)",
+  "totals": {
+    "systems": 62,
+    "specOperations": 16290,
+    "exercised": 332,
+    "percent": 2
+  },
+  "adaptors": {
+    "asana": {
+      "system": "asana",
+      "specOperations": 249,
+      "exercised": 6,
+      "percent": 2.4,
+      "routes": 7,
+      "verified": 6,
+      "counts": {
+        "conforming": 6,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 1
+      }
+    },
+    "azure-storage": {
+      "system": "azure-storage",
+      "specOperations": 69,
+      "exercised": 2,
+      "percent": 2.9,
+      "routes": 2,
+      "verified": 1,
+      "counts": {
+        "conforming": 1,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 1,
+        "unexercised": 0
+      }
+    },
+    "beyonic": {
+      "system": "beyonic",
+      "specOperations": 3,
+      "exercised": 3,
+      "percent": 100,
+      "routes": 5,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 4,
+        "unexercised": 1
+      }
+    },
+    "cht": {
+      "system": "cht",
+      "specOperations": 86,
+      "exercised": 2,
+      "percent": 2.3,
+      "routes": 10,
+      "verified": 1,
+      "counts": {
+        "conforming": 1,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 4,
+        "unexercised": 5
+      }
+    },
+    "collections": {
+      "system": "collections",
+      "specOperations": 7,
+      "exercised": 4,
+      "percent": 57.1,
+      "routes": 5,
+      "verified": 4,
+      "counts": {
+        "conforming": 4,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 1
+      }
+    },
+    "commcare": {
+      "system": "commcare",
+      "specOperations": 181,
+      "exercised": 6,
+      "percent": 3.3,
+      "routes": 10,
+      "verified": 5,
+      "counts": {
+        "conforming": 5,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 5
+      }
+    },
+    "dagu": {
+      "system": "dagu",
+      "specOperations": 4,
+      "exercised": 0,
+      "percent": 0,
+      "routes": 4,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 3,
+        "unexercised": 1
+      }
+    },
+    "dhis2": {
+      "system": "dhis2",
+      "specOperations": 2574,
+      "exercised": 21,
+      "percent": 0.8,
+      "routes": 25,
+      "verified": 16,
+      "counts": {
+        "conforming": 7,
+        "deviating": 9,
+        "unchecked": 9,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "divoc": {
+      "system": "divoc",
+      "specOperations": 23,
+      "exercised": 10,
+      "percent": 43.5,
+      "routes": 11,
+      "verified": 10,
+      "counts": {
+        "conforming": 10,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 1
+      }
+    },
+    "erpnext": {
+      "system": "erpnext",
+      "specOperations": 6,
+      "exercised": 6,
+      "percent": 100,
+      "routes": 6,
+      "verified": 6,
+      "counts": {
+        "conforming": 6,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "et-mfr": {
+      "system": "et-mfr",
+      "specOperations": 14,
+      "exercised": 14,
+      "percent": 100,
+      "routes": 14,
+      "verified": 14,
+      "counts": {
+        "conforming": 14,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "fhir": {
+      "system": "fhir",
+      "specOperations": 1872,
+      "exercised": 8,
+      "percent": 0.4,
+      "routes": 10,
+      "verified": 6,
+      "counts": {
+        "conforming": 6,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 4
+      }
+    },
+    "flutterwave": {
+      "system": "flutterwave",
+      "specOperations": 10,
+      "exercised": 4,
+      "percent": 40,
+      "routes": 5,
+      "verified": 1,
+      "counts": {
+        "conforming": 1,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 3,
+        "unexercised": 1
+      }
+    },
+    "gemini": {
+      "system": "gemini",
+      "specOperations": 85,
+      "exercised": 2,
+      "percent": 2.4,
+      "routes": 1,
+      "verified": 1,
+      "counts": {
+        "conforming": 1,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "ghana-bdr": {
+      "system": "ghana-bdr",
+      "specOperations": 8,
+      "exercised": 8,
+      "percent": 100,
+      "routes": 8,
+      "verified": 8,
+      "counts": {
+        "conforming": 8,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "ghana-nia": {
+      "system": "ghana-nia",
+      "specOperations": 3,
+      "exercised": 3,
+      "percent": 100,
+      "routes": 3,
+      "verified": 3,
+      "counts": {
+        "conforming": 3,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "gmail": {
+      "system": "gmail",
+      "specOperations": 79,
+      "exercised": 4,
+      "percent": 5.1,
+      "routes": 4,
+      "verified": 4,
+      "counts": {
+        "conforming": 4,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "godata": {
+      "system": "godata",
+      "specOperations": 507,
+      "exercised": 22,
+      "percent": 4.3,
+      "routes": 22,
+      "verified": 22,
+      "counts": {
+        "conforming": 22,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "googledrive": {
+      "system": "googledrive",
+      "specOperations": 64,
+      "exercised": 4,
+      "percent": 6.3,
+      "routes": 6,
+      "verified": 4,
+      "counts": {
+        "conforming": 4,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 2
+      }
+    },
+    "googlesheets": {
+      "system": "googlesheets",
+      "specOperations": 17,
+      "exercised": 3,
+      "percent": 17.6,
+      "routes": 2,
+      "verified": 2,
+      "counts": {
+        "conforming": 2,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "http": {
+      "system": "http-generic",
+      "specOperations": 6,
+      "exercised": 0,
+      "percent": 0,
+      "routes": 5,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 2,
+        "unexercised": 3
+      }
+    },
+    "ibipimo": {
+      "system": "ibipimo",
+      "specOperations": 4,
+      "exercised": 4,
+      "percent": 100,
+      "routes": 4,
+      "verified": 1,
+      "counts": {
+        "conforming": 1,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 3,
+        "unexercised": 0
+      }
+    },
+    "ihris": {
+      "system": "ihris",
+      "specOperations": 168,
+      "exercised": 3,
+      "percent": 1.8,
+      "routes": 9,
+      "verified": 3,
+      "counts": {
+        "conforming": 3,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 6
+      }
+    },
+    "inform": {
+      "system": "inform",
+      "specOperations": 6,
+      "exercised": 0,
+      "percent": 0,
+      "routes": 8,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 6,
+        "unexercised": 2
+      }
+    },
+    "kobotoolbox": {
+      "system": "kobotoolbox",
+      "specOperations": 280,
+      "exercised": 14,
+      "percent": 5,
+      "routes": 15,
+      "verified": 14,
+      "counts": {
+        "conforming": 11,
+        "deviating": 3,
+        "unchecked": 1,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "lamisplus": {
+      "system": "lamisplus",
+      "specOperations": 106,
+      "exercised": 4,
+      "percent": 3.8,
+      "routes": 4,
+      "verified": 4,
+      "counts": {
+        "conforming": 4,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "mailchimp": {
+      "system": "mailchimp",
+      "specOperations": 298,
+      "exercised": 10,
+      "percent": 3.4,
+      "routes": 14,
+      "verified": 10,
+      "counts": {
+        "conforming": 10,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 4
+      }
+    },
+    "mailgun": {
+      "system": "mailgun",
+      "specOperations": 265,
+      "exercised": 3,
+      "percent": 1.1,
+      "routes": 3,
+      "verified": 3,
+      "counts": {
+        "conforming": 3,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "maximo": {
+      "system": "maximo",
+      "specOperations": 13,
+      "exercised": 0,
+      "percent": 0,
+      "routes": 5,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 4,
+        "unexercised": 1
+      }
+    },
+    "memento": {
+      "system": "memento",
+      "specOperations": 6,
+      "exercised": 5,
+      "percent": 83.3,
+      "routes": 6,
+      "verified": 4,
+      "counts": {
+        "conforming": 4,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 2,
+        "unexercised": 0
+      }
+    },
+    "monnify": {
+      "system": "monnify",
+      "specOperations": 7,
+      "exercised": 2,
+      "percent": 28.6,
+      "routes": 5,
+      "verified": 2,
+      "counts": {
+        "conforming": 2,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 3,
+        "unexercised": 0
+      }
+    },
+    "mpesa": {
+      "system": "mpesa",
+      "specOperations": 6,
+      "exercised": 6,
+      "percent": 100,
+      "routes": 6,
+      "verified": 1,
+      "counts": {
+        "conforming": 1,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 5,
+        "unexercised": 0
+      }
+    },
+    "msgraph": {
+      "system": "msgraph",
+      "specOperations": 2605,
+      "exercised": 7,
+      "percent": 0.3,
+      "routes": 10,
+      "verified": 7,
+      "counts": {
+        "conforming": 7,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 3
+      }
+    },
+    "msupply": {
+      "system": "msupply",
+      "specOperations": 309,
+      "exercised": 1,
+      "percent": 0.3,
+      "routes": 1,
+      "verified": 1,
+      "counts": {
+        "conforming": 1,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "mtn-momo": {
+      "system": "mtn-momo",
+      "specOperations": 13,
+      "exercised": 5,
+      "percent": 38.5,
+      "routes": 6,
+      "verified": 5,
+      "counts": {
+        "conforming": 5,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 1
+      }
+    },
+    "ocl": {
+      "system": "ocl",
+      "specOperations": 1966,
+      "exercised": 7,
+      "percent": 0.4,
+      "routes": 7,
+      "verified": 7,
+      "counts": {
+        "conforming": 2,
+        "deviating": 5,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "odk": {
+      "system": "odk",
+      "specOperations": 186,
+      "exercised": 10,
+      "percent": 5.4,
+      "routes": 10,
+      "verified": 9,
+      "counts": {
+        "conforming": 8,
+        "deviating": 1,
+        "unchecked": 1,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "odoo": {
+      "system": "odoo",
+      "specOperations": 2,
+      "exercised": 0,
+      "percent": 0,
+      "routes": 2,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 2,
+        "unexercised": 0
+      }
+    },
+    "openboxes": {
+      "system": "openboxes",
+      "specOperations": 295,
+      "exercised": 18,
+      "percent": 6.1,
+      "routes": 18,
+      "verified": 16,
+      "counts": {
+        "conforming": 16,
+        "deviating": 0,
+        "unchecked": 2,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "opencrvs": {
+      "system": "opencrvs",
+      "specOperations": 24,
+      "exercised": 6,
+      "percent": 25,
+      "routes": 8,
+      "verified": 6,
+      "counts": {
+        "conforming": 6,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 2
+      }
+    },
+    "openelis": {
+      "system": "openelis",
+      "specOperations": 1057,
+      "exercised": 3,
+      "percent": 0.3,
+      "routes": 16,
+      "verified": 3,
+      "counts": {
+        "conforming": 3,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 13
+      }
+    },
+    "openfn": {
+      "system": "openfn",
+      "specOperations": 22,
+      "exercised": 4,
+      "percent": 18.2,
+      "routes": 5,
+      "verified": 4,
+      "counts": {
+        "conforming": 4,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 1
+      }
+    },
+    "openhim": {
+      "system": "openhim",
+      "specOperations": 97,
+      "exercised": 18,
+      "percent": 18.6,
+      "routes": 18,
+      "verified": 18,
+      "counts": {
+        "conforming": 18,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "openimis": {
+      "system": "openimis",
+      "specOperations": 136,
+      "exercised": 5,
+      "percent": 3.7,
+      "routes": 9,
+      "verified": 3,
+      "counts": {
+        "conforming": 3,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 6
+      }
+    },
+    "openlmis": {
+      "system": "openlmis",
+      "specOperations": 456,
+      "exercised": 5,
+      "percent": 1.1,
+      "routes": 15,
+      "verified": 5,
+      "counts": {
+        "conforming": 5,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 10
+      }
+    },
+    "openmrs": {
+      "system": "openmrs",
+      "specOperations": 554,
+      "exercised": 6,
+      "percent": 1.1,
+      "routes": 17,
+      "verified": 14,
+      "counts": {
+        "conforming": 14,
+        "deviating": 0,
+        "unchecked": 2,
+        "failing": 0,
+        "unexercised": 1
+      }
+    },
+    "openspp": {
+      "system": "openspp",
+      "specOperations": 33,
+      "exercised": 2,
+      "percent": 6.1,
+      "routes": 2,
+      "verified": 2,
+      "counts": {
+        "conforming": 2,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "pesapal": {
+      "system": "pesapal",
+      "specOperations": 7,
+      "exercised": 0,
+      "percent": 0,
+      "routes": 4,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 4,
+        "unexercised": 0
+      }
+    },
+    "primero": {
+      "system": "primero",
+      "specOperations": 217,
+      "exercised": 6,
+      "percent": 2.8,
+      "routes": 15,
+      "verified": 6,
+      "counts": {
+        "conforming": 6,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 9
+      }
+    },
+    "progres": {
+      "system": "progres",
+      "specOperations": 3,
+      "exercised": 3,
+      "percent": 100,
+      "routes": 3,
+      "verified": 3,
+      "counts": {
+        "conforming": 3,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "rapidpro": {
+      "system": "rapidpro",
+      "specOperations": 8,
+      "exercised": 5,
+      "percent": 62.5,
+      "routes": 9,
+      "verified": 5,
+      "counts": {
+        "conforming": 5,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 4
+      }
+    },
+    "resourcemap": {
+      "system": "resourcemap",
+      "specOperations": 37,
+      "exercised": 3,
+      "percent": 8.1,
+      "routes": 3,
+      "verified": 3,
+      "counts": {
+        "conforming": 3,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "salesforce": {
+      "system": "salesforce",
+      "specOperations": 166,
+      "exercised": 4,
+      "percent": 2.4,
+      "routes": 10,
+      "verified": 4,
+      "counts": {
+        "conforming": 4,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 6
+      }
+    },
+    "satusehat": {
+      "system": "satusehat",
+      "specOperations": 152,
+      "exercised": 7,
+      "percent": 4.6,
+      "routes": 10,
+      "verified": 6,
+      "counts": {
+        "conforming": 6,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 4
+      }
+    },
+    "senaite": {
+      "system": "senaite",
+      "specOperations": 35,
+      "exercised": 6,
+      "percent": 17.1,
+      "routes": 9,
+      "verified": 5,
+      "counts": {
+        "conforming": 5,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 1,
+        "unexercised": 3
+      }
+    },
+    "stripe": {
+      "system": "stripe",
+      "specOperations": 587,
+      "exercised": 6,
+      "percent": 1,
+      "routes": 6,
+      "verified": 6,
+      "counts": {
+        "conforming": 6,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "sunbird-rc": {
+      "system": "sunbird-rc",
+      "specOperations": 6,
+      "exercised": 2,
+      "percent": 33.3,
+      "routes": 6,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 4,
+        "unexercised": 2
+      }
+    },
+    "surveycto": {
+      "system": "surveycto",
+      "specOperations": 50,
+      "exercised": 4,
+      "percent": 8,
+      "routes": 8,
+      "verified": 3,
+      "counts": {
+        "conforming": 3,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 1,
+        "unexercised": 4
+      }
+    },
+    "twilio": {
+      "system": "twilio",
+      "specOperations": 197,
+      "exercised": 3,
+      "percent": 1.5,
+      "routes": 5,
+      "verified": 3,
+      "counts": {
+        "conforming": 3,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 2
+      }
+    },
+    "vtiger": {
+      "system": "vtiger",
+      "specOperations": 13,
+      "exercised": 0,
+      "percent": 0,
+      "routes": 2,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 2,
+        "unexercised": 0
+      }
+    },
+    "wigal-sms": {
+      "system": "wigal-sms",
+      "specOperations": 5,
+      "exercised": 1,
+      "percent": 20,
+      "routes": 1,
+      "verified": 1,
+      "counts": {
+        "conforming": 1,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 0,
+        "unexercised": 0
+      }
+    },
+    "zata": {
+      "system": "zata",
+      "specOperations": 26,
+      "exercised": 2,
+      "percent": 7.7,
+      "routes": 3,
+      "verified": 0,
+      "counts": {
+        "conforming": 0,
+        "deviating": 0,
+        "unchecked": 0,
+        "failing": 3,
+        "unexercised": 0
+      }
+    }
+  }
+}

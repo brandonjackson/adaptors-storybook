@@ -9,6 +9,7 @@ import DataSchemas from './DataSchemas.jsx';
 import Sources, { SourceQuality, SourceList, VendorPanel } from './Sources.jsx';
 import Faq from './Faq.jsx';
 import AuthOverview from './AuthOverview.jsx';
+import { CoverageCard } from './Coverage.jsx';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
@@ -170,6 +171,7 @@ function Overview({ manifest, readme }) {
           </a>
         </div>
       </Card>
+      <CoverageCard coverage={manifest.coverage} />
       <Faq manifest={manifest} overrides={manifest.faq} />
       {readme && (
         <section className="rounded border border-slate-200 bg-white p-4 md:col-span-2">

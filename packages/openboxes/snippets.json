@@ -1,0 +1,54 @@
+{
+  "CREATE": {
+    "Create Product": {
+      "description": "Adds a new product to the OpenBoxes catalogue.",
+      "code": "// Create a product in the catalogue.\n// Paths are relative to the baseUrl, which already ends in /api.\npost('products', {\n  name: $.data.productName, // e.g. 'Amoxicillin 250mg capsules'\n  description: $.data.description,\n  // Category the product belongs to.\n  category: { id: $.data.categoryId },\n  unitOfMeasure: 'each',\n  // Track lot numbers and expiry dates (typical for medicines).\n  lotAndExpiryControl: true,\n});"
+    },
+    "Update Product": {
+      "description": "Updates fields on an existing product.",
+      "code": "// Update a product (OpenBoxes uses POST for updates).\nrequest('POST', `products/${$.data.productId}`, {\n  body: {\n    name: $.data.productName,\n    description: $.data.description,\n    active: true,\n  },\n});"
+    },
+    "Create Stock Movement": {
+      "description": "Creates an outbound stock movement (requisition) between two locations.",
+      "code": "// Create a stock movement from a central warehouse to a health facility.\npost('stockMovements', {\n  name: `Monthly resupply - ${$.data.facilityName}`,\n  description: 'Routine monthly replenishment',\n  'origin.id': $.data.warehouseId, // sending depot\n  'destination.id': $.data.facilityId, // receiving facility\n  'requestedBy.id': $.data.requesterId,\n  dateRequested: $.data.dateRequested, // MM/DD/YYYY, e.g. '11/02/2026'\n});"
+    },
+    "Add Line Items To Stock Movement": {
+      "description": "Adds requested products and quantities to an existing stock movement.",
+      "code": "// Add line items to a stock movement.\nrequest('POST', `stockMovements/${$.data.stockMovementId}`, {\n  body: {\n    lineItems: $.data.items.map((item, index) => ({\n      'product.id': item.productId,\n      quantityRequested: item.quantity,\n      sortOrder: (index + 1) * 100,\n    })),\n  },\n});"
+    },
+    "Update Stock Movement Status": {
+      "description": "Moves a stock movement to the next workflow status.",
+      "code": "// Transition a stock movement's status.\n// Statuses: CREATED, PENDING, REQUESTED, VALIDATED, CHECKING, PICKING, PICKED, ISSUED, CANCELED.\nrequest('POST', `stockMovements/${$.data.stockMovementId}/status`, {\n  body: {\n    status: 'REQUESTED',\n  },\n});"
+    },
+    "Create Location": {
+      "description": "Registers a new facility or depot location.",
+      "code": "// Create a location (e.g. a new district health facility).\npost('locations', {\n  name: $.data.facilityName, // e.g. 'Kisumu District Hospital'\n  description: $.data.description,\n  locationNumber: $.data.facilityCode,\n  locationType: { id: $.data.locationTypeId },\n});"
+    }
+  },
+  "SEARCH": {
+    "List Products": {
+      "description": "Searches the product catalogue with optional filters.",
+      "code": "// List products matching a search term.\nget('products', {\n  query: {\n    q: 'paracetamol', // free-text search on name, codes, brand, etc.\n    max: 50, // page size\n    offset: 0,\n  },\n});"
+    },
+    "Get Product Stock Availability": {
+      "description": "Lists available lots of a product at a facility.",
+      "code": "// Get available lots (with quantities and expiry) of a product at a location.\nget(`products/${$.data.productId}/availableItems`, {\n  query: { 'location.id': $.data.facilityId },\n});"
+    },
+    "Get Facility Inventory Levels": {
+      "description": "Fetches min/max/reorder inventory levels configured for a facility.",
+      "code": "// Get inventory levels for a facility.\nget(`facilities/${$.data.facilityId}/inventory-levels`);"
+    },
+    "List Stock Movements": {
+      "description": "Lists stock movements filtered by direction, location and status.",
+      "code": "// List outbound stock movements from a depot that have been issued.\nget('stockMovements', {\n  query: {\n    direction: 'OUTBOUND', // or 'INBOUND'\n    'origin.id': $.data.warehouseId,\n    status: 'ISSUED',\n    exclude: 'lineItems', // smaller payload\n    max: 100,\n  },\n});"
+    },
+    "Get Stock Movement Items": {
+      "description": "Fetches the line items of a stock movement.",
+      "code": "// Get the line items of a stock movement.\nget(`stockMovements/${$.data.stockMovementId}/stockMovementItems`);"
+    },
+    "List Locations": {
+      "description": "Lists locations, optionally filtered by location type.",
+      "code": "// List all depot locations.\nget('locations', {\n  query: { locationTypeCode: 'DEPOT', max: 100 },\n});"
+    }
+  }
+}

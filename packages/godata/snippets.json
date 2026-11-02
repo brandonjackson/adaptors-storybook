@@ -1,0 +1,54 @@
+{
+  "CREATE": {
+    "Upsert Case From Lab Result": {
+      "description": "Creates or updates a Go.Data case, matched on visualId, from an incoming lab or surveillance record.",
+      "code": "// Create or update a case in an outbreak, matched on visualId.\nupsertCase(\n  // 1) Outbreak id. Pass a string: this argument is not read from state.\n  '3b5554d7-2c19-41d0-b9af-475ad25a382b',\n  // 2) Case field used to find an existing record.\n  'visualId',\n  // 3) The case to write.\n  {\n    visualId: $.data.caseId,\n    firstName: $.data.firstName,\n    lastName: $.data.lastName,\n    gender: 'LNG_REFERENCE_DATA_CATEGORY_GENDER_FEMALE',\n    age: { years: $.data.ageYears },\n    classification: 'LNG_REFERENCE_DATA_CATEGORY_CASE_CLASSIFICATION_CONFIRMED',\n    dateOfReporting: $.data.reportedOn,\n    dateOfOnset: $.data.symptomOnset,\n    addresses: [\n      {\n        typeId: 'LNG_REFERENCE_DATA_CATEGORY_ADDRESS_TYPE_USUAL_PLACE_OF_RESIDENCE',\n        locationId: $.data.locationId,\n        phoneNumber: $.data.phone,\n      },\n    ],\n  }\n);"
+    },
+    "Upsert Contact": {
+      "description": "Creates or updates a contact of a case, matched on visualId.",
+      "code": "// Create or update a contact in an outbreak, matched on visualId.\nupsertContact(\n  // 1) Outbreak id (string literal).\n  '3b5554d7-2c19-41d0-b9af-475ad25a382b',\n  // 2) Contact field used to find an existing record.\n  'visualId',\n  // 3) The contact to write.\n  {\n    visualId: $.data.contactId,\n    firstName: $.data.firstName,\n    lastName: $.data.lastName,\n    gender: 'LNG_REFERENCE_DATA_CATEGORY_GENDER_MALE',\n    dateOfReporting: $.data.reportedOn,\n    dateOfLastContact: $.data.lastExposure,\n    riskLevel: 'LNG_REFERENCE_DATA_CATEGORY_RISK_LEVEL_HIGH',\n    addresses: [\n      {\n        typeId: 'LNG_REFERENCE_DATA_CATEGORY_ADDRESS_TYPE_USUAL_PLACE_OF_RESIDENCE',\n        locationId: $.data.locationId,\n        phoneNumber: $.data.phone,\n      },\n    ],\n  }\n);"
+    },
+    "Upsert Location From Facility Registry": {
+      "description": "Syncs a district or health facility from a master facility list or DHIS2 org unit into Go.Data locations.",
+      "code": "// Create or update a location, matched on its name.\nupsertLocation(\n  // 1) Location field used to find an existing record.\n  'name',\n  // 2) The location to write.\n  {\n    name: $.data.facilityName,\n    // Go.Data id of the parent district or region.\n    parentLocationId: $.data.parentLocationId,\n    geographicalLevelId: 'LNG_REFERENCE_DATA_CATEGORY_LOCATION_GEOGRAPHICAL_LEVEL_ADMIN_LEVEL_3',\n    identifiers: [{ code: $.data.orgUnitCode, description: 'DHIS2 org unit code' }],\n    geoLocation: { lat: $.data.latitude, lng: $.data.longitude },\n    active: true,\n  }\n);"
+    },
+    "Upsert Outbreak": {
+      "description": "Creates or updates an outbreak, matched on its Go.Data id.",
+      "code": "// Create or update an outbreak. externalId is matched against the outbreak's id.\nupsertOutbreak({\n  externalId: $.data.outbreakId,\n  data: {\n    name: 'Cholera 2026 - Northern Region',\n    description: 'Outbreak response opened after district alert.',\n    disease: 'LNG_REFERENCE_DATA_CATEGORY_DISEASE_CHOLERA',\n    startDate: $.data.declaredOn,\n    periodOfFollowup: 14,\n  },\n});"
+    },
+    "Upsert Reference Data Item": {
+      "description": "Keeps a Go.Data reference data value (e.g. a centre name) in sync with an external code list.",
+      "code": "// Create or update a reference data item, matched on its value.\nupsertReferenceData(\n  // 1) Reference data field used to find an existing record.\n  'value',\n  // 2) The reference data item to write.\n  {\n    categoryId: 'LNG_REFERENCE_DATA_CATEGORY_CENTRE_NAME',\n    value: $.data.centreName,\n    code: $.data.centreCode,\n    description: 'Synced from the national facility registry',\n    active: true,\n  }\n);"
+    }
+  },
+  "SEARCH": {
+    "List Cases In Outbreak": {
+      "description": "Lists every case in an outbreak, e.g. to push aggregates to DHIS2 or a dashboard.",
+      "code": "// List all cases in an outbreak. Results are written to state.data.\nlistCases('3b5554d7-2c19-41d0-b9af-475ad25a382b');"
+    },
+    "Find Confirmed Cases": {
+      "description": "Queries an outbreak's cases with a Loopback filter.",
+      "code": "// Find confirmed cases in an outbreak using a Loopback \"where\" filter.\ngetCase(\n  // 1) Outbreak id (string literal).\n  '3b5554d7-2c19-41d0-b9af-475ad25a382b',\n  // 2) Filter sent as ?filter=...\n  {\n    where: {\n      classification: 'LNG_REFERENCE_DATA_CATEGORY_CASE_CLASSIFICATION_CONFIRMED',\n      dateOfReporting: { gte: '2026-10-01' },\n    },\n  }\n);"
+    },
+    "List Contacts In Outbreak": {
+      "description": "Lists every contact in an outbreak, e.g. to build follow-up lists for field teams.",
+      "code": "// List all contacts in an outbreak. Results are written to state.data.\nlistContacts('3b5554d7-2c19-41d0-b9af-475ad25a382b');"
+    },
+    "Find Contact By Visual ID": {
+      "description": "Looks up a single contact by its visual id.",
+      "code": "// Find a contact by visualId.\ngetContact(\n  // 1) Outbreak id (string literal).\n  '3b5554d7-2c19-41d0-b9af-475ad25a382b',\n  // 2) Loopback filter.\n  { where: { visualId: 'CON-2026-00042' } }\n);"
+    },
+    "Find Outbreak By Name": {
+      "description": "Looks up an outbreak to get its id for later steps.",
+      "code": "// Find an outbreak by name; its id is at state.data[0].id.\ngetOutbreak({ where: { name: 'Cholera 2026 - Northern Region' } });"
+    },
+    "Find Location By Name": {
+      "description": "Looks up a Go.Data location to map an incoming address to a locationId.",
+      "code": "// Find a location by name.\ngetLocation({ where: { name: 'Gulu District' } });"
+    },
+    "List Reference Data By Category": {
+      "description": "Fetches the allowed values for one reference data category.",
+      "code": "// Get all reference data items in one category (here: case classifications).\ngetReferenceData({\n  where: { categoryId: 'LNG_REFERENCE_DATA_CATEGORY_CASE_CLASSIFICATION' },\n});"
+    }
+  }
+}

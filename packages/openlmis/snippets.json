@@ -1,0 +1,54 @@
+{
+  "CREATE": {
+    "Record Stock Event": {
+      "description": "Records a stock receipt, issue or adjustment at a facility using product and facility codes.",
+      "code": "// Record a stock movement (receipt, issue or adjustment) using codes, not UUIDs.\npost('/public/stockEvents', {\n  // Facility code where the movement happened.\n  facility: $.data.facilityCode,\n  // Program code, e.g. the EPI or family planning program.\n  program: $.data.programCode,\n  documentNumber: $.data.waybillNumber,\n  signature: 'Store Manager',\n  items: [\n    {\n      // Orderable (product) code.\n      orderable: $.data.productCode,\n      lot: $.data.lotCode,\n      // Quantity moved; must not be negative.\n      quantity: $.data.quantity,\n      // Stock movement reason code.\n      reason: $.data.reasonCode,\n      occurredDate: $.data.receivedDate, // e.g. '2026-10-15'\n    },\n  ],\n});"
+    },
+    "Initiate Requisition": {
+      "description": "Starts a new requisition for a facility and program in the suggested period.",
+      "code": "// Initiate a requisition (query parameters only, no body).\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Path relative to the OpenLMIS API.\n  '/requisitions/initiate',\n  // 3) No body.\n  null,\n  // 4) Query parameters.\n  {\n    query: {\n      facility: $.data.facilityId, // facility UUID\n      program: $.data.programId, // program UUID\n      suggestedPeriod: $.data.periodId, // processing period UUID\n      emergency: false,\n    },\n  }\n);"
+    },
+    "Submit Requisition": {
+      "description": "Submits a previously initiated requisition for approval.",
+      "code": "// Submit an initiated requisition for approval.\npost(\n  // 1) Requisition UUID in the path.\n  `/requisitions/${$.data.requisitionId}/submit`,\n  // 2) No body needed.\n  {}\n);"
+    },
+    "Approve Requisition": {
+      "description": "Approves a submitted or authorized requisition.",
+      "code": "// Approve a requisition by id.\npost(\n  // 1) Requisition UUID in the path.\n  `/requisitions/${$.data.requisitionId}/approve`,\n  // 2) No body needed.\n  {}\n);"
+    },
+    "Create Facility": {
+      "description": "Registers a new health facility in reference data.",
+      "code": "// Create a new facility.\npost('/facilities', {\n  code: $.data.facilityCode, // e.g. 'HC-0421'\n  name: $.data.facilityName, // e.g. 'Lilongwe District Health Centre'\n  // Geographic zone and facility type reference existing records by id.\n  geographicZone: { id: $.data.geographicZoneId },\n  type: { id: $.data.facilityTypeId },\n  active: true,\n  enabled: true,\n  goLiveDate: '2026-11-01',\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Stock On Hand": {
+      "description": "Gets stock card summaries (stock on hand per product and lot) for a facility and program.",
+      "code": "// Get stock on hand for every product at a facility under one program.\nget('/v2/stockCardSummaries', {\n  query: {\n    facilityId: $.data.facilityId, // facility UUID (required)\n    programId: $.data.programId, // program UUID (required)\n    nonEmptyOnly: true, // skip products with zero stock\n    size: 100,\n  },\n});"
+    },
+    "Search Requisitions": {
+      "description": "Finds requisitions for a facility and program, optionally by status and date range.",
+      "code": "// Find requisitions for a facility and program.\nget('/requisitions/search', {\n  query: {\n    facility: $.data.facilityId,\n    program: $.data.programId,\n    requisitionStatus: 'APPROVED', // e.g. INITIATED, SUBMITTED, AUTHORIZED, APPROVED\n    modifiedDateFrom: '2026-10-01',\n    size: 50,\n  },\n});"
+    },
+    "Get Requisition": {
+      "description": "Gets one requisition with its line items by id.",
+      "code": "// Fetch a single requisition and its line items.\nget(`/requisitions/${$.data.requisitionId}`);"
+    },
+    "List Facilities": {
+      "description": "Lists facilities, filtered by name, code or geographic zone.",
+      "code": "// List facilities in a geographic zone.\nget('/facilities', {\n  query: {\n    zoneId: $.data.districtZoneId, // geographic zone UUID\n    recurse: true, // include facilities in child zones\n    page: 0,\n    size: 100,\n  },\n});"
+    },
+    "List Products": {
+      "description": "Lists orderable products, optionally filtered by code, name or program.",
+      "code": "// Look up orderable products for a program.\nget('/orderables', {\n  query: {\n    program: $.data.programCode, // program code\n    name: 'Amoxicillin', // partial name match\n    size: 50,\n  },\n});"
+    },
+    "List Orders": {
+      "description": "Lists fulfillment orders from a supplying facility, filtered by status.",
+      "code": "// List orders a warehouse needs to ship.\nget('/orders', {\n  query: {\n    supplyingFacilityId: $.data.warehouseId, // supplying facility UUID\n    programId: $.data.programId,\n    status: 'ORDERED', // e.g. ORDERED, SHIPPED, RECEIVED\n    size: 50,\n  },\n});"
+    },
+    "List Proofs Of Delivery": {
+      "description": "Lists proofs of delivery for a given order.",
+      "code": "// Get proofs of delivery recorded against an order.\nget('/proofsOfDelivery', {\n  query: {\n    orderId: $.data.orderId,\n  },\n});"
+    }
+  }
+}

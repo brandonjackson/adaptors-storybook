@@ -1,0 +1,28 @@
+{
+  "CREATE": {
+    "Create Patient": {
+      "description": "Creates a Patient resource in a Cloud Healthcare FHIR store.",
+      "code": "// Register a patient in the shared health record FHIR store.\ncreateFhirResource(\n  // 1) The target FHIR store (all four keys are required).\n  {\n    cloudRegion: 'europe-west4',\n    projectId: 'moh-health-data',\n    datasetId: 'national-hie',\n    fhirStoreId: 'shr-r4',\n  },\n  // 2) The FHIR resource; resourceType decides the endpoint.\n  {\n    resourceType: 'Patient',\n    identifier: [{ system: 'http://moh.example.org/national-id', value: $.data.nationalId }],\n    name: [{ use: 'official', family: $.data.lastName, given: [$.data.firstName] }],\n    gender: $.data.sex,\n    birthDate: $.data.dateOfBirth,\n  }\n);"
+    },
+    "Create Encounter": {
+      "description": "Logs a facility visit as an Encounter resource.",
+      "code": "// Log an outpatient visit for an existing patient.\ncreateFhirResource(\n  // 1) The target FHIR store (all four keys are required).\n  {\n    cloudRegion: 'europe-west4',\n    projectId: 'moh-health-data',\n    datasetId: 'national-hie',\n    fhirStoreId: 'shr-r4',\n  },\n  // 2) The Encounter, referencing the patient by id.\n  {\n    resourceType: 'Encounter',\n    status: 'finished',\n    class: { system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode', code: 'AMB', display: 'ambulatory' },\n    subject: { reference: `Patient/${$.data.patientId}` },\n    period: { start: $.data.checkInTime, end: $.data.checkOutTime },\n  }\n);"
+    },
+    "Create Observation": {
+      "description": "Stores a lab result or vital sign as an Observation resource.",
+      "code": "// Store an HIV viral load result from the lab system.\ncreateFhirResource(\n  // 1) The target FHIR store (all four keys are required).\n  {\n    cloudRegion: 'europe-west4',\n    projectId: 'moh-health-data',\n    datasetId: 'national-hie',\n    fhirStoreId: 'shr-r4',\n  },\n  // 2) The Observation (LOINC 25836-8 = HIV-1 RNA viral load).\n  {\n    resourceType: 'Observation',\n    status: 'final',\n    code: { coding: [{ system: 'http://loinc.org', code: '25836-8' }] },\n    subject: { reference: `Patient/${$.data.patientId}` },\n    effectiveDateTime: $.data.sampleDate,\n    valueQuantity: { value: $.data.copiesPerMl, unit: 'copies/mL' },\n  }\n);"
+    },
+    "Create Immunization": {
+      "description": "Records a vaccine dose as an Immunization resource.",
+      "code": "// Record a measles vaccine dose given during an outreach campaign.\ncreateFhirResource(\n  // 1) The target FHIR store (all four keys are required).\n  {\n    cloudRegion: 'europe-west4',\n    projectId: 'moh-health-data',\n    datasetId: 'national-hie',\n    fhirStoreId: 'shr-r4',\n  },\n  // 2) The Immunization (CVX 05 = measles).\n  {\n    resourceType: 'Immunization',\n    status: 'completed',\n    vaccineCode: { coding: [{ system: 'http://hl7.org/fhir/sid/cvx', code: '05' }] },\n    patient: { reference: `Patient/${$.data.patientId}` },\n    occurrenceDateTime: $.data.dateGiven,\n    lotNumber: $.data.lotNumber,\n  }\n);"
+    },
+    "Create Condition": {
+      "description": "Records a diagnosis as a Condition resource.",
+      "code": "// Record a confirmed malaria diagnosis.\ncreateFhirResource(\n  // 1) The target FHIR store (all four keys are required).\n  {\n    cloudRegion: 'europe-west4',\n    projectId: 'moh-health-data',\n    datasetId: 'national-hie',\n    fhirStoreId: 'shr-r4',\n  },\n  // 2) The Condition, coded with ICD-10.\n  {\n    resourceType: 'Condition',\n    clinicalStatus: { coding: [{ system: 'http://terminology.hl7.org/CodeSystem/condition-clinical', code: 'active' }] },\n    verificationStatus: { coding: [{ system: 'http://terminology.hl7.org/CodeSystem/condition-ver-status', code: 'confirmed' }] },\n    code: { coding: [{ system: 'http://hl7.org/fhir/sid/icd-10', code: 'B54', display: 'Unspecified malaria' }] },\n    subject: { reference: `Patient/${$.data.patientId}` },\n    onsetDateTime: $.data.diagnosisDate,\n  }\n);"
+    },
+    "Create Resources For Each Record": {
+      "description": "Loops over a list of records and creates one Patient per item.",
+      "code": "// Create one Patient per record in an incoming list.\neach(\n  $.data.patients,\n  createFhirResource(\n    // 1) The target FHIR store (all four keys are required).\n    {\n      cloudRegion: 'europe-west4',\n      projectId: 'moh-health-data',\n      datasetId: 'national-hie',\n      fhirStoreId: 'shr-r4',\n    },\n    // 2) Inside each(), $.data is the current item.\n    {\n      resourceType: 'Patient',\n      name: [{ family: $.data.lastName, given: [$.data.firstName] }],\n      birthDate: $.data.dateOfBirth,\n    }\n  )\n);"
+    }
+  }
+}

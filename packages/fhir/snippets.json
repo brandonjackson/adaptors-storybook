@@ -1,0 +1,54 @@
+{
+  "CREATE": {
+    "Create Patient": {
+      "description": "Registers a new Patient resource from an incoming registration record.",
+      "code": "// Create a Patient resource from a registration form submission.\ncreate(\n  // 1) The FHIR resource type (also used as the request path).\n  'Patient',\n  // 2) The resource body; resourceType is added for you.\n  {\n    identifier: [\n      {\n        system: 'http://moh.example.org/fhir/NamingSystem/national-id',\n        value: $.data.nationalId,\n      },\n    ],\n    name: [{ use: 'official', family: $.data.lastName, given: [$.data.firstName] }],\n    gender: $.data.sex, // 'male' | 'female' | 'other' | 'unknown'\n    birthDate: $.data.dateOfBirth, // YYYY-MM-DD\n    telecom: [{ system: 'phone', value: $.data.phone, use: 'mobile' }],\n  }\n);"
+    },
+    "Create Observation": {
+      "description": "Records a vital sign or lab result as an Observation linked to a patient.",
+      "code": "// Record a body weight measurement for a patient.\ncreate('Observation', {\n  status: 'final',\n  category: [\n    {\n      coding: [\n        {\n          system: 'http://terminology.hl7.org/CodeSystem/observation-category',\n          code: 'vital-signs',\n        },\n      ],\n    },\n  ],\n  // LOINC code for body weight.\n  code: { coding: [{ system: 'http://loinc.org', code: '29463-7', display: 'Body weight' }] },\n  subject: { reference: `Patient/${$.data.patientId}` },\n  effectiveDateTime: $.data.visitDate,\n  valueQuantity: { value: $.data.weightKg, unit: 'kg', system: 'http://unitsofmeasure.org', code: 'kg' },\n});"
+    },
+    "Create Immunization": {
+      "description": "Records a vaccine dose given to a patient.",
+      "code": "// Record a vaccine dose administered at a clinic.\ncreate('Immunization', {\n  status: 'completed',\n  // CVX code for the vaccine given (e.g. 20 = DTaP).\n  vaccineCode: { coding: [{ system: 'http://hl7.org/fhir/sid/cvx', code: $.data.cvxCode }] },\n  patient: { reference: `Patient/${$.data.patientId}` },\n  occurrenceDateTime: $.data.dateGiven,\n  lotNumber: $.data.lotNumber,\n  location: { reference: `Location/${$.data.facilityId}` },\n  protocolApplied: [{ doseNumberPositiveInt: $.data.doseNumber }],\n});"
+    },
+    "Create Encounter": {
+      "description": "Logs a clinic visit as an Encounter for a patient.",
+      "code": "// Log an outpatient visit for a patient.\ncreate('Encounter', {\n  status: 'finished',\n  class: {\n    system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',\n    code: 'AMB',\n    display: 'ambulatory',\n  },\n  subject: { reference: `Patient/${$.data.patientId}` },\n  period: { start: $.data.checkInTime, end: $.data.checkOutTime },\n  serviceProvider: { reference: `Organization/${$.data.facilityId}` },\n});"
+    },
+    "Submit Transaction Bundle": {
+      "description": "Creates a patient and their encounter together in one atomic transaction.",
+      "code": "// Create a Patient and an Encounter in one transaction.\n// The urn:uuid fullUrl lets the Encounter reference the new Patient.\ncreateTransactionBundle([\n  {\n    fullUrl: 'urn:uuid:7f1c2d6e-1b2a-4c3d-9e8f-0a1b2c3d4e5f',\n    resource: {\n      resourceType: 'Patient',\n      name: [{ family: $.data.lastName, given: [$.data.firstName] }],\n      birthDate: $.data.dateOfBirth,\n    },\n    request: { method: 'POST', url: 'Patient' },\n  },\n  {\n    resource: {\n      resourceType: 'Encounter',\n      status: 'finished',\n      class: { system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode', code: 'AMB' },\n      subject: { reference: 'urn:uuid:7f1c2d6e-1b2a-4c3d-9e8f-0a1b2c3d4e5f' },\n    },\n    request: { method: 'POST', url: 'Encounter' },\n  },\n]);"
+    },
+    "Submit Claim For Adjudication": {
+      "description": "Posts a Claim to the server's $submit operation.",
+      "code": "// Submit a Claim for adjudication via the $submit operation.\npost(\n  // 1) Path relative to the FHIR base URL.\n  'Claim/$submit',\n  // 2) The Claim resource.\n  {\n    resourceType: 'Claim',\n    status: 'active',\n    type: { coding: [{ system: 'http://terminology.hl7.org/CodeSystem/claim-type', code: 'professional' }] },\n    use: 'claim',\n    patient: { reference: `Patient/${$.data.patientId}` },\n    created: new Date().toISOString(),\n    provider: { reference: `Organization/${$.data.facilityId}` },\n    priority: { coding: [{ code: 'normal' }] },\n    insurance: [{ sequence: 1, focal: true, coverage: { reference: `Coverage/${$.data.coverageId}` } }],\n  }\n);"
+    }
+  },
+  "SEARCH": {
+    "Get Patient By ID": {
+      "description": "Reads a single Patient resource by its logical id.",
+      "code": "// Read one Patient by id.\nget(`Patient/${$.data.patientId}`);"
+    },
+    "Search Patients By Identifier": {
+      "description": "Finds patients matching a national ID or other business identifier.",
+      "code": "// Look up a patient by national ID before deciding to create or update.\nget('Patient', {\n  // FHIR token search: system|value\n  identifier: `http://moh.example.org/fhir/NamingSystem/national-id|${$.data.nationalId}`,\n  _count: 10,\n});"
+    },
+    "Search Recently Updated Observations": {
+      "description": "Pulls observations changed since the last sync, newest first.",
+      "code": "// Fetch observations for a patient updated since the last run.\nget('Observation', {\n  subject: `Patient/${$.data.patientId}`,\n  _lastUpdated: `gt${$.lastSyncTime || '2026-01-01T00:00:00Z'}`,\n  _sort: '-_lastUpdated',\n  _count: 100,\n});"
+    },
+    "Get Patient Everything": {
+      "description": "Fetches a patient's full record (encounters, observations, etc.) with $everything.",
+      "code": "// Fetch everything held about one patient as a Bundle.\nget(`Patient/${$.data.patientId}/$everything`, {\n  _count: 200,\n});"
+    },
+    "Get Claims With Patients": {
+      "description": "Lists recent Claims and includes the referenced Patient resources.",
+      "code": "// List the latest claims, including the patients they reference.\ngetClaim(\n  // 1) Claim id; pass '' to search all claims.\n  '',\n  // 2) FHIR search parameters.\n  { _include: 'Claim:patient', _sort: '-_lastUpdated', _count: 50 }\n);"
+    },
+    "Search Immunizations For Patient": {
+      "description": "Lists the vaccines a patient has received.",
+      "code": "// List a patient's immunization history.\nget('Immunization', {\n  patient: `Patient/${$.data.patientId}`,\n  status: 'completed',\n  _sort: 'date',\n});"
+    }
+  }
+}

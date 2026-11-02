@@ -6,7 +6,7 @@
     },
     "Convert Records To EMS Report": {
       "description": "Groups flat EMS-like fridge readings into reports, one per device, with a records array.",
-      "code": "// Group flat temperature readings into EMS reports (one per device serial).\nconvertItemsToReports(\n  // 1) Flat records, e.g. loaded from a collection.\n  $.data, // e.g. [{ ASER: 'BJBC 08 30', ABST: '20241205T004440Z', TVC: 5.0 }, ...]\n  // 2) Report type: 'ems' or 'rtmd'.\n  'ems'\n);"
+      "code": "// Group flat temperature readings into EMS reports (one per logger serial, LSER).\nconvertItemsToReports(\n  // 1) Flat records, e.g. loaded from a collection.\n  $.data, // e.g. [{ LSER: 'BJBC 08 30', ABST: '20241205T004440Z', TVC: 5.0 }, ...]\n  // 2) Report type: 'ems' or 'rtmd'.\n  'ems'\n);"
     },
     "Convert RTMD Records To Reports": {
       "description": "Converts remote temperature monitoring device (RTMD) records into EMS reports.",

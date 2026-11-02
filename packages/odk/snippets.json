@@ -35,8 +35,8 @@
       "code": "// List every form in the project.\ngetForms($.data.projectId);"
     },
     "List Entities": {
-      "description": "Lists Entities in a dataset through the OData feed, with optional filters.",
-      "code": "// List Entities (cases) in a dataset via OData.\nget(`v1/projects/${$.data.projectId}/datasets/patients.svc/Entities`, {\n  query: {\n    // OData filter on entity properties or system fields.\n    $filter: \"status eq 'active'\",\n    $top: 250,\n  },\n});"
+      "description": "Lists Entities in a dataset through the OData feed, filtered on system fields such as the last update time.",
+      "code": "// List Entities (cases) in a dataset via OData.\nget(`v1/projects/${$.data.projectId}/datasets/patients.svc/Entities`, {\n  query: {\n    // OData $filter only supports __system fields (not dataset properties).\n    $filter: `__system/updatedAt gt ${$.data.since}`, // e.g. 2026-10-01T00:00:00.000Z\n    $top: 250,\n  },\n});"
     },
     "Get Entity": {
       "description": "Gets one Entity with its current data by uuid.",

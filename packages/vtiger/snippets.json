@@ -6,7 +6,7 @@
     },
     "Create Organization": {
       "description": "Creates an organization (Accounts module), such as a partner NGO or funder.",
-      "code": "// Create an organization (Accounts module).\npostElement({\n  operation: 'create',\n  elementType: 'Accounts',\n  element: {\n    accountname: $.data.organizationName, // required\n    email1: $.data.email,\n    phone: $.data.phone,\n    website: $.data.website,\n    industry: 'Non-Profit',\n    assigned_user_id: $.configuration.assignedUserId,\n  },\n});"
+      "code": "// Create an organization (Accounts module).\npostElement({\n  operation: 'create',\n  elementType: 'Accounts',\n  element: {\n    accountname: $.data.organizationName, // required\n    email1: $.data.email,\n    phone: $.data.phone,\n    website: $.data.website,\n    industry: 'Not For Profit', // a value from the default industry picklist\n    assigned_user_id: $.configuration.assignedUserId,\n  },\n});"
     },
     "Create Lead": {
       "description": "Creates a lead, e.g. a prospective partner from an event registration.",

@@ -10,7 +10,7 @@
     },
     "Build Transaction Bundle": {
       "description": "Collects mapped resources into a FHIR transaction Bundle on state.",
-      "code": "// Wrap mapped resources in a transaction Bundle (each needs an id).\nfn(state => {\n  const resources = [state.patient, state.practitioner];\n  state.bundle = {\n    resourceType: 'Bundle',\n    type: 'transaction',\n    entry: resources.map(r => ({\n      resource: r,\n      request: { method: 'PUT', url: `${r.resourceType}/${r.id}` },\n    })),\n  };\n  return state;\n});"
+      "code": "// Wrap mapped resources in a transaction Bundle: PUT when the resource has an id, otherwise POST to create it.\nfn(state => {\n  const resources = [state.patient, state.practitioner];\n  state.bundle = {\n    resourceType: 'Bundle',\n    type: 'transaction',\n    entry: resources.map(r => ({\n      resource: r,\n      request: r.id\n        ? { method: 'PUT', url: `${r.resourceType}/${r.id}` }\n        : { method: 'POST', url: r.resourceType },\n    })),\n  };\n  return state;\n});"
     }
   }
 }

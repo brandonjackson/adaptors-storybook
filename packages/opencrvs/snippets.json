@@ -10,7 +10,7 @@
     },
     "Notify Event": {
       "description": "Sends declaration data for an event created in an earlier step.",
-      "code": "// Send declaration data for an existing event (e.g. from createEvent).\nnotifyEvent(\n  // 1) Event id from the previous step.\n  $.data.id,\n  // 2) Flat, dotted-key declaration.\n  {\n    'child.name': { firstname: 'Amina', surname: 'Okello' },\n    'child.dob': '2026-10-28',\n    'child.gender': 'female',\n  },\n  // 3) Options.\n  { createdAtLocation: $.configuration.facilityLocationId }\n);"
+      "code": "// Send declaration data for an existing event (e.g. from createEvent).\nnotifyEvent(\n  // 1) Event id from the previous step.\n  $.data.id,\n  // 2) Flat, dotted-key declaration.\n  {\n    'child.name': { firstname: 'Amina', surname: 'Okello' },\n    'child.dob': '2026-10-28',\n    'child.gender': 'female',\n  },\n  // 3) Options: the office location id (a leaf location), saved on state earlier.\n  { createdAtLocation: $.locationId }\n);"
     },
     "Send FHIR Birth Notification Bundle": {
       "description": "Submits a legacy (v1) FHIR document bundle to the gateway's notification endpoint.",

@@ -1,8 +1,8 @@
 {
   "SEARCH": {
     "Fetch Form Submissions": {
-      "description": "Fetches new submissions of one form from the CHT changes feed and posts each to another URL.",
-      "code": "// Get new submissions of the pregnancy registration form and forward each one.\nfetchSubmissions(\n  // 1) The CHT form id to pick out of the changes feed.\n  'pregnancy',\n  // 2) Changes feed params; the cursor from the last run is used automatically.\n  { 'last-event-id': 0 },\n  // 3) Each submission is POSTed here (e.g. a workflow's webhook URL).\n  $.configuration.webhookUrl\n);"
+      "description": "Fetches new submissions of one form from the CHT changes feed, picking up from the last run.",
+      "code": "// Get new submissions of the pregnancy registration form.\n// Note: fetchSubmissions() is not used here: it reads state.data.response.results,\n// which changesApi() never sets, and it does not resolve $ references in its postUrl.\nchangesApi(\n  // 1) Changes feed params; the cursor from the last run is used automatically.\n  { include_docs: true, 'last-event-id': 0 },\n  // 2) Callback: keep only the 'pregnancy' form submissions.\n  state => {\n    const submissions = state.data.results\n      .map(change => change.doc)\n      .filter(doc => doc && doc.form === 'pregnancy')\n      .map(({ _id, form, type, reported_date, contact, fields }) => ({\n        _id,\n        form,\n        type,\n        reported_date,\n        contact,\n        fields,\n      }));\n    return { ...state, data: { submissions } };\n  }\n);"
     },
     "Read Changes Feed": {
       "description": "Reads the CouchDB changes feed with full documents, picking up from the last run.",

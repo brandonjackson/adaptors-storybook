@@ -28,7 +28,7 @@
     },
     "Poll Recently Updated Beneficiaries": {
       "description": "Cursor-style polling for changes in program membership.",
-      "code": "// Poll program members updated since the last cursor.\nrequest(`/api/v1/program/${$.data.programId}/members`, {\n  method: 'GET',\n  query: { updated_after: $.cursor.lastRun },\n});"
+      "code": "// Poll program members updated since the last cursor.\n// Reuse the cursor saved by the previous run, or start from a fixed date on the first run.\ncursor($.cursor, { defaultValue: '2024-01-01T00:00:00Z' });\n\nrequest(`/api/v1/program/${$.data.programId}/members`, {\n  method: 'GET',\n  query: { updated_after: $.cursor },\n});\n\n// Save the cursor for the next run.\ncursor('now');"
     },
     "Get Payment Status": {
       "description": "Check the status of a payment as it flows back from the G2P Bridge.",

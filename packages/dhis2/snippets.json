@@ -2,7 +2,7 @@
   "CREATE": {
     "Register And Enroll Tracked Entity": {
       "description": "Registers a new person as a tracked entity and enrolls them in a tracker program in one request.",
-      "code": "// Register a person and enroll them in a tracker program.\ncreate('trackedEntities', {\n  orgUnit: $.data.facilityId, // e.g. 'DiszpKrYNg8'\n  trackedEntityType: 'nEenWmSyUEp', // Person\n  attributes: [\n    { attribute: 'w75KJ2mc4zz', value: $.data.firstName }, // First name\n    { attribute: 'zDhUuAYrxNC', value: $.data.lastName }, // Last name\n  ],\n  enrollments: [\n    {\n      program: 'IpHINAT79UW', // Child Programme\n      orgUnit: $.data.facilityId,\n      enrolledAt: $.data.registrationDate,\n      occurredAt: $.data.registrationDate,\n    },\n  ],\n});"
+      "code": "// Register a person and enroll them in a tracker program.\ncreate('trackedEntities', {\n  orgUnit: $.data.facilityId, // e.g. 'DiszpKrYNg8'\n  trackedEntityType: 'nEenWmSyUEp', // Person\n  attributes: [\n    { attribute: 'w75KJ2mc4zz', value: $.data.firstName }, // First name\n    { attribute: 'zDhUuAYrxNC', value: $.data.lastName }, // Last name\n  ],\n  enrollments: [\n    {\n      program: 'IpHINAT79UW', // Child Programme\n      orgUnit: $.data.facilityId,\n      enrolledAt: $.data.registrationDate,\n      occurredAt: $.data.registrationDate,\n      status: 'ACTIVE',\n    },\n  ],\n});"
     },
     "Enroll Existing Tracked Entity": {
       "description": "Enrolls an already-registered tracked entity into a program.",
@@ -30,7 +30,7 @@
     },
     "Delete Tracked Entity": {
       "description": "Deletes a tracked entity, e.g. a duplicate registration.",
-      "code": "// Delete a tracked entity (e.g. a duplicate) by UID.\ndestroy('trackedEntities', $.data.duplicateTrackedEntityId);"
+      "code": "// Delete a tracked entity (e.g. a duplicate) by UID.\n// Tracker deletes are sent to /api/tracker, so pass the UID in the payload too.\ndestroy('trackedEntities', $.data.duplicateTrackedEntityId, {\n  trackedEntity: $.data.duplicateTrackedEntityId,\n});"
     }
   },
   "SEARCH": {

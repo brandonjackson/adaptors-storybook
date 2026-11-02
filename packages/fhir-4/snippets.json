@@ -36,7 +36,7 @@
     },
     "Search Recently Updated Observations": {
       "description": "Fetches Observations for a patient changed since a cursor.",
-      "code": "// Get a patient's Observations updated since the last run.\nsearch('Observation', {\n  // Mapped to _lastUpdated.\n  lastUpdated: `ge${$.cursor}`,\n  // Mapped to _count.\n  count: 100,\n  query: { subject: `Patient/${$.data.patientId}` },\n});"
+      "code": "// Get a patient's Observations updated since the last run.\n// Set $.cursor first: fall back to the start of today if it isn't on state yet.\ncursor($.cursor, { defaultValue: 'today' });\n\nsearch('Observation', {\n  // Mapped to _lastUpdated.\n  lastUpdated: `ge${$.cursor}`,\n  // Mapped to _count.\n  count: 100,\n  query: { subject: `Patient/${$.data.patientId}` },\n});"
     },
     "Search Encounters By Date": {
       "description": "Finds Encounters at a facility within a date range.",

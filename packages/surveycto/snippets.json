@@ -6,11 +6,11 @@
     },
     "Bulk Upload Dataset Records": {
       "description": "Uploads many rows to a dataset as CSV, merging on a key field.",
-      "code": "// Upload many rows to a dataset in one call (sent as CSV).\nuploadCsvRecords(\n  // 1) The dataset id.\n  'health_facilities',\n  // 2) Rows to upload, e.g. a facility list pulled from DHIS2.\n  $.data.facilities.map(f => ({\n    id: f.code,\n    name: f.name,\n    district: f.district,\n  })),\n  // 3) Upload options: MERGE keeps existing rows and updates by key.\n  { uploadMode: 'MERGE', joiningField: 'id' }\n);"
+      "code": "// Upload many rows to a dataset in one call (sent as CSV).\nuploadCsvRecords(\n  // 1) The dataset id.\n  'health_facilities',\n  // 2) Rows to upload, e.g. a facility list pulled from DHIS2.\n  $.data.facilities.map(f => ({\n    id: f.code,\n    name: f.name,\n    district: f.district,\n  })),\n  // 3) Upload options: 'merge' keeps existing rows and updates by key.\n  { uploadMode: 'merge', joiningField: 'id' }\n);"
     },
     "Upsert Dataset": {
       "description": "Creates a server dataset, or updates its settings if it already exists.",
-      "code": "// Create (or update) a server dataset.\nupsertDataset({\n  id: 'enumerators',\n  title: 'Enumerators',\n  discriminator: 'ENUMERATORS', // or DATA\n  locationContext: {\n    parentGroupId: 1, // the form group the dataset sits in\n  },\n  allowOfflineUpdates: false,\n  idFormatOptions: {\n    prefix: 'enum',\n    suffix: '',\n    numberOfDigits: '6',\n    allowCapitalLetters: false,\n  },\n});"
+      "code": "// Create (or update) a server dataset.\nupsertDataset({\n  id: 'enumerators',\n  title: 'Enumerators',\n  discriminator: 'ENUMERATORS', // or DATA, CASES\n  locationContext: {\n    parentGroupId: 1, // the form group the dataset sits in\n  },\n  allowOfflineUpdates: false,\n  idFormatOptions: {\n    prefix: 'enum',\n    suffix: '',\n    numberOfDigits: 6,\n    allowCapitalLetters: false,\n  },\n});"
     }
   },
   "SEARCH": {

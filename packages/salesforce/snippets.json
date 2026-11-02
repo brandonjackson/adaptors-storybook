@@ -26,7 +26,7 @@
     },
     "API Request (Beta)": {
       "description": "Raw HTTP request with authentication.",
-      "code": "// Make a raw, authenticated request against the Salesforce REST API.\nsfRequest({\n  method: 'GET',\n  url: '/services/data/v59.0/limits',\n});"
+      "code": "// Make a raw, authenticated request against the Salesforce REST API.\n// sfRequest is not an operation, so call it inside fn() once the connection is open.\nfn(async state => {\n  const result = await sfRequest({\n    method: 'GET',\n    url: '/services/data/v59.0/limits',\n  });\n  return { ...state, data: result };\n});"
     }
   },
   "SEARCH": {

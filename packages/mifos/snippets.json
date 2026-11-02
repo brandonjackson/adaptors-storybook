@@ -6,7 +6,7 @@
     },
     "Create Loan Application": {
       "description": "Submit a new loan application for an existing client. The product id determines the schedule terms.",
-      "code": "// Submit a new loan application.\nrequest('/loans', {\n  method: 'POST',\n  data: {\n    clientId: $.data.clientId,\n    productId: $.configuration.loanProductId,\n    principal: $.data.principal,\n    loanTermFrequency: 12,\n    loanTermFrequencyType: 2, // 2 = months\n    numberOfRepayments: 12,\n    repaymentEvery: 1,\n    repaymentFrequencyType: 2,\n    interestRatePerPeriod: 24,\n    amortizationType: 1,\n    interestType: 0,\n    interestCalculationPeriodType: 1,\n    transactionProcessingStrategyCode: 'mifos-standard-strategy',\n    expectedDisbursementDate: $.data.disbursementDate,\n    submittedOnDate: $.data.today,\n    dateFormat: 'dd MMMM yyyy',\n    locale: 'en',\n  },\n});"
+      "code": "// Submit a new loan application.\nrequest('/loans', {\n  method: 'POST',\n  data: {\n    clientId: $.data.clientId,\n    loanType: 'individual', // required by Fineract\n    productId: $.configuration.loanProductId,\n    principal: $.data.principal,\n    loanTermFrequency: 12,\n    loanTermFrequencyType: 2, // 2 = months\n    numberOfRepayments: 12,\n    repaymentEvery: 1,\n    repaymentFrequencyType: 2,\n    interestRatePerPeriod: 24,\n    amortizationType: 1,\n    interestType: 0,\n    interestCalculationPeriodType: 1,\n    transactionProcessingStrategyCode: 'mifos-standard-strategy',\n    expectedDisbursementDate: $.data.disbursementDate,\n    submittedOnDate: $.data.today,\n    dateFormat: 'dd MMMM yyyy',\n    locale: 'en',\n  },\n});"
     },
     "Record Loan Repayment": {
       "description": "Record a repayment transaction against a loan account.",
@@ -35,8 +35,8 @@
       "code": "// Fetch a loan with associations.\nrequest(`/loans/${$.data.loanId}`, {\n  method: 'GET',\n  query: { associations: 'repaymentSchedule,transactions' },\n});"
     },
     "Poll Recently Updated Loans": {
-      "description": "Cursor-style polling: list loans submitted on or after the last seen date. Useful as a fallback when Hooks / Kafka aren't enabled.",
-      "code": "// Poll loans submitted since the last cursor.\nrequest('/loans', {\n  method: 'GET',\n  query: {\n    submittedOnDateFrom: $.cursor.submittedOnDate,\n    dateFormat: 'dd MMMM yyyy',\n    locale: 'en',\n  },\n});"
+      "description": "Cursor-style polling: list the newest loans and keep those submitted on or after the last cursor date (GET /loans has no date filter). Useful as a fallback when Hooks / Kafka aren't enabled.",
+      "code": "// Poll loans submitted since the last cursor.\n// GET /loans has no date filter, so fetch the newest loans first...\nrequest('/loans', {\n  method: 'GET',\n  query: { orderBy: 'id', sortOrder: 'DESC', limit: 100 },\n});\n\n// ...then keep the ones submitted on or after the cursor date.\n// timeline.submittedOnDate comes back as [yyyy, m, d].\nfn(state => {\n  const since = new Date(state.cursor || 0);\n  state.data = state.data.pageItems.filter(loan => {\n    const [y, m, d] = loan.timeline.submittedOnDate;\n    return new Date(y, m - 1, d) >= since;\n  });\n  return state;\n});"
     }
   }
 }

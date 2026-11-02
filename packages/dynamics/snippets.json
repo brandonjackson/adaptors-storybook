@@ -46,7 +46,7 @@
     },
     "Update Lead": {
       "description": "Updates a lead.",
-      "code": "// Update fields on an existing Lead.\nupdateEntity({\n  entityName: 'leads',\n  entityId: $.data.leadId,\n  body: {\n    statuscode: 3, // qualified\n    emailaddress1: $.data.email,\n  },\n});"
+      "code": "// Update fields on an existing Lead.\nupdateEntity({\n  entityName: 'leads',\n  entityId: $.data.leadId,\n  body: {\n    statuscode: 2, // contacted (an Open-state status reason)\n    emailaddress1: $.data.email,\n  },\n});"
     },
     "Update Record": {
       "description": "Updates an existing record.",
@@ -56,31 +56,31 @@
   "SEARCH": {
     "Find Account": {
       "description": "Finds an account by name.",
-      "code": "// Look up Accounts by name using an OData filter.\nquery({\n  entityName: 'accounts',\n  // OData $filter; quote string values with single quotes.\n  filter: `name eq '${$.data.name}'`,\n  // Only return the columns we care about.\n  select: ['accountid', 'name', 'emailaddress1'],\n});"
+      "code": "// Look up Accounts by name using an OData filter.\nquery({\n  entityName: 'accounts',\n  // Filter and columns go inside `query`.\n  query: {\n    // OData $filter; quote string values with single quotes.\n    filter: `name eq '${$.data.name}'`,\n    // Only return the columns we care about ($select).\n    fields: ['accountid', 'name', 'emailaddress1'],\n  },\n});"
     },
     "Find Campaign Response": {
       "description": "Finds a campaign response.",
-      "code": "// Look up Campaign Responses.\nquery({\n  entityName: 'campaignresponses',\n  filter: `_regardingobjectid_value eq ${$.data.campaignId}`,\n});"
+      "code": "// Look up Campaign Responses.\nquery({\n  entityName: 'campaignresponses',\n  query: {\n    filter: `_regardingobjectid_value eq ${$.data.campaignId}`,\n  },\n});"
     },
     "Find Contact": {
       "description": "Finds a contact by email address or other searchable field.",
-      "code": "// Look up a Contact by email.\nquery({\n  entityName: 'contacts',\n  filter: `emailaddress1 eq '${$.data.email}'`,\n  select: ['contactid', 'firstname', 'lastname', 'emailaddress1'],\n});"
+      "code": "// Look up a Contact by email.\nquery({\n  entityName: 'contacts',\n  query: {\n    filter: `emailaddress1 eq '${$.data.email}'`,\n    fields: ['contactid', 'firstname', 'lastname', 'emailaddress1'],\n  },\n});"
     },
     "Find Custom Entity": {
       "description": "Finds a custom entity.",
-      "code": "// Look up records on a custom entity.\nquery({\n  entityName: 'my_custom_entities',\n  filter: `my_externalid eq '${$.data.externalId}'`,\n});"
+      "code": "// Look up records on a custom entity.\nquery({\n  entityName: 'my_custom_entities',\n  query: {\n    filter: `my_externalid eq '${$.data.externalId}'`,\n  },\n});"
     },
     "Find Invoice": {
       "description": "Finds an invoice.",
-      "code": "// Look up an Invoice by name or number.\nquery({\n  entityName: 'invoices',\n  filter: `name eq '${$.data.invoiceName}'`,\n});"
+      "code": "// Look up an Invoice by name or number.\nquery({\n  entityName: 'invoices',\n  query: {\n    filter: `name eq '${$.data.invoiceName}'`,\n  },\n});"
     },
     "Find Lead": {
       "description": "Finds a lead by email address or other searchable field.",
-      "code": "// Look up a Lead by email.\nquery({\n  entityName: 'leads',\n  filter: `emailaddress1 eq '${$.data.email}'`,\n});"
+      "code": "// Look up a Lead by email.\nquery({\n  entityName: 'leads',\n  query: {\n    filter: `emailaddress1 eq '${$.data.email}'`,\n  },\n});"
     },
     "Find Opportunity": {
       "description": "Finds an opportunity by subject or other searchable field.",
-      "code": "// Look up an Opportunity by name.\nquery({\n  entityName: 'opportunities',\n  filter: `name eq '${$.data.opportunityName}'`,\n});"
+      "code": "// Look up an Opportunity by name.\nquery({\n  entityName: 'opportunities',\n  query: {\n    filter: `name eq '${$.data.opportunityName}'`,\n  },\n});"
     },
     "Find or Create Account": {
       "description": "Finds an account by name.",

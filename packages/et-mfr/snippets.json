@@ -2,7 +2,7 @@
   "SEARCH": {
     "Search Facilities": {
       "description": "Searches the facility registry with filters; the adaptor fetches every page for you.",
-      "code": "// Search facilities in a region, e.g. to sync the master list into DHIS2.\n// post() pages through all results automatically.\npost('Facility/GetFacilities', {\n  pageNumber: 1,\n  showPerPage: 100,\n  regionId: $.data.regionId, // id from Location/Regions\n  facilityTypeId: $.data.facilityTypeId, // optional, from Lookup?name=FacilityType\n});"
+      "code": "// Search facilities in a region, e.g. to sync the master list into DHIS2.\n// post() pages through all results automatically.\npost('Facility/GetFacilities', {\n  pageNumber: 1,\n  showPerPage: 100,\n  regionId: [$.data.regionId], // array of ids from Location/Regions\n  facilityTypeId: $.data.facilityTypeIds, // optional array of ids, from Lookup?name=FacilityType\n});"
     },
     "Get Facility By MFR ID": {
       "description": "Fetches the full details of one facility by its MFR id.",
@@ -18,7 +18,7 @@
     },
     "Export Facilities As CSV": {
       "description": "Exports matching facilities as CSV text, e.g. to load into a spreadsheet or data warehouse.",
-      "code": "// Export facilities in a zone as CSV text.\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Path.\n  'Facility/ExportCSV',\n  // 3) Same filters as GetFacilities.\n  { zoneId: $.data.zoneId },\n  // 4) Return the raw CSV string.\n  { parseAs: 'text' }\n);"
+      "code": "// Export facilities in a zone as CSV text.\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Path.\n  'Facility/ExportCSV',\n  // 3) Same filters as GetFacilities (id filters are arrays).\n  { zoneId: [$.data.zoneId] },\n  // 4) Return the raw CSV string.\n  { parseAs: 'text' }\n);"
     },
     "List Regions": {
       "description": "Lists all regions in the administrative hierarchy.",

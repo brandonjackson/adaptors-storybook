@@ -30,7 +30,7 @@
     },
     "Conversation (Legacy)": {
       "description": "Sends a Chat to OpenAI and generates a Completion, optionally storing messages as we do. Powered by Chat Completions API.",
-      "code": "// Multi-turn chat via Chat Completions. Provide the full message history.\n// `prompt`'s first arg is ignored when `messages` is overridden.\nprompt(null, {\n  model: 'gpt-4o-mini',\n  messages: [\n    { role: 'system', content: 'You are a concise assistant.' },\n    ...($.state.history || []),\n    { role: 'user', content: $.data.userMessage },\n  ],\n  temperature: 0.5,\n});"
+      "code": "// Multi-turn chat via Chat Completions. Provide the full message history.\n// `prompt`'s first arg is ignored when `messages` is overridden.\nprompt(null, {\n  model: 'gpt-4o-mini',\n  messages: [\n    { role: 'system', content: 'You are a concise assistant.' },\n    ...($.data.history || []),\n    { role: 'user', content: $.data.userMessage },\n  ],\n  temperature: 0.5,\n});"
     },
     "Convert Text to Speech": {
       "description": "Converts a given text to speech.",

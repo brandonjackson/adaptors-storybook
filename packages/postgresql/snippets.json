@@ -2,7 +2,7 @@
   "CREATE": {
     "New Row": {
       "description": "Adds a new row.",
-      "code": "// Insert one row into a table.\n// The new row is returned on state.data.\ninsert(\n  // Target table name.\n  'users',\n  // The record as a plain object (column => value).\n  { name: 'Elodie', email: 'elodie@example.org', age: 31 },\n  // Optional settings.\n  {\n    // Print the generated SQL to the run log (handy while developing).\n    writeSql: true,\n    // Treat these literal strings in the payload as SQL NULL.\n    setNull: [\"''\", \"'undefined'\"],\n  }\n);"
+      "code": "// Insert one row into a table.\n// The raw pg result is written to state.result (no rows are returned without RETURNING).\ninsert(\n  // Target table name.\n  'users',\n  // The record as a plain object (column => value).\n  { name: 'Elodie', email: 'elodie@example.org', age: 31 },\n  // Optional settings.\n  {\n    // Print the generated SQL to the run log (handy while developing).\n    writeSql: true,\n    // Treat these literal strings in the payload as SQL NULL.\n    setNull: [\"''\", \"'undefined'\"],\n  }\n);"
     },
     "Update Row": {
       "description": "Updates an existing row.",
@@ -16,7 +16,7 @@
     },
     "Find Row via Custom Query": {
       "description": "Finds a row in a table via a custom query you control.",
-      "code": "// Run an arbitrary SELECT. Results are on state.data.rows.\nsql(\n  'SELECT * FROM users WHERE email = $1 LIMIT 1;',\n  {\n    values: [$.data.email],\n    writeSql: true,\n  }\n);"
+      "code": "// Run an arbitrary SELECT. The matching rows are written to state.data (an array).\nsql(\n  'SELECT * FROM users WHERE email = $1 LIMIT 1;',\n  {\n    values: [$.data.email],\n    writeSql: true,\n  }\n);"
     },
     "Find Rows via Custom Query": {
       "description": "Finds multiple rows in a table via a custom query you control.",

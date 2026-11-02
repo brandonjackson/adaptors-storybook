@@ -2,7 +2,7 @@
   "SEARCH": {
     "Get Forms": {
       "description": "Lists all survey forms the authorized user can access.",
-      "code": "// Fetch every survey form (asset) visible to this account.\n// state.data is an array of form objects; each has a `uid` used as the formId.\ngetForms();"
+      "code": "// Fetch every survey form (asset) visible to this account.\n// state.data is the paginated response; state.data.results is the array of forms, each with a `uid` used as the formId.\ngetForms();"
     },
     "Get Form Submissions": {
       "description": "Fetches submissions for a single form.",

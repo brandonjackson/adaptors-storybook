@@ -2,31 +2,31 @@
   "CREATE": {
     "Create Sale Transaction": {
       "description": "Records a sale and issues a tax-compliant receipt for it.",
-      "code": "// Record a sale (e.g. a pharmacy dispensing) and issue a tax receipt.\npost('transaction/sale', {\n  body: {\n    purchaseCode: $.data.purchaseCode,\n    paymentMethodID: $.data.paymentMethodId, // see the payment modes lookup\n    customerID: $.data.customerId,\n    transactionDate: $.data.date, // 'YYYY-MM-DD'\n    customerTIN: $.data.customerTin,\n    customerName: $.data.customerName,\n    customerPhone: $.data.customerPhone,\n    note: 'Synced from clinic POS',\n    items: $.data.lines.map(line => ({\n      productID: line.productId,\n      units: line.quantity,\n      unitPrice: line.price,\n      discountRate: 0,\n      batchNumber: line.batch,\n    })),\n  },\n  // Company and branch scope are sent as headers.\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
+      "code": "// Record a sale (e.g. a pharmacy dispensing) and issue a tax receipt.\nrequest('POST', 'transaction/sale', {\n  body: {\n    purchaseCode: $.data.purchaseCode,\n    paymentMethodID: $.data.paymentMethodId, // see the payment modes lookup\n    customerID: $.data.customerId,\n    transactionDate: $.data.date, // 'YYYY-MM-DD'\n    customerTIN: $.data.customerTin,\n    customerName: $.data.customerName,\n    customerPhone: $.data.customerPhone,\n    note: 'Synced from clinic POS',\n    items: $.data.lines.map(line => ({\n      productID: line.productId,\n      units: line.quantity,\n      unitPrice: line.price,\n      discountRate: 0,\n      batchNumber: line.batch,\n    })),\n  },\n  // Company and branch scope are sent as headers.\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
     },
     "Calculate Transaction Totals": {
       "description": "Calculates tax and totals for a sale without recording it.",
-      "code": "// Preview totals and tax for a basket before recording the sale.\npost('transaction/calculate', {\n  body: {\n    paymentMethodID: $.data.paymentMethodId,\n    customerID: $.data.customerId,\n    transactionDate: $.data.date,\n    items: [\n      { productID: $.data.productId, units: 2, unitPrice: 1500 },\n    ],\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
+      "code": "// Preview totals and tax for a basket before recording the sale.\nrequest('POST', 'transaction/calculate', {\n  body: {\n    paymentMethodID: $.data.paymentMethodId,\n    customerID: $.data.customerId,\n    transactionDate: $.data.date,\n    items: [\n      { productID: $.data.productId, units: 2, unitPrice: 1500 },\n    ],\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
     },
     "Create Customer": {
       "description": "Creates a customer party for use in sales.",
-      "code": "// Register a customer.\npost('party/new-customer', {\n  body: {\n    name: $.data.name, // e.g. 'Kigali Community Clinic'\n    phone: $.data.phone,\n    email: $.data.email,\n    tin: $.data.tin, // taxpayer identification number\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
+      "code": "// Register a customer.\nrequest('POST', 'party/new-customer', {\n  body: {\n    name: $.data.name, // e.g. 'Kigali Community Clinic'\n    phone: $.data.phone,\n    email: $.data.email,\n    tin: $.data.tin, // taxpayer identification number\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
     },
     "Create Product": {
       "description": "Adds a product to the inventory catalogue.",
-      "code": "// Add a product to inventory.\npost('product', {\n  body: {\n    name: $.data.productName, // e.g. 'Paracetamol 500mg x 100'\n    productTypeId: $.data.productTypeId, // see the product types lookup\n    unitPrice: $.data.price,\n    quantity: $.data.openingStock,\n    taxRate: 18,\n    batchNumber: $.data.batch,\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
+      "code": "// Add a product to inventory.\nrequest('POST', 'product', {\n  body: {\n    name: $.data.productName, // e.g. 'Paracetamol 500mg x 100'\n    productTypeId: $.data.productTypeId, // see the product types lookup\n    unitPrice: $.data.price,\n    quantity: $.data.openingStock,\n    taxRate: 18,\n    batchNumber: $.data.batch,\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
     },
     "Reduce Product Quantity": {
       "description": "Reduces stock for a product, e.g. for expiry or damage.",
-      "code": "// Write off stock for a product.\nput(`product/reduce-quantity/${$.data.productId}`, {\n  body: {\n    quantity: $.data.quantity,\n    description: 'Expired stock removed',\n    batchNumber: $.data.batch,\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
+      "code": "// Write off stock for a product.\nrequest('PUT', `product/reduce-quantity/${$.data.productId}`, {\n  body: {\n    quantity: $.data.quantity,\n    description: 'Expired stock removed',\n    batchNumber: $.data.batch,\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
     },
     "Record Expense": {
       "description": "Records a business expense.",
-      "code": "// Record an expense.\npost('expense', {\n  body: {\n    categoryId: $.data.categoryId,\n    amount: $.data.amount,\n    description: 'Cold chain transport',\n    expenseDate: $.data.date,\n    supplierTIN: $.data.supplierTin,\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
+      "code": "// Record an expense.\nrequest('POST', 'expense', {\n  body: {\n    categoryId: $.data.categoryId,\n    amount: $.data.amount,\n    description: 'Cold chain transport',\n    expenseDate: $.data.date,\n    supplierTIN: $.data.supplierTin,\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
     },
     "Initiate ZataPay Debit": {
       "description": "Starts a ZataPay bank debit payment.",
-      "code": "// Initiate a debit payment through ZataPay.\npost('zatapay/debit-initiate', {\n  body: {\n    amount: $.data.amount,\n    bankCode: $.data.bankCode, // see the supported banks list\n    accountNumber: $.data.accountNumber,\n    narration: 'Invoice payment',\n    reference: $.data.reference, // your unique reference\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
+      "code": "// Initiate a debit payment through ZataPay.\nrequest('POST', 'zatapay/debit-initiate', {\n  body: {\n    amount: $.data.amount,\n    bankCode: $.data.bankCode, // see the supported banks list\n    accountNumber: $.data.accountNumber,\n    narration: 'Invoice payment',\n    reference: $.data.reference, // your unique reference\n  },\n  headers: {\n    companyId: $.data.companyId,\n    branchId: $.data.branchId,\n  },\n});"
     }
   },
   "SEARCH": {

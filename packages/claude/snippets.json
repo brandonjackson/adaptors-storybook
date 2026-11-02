@@ -2,11 +2,11 @@
   "CREATE": {
     "Delete File": {
       "description": "Delete a file from Anthropic",
-      "code": ""
+      "code": "// Not supported: this adaptor only exposes prompt() (the Messages API) and\n// doesn't wrap Anthropic's Files API.\n// Workaround: call the Files API from the HTTP adaptor in a separate step,\n// with x-api-key and anthropic-beta headers."
     },
     "Download File": {
       "description": "Download file content from Anthropic",
-      "code": ""
+      "code": "// Not supported: this adaptor only exposes prompt() (the Messages API) and\n// doesn't wrap Anthropic's Files API.\n// Workaround: call the Files API from the HTTP adaptor in a separate step,\n// with x-api-key and anthropic-beta headers."
     },
     "Send Message": {
       "description": "Sends a message to Claude and the model generates the next message in the conversation, storing the messages as you go.",
@@ -14,17 +14,17 @@
     },
     "Upload File": {
       "description": "Upload a file to Anthropic",
-      "code": ""
+      "code": "// Not supported: this adaptor only exposes prompt() (the Messages API) and\n// doesn't wrap Anthropic's Files API.\n// Closest option: send the document inline with the prompt instead of\n// uploading it first. Pass a base64-encoded PDF from an upstream step.\nprompt(null, {\n  messages: [\n    {\n      role: 'user',\n      content: [\n        {\n          type: 'document',\n          source: { type: 'base64', media_type: 'application/pdf', data: $.data.pdfBase64 },\n        },\n        { type: 'text', text: 'Summarise the key findings of this report.' },\n      ],\n    },\n  ],\n});"
     }
   },
   "SEARCH": {
     "Get File Metadata": {
       "description": "Get metadata for a specific file",
-      "code": ""
+      "code": "// Not supported: this adaptor only exposes prompt() (the Messages API) and\n// doesn't wrap Anthropic's Files API.\n// Workaround: call the Files API from the HTTP adaptor in a separate step,\n// with x-api-key and anthropic-beta headers."
     },
     "List Files": {
       "description": "List all files uploaded to Anthropic",
-      "code": ""
+      "code": "// Not supported: this adaptor only exposes prompt() (the Messages API) and\n// doesn't wrap Anthropic's Files API.\n// Workaround: call the Files API from the HTTP adaptor in a separate step,\n// with x-api-key and anthropic-beta headers."
     }
   }
 }

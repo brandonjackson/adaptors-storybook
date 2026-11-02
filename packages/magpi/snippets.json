@@ -2,7 +2,7 @@
   "CREATE": {
     "Submit Record To Form": {
       "description": "Submits a record against a form that already exists in the Magpi account.",
-      "code": "// Submit a record to an existing Magpi form.\n// The payload is converted to an XML <form> document.\nsubmitRecord({\n  surveyid: $.configuration.surveyId, // the target form, e.g. '37479'\n  data: {\n    // keys must match the form's question names\n    household_id: $.data.householdId,\n    village: $.data.village,\n    members_count: String($.data.membersCount),\n  },\n});"
+      "code": "// Heads up: in the current adaptor source, submitRecord's POST is commented out,\n// so this step won't send anything until the adaptor is fixed.\n// Submit a record to an existing Magpi form.\n// The payload is converted to an XML <form> document.\nsubmitRecord({\n  surveyid: $.configuration.surveyId, // the target form, e.g. '37479'\n  data: {\n    // keys must match the form's question names\n    household_id: $.data.householdId,\n    village: $.data.village,\n    members_count: String($.data.membersCount),\n  },\n});"
     }
   },
   "SEARCH": {

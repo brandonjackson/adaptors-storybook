@@ -2,7 +2,7 @@
   "CREATE": {
     "Call Phone": {
       "description": "Call a number or numbers and say a message.",
-      "code": ""
+      "code": "// Not supported: this adaptor only exposes sendSMS(), so it can't place\n// voice calls, and it has no generic request helper.\n// Closest option: send the message as an SMS to each number instead.\neach(\n  $.data.phoneNumbers,\n  sendSMS({\n    body: 'Reminder: your clinic appointment is tomorrow at 9am.',\n    from: $.configuration.fromNumber,\n    // Each item is an E.164 number, e.g. +14155551212.\n    to: $.data,\n  })\n);"
     },
     "Send SMS": {
       "description": "Send a SMS to a number or numbers.",
@@ -10,11 +10,11 @@
     },
     "Send WhatsApp Message": {
       "description": "Send a WhatsApp message to one or more recipients.",
-      "code": ""
+      "code": "// Send a WhatsApp message to each recipient.\n// sendSMS() uses Twilio's Messages API, which delivers over WhatsApp when\n// both numbers have the whatsapp: prefix.\neach(\n  $.data.recipients,\n  sendSMS({\n    body: `Hi ${$.data.name}, your test results are ready to collect.`,\n    // Your WhatsApp-enabled Twilio sender, in E.164 format.\n    from: `whatsapp:${$.configuration.fromNumber}`,\n    to: `whatsapp:${$.data.phone}`,\n  })\n);"
     },
     "API Request (Beta)": {
       "description": "This is an advanced action which makes a raw HTTP request that includes this integration's authentication.",
-      "code": ""
+      "code": "// Not supported: this adaptor has no generic request helper. It only\n// exposes sendSMS(), which calls Twilio's Messages API.\n// For other Twilio endpoints, use the HTTP adaptor in a separate step with\n// your Account SID and Auth Token as basic auth.\nsendSMS({\n  body: $.data.message,\n  from: $.configuration.fromNumber,\n  to: $.data.phone,\n});"
     }
   }
 }

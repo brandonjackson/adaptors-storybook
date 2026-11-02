@@ -2,25 +2,25 @@
   "CREATE": {
     "Create Payment Plan": {
       "description": "Creates a new payment plan.",
-      "code": ""
+      "code": "// Not supported: this adaptor (Flutterwave v4) has no payment plan function,\n// and no generic request helper. It only exposes createCustomer,\n// createPaymentMethod and initiatePayment.\n// Closest option: charge one instalment as a one-off payment.\ninitiatePayment({\n  // Amount in the currency's main unit.\n  amount: 5000,\n  currency: 'NGN',\n  customer_id: $.data.customerId,\n  payment_method_id: $.data.paymentMethodId,\n  // Unique reference per instalment.\n  reference: `plan-${$.data.memberId}-${$.data.instalment}`,\n});"
     },
     "Create Transfer": {
       "description": "Creates a new transfer.",
-      "code": ""
+      "code": "// Not supported: this adaptor (Flutterwave v4) can't send transfers or\n// payouts. It only exposes createCustomer, createPaymentMethod and\n// initiatePayment (collecting money), and has no generic request helper.\n// Workaround: call the Flutterwave transfers API from the HTTP adaptor in a\n// separate step, with your secret key as a Bearer token."
     },
     "API Request (Beta)": {
       "description": "Raw HTTP request with authentication.",
-      "code": ""
+      "code": "// Not supported: this adaptor has no generic request helper. It only exposes\n// createCustomer (POST /customers), createPaymentMethod (POST /payment-methods)\n// and initiatePayment (POST /charges).\n// For any other endpoint, use the HTTP adaptor in a separate step with your\n// secret key as a Bearer token.\ncreateCustomer({\n  email: $.data.email,\n  name: { first: $.data.firstName, last: $.data.lastName },\n});"
     }
   },
   "SEARCH": {
     "Find Transaction": {
       "description": "Find a transaction by the transaction id or payment reference.",
-      "code": ""
+      "code": "// Not supported: this adaptor has no read functions. The API offers\n// GET /charges/{id} to look up a charge, but the adaptor doesn't expose it.\n// Workaround: call GET /charges/{id} from the HTTP adaptor in a separate step,\n// with your secret key as a Bearer token. Keep the charge id returned by\n// initiatePayment (state.data.id) so you can look it up later."
     },
     "Find Transfer": {
       "description": "Find a transfer by the transfer reference.",
-      "code": ""
+      "code": "// Not supported: this adaptor has no transfer or read functions.\n// Workaround: call the Flutterwave transfers API from the HTTP adaptor in a\n// separate step, with your secret key as a Bearer token."
     }
   }
 }

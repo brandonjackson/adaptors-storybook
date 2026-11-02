@@ -2,33 +2,33 @@
   "CREATE": {
     "Create/Update Module Entry": {
       "description": "Creates or updates an entry in a specified module.",
-      "code": ""
+      "code": "// Note: this adaptor targets the Zoho Analytics (Reports) API, not Zoho CRM.\n// It can only add rows to a table (no updates), so this creates a new row.\naddRow(\n  // 1) Workspace (database) name.\n  'health_programme',\n  // 2) Table name, standing in for the CRM module.\n  'Contacts',\n  // 3) Column values for the new row.\n  fields(\n    field('Name', dataValue('name')),\n    field('Phone', dataValue('phone')),\n    field('District', dataValue('district'))\n  )\n);"
     },
     "Relate Module Entry": {
       "description": "Relates an entry in this module with an entry in another module.",
-      "code": ""
+      "code": "// Note: this adaptor targets the Zoho Analytics (Reports) API, not Zoho CRM.\n// It has no way to relate records, so the closest option is to add a row to a\n// link table holding both ids.\naddRow(\n  // 1) Workspace (database) name.\n  'health_programme',\n  // 2) A table that stores the relationship.\n  'Contact_Facility_Links',\n  // 3) The two ids being related.\n  fields(\n    field('Contact_ID', dataValue('contactId')),\n    field('Facility_ID', dataValue('facilityId'))\n  )\n);"
     },
     "Update Module Entry": {
       "description": "Updates an existing module entry.",
-      "code": ""
+      "code": "// Note: this adaptor targets the Zoho Analytics (Reports) API, not Zoho CRM.\n// Not supported: the adaptor only exposes addRow, which inserts new rows.\n// There is no function to update an existing row or module entry.\n// If an append-only log is acceptable, add a new row with the latest values:\naddRow(\n  'health_programme',\n  'Contacts_History',\n  fields(\n    field('Contact_ID', dataValue('contactId')),\n    field('Status', dataValue('status')),\n    field('Updated_At', new Date().toISOString())\n  )\n);"
     },
     "API Request (Beta)": {
       "description": "Raw HTTP request with authentication.",
-      "code": ""
+      "code": "// Note: this adaptor targets the Zoho Analytics (Reports) API, not Zoho CRM.\n// Not supported: the adaptor has no generic request helper, only addRow\n// (POST /{account}/{db}/{table} with ZOHO_ACTION=ADDROW).\naddRow(\n  'health_programme',\n  'Visits',\n  fields(field('Visit_Date', dataValue('visitDate')), field('Outcome', 'Completed'))\n);"
     }
   },
   "SEARCH": {
     "Find Module Entry": {
       "description": "Finds an entry in a module.",
-      "code": ""
+      "code": "// Note: this adaptor targets the Zoho Analytics (Reports) API, not Zoho CRM.\n// Not supported: the adaptor can only add rows (addRow). It has no function\n// to read or search a table, so entries can't be found from this adaptor.\n// Workaround: export the table (ZOHO_ACTION=EXPORT) with the HTTP adaptor in\n// a separate step, then filter the rows in a later step."
     },
     "Find Multiple Module Entries": {
       "description": "Finds multiple entries in a module (with line item support).",
-      "code": ""
+      "code": "// Note: this adaptor targets the Zoho Analytics (Reports) API, not Zoho CRM.\n// Not supported: the adaptor can only add rows (addRow). It has no function\n// to read or search a table, so entries can't be listed from this adaptor.\n// Workaround: export the table (ZOHO_ACTION=EXPORT) with the HTTP adaptor in\n// a separate step, then filter the rows in a later step."
     },
     "Find or Create Module Entry": {
       "description": "Finds or creates an entry in a module.",
-      "code": ""
+      "code": "// Note: this adaptor targets the Zoho Analytics (Reports) API, not Zoho CRM.\n// The \"find\" half isn't supported (no read function), so this only covers\n// \"create\": it adds the row unconditionally. De-duplicate upstream if needed.\naddRow(\n  'health_programme',\n  'Contacts',\n  fields(field('Name', dataValue('name')), field('Phone', dataValue('phone')))\n);"
     }
   }
 }

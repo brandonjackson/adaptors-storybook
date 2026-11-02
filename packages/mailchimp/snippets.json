@@ -2,7 +2,7 @@
   "CREATE": {
     "Add Note to Subscriber": {
       "description": "Adds a new note to an existing subscriber.",
-      "code": ""
+      "code": "// Add a note to an existing subscriber.\n// The subscriber can be identified by email address or its MD5 hash.\npost(`/lists/${$.configuration.listId}/members/${$.data.email}/notes`, {\n  note: `Attended the nutrition workshop on ${$.data.eventDate}.`,\n});"
     },
     "Add/Update Subscriber": {
       "description": "Add a new subscriber or update an existing one.",
@@ -14,19 +14,19 @@
     },
     "Create Audience": {
       "description": "Creates a new audience in your MailChimp account.",
-      "code": ""
+      "code": "// Create a new audience (list).\npost('/lists', {\n  name: 'Community health volunteers',\n  // Reminder of why people are receiving your emails.\n  permission_reminder: 'You signed up as a volunteer at one of our clinics.',\n  email_type_option: false,\n  // Required postal contact details (shown in email footers).\n  contact: {\n    company: 'Example Health Foundation',\n    address1: '12 Clinic Road',\n    city: 'Nairobi',\n    country: 'KE',\n  },\n  campaign_defaults: {\n    from_name: 'Example Health Foundation',\n    from_email: 'updates@example.org',\n    subject: 'Volunteer update',\n    language: 'en',\n  },\n});"
     },
     "Create Campaign": {
       "description": "Creates a campaign draft.",
-      "code": ""
+      "code": "// Create a draft email campaign for an audience.\npost('/campaigns', {\n  type: 'regular',\n  recipients: {\n    list_id: $.configuration.listId,\n  },\n  settings: {\n    subject_line: 'Vaccination days this month',\n    title: `Vaccination reminder ${$.data.month}`,\n    from_name: 'Example Health Foundation',\n    reply_to: 'updates@example.org',\n  },\n});"
     },
     "Create Custom Event": {
       "description": "Creates a custom event for an existing subscriber.",
-      "code": ""
+      "code": "// Record a custom event for a subscriber (can trigger automations).\npost(`/lists/${$.configuration.listId}/members/${$.data.email}/events`, {\n  // Event name, 2-30 characters.\n  name: 'completed_training',\n  // Optional string properties.\n  properties: {\n    course: $.data.courseName,\n  },\n});"
     },
     "Create Tag": {
       "description": "Creates a new tag.",
-      "code": ""
+      "code": "// Create a new tag (a static segment) on an audience.\npost(`/lists/${$.configuration.listId}/segments`, {\n  name: 'Malaria programme',\n  // Emails to tag straight away; pass [] to create an empty tag.\n  static_segment: [$.data.email],\n});"
     },
     "Permanently Delete Member": {
       "description": "Deletes all personally identifiable information related to a member.",
@@ -68,11 +68,11 @@
     },
     "Find or Create Campaign": {
       "description": "Finds an existing campaign.",
-      "code": ""
+      "code": "// Search campaigns by title or subject.\nget('/search-campaigns', { query: $.data.campaignTitle });\n\n// If nothing matched, create a draft campaign with that title.\nfnIf(\n  state => !state.data.results?.length,\n  post('/campaigns', {\n    type: 'regular',\n    recipients: { list_id: $.configuration.listId },\n    settings: {\n      title: $.data.campaignTitle,\n      subject_line: $.data.campaignTitle,\n      from_name: 'Example Health Foundation',\n      reply_to: 'updates@example.org',\n    },\n  })\n);"
     },
     "Find or Create Subscriber": {
       "description": "Searches for a subscriber on your MailChimp audience.",
-      "code": ""
+      "code": "// Look for the subscriber on the audience by email.\nget('/search-members', {\n  query: $.data.email,\n  list_id: $.configuration.listId,\n});\n\n// If there's no exact match, add them as a new subscriber.\nfnIf(\n  state => !state.data.exact_matches?.members?.length,\n  post(`/lists/${$.configuration.listId}/members`, {\n    email_address: $.data.email,\n    status: 'subscribed',\n    merge_fields: { FNAME: $.data.firstName, LNAME: $.data.lastName },\n  })\n);"
     },
     "Find Tag": {
       "description": "Find a tag.",

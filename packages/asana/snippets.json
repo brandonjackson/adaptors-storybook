@@ -2,7 +2,7 @@
   "CREATE": {
     "Add Task to Section of Project": {
       "description": "Adds a Task to a Section of a Project.",
-      "code": ""
+      "code": "// Move a task into a section of a project.\nrequest(`/sections/${$.data.sectionGid}/addTask`, {\n  method: 'POST',\n  body: {\n    data: {\n      // The task to add to the section.\n      task: $.data.taskGid,\n    },\n  },\n});"
     },
     "Create Comment/Story": {
       "description": "Adds a comment or story to a task.",
@@ -10,15 +10,15 @@
     },
     "Create Duplicate Task": {
       "description": "Duplicates an existing task.",
-      "code": ""
+      "code": "// Duplicate an existing task.\nrequest(`/tasks/${$.data.taskGid}/duplicate`, {\n  method: 'POST',\n  body: {\n    data: {\n      // Name for the new task.\n      name: `Copy of ${$.data.taskName}`,\n      // Comma-separated list of fields to copy over.\n      include: 'assignee,notes,projects,subtasks,tags',\n    },\n  },\n});"
     },
     "Create Project": {
       "description": "Adds a new project.",
-      "code": ""
+      "code": "// Create a new project in a workspace.\nrequest('/projects', {\n  method: 'POST',\n  body: {\n    data: {\n      name: 'Measles vaccination campaign 2026',\n      notes: 'Tracks outreach, cold chain and reporting tasks.',\n      workspace: $.configuration.workspaceGid,\n      // Required for organisation workspaces: the owning team gid.\n      team: $.data.teamGid,\n    },\n  },\n});"
     },
     "Create Section": {
       "description": "Creates a new section within a project.",
-      "code": ""
+      "code": "// Create a new section within a project.\nrequest(`/projects/${$.data.projectGid}/sections`, {\n  method: 'POST',\n  body: {\n    data: {\n      name: 'Awaiting lab results',\n    },\n  },\n});"
     },
     "Create Task": {
       "description": "Creates a new task in Asana with specified details.",
@@ -26,7 +26,7 @@
     },
     "Create Task From Template": {
       "description": "Creates a new task in Asana from a selected template.",
-      "code": ""
+      "code": "// Create a task from a task template.\nrequest(`/task_templates/${$.data.taskTemplateGid}/instantiateTask`, {\n  method: 'POST',\n  body: {\n    data: {\n      // Name of the new task.\n      name: `Home visit: ${$.data.householdId}`,\n    },\n  },\n});"
     },
     "Update Task": {
       "description": "Updates multiple properties of an existing Asana task.",
@@ -44,15 +44,15 @@
     },
     "Find Project": {
       "description": "Finds an existing project.",
-      "code": ""
+      "code": "// Find projects in a workspace whose name matches a search term.\nrequest(`/workspaces/${$.configuration.workspaceGid}/typeahead`, {\n  query: {\n    resource_type: 'project',\n    query: $.data.projectName,\n    count: 5,\n  },\n});"
     },
     "Find Section in Project": {
       "description": "Finds an existing section within a workspace project.",
-      "code": ""
+      "code": "// List the sections in a project, then keep the one matching a name.\nrequest(`/projects/${$.data.projectGid}/sections`, {\n  query: { opt_fields: 'name' },\n});\n\nfn(state => {\n  state.data = state.data.find(section => section.name === 'Awaiting lab results');\n  return state;\n});"
     },
     "Find Task Comments": {
       "description": "Finds comments for a specific task.",
-      "code": ""
+      "code": "// List the stories on a task, then keep only the comments.\nrequest(`/tasks/${$.data.taskGid}/stories`, {\n  query: { opt_fields: 'type,text,created_by.name,created_at' },\n});\n\nfn(state => {\n  state.data = state.data.filter(story => story.type === 'comment');\n  return state;\n});"
     },
     "Find Tasks in Workspace": {
       "description": "Searches for tasks in a workspace using Asana's search API (premium only).",
@@ -60,7 +60,7 @@
     },
     "Find User": {
       "description": "Finds an existing user of your Asana account.",
-      "code": ""
+      "code": "// Find a user in a workspace by email (or user gid).\nrequest(\n  `/workspaces/${$.configuration.workspaceGid}/users/${$.data.email}`,\n  {\n    query: { opt_fields: 'name,email' },\n  }\n);"
     }
   }
 }

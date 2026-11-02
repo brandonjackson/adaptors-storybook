@@ -10,7 +10,7 @@
     },
     "Submit Many Sites": {
       "description": "Creates one site per item in an incoming list.",
-      "code": "// Create one site per item in $.data.sites.\neach(\n  $.data.sites[*],\n  submitSite(\n    // 1) Collection ID.\n    '303',\n    // 2) Site data for the current item.\n    {\n      name: $.data.name,\n      lat: $.data.lat,\n      lng: $.data.lng,\n      properties: $.data.properties,\n    }\n  )\n);"
+      "code": "// Create one site per item in $.data.sites.\neach(\n  $.data.sites,\n  submitSite(\n    // 1) Collection ID.\n    '303',\n    // 2) Site data for the current item.\n    {\n      name: $.data.name,\n      lat: $.data.lat,\n      lng: $.data.lng,\n      properties: $.data.properties,\n    }\n  )\n);"
     }
   }
 }

@@ -2,15 +2,15 @@
   "CREATE": {
     "Add Mailing List Member": {
       "description": "Adds a new member to a mailing list.",
-      "code": ""
+      "code": "// Add a member to a mailing list.\n// The adaptor only exposes send(), so this uses the mailgun.js client it\n// sets up on state.client.\nfn(async state => {\n  const member = await state.client.lists.members.createMember(\n    // The mailing list address.\n    'volunteers@mg.example.org',\n    {\n      address: state.data.email,\n      name: state.data.name,\n      subscribed: 'yes',\n      // Update the member if they already exist.\n      upsert: 'yes',\n    }\n  );\n  return { ...state, data: member };\n});"
     },
     "Bulk Email Validation": {
       "description": "Upload a CSV and start a bulk validation job using Mailgun V4 API.",
-      "code": ""
+      "code": "// Upload a CSV of emails and start a bulk validation job (Mailgun v4 API).\n// The adaptor only exposes send(), so this uses the mailgun.js client it\n// sets up on state.client.\nfn(async state => {\n  // One email per line, with a header row.\n  const csv = ['email', ...state.data.emails].join('\\n');\n\n  const job = await state.client.validate.multipleValidation.create(\n    // A name for this validation job / list.\n    'volunteer-emails-2026',\n    { file: { filename: 'emails.csv', data: csv } }\n  );\n  return { ...state, data: job };\n});"
     },
     "Get Bulk Validation Results": {
       "description": "Retrieves completed bulk validation job results.",
-      "code": ""
+      "code": "// Fetch the status and results of a bulk validation job.\n// The adaptor only exposes send(), so this uses the mailgun.js client it\n// sets up on state.client.\nfn(async state => {\n  const job = await state.client.validate.multipleValidation.get(\n    // The job / list name used when the job was created.\n    state.data.validationJobId\n  );\n  // job.status, job.summary and job.downloadUrl (csv / json) hold the results.\n  return { ...state, data: job };\n});"
     },
     "Send Email": {
       "description": "Sends an email using your Mailgun account.",
@@ -18,11 +18,11 @@
     },
     "Validate Email": {
       "description": "Validates an email address and returns deliverability results.",
-      "code": ""
+      "code": "// Validate a single email address (Mailgun v4 API).\n// The adaptor only exposes send(), so this uses the mailgun.js client it\n// sets up on state.client.\nfn(async state => {\n  const result = await state.client.validate.get(state.data.email);\n  // result.result is e.g. 'deliverable', 'undeliverable' or 'unknown'.\n  return { ...state, data: result };\n});"
     },
     "API Request (Beta)": {
       "description": "Raw HTTP request with authentication.",
-      "code": ""
+      "code": "// The adaptor has no generic request helper: it only exposes send().\n// Closest option: call a method on the mailgun.js client it sets up on\n// state.client. For example, list the account's mailing lists:\nfn(async state => {\n  const lists = await state.client.lists.list();\n  return { ...state, data: lists };\n});"
     }
   }
 }

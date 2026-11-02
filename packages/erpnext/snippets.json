@@ -32,7 +32,7 @@
     },
     "List Documents with Filters": {
       "description": "Lists documents of a doctype, selecting fields and filtering.",
-      "code": "// List submitted purchase orders for a supplier.\ngetList('Purchase Order', {\n  fields: ['name', 'supplier', 'transaction_date', 'grand_total', 'status'],\n  filters: { supplier: $.data.supplier, docstatus: 1 },\n  orderBy: 'transaction_date desc',\n  limit: 100,\n});"
+      "code": "// List submitted purchase orders for a supplier.\ngetList('Purchase Order', {\n  fields: ['name', 'supplier', 'transaction_date', 'grand_total', 'status'],\n  filters: { supplier: $.data.supplier, docstatus: 1 },\n  orderBy: { field: 'transaction_date', order: 'desc' },\n  limit: 100,\n});"
     },
     "Count Documents": {
       "description": "Counts documents matching filters, e.g. for a dashboard.",

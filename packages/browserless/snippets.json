@@ -6,7 +6,7 @@
     },
     "Create PDF From URL": {
       "description": "Prints a web page, such as a public dashboard or report page, to PDF.",
-      "code": "// Print a web page to PDF (a string starting with 'http' is treated as a URL).\ncreatePDF({\n  url: $.data.reportUrl, // e.g. a public dashboard link\n  options: { format: 'A4', landscape: true },\n  // Wait until the page's charts have finished loading.\n  gotoOptions: { waitUntil: 'networkidle2', timeout: 60000 },\n});"
+      "code": "// Print a web page to PDF.\ncreatePDF({\n  url: $.data.reportUrl, // e.g. a public dashboard link\n  options: { format: 'A4', landscape: true },\n  // Wait until the page's charts have finished loading.\n  gotoOptions: { waitUntil: 'networkidle2', timeout: 60000 },\n});"
     },
     "Take Screenshot": {
       "description": "Captures a full-page PNG screenshot of a page, e.g. a daily dashboard snapshot to share by email or chat.",

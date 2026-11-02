@@ -25,7 +25,7 @@
       "code": "// List jobs in a project.\nget('jobs', {\n  query: {\n    project_id: $.configuration.projectId,\n    limit: 50,\n    offset: 0,\n  },\n});"
     },
     "List Credentials": {
-      "description": "Lists credentials the token can see, e.g. for a periodic access audit (secrets are not returned in snippets' state).",
+      "description": "Lists credentials the token can see, e.g. for a periodic access audit.",
       "code": "// List credentials (metadata) for an access audit.\nrequest('GET', 'credentials', {\n  errors: { 403: 'This token cannot list credentials' },\n});"
     }
   }

@@ -8,11 +8,11 @@
   "SEARCH": {
     "Find Row": {
       "description": "Find a specific row in a BigQuery table.",
-      "code": ""
+      "code": "// Find a row in a BigQuery table.\n// Limitation: the bigquery adaptor only exposes load() (bulk-load local files into a table);\n// it has no query function, and the credential is a service-account key, so there's no\n// access token to call the REST API with fn(). To run SQL, use a separate step with the\n// http adaptor (OAuth access token) against POST /projects/{projectId}/queries:\n//\n// post(`https://bigquery.googleapis.com/bigquery/v2/projects/${$.configuration.project_id}/queries`, {\n//   query: `SELECT * FROM my_dataset.beneficiaries WHERE national_id = '${$.data.nationalId}' LIMIT 1`,\n//   useLegacySql: false,\n// });\n//\n// Results come back as rows of { f: [{ v }] } cells, in the order of schema.fields."
     },
     "Run a Query": {
       "description": "Execute a SQL query against your BigQuery dataset.",
-      "code": ""
+      "code": "// Run a SQL query against a BigQuery dataset.\n// Limitation: the bigquery adaptor only exposes load() (bulk-load local files into a table);\n// it has no query function, and the credential is a service-account key, so there's no\n// access token to call the REST API with fn(). To run SQL, use a separate step with the\n// http adaptor (OAuth access token) against POST /projects/{projectId}/queries:\n//\n// post(`https://bigquery.googleapis.com/bigquery/v2/projects/${$.configuration.project_id}/queries`, {\n//   query: 'SELECT district, COUNT(*) AS visits FROM my_dataset.visits GROUP BY district',\n//   useLegacySql: false,\n// });\n//\n// Results come back as rows of { f: [{ v }] } cells, in the order of schema.fields."
     }
   }
 }

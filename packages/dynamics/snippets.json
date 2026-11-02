@@ -84,19 +84,19 @@
     },
     "Find or Create Account": {
       "description": "Finds an account by name.",
-      "code": ""
+      "code": "// Find an Account by name, or create it if missing.\n// 1) Look for an existing record. query() puts the raw response on state.response.body.\nquery({\n  entityName: 'accounts',\n  query: {\n    // OData $filter; quote string values with single quotes.\n    filter: `name eq '${$.data.name}'`,\n    fields: ['accountid', 'name'],\n  },\n});\n\n// 2) Nothing matched? Create it.\nfnIf(\n  state => JSON.parse(state.response.body).value.length === 0,\n  createEntity({\n    entityName: 'accounts',\n    body: {\n      name: $.data.name,\n      emailaddress1: $.data.email,\n      telephone1: $.data.phone,\n    },\n  })\n);"
     },
     "Find or Create Custom Entity": {
       "description": "Finds a custom entity.",
-      "code": ""
+      "code": "// Find a custom entity record by external id, or create it if missing.\n// 1) Look for an existing record. query() puts the raw response on state.response.body.\nquery({\n  entityName: 'my_custom_entities',\n  query: {\n    // OData $filter; quote string values with single quotes.\n    filter: `my_externalid eq '${$.data.externalId}'`,\n    fields: ['my_custom_entityid', 'my_externalid'],\n  },\n});\n\n// 2) Nothing matched? Create it.\nfnIf(\n  state => JSON.parse(state.response.body).value.length === 0,\n  createEntity({\n    entityName: 'my_custom_entities',\n    body: $.data.record,\n  })\n);"
     },
     "Find or Create Lead": {
       "description": "Finds a lead.",
-      "code": ""
+      "code": "// Find a Lead by email, or create it if missing.\n// 1) Look for an existing record. query() puts the raw response on state.response.body.\nquery({\n  entityName: 'leads',\n  query: {\n    // OData $filter; quote string values with single quotes.\n    filter: `emailaddress1 eq '${$.data.email}'`,\n    fields: ['leadid', 'fullname', 'emailaddress1'],\n  },\n});\n\n// 2) Nothing matched? Create it.\nfnIf(\n  state => JSON.parse(state.response.body).value.length === 0,\n  createEntity({\n    entityName: 'leads',\n    body: {\n      firstname: $.data.firstName,\n      lastname: $.data.lastName,\n      emailaddress1: $.data.email,\n      subject: $.data.subject,\n    },\n  })\n);"
     },
     "Find or Create Order": {
       "description": "Finds an order.",
-      "code": ""
+      "code": "// Find a Sales Order by name, or create it if missing.\n// 1) Look for an existing record. query() puts the raw response on state.response.body.\nquery({\n  entityName: 'salesorders',\n  query: {\n    // OData $filter; quote string values with single quotes.\n    filter: `name eq '${$.data.orderName}'`,\n    fields: ['salesorderid', 'name'],\n  },\n});\n\n// 2) Nothing matched? Create it.\nfnIf(\n  state => JSON.parse(state.response.body).value.length === 0,\n  createEntity({\n    entityName: 'salesorders',\n    body: {\n      name: $.data.orderName,\n      'customerid_account@odata.bind': `/accounts(${$.data.accountId})`,\n    },\n  })\n);"
     }
   }
 }

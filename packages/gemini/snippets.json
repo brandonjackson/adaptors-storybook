@@ -6,7 +6,7 @@
     },
     "Generate Audio": {
       "description": "Generate audio from text using Gemini text-to-speech models. Useful for voice responses and audio prompts.",
-      "code": ""
+      "code": "// Turn text into speech with a Gemini TTS model.\n// prompt() only returns text, so call models.generateContent directly to get the audio bytes.\nfn(async state => {\n  const model = 'gemini-2.5-flash-preview-tts';\n  const res = await fetch(\n    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,\n    {\n      method: 'POST',\n      headers: {\n        'x-goog-api-key': state.configuration.apiKey,\n        'Content-Type': 'application/json',\n      },\n      body: JSON.stringify({\n        contents: [{ parts: [{ text: `Say clearly: ${state.data.message}` }] }],\n        generationConfig: {\n          responseModalities: ['AUDIO'],\n          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } } },\n        },\n      }),\n    }\n  );\n  if (!res.ok) throw new Error(`Gemini API error ${res.status}: ${await res.text()}`);\n  const body = await res.json();\n  // Base64 audio (16-bit PCM, 24kHz mono) plus its mime type.\n  const audio = body.candidates[0].content.parts[0].inlineData;\n  state.data = { base64: audio.data, mimeType: audio.mimeType };\n  return state;\n});"
     },
     "Generate Image": {
       "description": "Generate an image from a text prompt using Gemini or Imagen models.",
@@ -14,7 +14,7 @@
     },
     "Generate Video": {
       "description": "Generate a video from a text prompt using Veo models.",
-      "code": ""
+      "code": "// Generate a short video with Veo.\n// The gemini adaptor has no video helper, so start a long-running predict job and poll it.\nfn(async state => {\n  const api = 'https://generativelanguage.googleapis.com/v1beta';\n  const headers = { 'x-goog-api-key': state.configuration.apiKey, 'Content-Type': 'application/json' };\n\n  // 1) Start the job.\n  const start = await fetch(`${api}/models/veo-3.0-generate-001:predictLongRunning`, {\n    method: 'POST',\n    headers,\n    body: JSON.stringify({\n      instances: [{ prompt: `A short explainer animation: ${state.data.topic}` }],\n      parameters: { aspectRatio: '16:9' },\n    }),\n  });\n  if (!start.ok) throw new Error(`Gemini API error ${start.status}: ${await start.text()}`);\n  let op = await start.json();\n\n  // 2) Poll the operation (name looks like models/.../operations/...) until done.\n  for (let i = 0; i < 30 && !op.done; i++) {\n    await new Promise(r => setTimeout(r, 10000));\n    op = await (await fetch(`${api}/${op.name}`, { headers })).json();\n  }\n  if (!op.done) throw new Error(`Video still generating: ${op.name}`);\n\n  // The finished operation's response holds the generated video's download URI.\n  state.data = op.response;\n  return state;\n});"
     },
     "Send Prompt": {
       "description": "Sends a prompt and generates a response.",
@@ -22,19 +22,19 @@
     },
     "Understand Audio": {
       "description": "Generate a text response from an audio clip using Gemini models. Useful for summaries, transcripts, and questions about the audio.",
-      "code": ""
+      "code": "// Summarize or transcribe an audio clip.\n// prompt() forwards an array of Content objects to generateContent, so media goes in `parts`.\nprompt(\n  [\n    {\n      role: 'user',\n      parts: [\n        // Base64 audio, inline (keep the whole request under ~20MB).\n        { inlineData: { mimeType: 'audio/mp3', data: $.data.audioBase64 } },\n        { text: 'Transcribe this voice note, then list any follow-up actions mentioned.' },\n      ],\n    },\n  ],\n  {\n    model: 'gemini-2.5-flash',\n  }\n);"
     },
     "Understand Document": {
       "description": "Generate a text response from a document using Gemini models. Useful for summaries, key points, and questions about the document.",
-      "code": ""
+      "code": "// Ask questions about a document (PDF).\n// prompt() forwards an array of Content objects to generateContent, so media goes in `parts`.\nprompt(\n  [\n    {\n      role: 'user',\n      parts: [\n        // Base64 PDF, inline (keep the whole request under ~20MB).\n        { inlineData: { mimeType: 'application/pdf', data: $.data.pdfBase64 } },\n        { text: 'Summarize this report in five bullet points and list key figures.' },\n      ],\n    },\n  ],\n  {\n    model: 'gemini-2.5-flash',\n  }\n);"
     },
     "Understand Video": {
       "description": "Generate a text response from a video using Gemini models. Useful for summaries, key events, and Q&A about the video.",
-      "code": ""
+      "code": "// Summarize a video clip and pull out key events.\n// prompt() forwards an array of Content objects to generateContent, so media goes in `parts`.\nprompt(\n  [\n    {\n      role: 'user',\n      parts: [\n        // Base64 video, inline (keep the whole request under ~20MB).\n        { inlineData: { mimeType: 'video/mp4', data: $.data.videoBase64 } },\n        { text: 'Describe the key events in this video with approximate timestamps.' },\n      ],\n    },\n  ],\n  {\n    model: 'gemini-2.5-flash',\n  }\n);"
     },
     "Understand YouTube Video": {
       "description": "Generate a text response from a YouTube video using Gemini models. Useful for summaries, key moments, and questions about the video.",
-      "code": ""
+      "code": "// Summarize a public YouTube video.\n// prompt() forwards an array of Content objects to generateContent, so media goes in `parts`.\nprompt(\n  [\n    {\n      role: 'user',\n      parts: [\n        // Public YouTube URLs can be passed directly as fileData.\n        { fileData: { fileUri: $.data.youtubeUrl } },\n        { text: 'Summarize this video and list its key moments with timestamps.' },\n      ],\n    },\n  ],\n  {\n    model: 'gemini-2.5-flash',\n  }\n);"
     }
   }
 }

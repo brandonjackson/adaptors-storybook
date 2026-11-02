@@ -1,0 +1,26 @@
+{
+  "CREATE": {
+    "Create PDF From HTML": {
+      "description": "Renders an HTML template into a PDF (e.g. a beneficiary payment receipt or lab report); state.data is the base64 PDF.",
+      "code": "// Render HTML to a PDF. state.data will hold the PDF as a base64 string,\n// ready to attach to an email or upload to a file store.\ncreatePDF({\n  html: `\n    <h1>Payment Receipt</h1>\n    <p>Beneficiary: ${$.data.beneficiaryName}</p>\n    <p>Amount: ${$.data.amount} ${$.data.currency}</p>\n    <p>Date: ${$.data.paidOn}</p>\n  `,\n  options: {\n    format: 'A4',\n    printBackground: true,\n  },\n});"
+    },
+    "Create PDF From URL": {
+      "description": "Prints a web page, such as a public dashboard or report page, to PDF.",
+      "code": "// Print a web page to PDF (a string starting with 'http' is treated as a URL).\ncreatePDF({\n  url: $.data.reportUrl, // e.g. a public dashboard link\n  options: { format: 'A4', landscape: true },\n  // Wait until the page's charts have finished loading.\n  gotoOptions: { waitUntil: 'networkidle2', timeout: 60000 },\n});"
+    },
+    "Take Screenshot": {
+      "description": "Captures a full-page PNG screenshot of a page, e.g. a daily dashboard snapshot to share by email or chat.",
+      "code": "// Capture a screenshot. Paths are relative to the Browserless baseUrl;\n// the token is added for you.\nrequest('POST', 'screenshot', {\n  body: {\n    url: $.data.dashboardUrl,\n    options: { fullPage: true, type: 'png' },\n    gotoOptions: { waitUntil: 'networkidle2' },\n  },\n  parseAs: 'base64', // state.data becomes a base64 image\n});"
+    }
+  },
+  "SEARCH": {
+    "Scrape Page Elements": {
+      "description": "Extracts text from elements on a page by CSS selector, e.g. a published price or exchange-rate table.",
+      "code": "// Scrape elements from a rendered page.\nrequest('POST', 'scrape', {\n  body: {\n    url: 'https://www.example.org/market-prices',\n    elements: [\n      { selector: 'table.prices tr' }, // one entry per CSS selector\n      { selector: 'h1' },\n    ],\n    gotoOptions: { waitUntil: 'networkidle2' },\n  },\n});"
+    },
+    "Get Rendered HTML": {
+      "description": "Returns the fully rendered HTML of a JavaScript-heavy page, for parsing in a later step.",
+      "code": "// Get the HTML of a page after JavaScript has run.\nrequest('POST', 'content', {\n  body: {\n    url: $.data.pageUrl,\n    gotoOptions: { waitUntil: 'networkidle2', timeout: 30000 },\n  },\n  parseAs: 'text',\n});"
+    }
+  }
+}

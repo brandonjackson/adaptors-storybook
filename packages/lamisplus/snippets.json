@@ -1,0 +1,16 @@
+{
+  "SEARCH": {
+    "Get Patients": {
+      "description": "Fetches the first page of the LAMISPlus patient register.",
+      "code": "// Get the first page of patients from the register.\n// Authentication with email/password happens automatically.\ngetPatients();"
+    },
+    "Get Patients by Page": {
+      "description": "Fetches a specific page of patients, e.g. to page through the whole register.",
+      "code": "// Get one page of patients.\ngetPatients({\n  // Zero-based page index.\n  page: 2,\n  // Records per page.\n  size: 100,\n});"
+    },
+    "Search Patients": {
+      "description": "Searches patients by name or hospital number.",
+      "code": "// Find patients whose name or hospital number matches.\ngetPatients({\n  // Free-text filter over name and hospital number.\n  searchValue: $.data.hospitalNumber,\n  size: 20,\n});"
+    }
+  }
+}

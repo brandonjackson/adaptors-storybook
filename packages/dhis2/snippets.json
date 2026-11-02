@@ -1,0 +1,70 @@
+{
+  "CREATE": {
+    "Register And Enroll Tracked Entity": {
+      "description": "Registers a new person as a tracked entity and enrolls them in a tracker program in one request.",
+      "code": "// Register a person and enroll them in a tracker program.\ncreate('trackedEntities', {\n  orgUnit: $.data.facilityId, // e.g. 'DiszpKrYNg8'\n  trackedEntityType: 'nEenWmSyUEp', // Person\n  attributes: [\n    { attribute: 'w75KJ2mc4zz', value: $.data.firstName }, // First name\n    { attribute: 'zDhUuAYrxNC', value: $.data.lastName }, // Last name\n  ],\n  enrollments: [\n    {\n      program: 'IpHINAT79UW', // Child Programme\n      orgUnit: $.data.facilityId,\n      enrolledAt: $.data.registrationDate,\n      occurredAt: $.data.registrationDate,\n    },\n  ],\n});"
+    },
+    "Enroll Existing Tracked Entity": {
+      "description": "Enrolls an already-registered tracked entity into a program.",
+      "code": "// Enroll an existing tracked entity in a program.\ncreate('enrollments', {\n  trackedEntity: $.data.trackedEntityId,\n  program: 'IpHINAT79UW', // Child Programme\n  orgUnit: $.data.facilityId,\n  enrolledAt: $.data.enrollmentDate,\n  occurredAt: $.data.enrollmentDate,\n  status: 'ACTIVE',\n});"
+    },
+    "Record Tracker Event": {
+      "description": "Records a program stage event (e.g. a visit) with data values against an enrollment.",
+      "code": "// Record a visit (program stage event) for an enrolled person.\ncreate('events', {\n  program: 'IpHINAT79UW', // Child Programme\n  programStage: 'A03MvHHogjR', // Birth stage\n  enrollment: $.data.enrollmentId,\n  trackedEntity: $.data.trackedEntityId,\n  orgUnit: $.data.facilityId,\n  occurredAt: $.data.visitDate,\n  status: 'COMPLETED',\n  dataValues: [\n    { dataElement: 'UXz7xuGCEhU', value: $.data.weightGrams }, // Weight (g)\n    { dataElement: 'bx6fsa0t90x', value: $.data.bcgGiven }, // BCG dose\n  ],\n});"
+    },
+    "Submit Aggregate Data Values": {
+      "description": "Submits a monthly aggregate report (data value set) for a facility.",
+      "code": "// Submit a monthly aggregate report for a facility.\ncreate('dataValueSets', {\n  dataSet: 'pBOMPrpg1QX', // the reporting data set\n  period: $.data.period, // e.g. '202610' (monthly)\n  orgUnit: $.data.facilityId,\n  completeDate: new Date().toISOString().slice(0, 10),\n  dataValues: $.data.indicators.map(i => ({\n    dataElement: i.dataElementId,\n    categoryOptionCombo: i.categoryOptionComboId, // optional\n    value: String(i.value),\n  })),\n});"
+    },
+    "Upsert Tracked Entity": {
+      "description": "Creates a tracked entity, or updates it if the given UID already exists (CREATE_AND_UPDATE).",
+      "code": "// Create or update a tracked entity by its UID.\nupsert(\n  // 1) Resource type (sent to the tracker API).\n  'trackedEntities',\n  // 2) Query (not used by tracker resources; matching is by UID).\n  {},\n  // 3) The tracked entity payload.\n  {\n    trackedEntity: $.data.trackedEntityId,\n    orgUnit: $.data.facilityId,\n    trackedEntityType: 'nEenWmSyUEp', // Person\n    attributes: [\n      { attribute: 'w75KJ2mc4zz', value: $.data.firstName },\n      { attribute: 'zDhUuAYrxNC', value: $.data.lastName },\n    ],\n  }\n);"
+    },
+    "Upsert Organisation Unit By Code": {
+      "description": "Syncs a facility from a master facility list, creating or updating the organisation unit matched by code.",
+      "code": "// Create or update a facility (organisation unit) matched by its code.\nupsert(\n  // 1) Metadata resource type.\n  'organisationUnits',\n  // 2) Query that uniquely identifies the record.\n  { filter: `code:eq:${$.data.facilityCode}` },\n  // 3) Full organisation unit payload.\n  {\n    code: $.data.facilityCode,\n    name: $.data.facilityName,\n    shortName: $.data.facilityName.slice(0, 50),\n    openingDate: $.data.openingDate, // e.g. '2020-01-01'\n    parent: { id: $.data.districtId },\n  }\n);"
+    },
+    "Update Program Metadata": {
+      "description": "Replaces a program's metadata (PUT requires the full object).",
+      "code": "// Update a program. PUT replaces the object, so send all required fields.\nupdate(\n  // 1) Resource type.\n  'programs',\n  // 2) Program UID.\n  $.data.programId,\n  // 3) The full program object.\n  {\n    name: 'Malaria Case Surveillance',\n    shortName: 'Malaria CS',\n    programType: 'WITHOUT_REGISTRATION',\n  }\n);"
+    },
+    "Delete Tracked Entity": {
+      "description": "Deletes a tracked entity, e.g. a duplicate registration.",
+      "code": "// Delete a tracked entity (e.g. a duplicate) by UID.\ndestroy('trackedEntities', $.data.duplicateTrackedEntityId);"
+    }
+  },
+  "SEARCH": {
+    "Find Tracked Entities By Attribute": {
+      "description": "Searches tracked entities in a program by an attribute value, such as a national ID.",
+      "code": "// Find people in a program by an attribute (e.g. national ID).\nget('tracker/trackedEntities', {\n  program: 'IpHINAT79UW', // Child Programme\n  orgUnits: $.data.districtId,\n  orgUnitMode: 'DESCENDANTS', // search the district and everything below it\n  filter: `lZGmxYbs97q:eq:${$.data.uniqueId}`, // attribute UID:operator:value\n  fields: 'trackedEntity,orgUnit,attributes[attribute,value],enrollments[enrollment,status]',\n});"
+    },
+    "Get Tracked Entity By ID": {
+      "description": "Fetches a single tracked entity with its enrollments and events.",
+      "code": "// Fetch one tracked entity, including its enrollments and events.\nget(`tracker/trackedEntities/${$.data.trackedEntityId}`, {\n  program: 'IpHINAT79UW',\n  fields: '*,enrollments[*,events[*]]',\n});"
+    },
+    "Get Events Updated Since Last Run": {
+      "description": "Exports program events updated since a given date, for incremental syncs to a data warehouse.",
+      "code": "// Export events changed since the last sync.\nget('tracker/events', {\n  program: 'eBAyeGv0exc', // Inpatient morbidity and mortality\n  orgUnit: $.data.districtId,\n  orgUnitMode: 'DESCENDANTS',\n  updatedAfter: $.lastSyncTime || '2026-01-01',\n  pageSize: 200,\n  page: 1,\n});"
+    },
+    "List Enrollments In Program": {
+      "description": "Lists active enrollments in a program under an organisation unit.",
+      "code": "// List active enrollments in a program.\nget('tracker/enrollments', {\n  program: 'IpHINAT79UW',\n  orgUnits: $.data.districtId,\n  orgUnitMode: 'DESCENDANTS',\n  status: 'ACTIVE',\n  fields: 'enrollment,trackedEntity,enrolledAt,status',\n});"
+    },
+    "Export Aggregate Data Values": {
+      "description": "Exports the aggregate data values for a data set, facility and period.",
+      "code": "// Export aggregate data values for a data set and period.\nget('dataValueSets', {\n  dataSet: 'pBOMPrpg1QX',\n  orgUnit: $.data.facilityId,\n  period: $.data.period, // e.g. '202610'\n  children: true, // include child org units\n});"
+    },
+    "List Organisation Units At Level": {
+      "description": "Lists organisation units at a hierarchy level, e.g. all health facilities.",
+      "code": "// List all organisation units at level 4 (facilities).\nget('organisationUnits', {\n  level: 4,\n  fields: 'id,code,name,parent[id,name],geometry',\n  paging: false,\n});"
+    },
+    "Get Analytics Table": {
+      "description": "Pulls aggregated indicator values from the analytics API for reporting dashboards.",
+      "code": "// Query analytics: indicator values by district for the last 12 months.\nget('analytics', {\n  dimension: [\n    `dx:${$.data.indicatorId}`, // data element or indicator UID\n    'pe:LAST_12_MONTHS',\n    'ou:LEVEL-2', // districts\n  ],\n  displayProperty: 'NAME',\n});"
+    },
+    "List Programs": {
+      "description": "Lists the programs available on the instance, with their UIDs.",
+      "code": "// List programs and their stages.\nget('programs', {\n  fields: 'id,name,programType,programStages[id,name]',\n  paging: false,\n});"
+    }
+  }
+}

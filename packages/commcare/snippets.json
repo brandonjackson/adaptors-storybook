@@ -1,0 +1,58 @@
+{
+  "CREATE": {
+    "Upsert Case By External ID": {
+      "description": "Creates or updates a case via the Case API v2, keyed on an external id from another system.",
+      "code": "// Create or update a case by external id (Case API v2).\n// request() paths are relative to the host URL, so include /a/<domain>/.\nrequest(\n  // 1) HTTP method.\n  'PUT',\n  // 2) Path, with the external id from the incoming record.\n  `/a/${$.configuration.domain}/api/case/v2/ext/${$.data.externalId}/`,\n  // 3) Body: a CaseV2Update.\n  {\n    case_type: 'patient',\n    case_name: $.data.fullName,\n    owner_id: $.data.ownerId,\n    properties: {\n      date_of_birth: $.data.dob,\n      phone_number: $.data.phone,\n      village: $.data.village,\n    },\n  }\n);"
+    },
+    "Bulk Create Or Update Cases": {
+      "description": "Upserts a batch of cases in one call via the Case API v2.",
+      "code": "// Create or update several cases at once (Case API v2 bulk upsert on external_id).\nrequest(\n  'PUT',\n  `/a/${$.configuration.domain}/api/case/v2/`,\n  $.data.patients.map(p => ({\n    case_type: 'patient',\n    external_id: p.nationalId,\n    case_name: p.name,\n    owner_id: p.ownerId,\n    // Required in bulk requests: true creates, false updates.\n    create: !p.caseId,\n    properties: { district: p.district, enrollment_date: p.enrolledOn },\n  }))\n);"
+    },
+    "Import Cases From Spreadsheet Rows": {
+      "description": "Uses CommCare's Excel case importer to create or update cases from an array of rows.",
+      "code": "// Bulk import case data. Rows are converted to XLS and sent to the case importer.\nbulk(\n  // 1) Upload type.\n  'case-data',\n  // 2) One object per row; keys become column headers.\n  $.data.households.map(h => ({\n    external_id: h.householdId,\n    name: h.headOfHousehold,\n    phone: h.phone,\n    village: h.village,\n  })),\n  // 3) Importer options.\n  {\n    case_type: 'household',\n    search_field: 'external_id',\n    create_new_cases: 'on',\n  }\n);"
+    },
+    "Submit Form": {
+      "description": "Submits an XForm on behalf of a user, e.g. to register a beneficiary captured in another system.",
+      "code": "// Submit a form (as XML) to the app set in configuration.appId.\nsubmit({\n  '@': {\n    xmlns: 'http://openrosa.org/formdesigner/5B2A6C1F-3D4E-4F9A-8B7C-2E1D0A9F6B3C',\n  },\n  beneficiary_name: $.data.name,\n  phone_number: $.data.phone,\n  registration_date: $.data.registeredOn,\n});"
+    },
+    "Create Mobile Worker": {
+      "description": "Creates a mobile worker account, e.g. when an HR system onboards a community health worker.",
+      "code": "// Create a mobile worker. post() paths are relative to /a/<domain>/api/v0.5/.\npost('user/', {\n  username: $.data.username,\n  // Generate or pass a temporary password; never hardcode real credentials.\n  password: $.data.tempPassword,\n  first_name: $.data.firstName,\n  last_name: $.data.lastName,\n  default_phone_number: $.data.phone,\n  language: 'en',\n  locations: [$.data.locationId],\n});"
+    },
+    "Update Lookup Table": {
+      "description": "Replaces or appends rows in a lookup table (fixture), e.g. a facility list.",
+      "code": "// Upload lookup table rows.\nbulk(\n  'lookup-table',\n  {\n    // Table definition.\n    types: [\n      {\n        'DELETE(Y/N)': 'N',\n        table_id: 'facilities',\n        'is_global?': 'yes',\n        'field 1': 'code',\n        'field 2': 'name',\n      },\n    ],\n    // Table rows, keyed by table_id.\n    facilities: $.data.facilities.map(f => ({\n      UID: '',\n      'DELETE(Y/N)': 'N',\n      'field:code': f.code,\n      'field:name': f.name,\n    })),\n  },\n  // Append/update rather than replace the whole table.\n  { replace: false }\n);"
+    }
+  },
+  "SEARCH": {
+    "Get Cases Modified Since": {
+      "description": "Fetches cases of one type changed since a date; get() pages through all results.",
+      "code": "// List cases. get() paths are relative to /a/<domain>/api/v0.5/ and auto-paginate.\nget('case/', {\n  type: 'patient',\n  server_date_modified_start: $.data.since, // e.g. '2026-10-01'\n  closed: false,\n});"
+    },
+    "Get Form Submissions": {
+      "description": "Fetches submissions of one form received since a date, e.g. to load into a data warehouse or DHIS2.",
+      "code": "// List form submissions for one form, received since a date.\nget('form/', {\n  xmlns: 'http://openrosa.org/formdesigner/5B2A6C1F-3D4E-4F9A-8B7C-2E1D0A9F6B3C',\n  received_on_start: '2026-10-01',\n  order_by: 'received_on',\n});"
+    },
+    "Get Case By ID": {
+      "description": "Fetches one case by its CommCare case id.",
+      "code": "// Get a single case.\nget(`case/${$.data.caseId}/`);"
+    },
+    "Get Case By External ID": {
+      "description": "Looks up a case using the id it has in another system.",
+      "code": "// Get a case by external id (Case API v2).\nrequest(\n  'GET',\n  `/a/${$.configuration.domain}/api/case/v2/ext/${$.data.externalId}/`\n);"
+    },
+    "Get Mobile Workers": {
+      "description": "Lists all mobile workers in the project space.",
+      "code": "// List mobile workers.\nget('user/');"
+    },
+    "Get Lookup Table Rows": {
+      "description": "Fetches the rows of a lookup table, e.g. to map facility codes.",
+      "code": "// List rows of one lookup table.\nget('fixture/', { fixture_type: 'facilities' });"
+    },
+    "Get Report Data": {
+      "description": "Downloads the rows of a configurable (UCR) report.",
+      "code": "// Download configurable report data by report id.\nget(`configurablereportdata/${$.data.reportId}/`, { limit: 100 });"
+    }
+  }
+}

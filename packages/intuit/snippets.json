@@ -48,7 +48,7 @@
     },
     "Find or Create Customer": {
       "description": "Find or create a customer.",
-      "code": ""
+      "code": "// Keep the incoming payload: http.get() replaces state.data with the response.\nfn(state => ({ ...state, input: state.data }));\n\n// 1) Look up the customer by email.\nhttp.get(\n  `/v3/company/${$.configuration.realmId}/query` +\n  `?query=` + encodeURIComponent(\n    `select * from Customer where PrimaryEmailAddr = '${$.input.email}'`\n  )\n);\n\n// 2) Not found? Create them.\nfn(state => {\n  if (state.data.QueryResponse?.Customer?.length) return state;\n  return http.post(`/v3/company/${state.configuration.realmId}/customer`, {\n    DisplayName: state.input.name,\n    PrimaryEmailAddr: { Address: state.input.email },\n  })(state);\n});"
     }
   }
 }

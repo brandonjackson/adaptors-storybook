@@ -1,0 +1,34 @@
+{
+  "CREATE": {
+    "Load Records Into Table": {
+      "description": "Inserts an array of records, e.g. form submissions or payments pulled in an earlier step, into an analytics table.",
+      "code": "// Insert many rows into a table. Large arrays are split into batches.\ninsert(\n  // 1) Target table.\n  'household_visits',\n  // 2) One object per row; keys must match column names.\n  $.data.visits.map(v => ({\n    visit_id: v.id,\n    household_id: v.householdId,\n    district: v.district,\n    visit_date: v.visitDate,\n    chw_id: v.chwId,\n  })),\n  // 3) Options.\n  { batchSize: 500 }\n);"
+    },
+    "Insert Single Record": {
+      "description": "Inserts one row, e.g. from a webhook payload.",
+      "code": "// Insert a single row.\ninsert('referrals', {\n  referral_id: $.data.referralId,\n  facility_code: $.data.facilityCode,\n  reason: $.data.reason,\n  referred_at: $.data.referredAt,\n});"
+    },
+    "Create Table If Missing": {
+      "description": "Creates the destination table before a first load.",
+      "code": "// Create a table if it does not already exist.\nquery(`\n  CREATE TABLE IF NOT EXISTS household_visits (\n    visit_id VARCHAR PRIMARY KEY,\n    household_id VARCHAR,\n    district VARCHAR,\n    visit_date DATE,\n    chw_id VARCHAR\n  )\n`);"
+    },
+    "Upsert Rows From Staging Table": {
+      "description": "Merges freshly loaded staging rows into a reporting table without creating duplicates.",
+      "code": "// Insert new rows and update existing ones, matched on the primary key.\nquery(`\n  INSERT OR REPLACE INTO household_visits\n  SELECT visit_id, household_id, district, visit_date, chw_id\n  FROM household_visits_staging\n`);"
+    },
+    "Delete Old Rows": {
+      "description": "Removes rows older than a retention window.",
+      "code": "// Delete rows older than two years.\nquery(`DELETE FROM household_visits WHERE visit_date < current_date - INTERVAL 2 YEAR`);"
+    }
+  },
+  "SEARCH": {
+    "Aggregate Indicators By District": {
+      "description": "Computes monthly counts per district, e.g. to push aggregate values to DHIS2.",
+      "code": "// Count visits per district for one month. Rows are returned on state.data.\nquery(`\n  SELECT district, COUNT(*) AS visits, COUNT(DISTINCT household_id) AS households\n  FROM household_visits\n  WHERE visit_date >= DATE '2026-10-01' AND visit_date < DATE '2026-11-01'\n  GROUP BY district\n  ORDER BY district\n`);"
+    },
+    "Get Rows Changed Since Date": {
+      "description": "Selects rows added after a date so later steps can forward them to another system.",
+      "code": "// Select recent rows and include the SQL in the response for debugging.\nquery(\n  `SELECT * FROM referrals WHERE referred_at >= '${$.data.since}' ORDER BY referred_at`,\n  { writeSql: true }\n);"
+    }
+  }
+}

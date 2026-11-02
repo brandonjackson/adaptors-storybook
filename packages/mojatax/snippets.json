@@ -1,0 +1,16 @@
+{
+  "CREATE": {
+    "Create Fiscal Invoice": {
+      "description": "Issues a fiscal receipt for a sale through the VFD, e.g. after a clinic payment.",
+      "code": "// Issue a fiscal receipt for a payment.\n// post() adds the /client/ prefix for you.\npost('CreateInvoice', {\n  // Your own unique invoice reference.\n  invoice_id: $.data.paymentReference,\n  customerId: $.data.customerId,\n  items: [\n    {\n      description: 'Outpatient consultation',\n      quantity: 1,\n      unitPrice: 15000,\n      taxCode: 'A', // tax group code\n    },\n  ],\n});"
+    },
+    "Create Invoice From Line Items": {
+      "description": "Issues a fiscal receipt with line items mapped from an upstream sale.",
+      "code": "// Map an upstream sale's lines into a fiscal receipt.\npost('CreateInvoice', {\n  invoice_id: $.data.saleId,\n  customerId: $.data.customerId,\n  items: $.data.lines.map(line => ({\n    description: line.productName,\n    quantity: line.quantity,\n    unitPrice: line.price,\n    taxCode: line.taxCode,\n  })),\n});"
+    },
+    "Cancel Invoice": {
+      "description": "Cancels a previously issued invoice.",
+      "code": "// Cancel an invoice issued in error.\npost('CancelInvoice', {\n  invoice_id: $.data.invoiceId,\n});"
+    }
+  }
+}

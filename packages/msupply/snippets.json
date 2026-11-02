@@ -1,0 +1,54 @@
+{
+  "CREATE": {
+    "Create Outbound Shipment": {
+      "description": "Creates a new outbound shipment from a store to a receiving facility.",
+      "code": "// Create an outbound shipment (e.g. district store -> health facility).\ninsertOutboundShipment({\n  // Name id of the receiving facility.\n  otherPartyId: $.data.facilityNameId,\n  // Store the stock is shipped from.\n  storeId: $.data.storeId,\n});"
+    },
+    "Update Outbound Shipment Status": {
+      "description": "Moves one or more outbound shipments to a new status, such as PICKED or SHIPPED.",
+      "code": "// Update the status of an existing outbound shipment.\nupsertOutboundShipment({\n  storeId: $.data.storeId,\n  input: {\n    updateOutboundShipments: [\n      {\n        id: $.data.shipmentId,\n        // e.g. 'PICKED', 'SHIPPED'\n        status: 'PICKED',\n      },\n    ],\n  },\n});"
+    },
+    "Register Patient": {
+      "description": "Inserts a new patient record into a dispensary store.",
+      "code": "// Register a patient (e.g. from a community health app) in Open mSupply.\nquery(\n  // 1) GraphQL mutation.\n  `mutation insertPatient($storeId: String!, $input: InsertPatientInput!) {\n    insertPatient(storeId: $storeId, input: $input) {\n      ... on PatientNode { id code firstName lastName }\n    }\n  }`,\n  // 2) Variables.\n  {\n    storeId: $.data.storeId,\n    input: {\n      id: $.data.patientUuid,\n      code: $.data.nationalId,\n      firstName: $.data.firstName,\n      lastName: $.data.lastName,\n      gender: 'FEMALE',\n      dateOfBirth: $.data.dateOfBirth, // 'YYYY-MM-DD'\n      phone: $.data.phone,\n    },\n  }\n);"
+    },
+    "Create Request Requisition": {
+      "description": "Creates an internal order (request requisition) to a supplying store.",
+      "code": "// Create a request requisition to order stock from a supplier store.\nquery(\n  // 1) GraphQL mutation.\n  `mutation insertRequestRequisition($storeId: String!, $input: InsertRequestRequisitionInput!) {\n    insertRequestRequisition(storeId: $storeId, input: $input) {\n      ... on RequisitionNode { id requisitionNumber status }\n      ... on InsertRequestRequisitionError { error { description } }\n    }\n  }`,\n  // 2) Variables.\n  {\n    storeId: $.data.storeId,\n    input: {\n      id: $.data.requisitionUuid,\n      // Name id of the supplying store.\n      otherPartyId: $.data.supplierNameId,\n      maxMonthsOfStock: 3,\n      minMonthsOfStock: 1,\n      theirReference: $.data.orderReference,\n      comment: 'Monthly ARV resupply',\n    },\n  }\n);"
+    },
+    "Create Inbound Shipment": {
+      "description": "Records a new inbound shipment (goods receipt) from a supplier.",
+      "code": "// Create an inbound shipment for stock arriving from a supplier.\nquery(\n  // 1) GraphQL mutation.\n  `mutation insertInboundShipment($storeId: String!, $input: InsertInboundShipmentInput!) {\n    insertInboundShipment(storeId: $storeId, input: $input) {\n      ... on InvoiceNode { id invoiceNumber status }\n      ... on InsertInboundShipmentError { error { description } }\n    }\n  }`,\n  // 2) Variables.\n  {\n    storeId: $.data.storeId,\n    input: {\n      id: $.data.shipmentUuid,\n      otherPartyId: $.data.supplierNameId,\n      theirReference: $.data.deliveryNoteNumber,\n      comment: 'Received from national medical stores',\n    },\n  }\n);"
+    }
+  },
+  "SEARCH": {
+    "Get Items With Stats": {
+      "description": "Lists the item catalogue for a store, including stock statistics.",
+      "code": "// Get catalogue items with stock-on-hand and consumption stats.\ngetItemsWithStats({\n  // Field to sort by.\n  key: 'name',\n  // Store to report on.\n  storeId: $.data.storeId,\n});"
+    },
+    "Get Stock On Hand": {
+      "description": "Lists available stock lines (batches) in a store.",
+      "code": "// Get available stock lines for a store, e.g. for a stock dashboard.\nquery(\n  // 1) GraphQL query.\n  `query stockLines($storeId: String!, $filter: StockLineFilterInput, $page: PaginationInput) {\n    stockLines(storeId: $storeId, filter: $filter, page: $page) {\n      ... on StockLineConnector {\n        totalCount\n        nodes { id itemId itemName batch expiryDate packSize availableNumberOfPacks }\n      }\n    }\n  }`,\n  // 2) Variables.\n  {\n    storeId: $.data.storeId,\n    filter: { isAvailable: true },\n    page: { first: 500, offset: 0 },\n  }\n);"
+    },
+    "Find Expiring Stock": {
+      "description": "Finds stock lines that expire before a given date.",
+      "code": "// Find batches expiring in the next 90 days (for redistribution alerts).\nquery(\n  // 1) GraphQL query.\n  `query stockLines($storeId: String!, $filter: StockLineFilterInput, $sort: [StockLineSortInput!]) {\n    stockLines(storeId: $storeId, filter: $filter, sort: $sort) {\n      ... on StockLineConnector {\n        nodes { itemName batch expiryDate availableNumberOfPacks }\n      }\n    }\n  }`,\n  // 2) Variables.\n  {\n    storeId: $.data.storeId,\n    filter: { expiryDate: { beforeOrEqualTo: $.data.expiryCutoff } }, // 'YYYY-MM-DD'\n    sort: [{ key: 'expiryDate', desc: false }],\n  }\n);"
+    },
+    "Find Patient By Code": {
+      "description": "Looks up a patient by their patient code or national ID.",
+      "code": "// Find a patient by code before creating a duplicate.\nquery(\n  // 1) GraphQL query.\n  `query patients($storeId: String!, $filter: PatientFilterInput) {\n    patients(storeId: $storeId, filter: $filter) {\n      ... on PatientConnector {\n        totalCount\n        nodes { id code firstName lastName dateOfBirth phone }\n      }\n    }\n  }`,\n  // 2) Variables.\n  {\n    storeId: $.data.storeId,\n    filter: { code: { equalTo: $.data.nationalId } },\n  }\n);"
+    },
+    "List Sent Requisitions": {
+      "description": "Lists requisitions with a given status, e.g. SENT, for reporting.",
+      "code": "// List requisitions that have been sent to suppliers.\nquery(\n  // 1) GraphQL query.\n  `query requisitions($storeId: String!, $filter: RequisitionFilterInput) {\n    requisitions(storeId: $storeId, filter: $filter) {\n      ... on RequisitionConnector {\n        totalCount\n        nodes { id requisitionNumber type status otherPartyName sentDatetime }\n      }\n    }\n  }`,\n  // 2) Variables.\n  {\n    storeId: $.data.storeId,\n    filter: { status: { equalTo: 'SENT' } },\n  }\n);"
+    },
+    "Get Temperature Breaches": {
+      "description": "Lists unacknowledged cold-chain temperature breaches for a store.",
+      "code": "// Get unacknowledged cold-chain breaches (e.g. to alert a vaccine officer).\nquery(\n  // 1) GraphQL query.\n  `query temperatureBreaches($storeId: String!, $filter: TemperatureBreachFilterInput) {\n    temperatureBreaches(storeId: $storeId, filter: $filter) {\n      ... on TemperatureBreachConnector {\n        nodes {\n          id type startDatetime endDatetime maxOrMinTemperature\n          sensor { name serial }\n          location { name }\n        }\n      }\n    }\n  }`,\n  // 2) Variables.\n  {\n    storeId: $.data.storeId,\n    filter: { unacknowledged: true },\n  }\n);"
+    },
+    "List Suppliers": {
+      "description": "Lists names flagged as suppliers visible to a store.",
+      "code": "// List supplier names visible to a store.\nquery(\n  // 1) GraphQL query.\n  `query names($storeId: String!, $filter: NameFilterInput) {\n    names(storeId: $storeId, filter: $filter) {\n      ... on NameConnector {\n        nodes { id code name }\n      }\n    }\n  }`,\n  // 2) Variables.\n  {\n    storeId: $.data.storeId,\n    filter: { isSupplier: true },\n  }\n);"
+    }
+  }
+}

@@ -6,7 +6,7 @@
     },
     "Make Call": {
       "description": "Make a voice call.",
-      "code": ""
+      "code": "// Place a voice call.\n// Limitation: the nexmo adaptor only supports SMS (sendSMS); Vonage voice calls need the\n// Voice API with application (JWT) auth, which this credential doesn't provide.\n// Closest working option: send the message as an SMS instead.\nsendSMS(\n  // 1) Sender id (alphanumeric or your Vonage number, E.164).\n  $.configuration.fromNumber,\n  // 2) Recipient, E.164 format.\n  $.data.phone,\n  // 3) Message body.\n  `Hi ${$.data.name}, please call the clinic on ${$.configuration.fromNumber} about your results.`\n);"
     }
   }
 }

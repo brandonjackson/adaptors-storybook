@@ -1,0 +1,46 @@
+{
+  "CREATE": {
+    "Add SharePoint List Item": {
+      "description": "Adds a new item (row) to a SharePoint list, e.g. a beneficiary register.",
+      "code": "// Add a row to a SharePoint list.\ncreate(\n  // 1) Resource path, relative to https://graph.microsoft.com/{apiVersion}/\n  `sites/${$.configuration.siteId}/lists/${$.data.listId}/items`,\n  // 2) The list item; column values go under `fields`.\n  {\n    fields: {\n      Title: $.data.beneficiaryName,\n      HouseholdId: $.data.householdId,\n      District: $.data.district,\n      EnrolmentDate: $.data.enrolledOn,\n    },\n  }\n);"
+    },
+    "Send Email": {
+      "description": "Sends an email from a mailbox, e.g. a weekly stock-out alert to programme staff.",
+      "code": "// Send an email on behalf of a user (or shared mailbox).\ncreate(\n  // 1) The sendMail action for the sending mailbox.\n  `users/${$.configuration.senderId}/sendMail`,\n  // 2) The message to send.\n  {\n    message: {\n      subject: `Stock-out alert: ${$.data.facilityName}`,\n      body: {\n        contentType: 'Text',\n        content: `${$.data.itemName} is out of stock at ${$.data.facilityName}.`,\n      },\n      toRecipients: [\n        { emailAddress: { address: 'supply-chain@example.org' } },\n      ],\n    },\n    // Keep a copy in the sender's Sent Items.\n    saveToSentItems: true,\n  }\n);"
+    },
+    "Post Message to Teams Channel": {
+      "description": "Posts a message to a Microsoft Teams channel, e.g. to notify a team of a new case.",
+      "code": "// Post a message into a Teams channel.\ncreate(\n  // 1) The channel's messages collection.\n  `teams/${$.configuration.teamId}/channels/${$.configuration.channelId}/messages`,\n  // 2) The chatMessage body.\n  {\n    body: {\n      contentType: 'html',\n      content: `<b>New referral</b> for case ${$.data.caseId} in ${$.data.district}.`,\n    },\n  }\n);"
+    },
+    "Create Calendar Event": {
+      "description": "Creates a calendar event for a user, e.g. a follow-up visit or training session.",
+      "code": "// Create an event on a user's calendar.\ncreate(\n  // 1) The user's calendar events collection.\n  `users/${$.data.userId}/calendar/events`,\n  // 2) The event details.\n  {\n    subject: 'Community health worker refresher training',\n    start: { dateTime: '2026-11-20T09:00:00', timeZone: 'Africa/Nairobi' },\n    end: { dateTime: '2026-11-20T12:00:00', timeZone: 'Africa/Nairobi' },\n    location: { displayName: 'District Health Office' },\n    attendees: [\n      {\n        emailAddress: { address: 'chw.lead@example.org', name: 'CHW Lead' },\n        type: 'required',\n      },\n    ],\n  }\n);"
+    },
+    "Upload File to SharePoint": {
+      "description": "Uploads a file (e.g. a generated Excel report) into a SharePoint or OneDrive folder.",
+      "code": "// Upload a file into a folder in a drive.\nuploadFile(\n  // 1) Where the file goes and what it's called.\n  {\n    driveId: $.configuration.driveId,\n    folderId: $.configuration.reportsFolderId,\n    fileName: `monthly-indicators-${new Date().toISOString().slice(0, 7)}.xlsx`,\n    contentType:\n      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',\n    // rename | fail | replace\n    onConflict: 'replace',\n  },\n  // 2) A buffer with the file contents, built in an earlier step.\n  state => state.buffer\n);"
+    }
+  },
+  "SEARCH": {
+    "List SharePoint List Items": {
+      "description": "Fetches the items of a SharePoint list, including their column values.",
+      "code": "// Get the rows of a SharePoint list, with column values.\nget(\n  // 1) Path, relative to https://graph.microsoft.com/{apiVersion}/\n  `sites/${$.configuration.siteId}/lists/${$.configuration.listId}/items`,\n  // 2) OData query parameters.\n  {\n    $expand: 'fields',\n    $top: 100,\n  }\n);"
+    },
+    "Download File From SharePoint": {
+      "description": "Downloads the contents of a file (e.g. a CSV export) from a SharePoint document library.",
+      "code": "// Load the site's default document library into state.drives.default.\ngetDrive({ id: $.configuration.siteId, owner: 'sites' });\n\n// Then read a file from it by path (or pass a driveItem id).\ngetFile('/Shared Documents/Registrations/registrations.csv', {\n  // Which drive in state.drives to use.\n  driveName: 'default',\n  // false returns the file content, true returns its metadata.\n  metadata: false,\n});"
+    },
+    "List Files in Folder": {
+      "description": "Lists the files in a SharePoint or OneDrive folder, e.g. to find new uploads to process.",
+      "code": "// Load a drive by id into state.drives.default.\ngetDrive({ id: $.configuration.driveId });\n\n// List the children of a folder (by driveItem id or path).\ngetFolder($.configuration.inboxFolderId, {\n  driveName: 'default',\n});"
+    },
+    "List Users": {
+      "description": "Lists users in the organisation's directory, e.g. to sync staff accounts.",
+      "code": "// List directory users.\nget('users', {\n  // Only return the fields you need.\n  $select: 'id,displayName,mail,jobTitle,officeLocation',\n  $top: 50,\n});"
+    },
+    "List Recent Emails": {
+      "description": "Fetches recent emails from a mailbox, e.g. a shared intake inbox.",
+      "code": "// Get recent messages from a mailbox.\nget(`users/${$.configuration.mailboxId}/messages`, {\n  $select: 'id,subject,from,receivedDateTime,hasAttachments',\n  $orderby: 'receivedDateTime desc',\n  $top: 25,\n});"
+    }
+  }
+}

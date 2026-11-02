@@ -1,0 +1,20 @@
+{
+  "CREATE": {
+    "Send Cash Transfer To Beneficiary": {
+      "description": "Sends a mobile money payment to a programme beneficiary.",
+      "code": "// Pay a cash transfer to a beneficiary's mobile money wallet.\n// The API response is added to state.references.\ncreatePayment({\n  phonenumber: $.data.phone, // international format, e.g. '+256700000000'\n  first_name: $.data.firstName,\n  last_name: $.data.lastName,\n  amount: String($.data.amount), // sent as a string, e.g. '50000'\n  currency: 'UGX',\n  description: 'Monthly cash transfer',\n  payment_type: 'money',\n  // Your own ids travel with the payment and come back in callbacks.\n  metadata: { beneficiaryId: $.data.beneficiaryId, cycle: $.data.cycle },\n});"
+    },
+    "Pay Health Worker Stipend With Callback": {
+      "description": "Pays a stipend and asks Beyonic to notify a callback URL when it settles.",
+      "code": "// Pay a community health worker stipend and get status updates via callback.\ncreatePayment({\n  phonenumber: $.data.phone,\n  first_name: $.data.firstName,\n  last_name: $.data.lastName,\n  amount: '150000',\n  currency: 'UGX',\n  description: `CHW stipend ${$.data.month}`,\n  callback_url: 'https://app.openfn.org/i/<your-webhook-id>',\n  send_sms_message: true, // notify the recipient by SMS\n  metadata: { chwId: $.data.chwId },\n});"
+    },
+    "Register Contact": {
+      "description": "Creates a contact so they can be paid or asked to pay later.",
+      "code": "// Register a beneficiary as a Beyonic contact.\ncreateContact({\n  first_name: $.data.firstName,\n  last_name: $.data.lastName,\n  phone_number: $.data.phone, // required, e.g. '+256700000000'\n  email: $.data.email,\n  type: 'beneficiary',\n  metadata: { householdId: $.data.householdId },\n});"
+    },
+    "Request Mobile Money Collection": {
+      "description": "Asks a customer to pay a set amount from their mobile money account.",
+      "code": "// Request a savings-group or insurance contribution from a member.\ncreateCollectionRequest({\n  phonenumber: $.data.phone, // required\n  amount: String($.data.amount), // required, e.g. '3000'\n  currency: 'UGX', // required\n  reason: 'Community health insurance premium',\n  send_instructions: true, // text the payer instructions on how to pay\n  success_message: 'Thank you, your premium has been received.',\n  metadata: { memberId: $.data.memberId },\n});"
+    }
+  }
+}

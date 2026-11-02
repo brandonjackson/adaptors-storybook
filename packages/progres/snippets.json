@@ -1,0 +1,16 @@
+{
+  "CREATE": {
+    "Send Referral to proGres": {
+      "description": "Sends an interagency referral from a case-management system (e.g. Primero) into proGres v4.",
+      "code": "// Send an interagency referral into proGres v4 via DTP.\npostData({\n  // DTP endpoint from the credential; DTP routes on request_type.\n  url: $.configuration.url,\n  body: {\n    request_type: 'ReceiveIncomingReferral',\n    // Unique per case/service pair.\n    id: $.data.referralId,\n    service_implementing_agency: 'UNHCR',\n    owned_by_agency_id: 'UNICEF',\n    service_type: 'Child Protection Service',\n    service_response_day_time: $.data.serviceDueAt,\n    service_referral_notes: 'Interoperability referral',\n    primero_user: $.data.caseworkerUsername,\n    full_name: 'CP Worker',\n    unhcr_individual_no: $.data.unhcrIndividualNo,\n    unhcr_id_no: $.data.unhcrIdNo,\n    name_first: 'Given',\n    name_last: 'Family',\n    date_of_birth: '2012-05-04',\n    sex: 'female',\n    language: 'English',\n    risk_level: 'High',\n  },\n  headers: {\n    // DTP subscription key.\n    'Ocp-Apim-Subscription-Key': $.configuration.token,\n  },\n  // Client certificate for mutual TLS.\n  agentOptions: {\n    key: $.configuration.key,\n    cert: $.configuration.cert,\n  },\n});"
+    },
+    "Report Referral Decision": {
+      "description": "Tells proGres whether a referral it sent out was accepted or rejected.",
+      "code": "// Report the decision on a referral proGres sent out.\npostData({\n  url: $.configuration.url,\n  body: {\n    request_type: 'ReceiveDecisionOutgoingReferral',\n    case_id: $.data.caseId,\n    primero_user: $.data.caseworkerUsername,\n    // proGres intervention number, e.g. NAI-20-PRTITV-0000006.\n    progres_interventionnumber: $.data.interventionNumber,\n    // e.g. 'acknowledged' or 'rejected'.\n    status: $.data.status,\n    closure_reason: $.data.reason,\n  },\n  headers: { 'Ocp-Apim-Subscription-Key': $.configuration.token },\n  agentOptions: { key: $.configuration.key, cert: $.configuration.cert },\n});"
+    },
+    "Send Delivery Feedback": {
+      "description": "Acknowledges that an intervention was received, or reports that it failed.",
+      "code": "// Report that an intervention could not be created.\npostData({\n  url: $.configuration.url,\n  body: {\n    request_type: 'Feedback',\n    case_id: $.data.caseId,\n    primero_user: $.data.caseworkerUsername,\n    progres_interventionnumber: $.data.interventionNumber,\n    // 'Pending Acknowledgement' on success, 'Delivery Fail' on failure.\n    status: 'Delivery Fail',\n    closure_reason: 'Referral is missing required fields. Please complete and re-send.',\n  },\n  headers: { 'Ocp-Apim-Subscription-Key': $.configuration.token },\n  agentOptions: { key: $.configuration.key, cert: $.configuration.cert },\n});"
+    }
+  }
+}

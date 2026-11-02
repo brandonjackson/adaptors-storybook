@@ -1,0 +1,46 @@
+{
+  "CREATE": {
+    "Create Sample From Lab Order": {
+      "description": "Registers a sample (AnalysisRequest) in a client's folder from an EMR lab order.",
+      "code": "// Create a sample (AnalysisRequest) inside a client, e.g. from an OpenMRS lab order.\n// Paths are relative to the credential's baseUrl (…/@@API/senaite/v1).\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Create an AnalysisRequest in the client folder with this UID.\n  `AnalysisRequest/create/${$.data.clientUid}`,\n  // 3) Options: the sample fields go in the body.\n  {\n    body: {\n      Contact: $.data.contactUid,\n      SampleType: $.data.sampleTypeUid,\n      DateSampled: $.data.collectedAt,\n      ClientSampleID: $.data.orderNumber,\n      // UIDs of the AnalysisServices to run.\n      Analyses: $.data.testUids,\n    },\n  }\n);"
+    },
+    "Create Client": {
+      "description": "Adds a referring facility as a SENAITE client.",
+      "code": "// Create a Client (e.g. a referring health facility).\nrequest('POST', 'Client/create', {\n  body: {\n    title: $.data.facilityName,\n    ClientID: $.data.facilityCode,\n    parent_path: '/senaite/clients',\n  },\n});"
+    },
+    "Receive Sample": {
+      "description": "Runs the receive workflow transition on a sample when it arrives at the lab.",
+      "code": "// Update a sample and run a workflow transition on it.\nrequest('POST', `AnalysisRequest/update/${$.data.sampleUid}`, {\n  body: {\n    // Workflow transition to run after the update.\n    transition: 'receive',\n    Remarks: 'Received via courier from district hospital',\n  },\n});"
+    },
+    "Update Object By UID": {
+      "description": "Updates any SENAITE object's fields by UID.",
+      "code": "// Update fields on any object (portal type inferred from the UID).\nrequest('POST', `update/${$.data.uid}`, {\n  body: {\n    Phone: $.data.phone,\n    EmailAddress: $.data.email,\n  },\n});"
+    },
+    "Deactivate Client": {
+      "description": "Deactivates (soft-deletes) a client; SENAITE keeps the audit trail.",
+      "code": "// Deactivate an object. SENAITE does not hard-delete content.\nrequest('POST', `Client/delete/${$.data.clientUid}`);"
+    }
+  },
+  "SEARCH": {
+    "Get Published Results": {
+      "description": "Fetches samples published since a date, with full data, to send results back to an EMR or DHIS2.",
+      "code": "// Find samples published recently, returning full object data.\nrequest('GET', 'search', {\n  query: {\n    portal_type: 'AnalysisRequest',\n    catalog: 'senaite_catalog_sample',\n    review_state: 'published',\n    modified_since: '2d',\n    complete: 'yes',\n    limit: 100,\n  },\n});"
+    },
+    "Find Sample By Client Sample ID": {
+      "description": "Looks up a sample using the order number from the EMR.",
+      "code": "// Find a sample by the client's own sample/order id.\nrequest('GET', 'AnalysisRequest', {\n  query: {\n    getClientSampleID: $.data.orderNumber,\n    catalog: 'senaite_catalog_sample',\n    complete: 'yes',\n  },\n});"
+    },
+    "Get Object By UID": {
+      "description": "Reads one sample, client or other object by UID.",
+      "code": "// Read a single object by UID.\nrequest('GET', `AnalysisRequest/${$.data.sampleUid}`);"
+    },
+    "List Analysis Services": {
+      "description": "Lists the tests the lab offers, e.g. to map EMR test concepts to SENAITE UIDs.",
+      "code": "// List active analysis services.\nrequest('GET', 'AnalysisService', {\n  query: { review_state: 'active', complete: 'yes', limit: 200 },\n});"
+    },
+    "List Clients": {
+      "description": "Lists all client facilities.",
+      "code": "// List clients.\nrequest('GET', 'Client', { query: { complete: 'yes' } });"
+    }
+  }
+}

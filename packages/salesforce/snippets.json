@@ -6,7 +6,7 @@
     },
     "Add File to Record": {
       "description": "Adds an existing file to an existing Record.",
-      "code": ""
+      "code": "// Attach an existing file (ContentDocument) to a record.\ncreate('ContentDocumentLink', {\n  // The 069* ContentDocument id of the file.\n  ContentDocumentId: $.data.contentDocumentId,\n  // The record to attach it to (e.g. a Contact or Case id).\n  LinkedEntityId: $.data.recordId,\n  // V = viewer access for users who can see the record.\n  ShareType: 'V',\n});"
     },
     "Create Record": {
       "description": "Creates a new record of a specified Salesforce object.",
@@ -14,7 +14,7 @@
     },
     "Send Email": {
       "description": "Sends an email using Salesforce Simple Email Actions.",
-      "code": ""
+      "code": "// Send an email with the standard emailSimple invocable action.\nfn(async state => {\n  const result = await sfRequest({\n    method: 'POST',\n    url: '/services/data/v59.0/actions/standard/emailSimple',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify({\n      inputs: [\n        {\n          emailAddresses: state.data.email,\n          emailSubject: 'Your appointment is confirmed',\n          emailBody: `Hi ${state.data.firstName}, see you on ${state.data.appointmentDate}.`,\n          senderType: 'CurrentUser',\n        },\n      ],\n    }),\n  });\n  return { ...state, data: result };\n});"
     },
     "Update Lead": {
       "description": "Updates an existing lead.",
@@ -36,7 +36,7 @@
     },
     "Execute SOSL Search": {
       "description": "Custom SOSL queries for text-based searches across multiple objects.",
-      "code": ""
+      "code": "// Run a SOSL text search across several objects.\nfn(async state => {\n  const sosl = `FIND {${state.data.searchTerm}} IN ALL FIELDS RETURNING Contact(Id, Name, Email), Account(Id, Name)`;\n  const result = await sfRequest({\n    method: 'GET',\n    url: `/services/data/v59.0/search?q=${encodeURIComponent(sosl)}`,\n  });\n  // result.searchRecords holds the matches.\n  return { ...state, data: result };\n});"
     },
     "Find Child Records": {
       "description": "Finds Child Records for a given Parent ID.",

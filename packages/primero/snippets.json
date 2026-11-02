@@ -1,0 +1,54 @@
+{
+  "CREATE": {
+    "Create Case": {
+      "description": "Registers a new child protection case, e.g. from a hotline or intake form.",
+      "code": "// Create a new case in Primero from an intake submission.\ncreateCase({\n  data: {\n    name_first: $.data.firstName,\n    name_last: $.data.lastName,\n    sex: $.data.sex, // e.g. 'female'\n    date_of_birth: $.data.dateOfBirth, // 'YYYY-MM-DD'\n    registration_date: $.data.registrationDate,\n    protection_concerns: ['unaccompanied', 'separated'],\n    status: 'open',\n  },\n});"
+    },
+    "Upsert Case": {
+      "description": "Updates a case if one matches the external id, otherwise creates it.",
+      "code": "// Create or update a case, matching on case_id to avoid duplicates.\nupsertCase({\n  // Case attribute(s) used to look up an existing record.\n  externalIds: ['case_id'],\n  data: {\n    case_id: $.data.caseId,\n    name_first: $.data.firstName,\n    name_last: $.data.lastName,\n    sex: $.data.sex,\n    age: $.data.age,\n    status: 'open',\n  },\n});"
+    },
+    "Update Case": {
+      "description": "Updates fields on an existing case by its Primero record id.",
+      "code": "// Update an existing case, e.g. after a follow-up visit.\nupdateCase(\n  // 1) Primero record id (uuid) of the case.\n  $.data.recordId,\n  // 2) Fields to change.\n  {\n    data: {\n      risk_level: 'high',\n      protection_concerns: ['physical_violence'],\n    },\n  }\n);"
+    },
+    "Refer Cases": {
+      "description": "Refers one or more cases to another Primero user, e.g. a partner agency caseworker.",
+      "code": "// Refer cases to a service provider's user in bulk.\ncreateReferrals({\n  data: {\n    // Primero record ids of the cases to refer.\n    ids: $.data.caseRecordIds,\n    // user_name of the receiving user.\n    transitioned_to: $.data.receivingUserName,\n    notes: 'Referred for psychosocial support services',\n  },\n});"
+    },
+    "Update Referral Status": {
+      "description": "Accepts, rejects or completes a referral on a case.",
+      "code": "// Mark a referral as done once the partner agency has delivered the service.\nupdateReferral({\n  // Match the case by its Primero record id.\n  caseExternalId: 'record_id',\n  // Case record id.\n  caseId: $.data.caseRecordId,\n  // Referral id.\n  id: $.data.referralId,\n  data: {\n    status: 'done',\n    notes: 'Service delivered by partner agency',\n  },\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Remote Cases": {
+      "description": "Fetches cases marked for remote access that match query criteria.",
+      "code": "// Get cases flagged for remote access, filtered by sex and age range.\ngetCases({\n  remote: true,\n  sex: 'female',\n  age: '10..17',\n  per: 100,\n  page: 1,\n});"
+    },
+    "Get Case By Case Id": {
+      "description": "Fetches a specific case using its case_id.",
+      "code": "// Look up one case by its case_id.\ngetCases({\n  case_id: $.data.caseId,\n});"
+    },
+    "Get Cases With Referrals": {
+      "description": "Fetches remote cases and includes each case's referrals.",
+      "code": "// Get remote cases along with their referrals (one extra request per case).\ngetCases(\n  // 1) Query parameters.\n  { remote: true },\n  // 2) Options.\n  { withReferrals: true }\n);"
+    },
+    "Get Case Referrals": {
+      "description": "Lists the referrals made on a single case.",
+      "code": "// Get the referrals made on a case, matched by its Primero record id.\ngetReferrals({\n  externalId: 'record_id',\n  id: $.data.caseRecordId,\n});"
+    },
+    "Get Lookups": {
+      "description": "Fetches lookup option lists (e.g. protection concerns) for mapping values.",
+      "code": "// Fetch lookups to translate option ids into display values.\ngetLookups({\n  per: 1000,\n  page: 1,\n});"
+    },
+    "Get Locations": {
+      "description": "Fetches the configured location hierarchy.",
+      "code": "// Fetch locations, e.g. to map Primero location codes to another system.\ngetLocations({\n  page: 1,\n  per: 500,\n});"
+    },
+    "Get Forms": {
+      "description": "Fetches form sections, optionally for one module.",
+      "code": "// Get the form sections configured for a module.\ngetForms({\n  module_id: $.data.moduleId,\n});"
+    }
+  }
+}

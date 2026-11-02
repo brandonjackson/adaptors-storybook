@@ -1,0 +1,32 @@
+{
+  "SEARCH": {
+    "Get Forms": {
+      "description": "Lists all survey forms the authorized user can access.",
+      "code": "// Fetch every survey form (asset) visible to this account.\n// state.data is an array of form objects; each has a `uid` used as the formId.\ngetForms();"
+    },
+    "Get Form Submissions": {
+      "description": "Fetches submissions for a single form.",
+      "code": "// Get submissions for one form.\ngetSubmissions(\n  // 1) The form's asset uid (from the form URL or getForms()).\n  $.configuration.formId,\n  // 2) Options (optional).\n  {\n    pageSize: 1000, // max 1000 per page; paging is handled for you\n  }\n);"
+    },
+    "Get New Submissions Since Last Sync": {
+      "description": "Fetches only submissions received after the last successful run.",
+      "code": "// Set a cursor: the last sync time saved by a previous run, or a fallback start date.\ncursor($.lastSyncTime || '2026-01-01T00:00:00');\n\n// Get submissions received since the cursor.\ngetSubmissions($.configuration.formId, {\n  query: { _submission_time: { $gte: $.cursor } },\n  sort: { _submission_time: 1 }, // oldest first\n});\n\n// Remember the newest submission time for the next run.\nfn(state => {\n  const last = state.data[state.data.length - 1];\n  if (last) state.lastSyncTime = last._submission_time;\n  return state;\n});"
+    },
+    "Get All Submissions": {
+      "description": "Downloads every submission for a form, with no limit.",
+      "code": "// Download all submissions for a form (by default the adaptor stops at 30,000).\ngetSubmissions($.configuration.formId, { limit: Infinity });"
+    },
+    "Get Latest Submissions": {
+      "description": "Fetches the most recent submissions first.",
+      "code": "// Get the 50 most recent submissions.\ngetSubmissions($.configuration.formId, {\n  sort: { _submission_time: -1 }, // newest first\n  limit: 50,\n});"
+    },
+    "Filter Submissions By Answer": {
+      "description": "Fetches submissions matching a question value, using a MongoDB-style query.",
+      "code": "// Get submissions for one district where the household was flagged as eligible.\n// Keys are the form's question names (including group paths).\ngetSubmissions($.configuration.formId, {\n  query: {\n    'household/district': $.data.district, // e.g. 'Gulu'\n    'household/eligible': 'yes',\n  },\n});"
+    },
+    "Get Form Deployment Info": {
+      "description": "Fetches deployment details for a form, such as active status and submission count.",
+      "code": "// Get deployment information for a form.\ngetDeploymentInfo($.configuration.formId);"
+    }
+  }
+}

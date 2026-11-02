@@ -1,0 +1,34 @@
+{
+  "CREATE": {
+    "Submit Viral Load Request": {
+      "description": "Sends a viral load test request for a patient sample from a health facility to the lab.",
+      "code": "// Send a viral load test request for one sample to the lab.\npostViralLoadRequest({\n  siteid: $.data.siteId, // the facility's IBIPIMO site id\n  samples: [\n    {\n      sidainfo_uid: $.data.sidainfoUid, // id in the EMR (SIDAInfo)\n      p_code: $.data.patientCode,\n      p_name: $.data.lastName,\n      p_prename: $.data.firstName,\n      p_sex: $.data.sex, // 'M' | 'F'\n      p_dob: $.data.dateOfBirth, // 'YYYY-MM-DD'\n      arv_start_date: $.data.arvStartDate,\n      date_blood_taken: $.data.collectedAt, // 'YYYY-MM-DD HH:mm:ss'\n      reason_vl: 'suspicion_echec',\n      on_arv: '1',\n      sample_type: 'DBS',\n    },\n  ],\n});"
+    },
+    "Submit Batch Of Viral Load Requests": {
+      "description": "Sends several samples from an EMR export to the lab in one request.",
+      "code": "// Send every sample in the incoming EMR export in one request.\npostViralLoadRequest({\n  siteid: $.data.siteId,\n  samples: $.data.samples.map(s => ({\n    sidainfo_uid: s.id,\n    p_code: s.patientCode,\n    p_name: s.lastName,\n    p_prename: s.firstName,\n    p_sex: s.sex,\n    p_dob: s.dateOfBirth,\n    date_blood_taken: s.collectedAt,\n    sample_type: s.sampleType, // e.g. 'DBS' or 'Plasma'\n  })),\n});"
+    },
+    "Check Viral Load Submission": {
+      "description": "Reads the submission response to collect saved sample ids and any errors.",
+      "code": "// After postViralLoadRequest(), pull out saved sample ids and errors.\nprocessViralLoadSubmission((state, processSubmission) => {\n  const result = processSubmission(state.data);\n  if (result.hasErrors) {\n    console.log(`${result.errorCount} samples were rejected`);\n    return { ...state, errors: result.errors };\n  }\n  // Lab sample ids to store back in the EMR.\n  return { ...state, labSampleIds: result.sampleIds };\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Viral Load Results": {
+      "description": "Asks the lab for the results of specific samples.",
+      "code": "// Ask the lab for results of samples sent earlier.\ngetViralLoadResults({\n  siteid: $.data.siteId,\n  sample_uids: $.data.sampleUids, // e.g. ['2026010401', '2026010402']\n});"
+    },
+    "Process Viral Load Results": {
+      "description": "Splits a results response into published results and samples still pending.",
+      "code": "// After getViralLoadResults(), split published results from pending samples.\nprocessViralLoadResults((state, processResults) => {\n  const processed = processResults(state.data);\n  console.log(`Found ${processed.totalFound}/${processed.totalRequested} results`);\n  return {\n    ...state,\n    readyForEmr: processed.availableResults, // write these back to the EMR\n    pendingSamples: processed.pendingSamples, // retry on the next run\n  };\n});"
+    },
+    "Get Sample Statuses": {
+      "description": "Lists the processing status of samples for a site.",
+      "code": "// List the processing status of a site's samples.\nget('/api/v1/samples/status', {\n  query: { siteid: $.data.siteId },\n});"
+    },
+    "List Active Sites": {
+      "description": "Lists the active health facility sites registered in IBIPIMO.",
+      "code": "// List active sites, e.g. to map EMR facilities to IBIPIMO site ids.\nget('/api/v1/sites', {\n  query: { active: true },\n});"
+    }
+  }
+}

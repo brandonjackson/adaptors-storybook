@@ -1,0 +1,18 @@
+{
+  "CREATE": {
+    "Submit Record To Form": {
+      "description": "Submits a record against a form that already exists in the Magpi account.",
+      "code": "// Heads up: in the current adaptor source, submitRecord's POST is commented out,\n// so this step won't send anything until the adaptor is fixed.\n// Submit a record to an existing Magpi form.\n// The payload is converted to an XML <form> document.\nsubmitRecord({\n  surveyid: $.configuration.surveyId, // the target form, e.g. '37479'\n  data: {\n    // keys must match the form's question names\n    household_id: $.data.householdId,\n    village: $.data.village,\n    members_count: String($.data.membersCount),\n  },\n});"
+    }
+  },
+  "SEARCH": {
+    "Fetch New Survey Submissions": {
+      "description": "Fetches submissions for a survey since the last run and posts each one to another endpoint, e.g. an OpenFn webhook.",
+      "code": "// Fetch submissions for a survey and forward each one.\n// After the first run, state.lastSubmissionDate is used as the start date.\nfetchSurveyData({\n  surveyId: $.configuration.surveyId, // e.g. '37479'\n  afterDate: '2026-10-01', // used only when there is no lastSubmissionDate\n  postUrl: $.configuration.inboxUrl, // each submission is POSTed here as JSON\n});"
+    },
+    "Fetch Submissions In Date Range": {
+      "description": "Fetches survey submissions between two dates, e.g. for a monthly data review.",
+      "code": "// Fetch submissions between two dates and forward each one.\nfetchSurveyData({\n  surveyId: $.data.surveyId,\n  afterDate: '2026-10-01', // start date\n  beforeDate: '2026-10-31', // end date\n  postUrl: $.configuration.inboxUrl,\n});"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "SEARCH": {
+    "Get Stock Out Report": {
+      "description": "Fetches the dispensing unit's stock-out report, e.g. to feed a supply chain dashboard or DHIS2.",
+      "code": "// Fetch the current stock-out report for the dispensing unit.\n// state.data.items lists each item with onHand and daysOutOfStock.\nget('DispensingUnit/Dashboard/StockOutReport');"
+    },
+    "Check Prescription": {
+      "description": "Looks up one prescription by its row GUID to see whether it has been dispensed.",
+      "code": "// Check the status of a single prescription.\npost(\n  // 1) Path relative to the Dagu base URL.\n  'Patient/CheckPrescription',\n  // 2) Request body.\n  { prescriptionRowGuid: $.data.prescriptionRowGuid }\n);"
+    },
+    "Get Prescription History Page": {
+      "description": "Fetches one page of prescription history, sent as form data.",
+      "code": "// Fetch the first 50 prescriptions from the history table.\npost(\n  'Patient/Prescription/History',\n  {\n    start: 0, // row offset\n    length: 50, // page size\n    draw: 1,\n    additionalParameters: { filter: [] },\n  },\n  // 3) This endpoint expects multipart form data.\n  { contentType: 'form' }\n);"
+    },
+    "Get Dispensing Request History": {
+      "description": "Lists past dispensing-unit requests (e.g. resupply requests to the store).",
+      "code": "// List dispensing-unit request history.\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Path relative to the Dagu base URL.\n  'DispensingUnit/Request/History',\n  // 3) Search criteria; an empty object returns all requests.\n  { search: {} }\n);"
+    }
+  }
+}

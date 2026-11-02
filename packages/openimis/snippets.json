@@ -1,0 +1,44 @@
+{
+  "SEARCH": {
+    "Find Insuree By CHF ID": {
+      "description": "Looks up an insuree (FHIR Patient) by their insurance number.",
+      "code": "// Find an insuree (Patient) by insurance number (CHF ID).\ngetFHIR('Patient/', {\n  identifier: $.data.insuranceNumber, // e.g. '070707070'\n});"
+    },
+    "List Insurees Page By Page": {
+      "description": "Lists insurees in pages, for a bulk sync to a registry or data warehouse.",
+      "code": "// List insurees, 50 at a time.\ngetFHIR('Patient/', {\n  _count: 50, // page size\n  'page-offset': $.data.page || 1, // which page to fetch\n});"
+    },
+    "Get Insuree By ID": {
+      "description": "Fetches a single insuree record by its openIMIS UUID.",
+      "code": "// Fetch a single insuree by UUID.\ngetFHIR(`Patient/${$.data.insureeUuid}/`);"
+    },
+    "Find Claims For Insuree": {
+      "description": "Lists the claims submitted for a given insuree.",
+      "code": "// List claims for one insuree.\ngetFHIR('Claim/', {\n  patient: $.data.insureeUuid, // the Patient's UUID\n  _count: 100,\n});"
+    },
+    "Get Claim Response": {
+      "description": "Fetches the adjudication outcome (ClaimResponse) for a claim, to report back to the health facility.",
+      "code": "// Get the adjudication result for a claim.\ngetFHIR(`ClaimResponse/${$.data.claimUuid}/`);"
+    },
+    "Check Insuree Coverage": {
+      "description": "Retrieves coverage (policy) records valid on a reference date, to check eligibility.",
+      "code": "// Check which policies (Coverage) were active on a date.\ngetFHIR('Coverage/', {\n  refDate: $.data.serviceDate, // e.g. '2026-10-15'\n  _count: 100,\n});"
+    },
+    "List Families And Households": {
+      "description": "Lists families/households (FHIR Group), e.g. for social-protection enrolment reconciliation.",
+      "code": "// List families (Group resources).\ngetFHIR('Group/', {\n  _count: 100,\n});"
+    },
+    "List Insurance Products": {
+      "description": "Lists the insurance products (InsurancePlan) configured in openIMIS.",
+      "code": "// List insurance products.\ngetFHIR('InsurancePlan/');"
+    },
+    "Get Diagnosis Code System": {
+      "description": "Fetches the diagnosis code list, to map ICD codes from an EMR before submitting claims.",
+      "code": "// Get the diagnosis CodeSystem used on claims.\ngetFHIR('CodeSystem/diagnosis/');"
+    },
+    "List Policy Holders": {
+      "description": "Lists policy holders (FHIR Organization), e.g. employers enrolling staff in a contributory scheme.",
+      "code": "// List policy holders (Organization resources).\ngetFHIR('Organization/', {\n  resourceType: 'ph', // policy holders\n  _count: 100,\n});"
+    }
+  }
+}

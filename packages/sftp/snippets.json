@@ -2,13 +2,13 @@
   "CREATE": {
     "Upload File": {
       "description": "Uploads a file to the given path.",
-      "code": ""
+      "code": "// Upload a local file to the SFTP server.\nputCSV(\n  // 1) Path of the file on the worker's local disk.\n  '/tmp/monthly_distributions.csv',\n  // 2) Destination path on the SFTP server.\n  `/inbound/distributions_${new Date().toISOString().slice(0, 10)}.csv`\n);"
     }
   },
   "SEARCH": {
     "Download File": {
       "description": "Downloads the file at the given path.",
-      "code": ""
+      "code": "// Download a CSV from the SFTP server; rows are parsed to JSON on state.data.\n// For JSON files use getJSON('/outbound/file.json', 'utf8') instead.\ngetCSV(\n  // 1) Remote file path.\n  '/outbound/beneficiaries.csv',\n  // 2) Parsing options (csv-parse).\n  { delimiter: ',' }\n);"
     }
   }
 }

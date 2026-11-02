@@ -18,7 +18,7 @@
     },
     "Check Moderations": {
       "description": "Classifies if text is potentially harmful.",
-      "code": ""
+      "code": "// Flag potentially harmful text.\n// Note: this adaptor doesn't wrap OpenAI's /moderations endpoint, so this\n// uses a chat model as a classifier. It is not a drop-in replacement.\nprompt(\n  `Classify the text below for harmful content. Reply as JSON:\\n{ \"flagged\": boolean, \"categories\": string[] }\\nUse only these categories: harassment, hate, self-harm, sexual, violence.\\n\\nTEXT:\\n${$.data.text}`,\n  {\n    model: 'gpt-4o-mini',\n    temperature: 0,\n    // Force the model to emit valid JSON.\n    response_format: { type: 'json_object' },\n  }\n);"
     },
     "Classify Text (Legacy)": {
       "description": "Classify your text into one of your provided categories. Powered by Chat Completions API.",
@@ -34,27 +34,27 @@
     },
     "Convert Text to Speech": {
       "description": "Converts a given text to speech.",
-      "code": ""
+      "code": "// Turn a text message into spoken audio.\n// Note: /audio/speech isn't wrapped by this adaptor, so this uses an\n// audio-capable chat model. The base64 audio lands on\n// state.data.choices[0].message.audio.data.\nprompt(\n  `Read the following message aloud, word for word:\\n\\n${$.data.text}`,\n  {\n    model: 'gpt-4o-audio-preview',\n    // Ask for a text transcript plus spoken audio.\n    modalities: ['text', 'audio'],\n    audio: { voice: 'alloy', format: 'mp3' },\n  }\n);"
     },
     "Create Embedding": {
       "description": "Generate vector embeddings for text input.",
-      "code": ""
+      "code": "// Not supported by this adaptor.\n// prompt() calls Chat Completions and deepResearch() calls the Responses API;\n// neither can return embedding vectors from POST /embeddings.\n// Workaround: call the endpoint from the HTTP adaptor in a separate step:\n// post('https://api.openai.com/v1/embeddings', {\n//   model: 'text-embedding-3-small',\n//   input: $.data.text,\n// }, {\n//   headers: { Authorization: `Bearer ${$.configuration.apiKey}` },\n// });"
     },
     "Create Image Edit": {
       "description": "Creates a new image by editing an existing image with a prompt.",
-      "code": ""
+      "code": "// Edit an existing image with a text instruction, via the Responses API\n// image_generation tool (this adaptor doesn't wrap /images/edits).\n// The base64 result is in the `image_generation_call` item of state.data.output.\ndeepResearch(null, {\n  model: 'gpt-4o',\n  tools: [{ type: 'image_generation' }],\n  input: [\n    {\n      role: 'user',\n      content: [\n        { type: 'input_text', text: 'Replace the background with a plain white wall.' },\n        { type: 'input_image', image_url: $.data.imageUrl },\n      ],\n    },\n  ],\n});"
     },
     "Create Transcription": {
       "description": "Creates a new transcription, using Whisper, from an audio or video file.",
-      "code": ""
+      "code": "// Transcribe an audio recording.\n// Note: /audio/transcriptions (Whisper) isn't wrapped by this adaptor, so this\n// sends the audio to an audio-capable chat model instead. Video files are not\n// supported this way; extract the audio track first.\nprompt(null, {\n  model: 'gpt-4o-audio-preview',\n  messages: [\n    {\n      role: 'user',\n      content: [\n        { type: 'text', text: 'Transcribe this recording word for word.' },\n        // Base64-encoded audio, e.g. from an upstream step.\n        { type: 'input_audio', input_audio: { data: $.data.audioBase64, format: 'mp3' } },\n      ],\n    },\n  ],\n});"
     },
     "Create Translation": {
       "description": "Creates a new translation.",
-      "code": ""
+      "code": "// Translate spoken audio into English text.\n// Note: /audio/translations isn't wrapped by this adaptor, so this sends the\n// audio to an audio-capable chat model instead.\nprompt(null, {\n  model: 'gpt-4o-audio-preview',\n  messages: [\n    {\n      role: 'user',\n      content: [\n        { type: 'text', text: 'Translate this recording into English. Return the translation only.' },\n        // Base64-encoded audio, e.g. a voice note from a community health worker.\n        { type: 'input_audio', input_audio: { data: $.data.audioBase64, format: 'wav' } },\n      ],\n    },\n  ],\n});"
     },
     "Create Video": {
       "description": "Create a new video generation job using Sora. Returns a video job ID that can be used to check the render status.",
-      "code": ""
+      "code": "// Not supported by this adaptor.\n// Sora video generation needs OpenAI's video endpoints, which neither\n// prompt() (Chat Completions) nor deepResearch() (Responses API) can call.\n// Workaround: use the HTTP adaptor in a separate step, with your OpenAI key\n// in an Authorization: Bearer header, and save the returned job id."
     },
     "Extract Structured Data": {
       "description": "(Recommended) Improved structured data extraction with better formatting options and more reliable schema adherence. Powered by Responses API.",
@@ -66,7 +66,7 @@
     },
     "Generate An Image": {
       "description": "Generates an image using a relevant OpenAI model.",
-      "code": ""
+      "code": "// Generate an image via the Responses API image_generation tool.\n// The base64 image is in the `image_generation_call` item of state.data.output.\ndeepResearch(\n  `A friendly, flat-style illustration of a nurse vaccinating a child at a rural clinic. ${$.data.extraDetails || ''}`,\n  {\n    model: 'gpt-4o',\n    // Swap the default web search tool for image generation.\n    tools: [{ type: 'image_generation' }],\n  }\n);"
     },
     "Send Prompt": {
       "description": "Sends a prompt to OpenAI and generates a completion. Note: this uses the legacy OpenAI Completions API. We recommend using Conversation or Conversation With Assistant actions instead, which are powered by the latest OpenAI APIs.",
@@ -82,29 +82,29 @@
     },
     "API Request (Beta)": {
       "description": "This is an advanced action which makes a raw HTTP request that includes this integration's authentication.",
-      "code": ""
+      "code": "// Not supported by this adaptor: there is no generic request helper.\n// prompt() calls POST /chat/completions and deepResearch() calls POST /responses;\n// any other parameters you pass are forwarded in the request body.\n// For other endpoints, use the HTTP adaptor with an Authorization: Bearer header.\ndeepResearch($.data.input, {\n  model: 'gpt-4o',\n  tools: [],\n  // Any Responses API body field can be set here.\n  metadata: { source: 'openfn' },\n});"
     }
   },
   "SEARCH": {
     "Find Conversation": {
       "description": "Find a conversation for native OpenAI conversation management.",
-      "code": ""
+      "code": "// Not supported by this adaptor: GET /conversations/{conversation_id} isn't wrapped.\n// Closest option: continue an existing conversation by id via the Responses API.\ndeepResearch($.data.userMessage, {\n  model: 'gpt-4o',\n  tools: [],\n  // The conv_* id of the conversation to append to.\n  conversation: $.data.conversationId,\n});"
     },
     "Find File": {
       "description": "Finds a file by filename. Optionally, create a file if none are found.",
-      "code": ""
+      "code": "// Not supported by this adaptor.\n// GET /files (list) and GET /files/{file_id} aren't wrapped, and there is no\n// way to upload a file either, so files can't be found or created here.\n// Workaround: use the HTTP adaptor in a separate step to call GET /files with\n// an Authorization: Bearer header, then filter the results by `filename`."
     },
     "Find Response": {
       "description": "Find a stored Responses API result by response ID for audit trails and debugging.",
-      "code": ""
+      "code": "// Not supported by this adaptor: GET /responses/{response_id} isn't wrapped.\n// Closest option: chain onto a stored response by id, e.g. to ask the model\n// to restate what it answered for an audit trail.\ndeepResearch('Repeat your previous answer exactly.', {\n  model: 'gpt-4o',\n  tools: [],\n  // The resp_* id of the stored response.\n  previous_response_id: $.data.responseId,\n});"
     },
     "Get Video": {
       "description": "Retrieve the status and details of a video generation job created with Sora. Use this to check if a video is ready for download.",
-      "code": ""
+      "code": "// Not supported by this adaptor.\n// Checking a Sora job's status needs OpenAI's video endpoints, which neither\n// prompt() nor deepResearch() can call.\n// Workaround: use the HTTP adaptor in a separate step, with your OpenAI key\n// in an Authorization: Bearer header."
     },
     "Search Embeddings": {
       "description": "This best matches a query string (like \"big animal\") to a list of document strings (like \"mouse\", \"cat\", \"buffalo\", and \"blue whale\").",
-      "code": ""
+      "code": "// Rank documents by how well they match a query.\n// Note: this adaptor can't call /embeddings, so a chat model does the ranking.\nconst documents = ['mouse', 'cat', 'buffalo', 'blue whale'];\n\nprompt(\n  `Rank these documents by semantic similarity to the query. Reply as JSON:\\n{ \"results\": [{ \"document\": string, \"score\": number between 0 and 1 }] }\\n\\nQUERY: ${$.data.query}\\nDOCUMENTS: ${JSON.stringify(documents)}`,\n  {\n    model: 'gpt-4o-mini',\n    temperature: 0,\n    response_format: { type: 'json_object' },\n  }\n);"
     }
   }
 }

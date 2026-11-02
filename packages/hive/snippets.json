@@ -1,0 +1,30 @@
+{
+  "CREATE": {
+    "Create Table": {
+      "description": "Creates a Hive table to hold records loaded by later steps.",
+      "code": "// Create a table if it does not already exist.\nquery(`\n  CREATE TABLE IF NOT EXISTS facility_reports (\n    facility_code STRING,\n    period STRING,\n    indicator STRING,\n    value INT\n  )\n  STORED AS PARQUET\n`);"
+    },
+    "Insert Rows": {
+      "description": "Inserts a few rows built from the incoming payload.",
+      "code": "// Insert one row per incoming report value.\nquery(\n  `INSERT INTO facility_reports VALUES ${$.data.values\n    .map(v => `('${v.facilityCode}', '${v.period}', '${v.indicator}', ${v.value})`)\n    .join(', ')}`\n);"
+    },
+    "Insert From Select": {
+      "description": "Builds a summary table from raw data inside Hive.",
+      "code": "// Overwrite a summary table from a query on the raw table.\nquery(`\n  INSERT OVERWRITE TABLE monthly_anc_summary\n  SELECT district, substr(visit_date, 1, 7) AS month, COUNT(*) AS anc_visits\n  FROM anc_visits\n  GROUP BY district, substr(visit_date, 1, 7)\n`);"
+    }
+  },
+  "SEARCH": {
+    "Count Records": {
+      "description": "Counts rows in a table, e.g. as a data-quality check.",
+      "code": "// Count all rows in a table. Results are on state.data.\nquery('SELECT COUNT(*) AS total FROM patient');"
+    },
+    "Aggregate By District": {
+      "description": "Computes counts per district for a period, e.g. to send to DHIS2 as aggregate data values.",
+      "code": "// Aggregate a table by district for one month.\nquery(`\n  SELECT district, COUNT(*) AS anc_visits\n  FROM anc_visits\n  WHERE visit_date >= '2026-10-01' AND visit_date < '2026-11-01'\n  GROUP BY district\n`);"
+    },
+    "Get Recent Records": {
+      "description": "Selects records added since a date so later steps can forward them.",
+      "code": "// Select rows newer than a date passed in the payload.\nquery(\n  `SELECT patient_id, facility_code, visit_date FROM anc_visits WHERE visit_date >= '${$.data.since}' LIMIT 1000`\n);"
+    }
+  }
+}

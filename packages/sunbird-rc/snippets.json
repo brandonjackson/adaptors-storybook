@@ -1,0 +1,34 @@
+{
+  "CREATE": {
+    "Issue Vaccination Certificate": {
+      "description": "Issues a W3C Verifiable Credential, e.g. a vaccination certificate after a dose is recorded.",
+      "code": "// Issue a vaccination certificate as a Verifiable Credential.\nissueCredential({\n  credential: {\n    '@context': ['https://www.w3.org/2018/credentials/v1'],\n    type: ['VerifiableCredential', 'VaccinationCertificate'],\n    // DID of the issuing health authority.\n    issuer: $.data.issuerDid,\n    issuanceDate: new Date().toISOString(),\n    credentialSubject: {\n      id: $.data.recipientDid,\n      name: $.data.patientName,\n      vaccine: $.data.vaccine, // e.g. 'Measles-Rubella'\n      dose: $.data.doseNumber,\n      dateOfVaccination: $.data.vaccinationDate,\n      facility: $.data.facilityName,\n    },\n  },\n  // Credential schema registered in the credential-schema service.\n  credentialSchemaId: $.data.schemaId,\n  credentialSchemaVersion: '1.0.0',\n  tags: ['immunization'],\n});"
+    },
+    "Issue Benefit Eligibility Credential": {
+      "description": "Issues a credential proving a household is enrolled in a social protection programme.",
+      "code": "// Issue a programme-enrolment credential to a beneficiary.\nissueCredential({\n  credential: {\n    '@context': ['https://www.w3.org/2018/credentials/v1'],\n    type: ['VerifiableCredential', 'BenefitEligibilityCredential'],\n    issuer: $.data.issuerDid,\n    issuanceDate: new Date().toISOString(),\n    expirationDate: $.data.validUntil,\n    credentialSubject: {\n      id: $.data.beneficiaryDid,\n      name: $.data.beneficiaryName,\n      programme: $.data.programmeName, // e.g. 'Child Support Grant'\n      householdId: $.data.householdId,\n    },\n  },\n  credentialSchemaId: $.data.schemaId,\n  credentialSchemaVersion: '1.0.0',\n  tags: ['social-protection'],\n});"
+    },
+    "Revoke Credential": {
+      "description": "Revokes a credential, e.g. when a certificate was issued in error.",
+      "code": "// Revoke a credential by id.\ndel(`credentials/${$.data.credentialId}`);"
+    }
+  },
+  "SEARCH": {
+    "Get Credential": {
+      "description": "Gets a credential by id as JSON.",
+      "code": "// Fetch a credential by id.\ngetCredential($.data.credentialId); // e.g. 'did:rcw:123abc'"
+    },
+    "Download Credential PDF": {
+      "description": "Downloads a credential rendered with a template, e.g. a printable certificate.",
+      "code": "// Download a credential rendered with a template.\ndownloadCredential(\n  // 1) Credential id.\n  $.data.credentialId,\n  // 2) Template used to render it.\n  { templateId: $.data.templateId }\n);"
+    },
+    "Search Credentials By Subject": {
+      "description": "Finds credentials issued to a subject, optionally by a given issuer.",
+      "code": "// Find all credentials issued to one person.\npost('credentials/search', {\n  subject: { id: $.data.recipientDid },\n  issuer: { id: $.data.issuerDid },\n});"
+    },
+    "Verify Credential": {
+      "description": "Verifies a credential's signature and status.",
+      "code": "// Check that a credential is valid and not revoked.\nget(`credentials/${$.data.credentialId}/verify`);"
+    }
+  }
+}

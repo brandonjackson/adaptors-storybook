@@ -1,0 +1,50 @@
+{
+  "CREATE": {
+    "Create Encounter": {
+      "description": "Registers an outpatient visit (Encounter) for a patient at a facility.",
+      "code": "// Create an outpatient Encounter for a patient visit.\n// Path is relative to the credential's baseUrl (…/fhir-r4/v1).\npost('Encounter', {\n  resourceType: 'Encounter',\n  identifier: [\n    {\n      // Your organization's local encounter id.\n      system: `http://sys-ids.kemkes.go.id/encounter/${$.configuration.organizationId}`,\n      value: $.data.visitId,\n    },\n  ],\n  status: 'arrived',\n  class: {\n    system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',\n    code: 'AMB',\n    display: 'ambulatory',\n  },\n  subject: { reference: `Patient/${$.data.patientIhsId}`, display: $.data.patientName },\n  participant: [\n    { individual: { reference: `Practitioner/${$.data.practitionerIhsId}` } },\n  ],\n  period: { start: $.data.arrivedAt },\n  location: [{ location: { reference: `Location/${$.data.locationId}` } }],\n  serviceProvider: { reference: `Organization/${$.configuration.organizationId}` },\n});"
+    },
+    "Create Observation": {
+      "description": "Records a vital sign (e.g. body temperature) against a patient's encounter.",
+      "code": "// Record a body temperature Observation for an encounter.\npost('Observation', {\n  resourceType: 'Observation',\n  status: 'final',\n  category: [\n    {\n      coding: [\n        {\n          system: 'http://terminology.hl7.org/CodeSystem/observation-category',\n          code: 'vital-signs',\n        },\n      ],\n    },\n  ],\n  code: {\n    coding: [{ system: 'http://loinc.org', code: '8310-5', display: 'Body temperature' }],\n  },\n  subject: { reference: `Patient/${$.data.patientIhsId}` },\n  encounter: { reference: `Encounter/${$.data.encounterId}` },\n  effectiveDateTime: $.data.measuredAt,\n  valueQuantity: {\n    value: $.data.temperature,\n    unit: 'C',\n    system: 'http://unitsofmeasure.org',\n    code: 'Cel',\n  },\n});"
+    },
+    "Create Condition": {
+      "description": "Records an ICD-10 diagnosis (Condition) for a patient encounter.",
+      "code": "// Record an ICD-10 diagnosis for an encounter.\npost('Condition', {\n  resourceType: 'Condition',\n  clinicalStatus: {\n    coding: [\n      {\n        system: 'http://terminology.hl7.org/CodeSystem/condition-clinical',\n        code: 'active',\n      },\n    ],\n  },\n  category: [\n    {\n      coding: [\n        {\n          system: 'http://terminology.hl7.org/CodeSystem/condition-category',\n          code: 'encounter-diagnosis',\n        },\n      ],\n    },\n  ],\n  code: {\n    coding: [{ system: 'http://hl7.org/fhir/sid/icd-10', code: 'A09', display: 'Diarrhoea and gastroenteritis' }],\n  },\n  subject: { reference: `Patient/${$.data.patientIhsId}` },\n  encounter: { reference: `Encounter/${$.data.encounterId}` },\n});"
+    },
+    "Create Immunization": {
+      "description": "Reports a vaccine dose given to a patient.",
+      "code": "// Report a vaccination given at the facility.\npost('Immunization', {\n  resourceType: 'Immunization',\n  status: 'completed',\n  vaccineCode: {\n    coding: [{ system: 'http://sys-ids.kemkes.go.id/kfa', code: $.data.kfaCode, display: $.data.vaccineName }],\n  },\n  patient: { reference: `Patient/${$.data.patientIhsId}` },\n  encounter: { reference: `Encounter/${$.data.encounterId}` },\n  occurrenceDateTime: $.data.givenAt,\n  lotNumber: $.data.lotNumber,\n  performer: [{ actor: { reference: `Practitioner/${$.data.practitionerIhsId}` } }],\n  protocolApplied: [{ doseNumberPositiveInt: $.data.doseNumber }],\n});"
+    },
+    "Update Encounter Status": {
+      "description": "Patches an existing Encounter, e.g. to mark the visit finished, using JSON Patch.",
+      "code": "// Mark an encounter as finished using a JSON Patch.\npatch(\n  // 1) Resource type and id.\n  `Encounter/${$.data.encounterId}`,\n  // 2) JSON Patch operations.\n  [\n    { op: 'replace', path: '/status', value: 'finished' },\n    { op: 'add', path: '/period/end', value: $.data.dischargedAt },\n  ]\n);"
+    },
+    "Create Location": {
+      "description": "Registers a room or unit (Location) under your organization.",
+      "code": "// Register a clinic room as a Location under your organization.\npost('Location', {\n  resourceType: 'Location',\n  identifier: [\n    {\n      system: `http://sys-ids.kemkes.go.id/location/${$.configuration.organizationId}`,\n      value: $.data.roomCode,\n    },\n  ],\n  status: 'active',\n  name: $.data.roomName, // e.g. 'Poli Umum'\n  mode: 'instance',\n  physicalType: {\n    coding: [{ system: 'http://terminology.hl7.org/CodeSystem/location-physical-type', code: 'ro', display: 'Room' }],\n  },\n  managingOrganization: { reference: `Organization/${$.configuration.organizationId}` },\n});"
+    }
+  },
+  "SEARCH": {
+    "Find Patient By NIK": {
+      "description": "Looks up a patient's SATUSEHAT (IHS) id from their national identity number (NIK).",
+      "code": "// Find a patient by national identity number (NIK).\nget('Patient', {\n  identifier: `https://fhir.kemkes.go.id/id/nik|${$.data.nik}`,\n});"
+    },
+    "Find Practitioner By NIK": {
+      "description": "Looks up a health worker's SATUSEHAT (IHS) id from their NIK.",
+      "code": "// Find a practitioner by NIK to get their IHS number.\nget('Practitioner', {\n  identifier: `https://fhir.kemkes.go.id/id/nik|${$.data.practitionerNik}`,\n});"
+    },
+    "Get Patient Encounters": {
+      "description": "Lists the encounters recorded for a patient.",
+      "code": "// List a patient's encounters.\nget('Encounter', {\n  subject: $.data.patientIhsId, // the patient's IHS id\n  _count: 50,\n});"
+    },
+    "Get Encounter Observations": {
+      "description": "Lists observations recorded during a specific encounter.",
+      "code": "// List observations recorded in one encounter.\nget('Observation', {\n  encounter: $.data.encounterId,\n  _count: 100,\n});"
+    },
+    "Get Organization By ID": {
+      "description": "Reads one Organization resource by its SATUSEHAT id.",
+      "code": "// Read an Organization by id.\nget(`Organization/${$.configuration.organizationId}`);"
+    }
+  }
+}

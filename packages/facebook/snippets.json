@@ -2,11 +2,11 @@
   "CREATE": {
     "Change Page Profile Photo": {
       "description": "Changes the profile picture of a Facebook Page.",
-      "code": ""
+      "code": "// Change a Facebook Page's profile picture.\n// Limitation: the facebook adaptor only wraps the Messenger Send API (POST /me/messages).\n// It can't update Page settings or the profile picture; do that in a separate step with the\n// http adaptor against the Graph API, using a Page access token with pages_manage_metadata.\n// The closest thing this adaptor can do is send the new image to someone over Messenger:\npostMessage({\n  recipient: { id: $.data.psid },\n  message: {\n    attachment: { type: 'image', payload: { url: $.data.photoUrl, is_reusable: true } },\n  },\n});"
     },
     "Create Page Photo": {
       "description": "Uploads a photo to your Facebook Page and posts it to the stream.",
-      "code": ""
+      "code": "// Share a photo from your Page.\n// Limitation: the facebook adaptor only wraps the Messenger Send API (POST /me/messages).\n// It can't publish to the Page feed; instead it sends the photo to a person (PSID) over Messenger.\npostMessage({\n  recipient: { id: $.data.psid },\n  message: {\n    attachment: {\n      type: 'image',\n      // Publicly reachable image URL.\n      payload: { url: $.data.photoUrl, is_reusable: true },\n    },\n  },\n});"
     },
     "Create Page Post": {
       "description": "Create a new page \"stream\" post on a page.",
@@ -14,11 +14,11 @@
     },
     "Create Page Video": {
       "description": "Uploads a video to your Facebook Page and posts it to the stream.",
-      "code": ""
+      "code": "// Share a video from your Page.\n// Limitation: the facebook adaptor only wraps the Messenger Send API (POST /me/messages).\n// It can't publish to the Page feed; instead it sends the video to a person (PSID) over Messenger.\npostMessage({\n  recipient: { id: $.data.psid },\n  message: {\n    attachment: {\n      type: 'video',\n      // Publicly reachable video URL.\n      payload: { url: $.data.videoUrl, is_reusable: true },\n    },\n  },\n});"
     },
     "Page Post Insights": {
       "description": "Generates page post insights.",
-      "code": ""
+      "code": "// Get insights (impressions, engagement) for a Page post.\n// Limitation: the facebook adaptor only wraps the Messenger Send API (POST /me/messages).\n// It has no read functions, so insights can't be fetched with it. Use a separate step with the\n// http adaptor against the Graph API instead, for example:\n//\n// get(`https://graph.facebook.com/v19.0/${$.data.postId}/insights`, {\n//   query: { metric: 'post_impressions,post_engaged_users', access_token: $.configuration.access_token },\n// });"
     }
   }
 }

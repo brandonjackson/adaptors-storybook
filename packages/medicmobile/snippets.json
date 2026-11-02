@@ -1,0 +1,20 @@
+{
+  "SEARCH": {
+    "Fetch Form Submissions": {
+      "description": "Fetches new submissions of one form from the CHT changes feed and posts each to another URL.",
+      "code": "// Get new submissions of the pregnancy registration form and forward each one.\nfetchSubmissions(\n  // 1) The CHT form id to pick out of the changes feed.\n  'pregnancy',\n  // 2) Changes feed params; the cursor from the last run is used automatically.\n  { 'last-event-id': 0 },\n  // 3) Each submission is POSTed here (e.g. a workflow's webhook URL).\n  $.configuration.webhookUrl\n);"
+    },
+    "Read Changes Feed": {
+      "description": "Reads the CouchDB changes feed with full documents, picking up from the last run.",
+      "code": "// Read changes since the last run, with full documents.\nchangesApi({\n  include_docs: true,\n  // Used on the first run only; later runs use state.cursor.\n  'last-event-id': 0,\n});"
+    },
+    "Fetch Specific Documents": {
+      "description": "Reads the changes feed for specific documents, e.g. a set of contacts.",
+      "code": "// Read changes for specific documents only.\nchangesApi({\n  include_docs: true,\n  // Document ids to filter on.\n  doc_ids: $.data.contactIds,\n});"
+    },
+    "Get Reports for One Form": {
+      "description": "Reads the changes feed and keeps only the reports for one form.",
+      "code": "// Read changes, then keep only reports for one form.\nchangesApi(\n  { include_docs: true },\n  // Callback: filter the results to 'delivery' reports.\n  state => {\n    const reports = state.data.results\n      .map(change => change.doc)\n      .filter(doc => doc && doc.form === 'delivery');\n    return { ...state, data: { reports } };\n  }\n);"
+    }
+  }
+}

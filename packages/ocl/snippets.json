@@ -1,0 +1,40 @@
+{
+  "SEARCH": {
+    "Get Collection Mappings": {
+      "description": "Fetches all mappings in an OCL collection, e.g. to map form answers to standard codes.",
+      "code": "// Fetch the mappings in a collection (e.g. a programme's indicator mappings).\ngetMappings(\n  // 1) The owning organization (or user) id.\n  'MSFOCG',\n  // 2) The collection (or source) id.\n  $.data.collectionId,\n  // 3) Options: owner/repository type, version and query params.\n  {\n    ownerType: 'orgs', // 'orgs' or 'users'\n    repository: 'collections', // 'collections' or 'sources'\n    version: 'HEAD', // or a released version, e.g. 'v1.2'\n    page: 1,\n    limit: 200,\n    verbose: false,\n  }\n);"
+    },
+    "Search Concepts In Source": {
+      "description": "Searches concepts in an organization's source by keyword.",
+      "code": "// Search concepts in a source, e.g. CIEL, by free-text keyword.\nget(\n  // 1) Path relative to the OCL host URL.\n  'orgs/CIEL/sources/CIEL/concepts/',\n  // 2) Query parameters.\n  {\n    q: 'malaria', // free-text search\n    limit: 25,\n    page: 1,\n    verbose: true, // include names and descriptions\n    includeRetired: false,\n  }\n);"
+    },
+    "Get Concept By ID": {
+      "description": "Fetches a single concept from a source by its concept ID.",
+      "code": "// Fetch one concept (names, datatype, class) from a source.\nget(\n  // 1) orgs/{org}/sources/{source}/concepts/{concept}/\n  `orgs/CIEL/sources/CIEL/concepts/${$.data.conceptId}/`,\n  // 2) Query parameters.\n  { verbose: true }\n);"
+    },
+    "Get Mappings For Concept": {
+      "description": "Lists the mappings (e.g. to ICD-10 or SNOMED) for one concept in a source.",
+      "code": "// List the mappings that start from one concept, e.g. CIEL -> ICD-10.\nget(\n  `orgs/CIEL/sources/CIEL/concepts/${$.data.conceptId}/mappings/`,\n  {\n    limit: 100,\n    includeRetired: false,\n  }\n);"
+    },
+    "Get Concepts Updated Since": {
+      "description": "Fetches concepts changed since a date, for incremental sync of a terminology into a local system.",
+      "code": "// Pull only the concepts changed since the last sync.\nget(\n  `orgs/${$.data.orgId}/sources/${$.data.sourceId}/concepts/`,\n  {\n    // ISO date of the last successful sync (e.g. saved in state or a collection).\n    updatedSince: $.data.lastSync || '2026-01-01',\n    limit: 200,\n    page: 1,\n    verbose: true,\n  }\n);"
+    },
+    "Cascade Concept Hierarchy": {
+      "description": "Resolves a concept and its child concepts and mappings using $cascade, e.g. a question with its answers.",
+      "code": "// Get a concept plus everything it links to (answers, set members).\nget(\n  `orgs/CIEL/sources/CIEL/concepts/${$.data.conceptId}/$cascade/`,\n  {\n    cascadeHierarchy: true, // follow parent/child links\n    cascadeMappings: true, // follow mappings\n    cascadeLevels: 1, // how many levels deep\n    mapTypes: 'Q-AND-A,CONCEPT-SET', // only these map types\n  }\n);"
+    },
+    "List Source Versions": {
+      "description": "Lists the released versions of a source, to pin integrations to a specific version.",
+      "code": "// List the released versions of a source.\nget(\n  `orgs/${$.data.orgId}/sources/${$.data.sourceId}/versions/`,\n  { limit: 20 }\n);"
+    },
+    "List Concepts In Collection": {
+      "description": "Lists concepts in a specific version of an organization's collection.",
+      "code": "// List the concepts in a released collection version (e.g. a facility form value set).\nget(\n  // orgs/{org}/collections/{collection}/{version}/concepts/\n  `orgs/${$.data.orgId}/collections/${$.data.collectionId}/v1.0/concepts/`,\n  {\n    limit: 100,\n    page: 1,\n    verbose: true,\n  }\n);"
+    },
+    "List Organization Sources": {
+      "description": "Lists all sources owned by an OCL organization.",
+      "code": "// List the sources (terminologies) an organization publishes.\nget(\n  `orgs/${$.data.orgId}/sources/`,\n  { limit: 50 }\n);"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "CREATE": {
+    "Create Lab Order": {
+      "description": "Creates a lab order (patient, sample and requested tests) in OpenELIS.",
+      "code": "// Create a lab order: patient + sample + ordered tests.\n// Paths are relative to /api/OpenELIS-Global/rest/ on the configured baseUrl.\nhttp.post('SamplePatientEntry', {\n  patientProperties: {\n    // ADD a new patient, or UPDATE / NO_ACTION for an existing one.\n    patientUpdateStatus: 'ADD',\n    firstName: $.data.patient.firstName,\n    lastName: $.data.patient.lastName,\n    gender: $.data.patient.gender, // 'M' or 'F'\n    birthDateForDisplay: $.data.patient.birthDate, // dd/MM/yyyy\n    nationalId: $.data.patient.nationalId,\n  },\n  sampleOrderItems: {\n    labNo: $.data.labNumber, // accession number\n    receivedDateForDisplay: $.data.receivedDate, // dd/MM/yyyy\n    requesterSampleID: $.data.externalOrderId, // the EMR's order id\n    priority: 'ROUTINE',\n  },\n  // XML describing the sample type and ordered tests/panels.\n  sampleXML: $.data.sampleXML,\n});"
+    },
+    "Create or Update Patient": {
+      "description": "Creates a new patient, or updates an existing one, in OpenELIS.",
+      "code": "// Create (or update) a patient record.\nhttp.post('PatientManagement', {\n  // ADD for a new patient; UPDATE with patientPK for an existing one.\n  patientUpdateStatus: 'ADD',\n  firstName: $.data.firstName,\n  lastName: $.data.lastName,\n  gender: $.data.sex, // 'M' or 'F'\n  birthDateForDisplay: $.data.dateOfBirth, // dd/MM/yyyy\n  nationalId: $.data.nationalId,\n  primaryPhone: $.data.phone,\n  city: $.data.district,\n});"
+    },
+    "Save Test Results": {
+      "description": "Records entered results for an accession's tests (e.g. from an analyzer or another LIS).",
+      "code": "// Save results for tests awaiting entry.\nhttp.post('LogbookResults', {\n  accessionNumber: $.data.labNumber,\n  testSectionId: $.data.testSectionId,\n  testResult: [\n    {\n      accessionNumber: $.data.labNumber,\n      analysisId: $.data.analysisId, // from a GET LogbookResults lookup\n      testId: $.data.testId,\n      resultValue: $.data.value, // e.g. '13.5'\n      resultType: 'N', // numeric\n      unitsOfMeasure: 'g/dL',\n      note: 'Imported from analyzer middleware',\n    },\n  ],\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Results For Accession": {
+      "description": "Fetches all test results for one lab (accession) number, e.g. to send back to an EMR or DHIS2.",
+      "code": "// Get the results for a lab order by its accession number.\nhttp.get('accession-results', {\n  query: { accessionNumber: $.data.labNumber },\n});"
+    },
+    "Search Patients": {
+      "description": "Searches OpenELIS patients by name, national ID, lab number or date of birth.",
+      "code": "// Search patients (paged results).\nhttp.get('patient-search-results', {\n  query: {\n    nationalID: $.data.nationalId,\n    // Other filters: firstName, lastName, labNumber, dateOfBirth, gender\n    page: 1,\n  },\n});"
+    },
+    "Find Order By Lab Number": {
+      "description": "Looks up a lab order by its lab (accession) number to check it exists before creating it.",
+      "code": "// Find an order by its lab / accession number.\nhttp.get('order/search', {\n  query: { labNumber: $.data.labNumber },\n});"
+    },
+    "Get Patient By Lab Number": {
+      "description": "Fetches the patient linked to a given lab (accession) number.",
+      "code": "// Get the patient for an accession number.\nhttp.get('patientByLabNumer', {\n  query: { accessionNumber: $.data.labNumber },\n});"
+    },
+    "List Results Awaiting Validation": {
+      "description": "Lists results waiting for validation, optionally filtered to one lab section.",
+      "code": "// List results awaiting validation for a test section.\nhttp.get('AccessionValidation', {\n  query: { testSectionId: $.data.testSectionId },\n});"
+    },
+    "Query FHIR Resources": {
+      "description": "Reads FHIR resources (e.g. DiagnosticReport, ServiceRequest) through OpenELIS's FHIR passthrough.",
+      "code": "// Query FHIR resources of one type via the OpenELIS passthrough.\nhttp.get('fhir/DiagnosticReport', {\n  query: {\n    count: 50, // page size\n    includeTotal: true,\n  },\n});"
+    },
+    "Get Test Catalog": {
+      "description": "Fetches the lab's test catalog, e.g. to map EMR test codes to OpenELIS tests.",
+      "code": "// Fetch the configured test catalog.\nhttp.get('TestCatalog');"
+    }
+  }
+}

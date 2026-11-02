@@ -1,0 +1,34 @@
+{
+  "CREATE": {
+    "Create Contact": {
+      "description": "Creates a contact, e.g. a donor or volunteer captured from a sign-up form.",
+      "code": "// Create a contact (e.g. a donor from a web form).\npostElement({\n  operation: 'create',\n  elementType: 'Contacts', // module name\n  element: {\n    firstname: $.data.firstName,\n    lastname: $.data.lastName, // required\n    email: $.data.email,\n    mobile: $.data.phone,\n    assigned_user_id: $.configuration.assignedUserId, // e.g. '19x1'\n  },\n});"
+    },
+    "Create Organization": {
+      "description": "Creates an organization (Accounts module), such as a partner NGO or funder.",
+      "code": "// Create an organization (Accounts module).\npostElement({\n  operation: 'create',\n  elementType: 'Accounts',\n  element: {\n    accountname: $.data.organizationName, // required\n    email1: $.data.email,\n    phone: $.data.phone,\n    website: $.data.website,\n    industry: 'Non-Profit',\n    assigned_user_id: $.configuration.assignedUserId,\n  },\n});"
+    },
+    "Create Lead": {
+      "description": "Creates a lead, e.g. a prospective partner from an event registration.",
+      "code": "// Create a lead from an event registration.\npostElement({\n  operation: 'create',\n  elementType: 'Leads',\n  element: {\n    firstname: $.data.firstName,\n    lastname: $.data.lastName, // required\n    company: $.data.organization, // required\n    email: $.data.email,\n    leadsource: 'Web Site',\n    leadstatus: 'Not Contacted',\n    assigned_user_id: $.configuration.assignedUserId,\n  },\n});"
+    },
+    "Partially Update Record": {
+      "description": "Changes only the given fields on an existing record (revise).",
+      "code": "// Update only some fields on a record. `id` is the webservice id.\npostElement({\n  operation: 'revise',\n  elementType: 'Contacts',\n  element: {\n    id: $.data.contactId, // e.g. '12x45'\n    mobile: $.data.newPhone,\n    email: $.data.newEmail,\n  },\n});"
+    },
+    "Replace Record": {
+      "description": "Fully replaces a record (update); send all mandatory fields.",
+      "code": "// Replace a contact record. Mandatory fields must be included.\npostElement({\n  operation: 'update',\n  elementType: 'Contacts',\n  element: {\n    id: $.data.contactId, // e.g. '12x45'\n    firstname: $.data.firstName,\n    lastname: $.data.lastName,\n    email: $.data.email,\n    assigned_user_id: $.configuration.assignedUserId,\n  },\n});"
+    },
+    "Create Contacts In Bulk": {
+      "description": "Creates one contact for each item in a list.",
+      "code": "// Create a contact for each person in the payload.\neach(\n  '$.data.people[*]',\n  postElement({\n    operation: 'create',\n    elementType: 'Contacts',\n    element: {\n      firstname: $.data.firstName,\n      lastname: $.data.lastName,\n      email: $.data.email,\n      assigned_user_id: $.configuration.assignedUserId,\n    },\n  })\n);"
+    }
+  },
+  "SEARCH": {
+    "List Module Types": {
+      "description": "Lists the modules (element types) the user can access, e.g. to check module names before writing.",
+      "code": "// List accessible modules (Contacts, Accounts, Leads, ...).\n// The result is saved to state.response.body.\nlistTypes();"
+    }
+  }
+}

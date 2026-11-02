@@ -1,0 +1,16 @@
+{
+  "CREATE": {
+    "Register Health Facility Site": {
+      "description": "Creates a site (e.g. a health facility) with a location and field values in a collection.",
+      "code": "// Create a site in a Resource Map collection.\nsubmitSite(\n  // 1) Collection ID.\n  $.data.collectionId,\n  // 2) The site.\n  {\n    name: 'Mwanza Health Centre',\n    lat: -2.5164,\n    lng: 32.9175,\n    // Field values keyed by field code.\n    properties: {\n      facility_type: 'Health Centre',\n      beds: 24,\n      phone: '+255700000000',\n    },\n  }\n);"
+    },
+    "Submit Site From Survey": {
+      "description": "Maps an incoming survey submission (e.g. a water point assessment) to a new site.",
+      "code": "// Map a survey submission to a new site.\nsubmitSite(\n  // 1) Collection ID, from the credential or payload.\n  $.data.collectionId,\n  // 2) Site built from the submission.\n  {\n    name: $.data.water_point_name,\n    lat: $.data.gps.latitude,\n    lng: $.data.gps.longitude,\n    properties: {\n      functional: $.data.is_functional,\n      source_type: $.data.source_type,\n      last_visited: $.data.submission_date,\n    },\n  }\n);"
+    },
+    "Submit Many Sites": {
+      "description": "Creates one site per item in an incoming list.",
+      "code": "// Create one site per item in $.data.sites.\neach(\n  $.data.sites,\n  submitSite(\n    // 1) Collection ID.\n    '303',\n    // 2) Site data for the current item.\n    {\n      name: $.data.name,\n      lat: $.data.lat,\n      lng: $.data.lng,\n      properties: $.data.properties,\n    }\n  )\n);"
+    }
+  }
+}

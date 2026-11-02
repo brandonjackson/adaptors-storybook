@@ -1,0 +1,28 @@
+{
+  "SEARCH": {
+    "Fetch Learner Profile": {
+      "description": "Fetches the authenticated learner's profile and forwards it to another endpoint.",
+      "code": "// Fetch a learner's profile and forward it to an OpenFn webhook.\nfetch({\n  getEndpoint: 'user', // GET /api/v1/user\n  queryParams: { username: $.data.username }, // or { email: ... }\n  postUrl: $.configuration.forwardUrl, // where to POST the result\n});"
+    },
+    "Fetch Topic Tree By Kind": {
+      "description": "Fetches the content catalogue (topic tree), limited to one kind of node, and forwards it.",
+      "code": "// Fetch the topic tree, only exercises, and forward it.\nfetch({\n  getEndpoint: 'topictree',\n  queryParams: { kind: 'Exercise' }, // e.g. 'Topic', 'Video', 'Exercise'\n  postUrl: $.configuration.forwardUrl,\n});"
+    },
+    "Fetch Topic Exercises": {
+      "description": "Lists the exercises within a topic, e.g. to map curriculum content into a learning management system.",
+      "code": "// List exercises in a topic and forward them.\nfetch({\n  getEndpoint: `topic/${$.data.topicSlug}/exercises`, // e.g. 'early-math'\n  postUrl: $.configuration.forwardUrl,\n});"
+    },
+    "Fetch Topic Videos": {
+      "description": "Lists the videos within a topic and forwards them.",
+      "code": "// List videos in a topic and forward them.\nfetch({\n  getEndpoint: `topic/${$.data.topicSlug}/videos`,\n  postUrl: $.configuration.forwardUrl,\n});"
+    },
+    "Fetch Single Exercise": {
+      "description": "Retrieves one exercise by its name.",
+      "code": "// Retrieve one exercise by name and forward it.\nfetch({\n  getEndpoint: `exercises/${$.data.exerciseName}`, // e.g. 'addition_1'\n  postUrl: $.configuration.forwardUrl,\n});"
+    },
+    "Fetch Badges": {
+      "description": "Lists all badges, for tracking learner achievements in a programme dashboard.",
+      "code": "// List all badges and forward them.\nfetch({\n  getEndpoint: 'badges',\n  postUrl: $.configuration.forwardUrl,\n});"
+    }
+  }
+}

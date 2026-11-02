@@ -1,0 +1,42 @@
+{
+  "CREATE": {
+    "Create Practitioner": {
+      "description": "Registers a new health worker as a FHIR Practitioner in iHRIS.",
+      "code": "// Create a health worker (FHIR Practitioner).\n// http.* paths are relative to the iHRIS baseUrl; login is handled for you.\nhttp.post('/fhir/Practitioner', {\n  resourceType: 'Practitioner',\n  meta: {\n    profile: ['http://ihris.org/fhir/StructureDefinition/ihris-practitioner'],\n  },\n  identifier: [\n    { system: 'http://moh.example.gov/fhir/license', value: $.data.licenseNumber },\n  ],\n  name: [{ use: 'official', family: $.data.lastName, given: [$.data.firstName] }],\n  gender: $.data.gender, // 'male' | 'female' | 'other' | 'unknown'\n  birthDate: $.data.dateOfBirth, // YYYY-MM-DD\n  telecom: [{ system: 'phone', value: $.data.phone }],\n  active: true,\n});"
+    },
+    "Update Practitioner": {
+      "description": "Replaces an existing Practitioner record in iHRIS by id.",
+      "code": "// Update a health worker record by id (full resource replace).\nhttp.put(\n  // 1) Resource path, including the Practitioner id.\n  `/fhir/Practitioner/${$.data.practitionerId}`,\n  // 2) The full updated resource.\n  {\n    resourceType: 'Practitioner',\n    id: $.data.practitionerId,\n    name: [{ use: 'official', family: $.data.lastName, given: [$.data.firstName] }],\n    telecom: [{ system: 'phone', value: $.data.phone }],\n    active: $.data.status === 'active',\n  }\n);"
+    },
+    "Submit Transaction Bundle": {
+      "description": "Creates or updates several FHIR resources in one transaction, e.g. a worker and their job assignment.",
+      "code": "// Submit a FHIR transaction Bundle.\nhttp.post('/fhir', {\n  resourceType: 'Bundle',\n  type: 'transaction',\n  entry: [\n    {\n      fullUrl: 'urn:uuid:practitioner-1',\n      resource: {\n        resourceType: 'Practitioner',\n        name: [{ family: $.data.lastName, given: [$.data.firstName] }],\n      },\n      request: { method: 'POST', url: 'Practitioner' },\n    },\n    {\n      resource: {\n        resourceType: 'PractitionerRole',\n        practitioner: { reference: 'urn:uuid:practitioner-1' },\n        location: [{ reference: `Location/${$.data.facilityId}` }],\n        active: true,\n      },\n      request: { method: 'POST', url: 'PractitionerRole' },\n    },\n  ],\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Practitioners": {
+      "description": "Fetches health worker (Practitioner) records, following pagination automatically.",
+      "code": "// Fetch practitioners. fhir.get() pages through all results for you.\nfhir.get('Practitioner', {\n  count: 100, // page size (_count)\n  sort: '-_lastUpdated', // newest first (_sort)\n});"
+    },
+    "Get Practitioners Updated Since": {
+      "description": "Fetches only Practitioners changed since the last sync, for incremental HRH-to-DHIS2 or payroll syncs.",
+      "code": "// Fetch practitioners updated since a given date.\nfhir.get('Practitioner', {\n  // Maps to _lastUpdated; 'gt' means 'after'.\n  lastUpdated: `gt${$.data.lastSyncDate}`, // e.g. gt2026-01-01\n  count: 100,\n});"
+    },
+    "Get Practitioner By ID": {
+      "description": "Reads a single Practitioner record by its id.",
+      "code": "// Read one practitioner by id.\nfhir.get(`Practitioner/${$.data.practitionerId}`);"
+    },
+    "Get Job Assignments": {
+      "description": "Fetches PractitionerRole resources (positions/postings) with their Practitioners included.",
+      "code": "// Fetch job assignments (PractitionerRole) and the linked practitioners.\nfhir.get('PractitionerRole', {\n  include: 'PractitionerRole:practitioner', // maps to _include\n  count: 100,\n});"
+    },
+    "Get Facilities": {
+      "description": "Fetches facility Location resources, e.g. to map iHRIS duty stations to DHIS2 org units.",
+      "code": "// Fetch facilities / duty stations.\nfhir.get('Location', {\n  count: 200,\n  elements: 'id,name,identifier,partOf', // maps to _elements\n});"
+    },
+    "List Report Indices": {
+      "description": "Lists the iHRIS reporting indices and their record counts.",
+      "code": "// List available report indices.\nhttp.get('/es/indices');"
+    }
+  }
+}

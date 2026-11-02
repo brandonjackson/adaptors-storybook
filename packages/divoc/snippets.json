@@ -1,0 +1,12 @@
+{
+  "CREATE": {
+    "Certify a Vaccination": {
+      "description": "Requests a vaccination certificate for one recipient and dose.",
+      "code": "// Request a vaccination certificate.\n// POST /v1/certify takes an array of certification requests.\ncertifyVaccination([\n  {\n    // Code issued when the recipient pre-enrolled.\n    preEnrollmentCode: $.data.preEnrollmentCode,\n    recipient: {\n      name: 'Grace Banda',\n      dob: '1988-07-14',\n      gender: 'Female',\n      nationality: 'Malawian',\n      // Identity document reference, e.g. 'did:<id-type>:<id-number>'.\n      identity: $.data.identity,\n      contact: ['tel:+265999000000'],\n      address: {\n        addressLine1: 'Area 25',\n        addressLine2: '',\n        district: 'Lilongwe',\n        state: 'Central Region',\n        pincode: 207203,\n      },\n    },\n    vaccination: {\n      name: 'COVID-19 Vaccine',\n      batch: $.data.batchNumber,\n      manufacturer: 'Serum Institute of India',\n      date: $.data.vaccinatedAt,\n      effectiveStart: '2026-11-02',\n      effectiveUntil: '2027-11-02',\n      dose: 1,\n      totalDoses: 2,\n    },\n    vaccinator: { name: $.data.vaccinatorName },\n    facility: {\n      name: 'Kamuzu Central Hospital',\n      address: {\n        addressLine1: 'Mzimba Street',\n        addressLine2: '',\n        district: 'Lilongwe',\n        state: 'Central Region',\n        pincode: 207203,\n      },\n    },\n    meta: {},\n  },\n]);"
+    },
+    "Certify Vaccinations in Bulk": {
+      "description": "Maps a batch of vaccination records from a registry into one certification request.",
+      "code": "// Certify a batch of vaccinations from an incoming list.\ncertifyVaccination(state =>\n  state.data.vaccinations.map(v => ({\n    preEnrollmentCode: v.enrollment_code,\n    recipient: {\n      name: v.full_name,\n      dob: v.date_of_birth,\n      gender: v.sex,\n      nationality: v.nationality,\n      identity: v.national_id,\n      contact: [`tel:${v.phone}`],\n      address: { addressLine1: v.village, district: v.district, state: v.region, pincode: v.postcode },\n    },\n    vaccination: {\n      name: v.vaccine,\n      batch: v.batch,\n      manufacturer: v.manufacturer,\n      date: v.vaccinated_at,\n      dose: v.dose_number,\n      totalDoses: v.total_doses,\n    },\n    vaccinator: { name: v.vaccinator },\n    facility: { name: v.facility_name, address: { district: v.district, state: v.region } },\n    meta: { source: 'district-immunisation-register' },\n  }))\n);"
+    }
+  }
+}

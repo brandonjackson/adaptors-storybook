@@ -1,0 +1,66 @@
+{
+  "CREATE": {
+    "Register Patient": {
+      "description": "Creates a new patient with an identifier and demographics.",
+      "code": "// Register a new patient in OpenMRS.\n// Paths are relative to /ws/rest/v1/ (added for you).\ncreate('patient', {\n  identifiers: [\n    {\n      // The patient's ID number from the source system.\n      identifier: $.data.patientId,\n      // UUID of the patient identifier type (see GET patientidentifiertype).\n      identifierType: $.data.identifierTypeUuid,\n      // UUID of the registering facility.\n      location: $.data.locationUuid,\n      preferred: true,\n    },\n  ],\n  person: {\n    gender: 'F',\n    birthdate: '1994-03-12',\n    birthdateEstimated: false,\n    names: [{ givenName: 'Amina', familyName: 'Otieno' }],\n    addresses: [{ cityVillage: 'Kisumu', country: 'Kenya' }],\n  },\n});"
+    },
+    "Upsert Patient by Identifier": {
+      "description": "Creates a patient, or updates the existing one found by a search query.",
+      "code": "// Create or update a patient, matching on their identifier.\nupsert(\n  // 1) Resource to search and write.\n  'patient',\n  // 2) Patient definition to create/update with.\n  $.data.patient,\n  // 3) Query used to find an existing record (must match at most one).\n  { q: $.data.patientId, limit: 1 }\n);"
+    },
+    "Start a Visit": {
+      "description": "Opens a visit for a patient at a facility.",
+      "code": "// Start a new visit for a patient.\ncreate('visit', {\n  // UUID of the patient.\n  patient: $.data.patientUuid,\n  // UUID of the visit type (e.g. Outpatient).\n  visitType: $.data.visitTypeUuid,\n  // UUID of the facility location.\n  location: $.data.locationUuid,\n  startDatetime: new Date().toISOString(),\n});"
+    },
+    "Create Encounter with Observations": {
+      "description": "Records a clinical encounter with its observations in one request.",
+      "code": "// Record an encounter (e.g. an ANC visit) with observations.\ncreate('encounter', {\n  patient: $.data.patientUuid,\n  // UUID of the encounter type.\n  encounterType: $.data.encounterTypeUuid,\n  location: $.data.locationUuid,\n  encounterDatetime: $.data.visitDate,\n  obs: [\n    {\n      // Concept UUID for weight (kg).\n      concept: $.data.weightConceptUuid,\n      value: $.data.weightKg,\n    },\n    {\n      // Concept UUID for systolic blood pressure.\n      concept: $.data.systolicConceptUuid,\n      value: $.data.systolic,\n    },\n  ],\n});"
+    },
+    "Record Observation": {
+      "description": "Saves a single observation (e.g. a lab result) for a patient.",
+      "code": "// Save a single observation, e.g. a viral load result.\ncreate('obs', {\n  // UUID of the patient (as a person).\n  person: $.data.patientUuid,\n  // Concept UUID of the measured value.\n  concept: $.data.conceptUuid,\n  obsDatetime: $.data.resultDate,\n  value: $.data.result,\n  // Optional: link to an existing encounter.\n  encounter: $.data.encounterUuid,\n  comment: 'Imported from the lab information system',\n});"
+    },
+    "Add Patient Identifier": {
+      "description": "Adds another identifier (e.g. a national ID) to an existing patient.",
+      "code": "// Add an identifier sub-resource to an existing patient.\ncreate(`patient/${$.data.patientUuid}/identifier`, {\n  identifier: $.data.nationalId,\n  // UUID of the identifier type (e.g. National ID).\n  identifierType: $.data.identifierTypeUuid,\n  location: $.data.locationUuid,\n  preferred: false,\n});"
+    },
+    "Record Patient Allergy": {
+      "description": "Adds an allergy to a patient's record.",
+      "code": "// Record an allergy for a patient.\ncreate(`patient/${$.data.patientUuid}/allergy`, {\n  allergen: {\n    allergenType: 'DRUG',\n    // Concept UUID of the allergen (e.g. Penicillin).\n    codedAllergen: { uuid: $.data.allergenConceptUuid },\n  },\n  // Concept UUID of the severity (e.g. Moderate).\n  severity: { uuid: $.data.severityConceptUuid },\n  comment: 'Reported by patient at intake',\n});"
+    },
+    "Update Person Demographics": {
+      "description": "Updates only the given fields on a person record.",
+      "code": "// Update a person's demographics.\nupdate(\n  // 1) Path to the person, including its UUID.\n  `person/${$.data.personUuid}`,\n  // 2) Only the fields to change.\n  {\n    birthdate: $.data.birthdate,\n    gender: $.data.gender,\n  }\n);"
+    },
+    "Void Encounter": {
+      "description": "Voids (or purges) an encounter entered in error.",
+      "code": "// Void an encounter entered in error.\ndestroy(\n  // 1) Path to the encounter, including its UUID.\n  `encounter/${$.data.encounterUuid}`,\n  // 2) Set purge: true to delete permanently instead of voiding.\n  { purge: false }\n);"
+    }
+  },
+  "SEARCH": {
+    "Search Patients": {
+      "description": "Searches patients by name or identifier.",
+      "code": "// Search patients by name or identifier.\nget('patient', {\n  // Maps to OpenMRS's `q` parameter.\n  query: $.data.patientId,\n  // Representation: default, full or ref.\n  v: 'default',\n  // Stop after this many results (pagination is automatic).\n  max: 50,\n});"
+    },
+    "Get Patient by UUID": {
+      "description": "Fetches a single patient as an object.",
+      "code": "// Fetch one patient by UUID.\nget(`patient/${$.data.patientUuid}`, {\n  v: 'full',\n  // Return the object rather than an array of one.\n  singleton: true,\n});"
+    },
+    "List Patient Encounters": {
+      "description": "Lists a patient's encounters, optionally filtered by type and date.",
+      "code": "// List encounters for a patient.\nget('encounter', {\n  patient: $.data.patientUuid,\n  // Optional: only one encounter type.\n  encounterType: $.data.encounterTypeUuid,\n  fromdate: '2026-01-01',\n  v: 'default',\n});"
+    },
+    "Get Observations for Concept": {
+      "description": "Fetches a patient's observations for one concept, e.g. all weights.",
+      "code": "// Fetch a patient's observations for a single concept.\nget('obs', {\n  patient: $.data.patientUuid,\n  concept: $.data.conceptUuid,\n  v: 'full',\n});"
+    },
+    "List Locations": {
+      "description": "Lists facilities/locations, e.g. to map facility codes to UUIDs.",
+      "code": "// List locations matching a name.\nget('location', {\n  query: 'Clinic',\n  v: 'default',\n});"
+    },
+    "List Concepts": {
+      "description": "Searches the concept dictionary by name.",
+      "code": "// Look up concepts by name, e.g. to resolve concept UUIDs.\nget('concept', {\n  query: 'malaria',\n  // Results in French where translations exist.\n  language: 'fr',\n  limit: 25,\n});"
+    }
+  }
+}

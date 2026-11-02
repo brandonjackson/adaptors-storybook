@@ -1,0 +1,50 @@
+{
+  "CREATE": {
+    "Create Entity": {
+      "description": "Creates an Entity in a dataset, e.g. registering a patient or household for follow-up forms.",
+      "code": "// Create an Entity so it shows up as a case in follow-up forms.\npost(\n  // 1) Dataset (entity list) path.\n  `v1/projects/${$.data.projectId}/datasets/households/entities`,\n  // 2) Entity body: uuid, label and dataset property values (strings).\n  {\n    uuid: $.data.householdUuid,\n    label: `${$.data.headOfHousehold} (${$.data.village})`,\n    data: {\n      head_name: $.data.headOfHousehold,\n      village: $.data.village,\n      members: String($.data.memberCount),\n    },\n  }\n);"
+    },
+    "Bulk Create Entities": {
+      "description": "Creates many Entities in one request, e.g. seeding a case list from another system.",
+      "code": "// Create many Entities at once from an upstream list.\npost(\n  // 1) Dataset (entity list) path.\n  `v1/projects/${$.data.projectId}/datasets/patients/entities`,\n  // 2) Bulk body: entities plus a source describing where they came from.\n  {\n    entities: $.data.patients.map(p => ({\n      uuid: p.uuid,\n      label: `${p.name} (${p.age})`,\n      data: { name: p.name, age: String(p.age), facility: p.facility },\n    })),\n    source: { name: 'emr-export.json', size: $.data.patients.length },\n  }\n);"
+    },
+    "Update Entity": {
+      "description": "Updates the label or properties of an existing Entity.",
+      "code": "// Update properties on an existing Entity.\nrequest(\n  // 1) HTTP method.\n  'PATCH',\n  // 2) Entity path.\n  `v1/projects/${$.data.projectId}/datasets/patients/entities/${$.data.uuid}`,\n  // 3) Fields to change.\n  {\n    data: { status: 'referred', referral_facility: $.data.facility },\n  },\n  // 4) force=true skips the baseVersion conflict check.\n  { query: { force: true } }\n);"
+    },
+    "Approve Submission": {
+      "description": "Sets the review state of a submission, e.g. after it is processed downstream.",
+      "code": "// Mark a submission as approved once it has been synced.\nrequest(\n  // 1) HTTP method.\n  'PATCH',\n  // 2) Submission path.\n  `v1/projects/${$.data.projectId}/forms/patient-follow-up/submissions/${$.data.__id}`,\n  // 3) New review state: approved, hasIssues, rejected or edited.\n  { reviewState: 'approved' }\n);"
+    },
+    "Comment On Submission": {
+      "description": "Adds a comment to a submission, e.g. to flag a sync error for reviewers.",
+      "code": "// Leave a comment on a submission for data managers.\npost(\n  // 1) Submission comments path.\n  `v1/projects/${$.data.projectId}/forms/patient-follow-up/submissions/${$.data.__id}/comments`,\n  // 2) Comment body.\n  { body: 'Could not match this patient ID in the EMR. Please check.' }\n);"
+    },
+    "Create App User": {
+      "description": "Creates an App User (data collector) in a project.",
+      "code": "// Create an App User for a new enumerator.\npost(`v1/projects/${$.data.projectId}/app-users`, {\n  displayName: $.data.enumeratorName, // e.g. 'CHW - Kisumu East 04'\n});"
+    }
+  },
+  "SEARCH": {
+    "Get New Submissions": {
+      "description": "Gets submissions to a form received after a given date.",
+      "code": "// Fetch submissions received since the last run.\ngetSubmissions(\n  // 1) Project id.\n  $.data.projectId,\n  // 2) Form id (xmlFormId).\n  'patient-follow-up',\n  // 3) OData query: only submissions after a date, e.g. 2026-10-01T00:00:00.000Z.\n  {\n    $filter: `$root/Submissions/__system/submissionDate gt ${$.data.since}`,\n  }\n);"
+    },
+    "List Forms": {
+      "description": "Lists all forms in a project.",
+      "code": "// List every form in the project.\ngetForms($.data.projectId);"
+    },
+    "List Entities": {
+      "description": "Lists Entities in a dataset through the OData feed, with optional filters.",
+      "code": "// List Entities (cases) in a dataset via OData.\nget(`v1/projects/${$.data.projectId}/datasets/patients.svc/Entities`, {\n  query: {\n    // OData filter on entity properties or system fields.\n    $filter: \"status eq 'active'\",\n    $top: 250,\n  },\n});"
+    },
+    "Get Entity": {
+      "description": "Gets one Entity with its current data by uuid.",
+      "code": "// Fetch one Entity by uuid.\nget(`v1/projects/${$.data.projectId}/datasets/patients/entities/${$.data.uuid}`);"
+    },
+    "List App Users": {
+      "description": "Lists the App Users (data collectors) in a project.",
+      "code": "// List App Users in a project.\nget(`v1/projects/${$.data.projectId}/app-users`);"
+    }
+  }
+}

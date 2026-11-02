@@ -1,0 +1,26 @@
+{
+  "CREATE": {
+    "Add Row": {
+      "description": "Inserts one row into a CARTO table, e.g. a geolocated health facility or case report.",
+      "code": "// Insert a row into a CARTO table.\naddRow(\n  // 1) Table name.\n  'case_reports',\n  // 2) Column values.\n  {\n    case_id: $.data.caseId,\n    disease: $.data.disease,\n    district: $.data.district,\n    reported_on: $.data.reportedOn,\n  }\n);"
+    },
+    "Insert Point With SQL": {
+      "description": "Inserts a row with a point geometry using the SQL API.",
+      "code": "// Insert a geolocated row (PostGIS point) with SQL.\n// `sql` takes a function that returns the query string.\nsql(\n  state => `INSERT INTO health_facilities (name, facility_type, the_geom)\n  VALUES (\n    '${state.data.name}',\n    '${state.data.type}',\n    ST_SetSRID(ST_MakePoint(${state.data.longitude}, ${state.data.latitude}), 4326)\n  )`\n);"
+    },
+    "Update Rows With SQL": {
+      "description": "Updates existing rows, e.g. the status of a water point.",
+      "code": "// Update a row's status with SQL.\nsql(\n  state => `UPDATE water_points\n  SET status = '${state.data.status}', last_visit = '${state.data.visitDate}'\n  WHERE water_point_id = '${state.data.waterPointId}'`\n);"
+    }
+  },
+  "SEARCH": {
+    "Query Rows Near a Point": {
+      "description": "Finds rows within a distance of a location, e.g. facilities within 5 km of a household.",
+      "code": "// Find facilities within 5 km of a point.\nsql(\n  state => `SELECT name, facility_type\n  FROM health_facilities\n  WHERE ST_DWithin(\n    the_geom::geography,\n    ST_SetSRID(ST_MakePoint(${state.data.longitude}, ${state.data.latitude}), 4326)::geography,\n    5000\n  )`\n);"
+    },
+    "Aggregate by Area": {
+      "description": "Counts rows per district, e.g. for a map of case counts.",
+      "code": "// Count case reports per district.\nsql(\n  state => `SELECT district, COUNT(*) AS cases\n  FROM case_reports\n  WHERE reported_on >= '${state.data.since}'\n  GROUP BY district\n  ORDER BY cases DESC`\n);"
+    }
+  }
+}

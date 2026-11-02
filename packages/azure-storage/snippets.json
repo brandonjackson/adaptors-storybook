@@ -1,0 +1,34 @@
+{
+  "CREATE": {
+    "Archive Submissions As JSON": {
+      "description": "Uploads the incoming records as a dated JSON blob, creating the container if needed.",
+      "code": "// Archive today's form submissions as a JSON blob.\nuploadBlob(\n  // 1) Blob name; slashes act as virtual folders.\n  `submissions/${new Date().toISOString().slice(0, 10)}.json`,\n  // 2) Content; objects are JSON-stringified for you.\n  $.data.submissions,\n  // 3) Azure BlockBlobUploadOptions.\n  { blobHTTPHeaders: { blobContentType: 'application/json' } },\n  // 4) Adaptor options.\n  { createContainer: true }\n);"
+    },
+    "Upload CSV Export": {
+      "description": "Uploads a CSV string (e.g. a monthly indicator export) and overwrites any previous file.",
+      "code": "// Upload a monthly indicators CSV for the BI team.\nuploadBlob(\n  `exports/indicators-${$.data.period}.csv`,\n  $.data.csv, // a CSV string built in an earlier step\n  { blobHTTPHeaders: { blobContentType: 'text/csv' } },\n  { overwrite: true } // replace the file if this period is re-run\n);"
+    },
+    "Upload To A Specific Container": {
+      "description": "Uploads a blob to a container other than the one set in the credential.",
+      "code": "// Write a payment reconciliation file to the 'finance' container.\nuploadBlob(\n  `reconciliation/${$.data.batchId}.json`,\n  {\n    batchId: $.data.batchId,\n    totalPaid: $.data.totalPaid,\n    failedPayments: $.data.failed,\n  },\n  { blobHTTPHeaders: { blobContentType: 'application/json' } },\n  {\n    containerName: 'finance', // overrides state.configuration.containerName\n    overwrite: true,\n  }\n);"
+    },
+    "Upload One Blob Per Record": {
+      "description": "Loops over records and writes each one to its own blob.",
+      "code": "// Store each beneficiary record as its own JSON file.\neach(\n  $.data.beneficiaries,\n  uploadBlob(\n    // Inside each(), $.data is the current record.\n    `beneficiaries/${$.data.id}.json`,\n    $.data,\n    { blobHTTPHeaders: { blobContentType: 'application/json' } },\n    { overwrite: true }\n  )\n);"
+    }
+  },
+  "SEARCH": {
+    "Download JSON Lookup Table": {
+      "description": "Downloads a JSON blob (e.g. a facility code mapping) and parses it.",
+      "code": "// Download a facility mapping table and parse it as JSON.\n// The result is in state.data.content.\ndownloadBlob('config/facility-mapping.json', {\n  downloadAs: 'json', // or 'string' (default)\n});"
+    },
+    "Download File As Text": {
+      "description": "Downloads a blob, such as a CSV dropped by a partner, as a string.",
+      "code": "// Download a CSV dropped by a partner system.\ndownloadBlob(`incoming/${$.data.fileName}`, {\n  downloadAs: 'string',\n  containerName: 'partner-uploads', // optional; defaults to the credential's container\n});"
+    },
+    "Get Blob Properties": {
+      "description": "Reads a blob's metadata, such as size and last-modified time, without downloading it.",
+      "code": "// Check when the latest export was last written.\n// The result is in state.data.properties (lastModified, contentLength, etc.).\ngetBlobProperties('exports/latest.csv');"
+    }
+  }
+}

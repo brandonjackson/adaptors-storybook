@@ -1,0 +1,24 @@
+{
+  "SEARCH": {
+    "Verify And Decrypt Webhook Submission": {
+      "description": "Checks the FormSG webhook signature and decrypts the submission in one step.",
+      "code": "// Verify the X-FormSG-Signature header and decrypt the submission.\n// Needs formSecretKey and webhookEndpoint in the credential.\n// FormSG posts { data: { formId, submissionId, encryptedContent, ... } }.\nprocessWebhook(\n  // 1) The encrypted submission from the webhook body.\n  $.data.data,\n  // 2) The signature header sent by FormSG.\n  $.request.headers['x-formsg-signature']\n);"
+    },
+    "Decrypt Submission": {
+      "description": "Decrypts a FormSG submission without checking the signature.",
+      "code": "// Decrypt a submission (handy when testing with a saved payload).\n// state.data becomes { responses: [{ question, answer, fieldType, ... }] }.\ndecryptSubmission($.data.data);"
+    },
+    "Decrypt Submission With Signature Check": {
+      "description": "Decrypts a submission and verifies its webhook signature first.",
+      "code": "// Decrypt only if the signature matches the configured webhookEndpoint.\ndecryptSubmission($.data.data, {\n  verifySignature: true,\n  signatureHeader: $.request.headers['x-formsg-signature'],\n});"
+    },
+    "Verify Webhook Signature": {
+      "description": "Verifies that an incoming webhook really came from FormSG.",
+      "code": "// Throws if the signature is invalid; otherwise state.data is { verified: true, ... }.\nverifyWebhook($.request.headers['x-formsg-signature']);"
+    },
+    "Map Responses To Answers By Question": {
+      "description": "Decrypts a submission and turns the responses array into a simple question-to-answer object.",
+      "code": "// 1) Verify and decrypt the submission.\nprocessWebhook($.data.data, $.request.headers['x-formsg-signature']);\n\n// 2) Flatten responses into { 'Full name': 'Tan Mei Ling', ... }.\nfn(state => {\n  state.answers = state.data.responses.reduce((acc, r) => {\n    // Checkbox and table fields use answerArray instead of answer.\n    acc[r.question] = r.answer ?? r.answerArray;\n    return acc;\n  }, {});\n  return state;\n});"
+    }
+  }
+}

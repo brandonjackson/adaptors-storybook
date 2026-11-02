@@ -1,0 +1,32 @@
+{
+  "SEARCH": {
+    "Get New Submissions Since Date": {
+      "description": "Pulls submissions received after a date, e.g. to load survey or monitoring data into DHIS2 or a data warehouse.",
+      "code": "// Get submissions for a form received on or after a date.\ngetSubmissions(\n  // 1) Form id.\n  $.data.formId,\n  // 2) Filter options. query is a MongoDB-style JSON string.\n  {\n    query: `{\"_submission_time\":{\"$gte\":\"2026-10-01\"}}`,\n    page_size: 500,\n  }\n);"
+    },
+    "Get Submissions By Field Value": {
+      "description": "Filters a form's submissions on one of its question values, e.g. a district.",
+      "code": "// Get submissions where a question has a given value.\ngetSubmissions($.data.formId, {\n  query: JSON.stringify({ district: 'kampala', consent: 'yes' }),\n  limit: 100,\n});"
+    },
+    "Get Single Submission": {
+      "description": "Fetches one submission by id, e.g. when a webhook passes a submission id.",
+      "code": "// Get one submission by form id and submission id.\ngetSubmission(\n  // 1) Form id.\n  $.data.formId,\n  // 2) Submission id.\n  $.data.submissionId\n);"
+    },
+    "List Forms": {
+      "description": "Lists the forms available to the account, with paging.",
+      "code": "// List forms the account can see.\ngetForms({\n  page: 1,\n  page_size: 50,\n});"
+    },
+    "Get Form Structure": {
+      "description": "Fetches a form's XLSForm structure, e.g. to build a field mapping to another system.",
+      "code": "// Get a form's structure (questions and choices) rather than its metadata.\ngetForm($.data.formId, {\n  structureOnly: true,\n});"
+    },
+    "Get Attachment Metadata": {
+      "description": "Reads metadata (file name, type) for a photo or file attached to a submission.",
+      "code": "// Get metadata for one attachment.\ngetAttachmentMetadata($.data.attachmentId);"
+    },
+    "Download Attachment As Base64": {
+      "description": "Downloads a submission's photo or file as base64, e.g. to forward it to a case management system.",
+      "code": "// Download an attachment as a base64 string.\ndownloadAttachment(\n  // 1) Attachment id.\n  $.data.attachmentId,\n  // 2) Options: the attachment's filename and output format.\n  {\n    filename: $.data.attachmentFilename, // e.g. 'project/attachments/photo_1.jpg'\n    parseAs: 'base64',\n  }\n);"
+    }
+  }
+}

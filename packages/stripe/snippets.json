@@ -2,55 +2,55 @@
   "CREATE": {
     "Cancel Subscription": {
       "description": "Cancels a subscription.",
-      "code": ""
+      "code": "// Cancel a subscription immediately.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('DELETE', `${baseUrl}/${apiVersion}/subscriptions/${state.data.subscriptionId}`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      // Optional: generate a final invoice for any un-invoiced usage.\n      invoice_now: false,\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Confirm Payment": {
       "description": "Confirms an existing payment, also known as a PaymentIntent.",
-      "code": ""
+      "code": "// Confirm an existing PaymentIntent.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/payment_intents/${state.data.paymentIntentId}/confirm`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      // The pm_* payment method to charge.\n      payment_method: state.data.paymentMethodId,\n      receipt_email: state.data.email,\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Create Checkout Session": {
       "description": "Creates a new Checkout Session.",
-      "code": ""
+      "code": "// Create a hosted Checkout Session for a one-off donation.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/checkout/sessions`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      mode: 'payment',\n      // Nested params use bracket notation.\n      'line_items[0][price]': state.data.priceId,\n      'line_items[0][quantity]': 1,\n      success_url: 'https://example.org/donate/thank-you',\n      cancel_url: 'https://example.org/donate',\n      client_reference_id: state.data.donorId,\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Create Customer": {
       "description": "Creates a new customer.",
-      "code": ""
+      "code": "// Create a new customer.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/customers`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      name: state.data.name,\n      email: state.data.email,\n      phone: state.data.phone,\n      // Keep a link back to the source system.\n      'metadata[beneficiary_id]': state.data.beneficiaryId,\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Create Invoice": {
       "description": "Creates a new invoice.",
-      "code": ""
+      "code": "// Create a draft invoice for a customer.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/invoices`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      customer: state.data.customerId,\n      collection_method: 'send_invoice',\n      days_until_due: 30,\n      description: 'Quarterly clinic supplies',\n      // Pull in any pending invoice items for this customer.\n      pending_invoice_items_behavior: 'include',\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Create Payment": {
       "description": "Creates a new payment, also known as a PaymentIntent.",
-      "code": ""
+      "code": "// Create a PaymentIntent.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/payment_intents`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      // Amount in the smallest currency unit (cents).\n      amount: state.data.amount,\n      currency: 'usd',\n      customer: state.data.customerId,\n      description: 'Community health programme fee',\n      'automatic_payment_methods[enabled]': true,\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Create Payment Link": {
       "description": "Creates a payment link.",
-      "code": ""
+      "code": "// Create a shareable payment link for a price.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/payment_links`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      'line_items[0][price]': state.data.priceId,\n      'line_items[0][quantity]': 1,\n      'metadata[campaign]': 'school-meals-2026',\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Create Price": {
       "description": "Creates a price.",
-      "code": ""
+      "code": "// Create a monthly recurring price for an existing product.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/prices`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      product: state.data.productId,\n      // Amount in cents.\n      unit_amount: 2500,\n      currency: 'usd',\n      'recurring[interval]': 'month',\n      nickname: 'Monthly sponsorship',\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Create Product": {
       "description": "Creates a new product.",
-      "code": ""
+      "code": "// Create a new product.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/products`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      name: 'Child sponsorship',\n      description: 'Monthly support for school fees and meals.',\n      'metadata[programme]': state.data.programmeCode,\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Create Subscription": {
       "description": "Creates a new subscription.",
-      "code": ""
+      "code": "// Subscribe a customer to a recurring price.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/subscriptions`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      customer: state.data.customerId,\n      'items[0][price]': state.data.priceId,\n      // Optional free trial.\n      trial_period_days: 14,\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Deactivate Payment Link": {
       "description": "Deactivates a payment link.",
-      "code": ""
+      "code": "// Deactivate a payment link so it no longer accepts payments.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/payment_links/${state.data.paymentLinkId}`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      active: false,\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "Update Customer": {
       "description": "Updates an existing customer.",
-      "code": ""
+      "code": "// Update an existing customer.\n// The adaptor's own helpers are read-only, so this calls the Stripe API\n// with util.request. Stripe expects form-encoded bodies, not JSON.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n  const form = params => Object.entries(params)\n    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)\n    .join('&');\n\n  const response = await util.request('POST', `${baseUrl}/${apiVersion}/customers/${state.data.customerId}`, {\n    headers: {\n      Authorization: `Bearer ${apiKey}`,\n      'content-type': 'application/x-www-form-urlencoded',\n    },\n    body: form({\n      email: state.data.email,\n      phone: state.data.phone,\n      'metadata[household_id]': state.data.householdId,\n    }),\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     },
     "API Request (Beta)": {
       "description": "This is an advanced action which makes a raw HTTP request that includes this integration's authentication.",
-      "code": ""
+      "code": "// Make a raw, authenticated request to the Stripe API.\n// Paths are relative to https://api.stripe.com/v1. Bodies must be form-encoded.\nfn(async state => {\n  const { baseUrl = 'https://api.stripe.com', apiVersion = 'v1', apiKey } = state.configuration;\n\n  const response = await util.request('GET', `${baseUrl}/${apiVersion}/refunds`, {\n    headers: { Authorization: `Bearer ${apiKey}` },\n    query: { limit: 10 },\n    parseAs: 'json',\n  });\n\n  return { ...state, data: response.body };\n});"
     }
   },
   "SEARCH": {

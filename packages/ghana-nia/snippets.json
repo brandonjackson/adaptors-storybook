@@ -1,0 +1,18 @@
+{
+  "CREATE": {
+    "Register Newborn": {
+      "description": "Registers a newborn with NIA and mints a Ghana Card PIN, vouched for by a relative.",
+      "code": "// Register a newborn from the Lightwave eTracker and mint a Ghana Card PIN.\n// The merchantKey from the credential is added for you.\nregisterChild({\n  babyData: {\n    forenames: $.data.forenames,\n    surname: $.data.surname,\n    gender: $.data.gender, // 'Male' | 'Female'\n    dateOfBirth: $.data.dateOfBirth, // 'YYYY-MM-DD'\n    timeOfbirth: $.data.timeOfBirth, // 'HH:mm' (note the API's spelling)\n    placeOfBirth: $.data.facilityName,\n    weightAtBirth: $.data.weightAtBirth, // all values are sent as strings, e.g. '3.2'\n    noSiblingsInDelivery: '0',\n    motherName: $.data.motherName,\n    fatherName: $.data.fatherName,\n    lightwaveETrackerID: $.data.eTrackerId,\n    babyPicture: $.data.babyPhotoBase64,\n  },\n  personVouching: {\n    ghanaCardPIN: $.data.voucherGhanaCardPin,\n    relationToBaby: 'Mother',\n    relativePhone: $.data.voucherPhone,\n    etrackerLightwaveID: $.data.voucherETrackerId,\n    relativePicture: $.data.voucherPhotoBase64,\n  },\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Registration By Baby PIN": {
+      "description": "Looks up one newborn registration by the minted baby PIN.",
+      "code": "// Look up a registration by the baby's Ghana Card PIN.\nget(`/awopa/api/v1/baby/registration/${$.data.babyPin}`);"
+    },
+    "List Registrations": {
+      "description": "Lists newborn registrations minted through the service.",
+      "code": "// List minted newborn registrations, e.g. to reconcile with the eTracker.\nget('/awopa/api/v1/baby/registration');"
+    }
+  }
+}

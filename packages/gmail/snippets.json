@@ -2,39 +2,39 @@
   "CREATE": {
     "Add Label to Email": {
       "description": "Add a label to an email message.",
-      "code": ""
+      "code": "// Add a label to an email message.\n// Use label ids (e.g. 'STARRED', 'IMPORTANT' or 'Label_123' from GET /users/me/labels), not names.\n// The gmail adaptor has no helper for this, so call the Gmail API directly.\nfn(async state => {\n  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${state.data.messageId}/modify`, {\n    method: 'POST',\n    headers: {\n      Authorization: `Bearer ${state.configuration.access_token}`,\n      'Content-Type': 'application/json',\n    },\n    body: JSON.stringify({ addLabelIds: [state.data.labelId] }),\n  });\n  if (!res.ok) throw new Error(`Gmail API error ${res.status}: ${await res.text()}`);\n  state.data = await res.json();\n  return state;\n});"
     },
     "Archive Email": {
       "description": "Archive an email message.",
-      "code": ""
+      "code": "// Archive an email by removing it from the inbox (the INBOX label).\n// The gmail adaptor has no helper for this, so call the Gmail API directly.\nfn(async state => {\n  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${state.data.messageId}/modify`, {\n    method: 'POST',\n    headers: {\n      Authorization: `Bearer ${state.configuration.access_token}`,\n      'Content-Type': 'application/json',\n    },\n    body: JSON.stringify({ removeLabelIds: ['INBOX'] }),\n  });\n  if (!res.ok) throw new Error(`Gmail API error ${res.status}: ${await res.text()}`);\n  state.data = await res.json();\n  return state;\n});"
     },
     "Create Draft": {
       "description": "Create a draft email message.",
-      "code": ""
+      "code": "// Create a draft email (it is saved, not sent).\n// The gmail adaptor has no helper for this, so call the Gmail API directly.\nfn(async state => {\n  // Gmail expects a base64url-encoded RFC 2822 message.\n  const raw = Buffer.from(\n    [\n      `To: ${state.data.to}`,\n      `Subject: ${state.data.subject}`,\n      'Content-Type: text/plain; charset=UTF-8',\n      '',\n      state.data.body,\n    ].join('\\r\\n')\n  ).toString('base64url');\n\n  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/drafts`, {\n    method: 'POST',\n    headers: {\n      Authorization: `Bearer ${state.configuration.access_token}`,\n      'Content-Type': 'application/json',\n    },\n    body: JSON.stringify({ message: { raw } }),\n  });\n  if (!res.ok) throw new Error(`Gmail API error ${res.status}: ${await res.text()}`);\n  state.data = await res.json();\n  return state;\n});"
     },
     "Create Draft Reply": {
       "description": "Create a draft reply to an existing email.",
-      "code": ""
+      "code": "// Create a draft reply in an existing conversation.\n// The gmail adaptor has no helper for this, so call the Gmail API directly.\nfn(async state => {\n  // Reply headers: threadId plus In-Reply-To/References (the original's Message-ID header)\n  // keep the reply in the same conversation.\n  const raw = Buffer.from(\n    [\n      `To: ${state.data.from}`,\n      `Subject: Re: ${state.data.subject}`,\n      `In-Reply-To: ${state.data.rfcMessageId}`,\n      `References: ${state.data.rfcMessageId}`,\n      'Content-Type: text/plain; charset=UTF-8',\n      '',\n      state.data.replyBody,\n    ].join('\\r\\n')\n  ).toString('base64url');\n\n  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/drafts`, {\n    method: 'POST',\n    headers: {\n      Authorization: `Bearer ${state.configuration.access_token}`,\n      'Content-Type': 'application/json',\n    },\n    body: JSON.stringify({ message: { raw, threadId: state.data.threadId } }),\n  });\n  if (!res.ok) throw new Error(`Gmail API error ${res.status}: ${await res.text()}`);\n  state.data = await res.json();\n  return state;\n});"
     },
     "Create Label": {
       "description": "Creates a new label.",
-      "code": ""
+      "code": "// Create a new label.\n// The gmail adaptor has no helper for this, so call the Gmail API directly.\nfn(async state => {\n  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/labels`, {\n    method: 'POST',\n    headers: {\n      Authorization: `Bearer ${state.configuration.access_token}`,\n      'Content-Type': 'application/json',\n    },\n    body: JSON.stringify({\n      name: 'Referrals/Pending',\n      labelListVisibility: 'labelShow',\n      messageListVisibility: 'show',\n    }),\n  });\n  if (!res.ok) throw new Error(`Gmail API error ${res.status}: ${await res.text()}`);\n  // Response includes the new label's id, for use with messages.modify.\n  state.data = await res.json();\n  return state;\n});"
     },
     "Delete Email": {
       "description": "Sends an email message to the trash.",
-      "code": ""
+      "code": "// Move an email message to the trash.\n// The gmail adaptor has no helper for this, so call the Gmail API directly.\nfn(async state => {\n  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${state.data.messageId}/trash`, {\n    method: 'POST',\n    headers: {\n      Authorization: `Bearer ${state.configuration.access_token}`,\n    },\n  });\n  if (!res.ok) throw new Error(`Gmail API error ${res.status}: ${await res.text()}`);\n  state.data = await res.json();\n  return state;\n});"
     },
     "Remove Label From Conversation": {
       "description": "Remove a specified label from all emails within a conversation.",
-      "code": ""
+      "code": "// Remove a label from every message in a conversation (thread).\n// The gmail adaptor has no helper for this, so call the Gmail API directly.\nfn(async state => {\n  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/threads/${state.data.threadId}/modify`, {\n    method: 'POST',\n    headers: {\n      Authorization: `Bearer ${state.configuration.access_token}`,\n      'Content-Type': 'application/json',\n    },\n    body: JSON.stringify({ removeLabelIds: [state.data.labelId] }),\n  });\n  if (!res.ok) throw new Error(`Gmail API error ${res.status}: ${await res.text()}`);\n  state.data = await res.json();\n  return state;\n});"
     },
     "Remove Label From Email": {
       "description": "Remove a label from an email message.",
-      "code": ""
+      "code": "// Remove a label from a single email message.\n// The gmail adaptor has no helper for this, so call the Gmail API directly.\nfn(async state => {\n  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${state.data.messageId}/modify`, {\n    method: 'POST',\n    headers: {\n      Authorization: `Bearer ${state.configuration.access_token}`,\n      'Content-Type': 'application/json',\n    },\n    body: JSON.stringify({ removeLabelIds: [state.data.labelId] }),\n  });\n  if (!res.ok) throw new Error(`Gmail API error ${res.status}: ${await res.text()}`);\n  state.data = await res.json();\n  return state;\n});"
     },
     "Reply to Email": {
       "description": "Send a reply to an email message.",
-      "code": ""
+      "code": "// Send a reply in an existing conversation.\n// sendMessage() can't set threadId or reply headers, so call the Gmail API directly.\nfn(async state => {\n  // Reply headers: threadId plus In-Reply-To/References (the original's Message-ID header)\n  // keep the reply in the same conversation.\n  const raw = Buffer.from(\n    [\n      `To: ${state.data.from}`,\n      `Subject: Re: ${state.data.subject}`,\n      `In-Reply-To: ${state.data.rfcMessageId}`,\n      `References: ${state.data.rfcMessageId}`,\n      'Content-Type: text/plain; charset=UTF-8',\n      '',\n      state.data.replyBody,\n    ].join('\\r\\n')\n  ).toString('base64url');\n\n  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/send`, {\n    method: 'POST',\n    headers: {\n      Authorization: `Bearer ${state.configuration.access_token}`,\n      'Content-Type': 'application/json',\n    },\n    body: JSON.stringify({ raw, threadId: state.data.threadId }),\n  });\n  if (!res.ok) throw new Error(`Gmail API error ${res.status}: ${await res.text()}`);\n  state.data = await res.json();\n  return state;\n});"
     },
     "Send Email": {
       "description": "Create and send a new email message.",
@@ -48,7 +48,7 @@
     },
     "Get Attachment by Filename": {
       "description": "Retrieves a specific Gmail message attachment by Filename.",
-      "code": ""
+      "code": "// Find the latest email with a given attachment and pull that file's contents.\ngetContentsFromMessages({\n  // Gmail search syntax: narrow to messages carrying this filename.\n  query: `has:attachment filename:${$.data.fileName}`,\n  contents: [\n    'subject',\n    // `file` matches the attachment name (string or RegExp); `name` is the output key.\n    { type: 'file', name: 'attachment', file: $.data.fileName },\n  ],\n  maxResults: 1,\n});"
     }
   }
 }

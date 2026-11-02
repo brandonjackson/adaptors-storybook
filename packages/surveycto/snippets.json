@@ -1,0 +1,42 @@
+{
+  "CREATE": {
+    "Upsert Dataset Record": {
+      "description": "Creates or updates one record in a server dataset, e.g. a beneficiary or facility pre-load list.",
+      "code": "// Create or update one record in a server dataset\n// (e.g. a case list used to pre-load follow-up forms).\nupsertRecord(\n  // 1) The dataset id.\n  'household_roster',\n  // 2) The record. `id` is the unique key for the upsert.\n  {\n    id: $.data.householdId,\n    head_of_household: $.data.headName,\n    village: $.data.village,\n    enrolled_on: $.data.enrollmentDate,\n  }\n);"
+    },
+    "Bulk Upload Dataset Records": {
+      "description": "Uploads many rows to a dataset as CSV, merging on a key field.",
+      "code": "// Upload many rows to a dataset in one call (sent as CSV).\nuploadCsvRecords(\n  // 1) The dataset id.\n  'health_facilities',\n  // 2) Rows to upload, e.g. a facility list pulled from DHIS2.\n  $.data.facilities.map(f => ({\n    id: f.code,\n    name: f.name,\n    district: f.district,\n  })),\n  // 3) Upload options: MERGE keeps existing rows and updates by key.\n  { uploadMode: 'MERGE', joiningField: 'id' }\n);"
+    },
+    "Upsert Dataset": {
+      "description": "Creates a server dataset, or updates its settings if it already exists.",
+      "code": "// Create (or update) a server dataset.\nupsertDataset({\n  id: 'enumerators',\n  title: 'Enumerators',\n  discriminator: 'ENUMERATORS', // or DATA\n  locationContext: {\n    parentGroupId: 1, // the form group the dataset sits in\n  },\n  allowOfflineUpdates: false,\n  idFormatOptions: {\n    prefix: 'enum',\n    suffix: '',\n    numberOfDigits: '6',\n    allowCapitalLetters: false,\n  },\n});"
+    }
+  },
+  "SEARCH": {
+    "Fetch New Submissions": {
+      "description": "Fetches only submissions received since the last run, using a rolling cursor.",
+      "code": "// Start from the cursor saved on the last run, or from today on the first run.\ncursor($.cursor, { defaultValue: 'today' });\n\n// Fetch submissions for a form since the cursor (JSON, wide format).\nfetchSubmissions('household_survey', { date: $.cursor });\n\n// Move the cursor forward for the next run.\ncursor('now');"
+    },
+    "Fetch Approved Submissions": {
+      "description": "Fetches only submissions that passed review, so unreviewed data never reaches downstream systems.",
+      "code": "// Fetch reviewed submissions only.\nfetchSubmissions('anc_visit', {\n  // Review status: approved, rejected, pending, or combined e.g. 'approved|pending'.\n  status: 'approved',\n  // Optional: only submissions since this date (ISO dates are converted for you).\n  date: '2026-01-01T00:00:00Z',\n});"
+    },
+    "Fetch Submissions As CSV": {
+      "description": "Fetches form submissions as a CSV string, e.g. to drop into a data warehouse or file share.",
+      "code": "// Fetch submissions in long-format CSV.\nfetchSubmissions('nutrition_screening', { format: 'csv' });"
+    },
+    "List Dataset Records": {
+      "description": "Lists records in a server dataset, following pagination.",
+      "code": "// List the records in a dataset.\nlist(`datasets/${$.data.datasetId}/records`, {\n  limit: 1000, // page size, max 1000\n});"
+    },
+    "List Datasets": {
+      "description": "Lists the server datasets on the SurveyCTO server.",
+      "code": "// List all server datasets.\nlist('datasets', { limit: 100 });"
+    },
+    "List Users": {
+      "description": "Lists the users on the SurveyCTO server, e.g. to audit enumerator accounts.",
+      "code": "// List server users (v2 API).\nlist('users', { limit: 100 });"
+    }
+  }
+}

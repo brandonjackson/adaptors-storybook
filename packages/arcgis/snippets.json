@@ -1,0 +1,30 @@
+{
+  "CREATE": {
+    "Add Features": {
+      "description": "Adds point features to a hosted feature layer, e.g. geotagged survey submissions or new facilities.",
+      "code": "// Add features to a feature layer. This adaptor has no HTTP helpers,\n// so call the ArcGIS REST API with util.request inside fn().\n// baseUrl is your org's services host, e.g. https://services.arcgis.com/<orgId>/arcgis\nfn(async state => {\n  const { baseUrl, token } = state.configuration;\n  const features = state.data.submissions.map(s => ({\n    geometry: { x: s.longitude, y: s.latitude, spatialReference: { wkid: 4326 } },\n    attributes: { site_name: s.siteName, cases: s.caseCount, reported_on: s.date },\n  }));\n  const res = await util.request(\n    'POST',\n    `${baseUrl}/rest/services/Cholera_Cases/FeatureServer/0/addFeatures`,\n    {\n      // ArcGIS expects form-encoded params; `features` is a JSON string.\n      headers: { 'content-type': 'application/x-www-form-urlencoded' },\n      body: new URLSearchParams({ features: JSON.stringify(features), f: 'json', token }).toString(),\n    }\n  );\n  return { ...state, data: res.body };\n});"
+    },
+    "Update Features": {
+      "description": "Updates attributes of existing features (matched by OBJECTID), e.g. a facility's stock or service status.",
+      "code": "// Update features by OBJECTID.\nfn(async state => {\n  const { baseUrl, token } = state.configuration;\n  const features = state.data.updates.map(u => ({\n    attributes: { OBJECTID: u.objectId, status: u.status, last_updated: u.date },\n  }));\n  const res = await util.request(\n    'POST',\n    `${baseUrl}/rest/services/Health_Facilities/FeatureServer/0/updateFeatures`,\n    {\n      headers: { 'content-type': 'application/x-www-form-urlencoded' },\n      body: new URLSearchParams({ features: JSON.stringify(features), f: 'json', token }).toString(),\n    }\n  );\n  return { ...state, data: res.body };\n});"
+    },
+    "Delete Features": {
+      "description": "Deletes features from a layer by OBJECTID or a where clause.",
+      "code": "// Delete features by OBJECTID (or pass `where` instead).\nfn(async state => {\n  const { baseUrl, token } = state.configuration;\n  const res = await util.request(\n    'POST',\n    `${baseUrl}/rest/services/Cholera_Cases/FeatureServer/0/deleteFeatures`,\n    {\n      headers: { 'content-type': 'application/x-www-form-urlencoded' },\n      body: new URLSearchParams({\n        objectIds: state.data.objectIds.join(','), // e.g. '1,2,3'\n        f: 'json',\n        token,\n      }).toString(),\n    }\n  );\n  return { ...state, data: res.body };\n});"
+    }
+  },
+  "SEARCH": {
+    "Query Features": {
+      "description": "Queries a feature layer with a where clause, e.g. to pull health facilities for one district.",
+      "code": "// Query features from a feature layer.\nfn(async state => {\n  const { baseUrl, token } = state.configuration;\n  const res = await util.request(\n    'GET',\n    `${baseUrl}/rest/services/Health_Facilities/FeatureServer/0/query`,\n    {\n      query: {\n        where: `district = '${state.data.district}'`, // SQL-style filter; '1=1' for all\n        outFields: '*', // or a comma-separated field list\n        returnGeometry: true,\n        f: 'json',\n        token,\n      },\n    }\n  );\n  return { ...state, data: res.body.features };\n});"
+    },
+    "Geocode Address": {
+      "description": "Turns an address or place name into coordinates with the ArcGIS World Geocoding Service.",
+      "code": "// Geocode a single-line address.\nfn(async state => {\n  const res = await util.request(\n    'GET',\n    'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates',\n    {\n      query: {\n        SingleLine: state.data.address, // e.g. 'Kenyatta National Hospital, Nairobi'\n        outFields: 'Match_addr,Addr_type',\n        f: 'json',\n        token: state.configuration.token,\n      },\n    }\n  );\n  // Best match first: candidates[0].location has x (lon) and y (lat).\n  return { ...state, data: res.body.candidates };\n});"
+    },
+    "Generate Token": {
+      "description": "Exchanges ArcGIS username/password for a short-lived access token to use in later requests.",
+      "code": "// Generate an access token and keep it on state for later steps.\nfn(async state => {\n  const { username, password } = state.configuration;\n  const res = await util.request('POST', 'https://www.arcgis.com/sharing/rest/generateToken', {\n    headers: { 'content-type': 'application/x-www-form-urlencoded' },\n    body: new URLSearchParams({\n      username,\n      password,\n      referer: 'https://app.openfn.org',\n      expiration: '60', // minutes\n      f: 'json',\n    }).toString(),\n  });\n  return { ...state, token: res.body.token };\n});"
+    }
+  }
+}

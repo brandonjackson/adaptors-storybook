@@ -6,21 +6,21 @@
     },
     "Update Row": {
       "description": "Updates an existing row.",
-      "code": "// Update a row using a parameterised query.\n// In mssql, named parameters use @-prefixed placeholders.\nsql({\n  query: 'UPDATE users SET email = @email WHERE id = @id;',\n  params: { email: $.data.email, id: $.data.id },\n  writeSql: true,\n});"
+      "code": "// Update a row with a raw SQL statement.\n// sql() has no parameter binding, so build the query from state and\n// escape single quotes in string values yourself.\nsql(state => ({\n  query: `UPDATE users SET email = '${String(state.data.email).replace(/'/g, \"''\")}' WHERE id = '${String(state.data.id).replace(/'/g, \"''\")}';`,\n  // Query options go under `options`.\n  options: { writeSql: true },\n}));"
     }
   },
   "SEARCH": {
     "Find Row": {
       "description": "Finds a row in a table via a lookup column.",
-      "code": "// Fetch a single value from a row matched by an equality filter.\nfindValue({\n  uuid: 'id',\n  relation: 'users',\n  where: { email: $.data.email },\n});"
+      "code": "// Look up a single value from a row matched by an equality filter.\n// findValue() resolves to the value itself (not state), so await it inside fn().\nfn(async state => {\n  state.data.userId = await findValue({\n    uuid: 'id',\n    relation: 'users',\n    where: { email: state.data.email }, // values are escaped for you\n  })(state);\n  return state;\n});"
     },
     "Find Row via Custom Query": {
       "description": "Finds a row in a table via a custom query you control.",
-      "code": "// Run a custom SELECT returning a single row.\nsql({\n  query: 'SELECT TOP 1 * FROM users WHERE email = @email;',\n  params: { email: $.data.email },\n});"
+      "code": "// Run a custom SELECT returning a single row.\n// sql() has no parameter binding: escape single quotes in values yourself.\n// The rows are written to state.response.rows.\nsql(state => ({\n  query: `SELECT TOP 1 * FROM users WHERE email = '${String(state.data.email).replace(/'/g, \"''\")}';`,\n}));"
     },
     "Find Rows via Custom Query": {
       "description": "Finds multiple rows in a table via a custom query you control.",
-      "code": "// Run a custom SELECT returning many rows.\nsql({\n  query: 'SELECT id, name, email FROM users WHERE created_at > @since ORDER BY id;',\n  params: { since: '2026-01-01' },\n});"
+      "code": "// Run a custom SELECT returning many rows.\n// The rows are written to state.response.rows.\nsql({\n  query: \"SELECT id, name, email FROM users WHERE created_at > '2026-01-01' ORDER BY id;\",\n});"
     }
   }
 }

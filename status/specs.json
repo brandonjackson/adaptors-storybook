@@ -1,6 +1,6 @@
 {
   "$comment": "Synced from openfn-api-specs by `node tools/sync-coverage.mjs`; do not edit by hand.",
-  "source": "openfn-api-specs (local clone)",
+  "source": "https://raw.githubusercontent.com/brandonjackson/openfn-api-specs/main/specs/adaptors/manifest.json",
   "dataUpdatedAt": "2026-11-02",
   "adaptors": {
     "arcgis": {

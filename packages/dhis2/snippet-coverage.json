@@ -95,7 +95,7 @@
       "category": "CREATE",
       "title": "Update Program Metadata",
       "run": "error",
-      "error": "PUT to http://127.0.0.1:43249/api/programs/sample-programId returned 404: Not Found",
+      "error": "PUT to http://127.0.0.1:38641/api/programs/sample-programId returned 404: Not Found",
       "operations": [
         "PUT /api/programs/{uid}"
       ],
@@ -135,7 +135,7 @@
       "category": "SEARCH",
       "title": "Get Tracked Entity By ID",
       "run": "error",
-      "error": "GET to http://127.0.0.1:43249/api/tracker/trackedEntities/sample-trackedEntityId returned 404: Not Found",
+      "error": "GET to http://127.0.0.1:38641/api/tracker/trackedEntities/sample-trackedEntityId returned 404: Not Found",
       "operations": [
         "GET /api/tracker/trackedEntities/{uid}"
       ],

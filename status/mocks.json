@@ -1,6 +1,6 @@
 {
   "$comment": "Synced from openfn-mocker by `node tools/sync-coverage.mjs`; do not edit by hand.",
-  "source": "openfn-mocker (local clone)",
+  "source": "https://raw.githubusercontent.com/brandonjackson/openfn-mocker/main/coverage.json",
   "totals": {
     "systems": 62,
     "specOperations": 16290,

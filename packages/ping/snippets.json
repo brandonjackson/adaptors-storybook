@@ -1,0 +1,22 @@
+{
+  "CREATE": {
+    "Post Record": {
+      "description": "Sends a JSON record to the API with the adaptor's authenticated POST helper.",
+      "code": "// POST a record. The path is relative to the credential's baseUrl;\n// the bearer token and APIM subscription key are added for you.\nhttp.post(\n  // 1) Path.\n  '/records',\n  // 2) JSON body.\n  {\n    externalId: $.data.caseId,\n    registrationDate: $.data.registrationDate,\n    location: $.data.locationCode,\n  }\n);"
+    }
+  },
+  "SEARCH": {
+    "Check API Connectivity": {
+      "description": "Calls the health probe to confirm the credential and network path work.",
+      "code": "// Confirm the API is reachable and the token is accepted.\nhttp.request('GET', '/ping');"
+    },
+    "List Records": {
+      "description": "Reads a list of records with the generic authenticated request helper.",
+      "code": "// GET a list of records, with query parameters.\nhttp.request(\n  // 1) HTTP method.\n  'GET',\n  // 2) Path, relative to baseUrl.\n  '/records',\n  // 3) Body (none for a GET).\n  null,\n  // 4) Options: query string, extra headers, etc.\n  { query: { updatedSince: $.lastRunAt || '2026-01-01' } }\n);"
+    },
+    "Get Record By ID": {
+      "description": "Fetches a single record by its id.",
+      "code": "// GET one record by id.\nhttp.request('GET', `/records/${$.data.recordId}`);"
+    }
+  }
+}

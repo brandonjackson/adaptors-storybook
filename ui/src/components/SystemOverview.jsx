@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { CoverageOverviewSection } from './Coverage.jsx';
 
 const PILLARS = [
   {
@@ -84,6 +85,7 @@ export default function SystemOverview({ adapters, onSelect }) {
       <div className="flex-1 overflow-y-auto px-8 py-6">
         <div className="max-w-5xl space-y-8">
           <CompletenessSection stats={stats} />
+          <CoverageOverviewSection adapters={adapters} onSelect={onSelect} />
           <PillarSection
             stats={stats}
             adapters={adapters}

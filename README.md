@@ -22,7 +22,8 @@ packages/
     configuration-schema.json          # credentials (JSON Schema)
     oauth-configuration-schema.json    # optional, e.g. salesforce
     ast.json                           # parsed JSDoc for every operation
-    snippets.json                      # CREATE / SEARCH snippets (27 adapters)
+    snippets.json                      # CREATE / SEARCH snippets
+    snippet-coverage.json              # generated: which spec resources the snippets reach
     triggers.json                      # event triggers (30 adapters)
     data-schemas/                      # OpenAPI-ingested JSON Schemas per trigger payload
     metadata.json                      # vendor/API source links for ingestion
@@ -118,6 +119,41 @@ first, which scans every `packages/*` folder and writes
 `ui/public/adapters/` (one folder per adapter plus a top-level `index.json`
 for the nav). When you add new metadata files to a package, re-run
 `npm run manifest` (or just restart the dev server).
+
+## Spec, mock and snippet coverage
+
+The library shows three coverage numbers for every adaptor, on the Overview
+page and in each adaptor's Overview tab. All three are measured against the
+same thing, the adaptor's spec in
+[openfn-api-specs](https://github.com/brandonjackson/openfn-api-specs):
+
+| Number | Meaning | Comes from |
+| ------ | ------- | ---------- |
+| **Spec** | complete, best effort, subset or not claimed, plus a stale flag after 90 days without a re-check | openfn-api-specs `manifest.json`, synced to `status/specs.json` |
+| **Mock** | spec operations openfn-mocker's examples exercise ÷ all spec operations | openfn-mocker `coverage.json`, synced to `status/mocks.json` |
+| **Snippets** | spec resources (the groups in `endpoints.md`) with at least one snippet ÷ all spec resources | `packages/<a>/snippet-coverage.json` |
+
+An adaptor with a spec but no mock counts as 0% mocked, and one with a spec but
+no snippets as 0% snippet coverage. Snippets for a system openfn-mocker doesn't
+mock can't be run, so they show as "not measured" rather than 0%.
+
+```bash
+npm run coverage:sync                # pull spec + mock coverage from GitHub main (the deploy does this too, daily)
+node tools/sync-coverage.mjs --local # ...or from ../openfn-api-specs and ../openfn-mocker
+
+npm run snippets:check               # run every snippet, rewrite packages/*/snippet-coverage.json
+npm run snippets:check -- --adaptor=dhis2,asana
+```
+
+`snippets:check` runs each snippet as a one-step job through the real
+`@openfn/cli` and published adaptor against the openfn-mocker mock. It matches
+every request to a spec operation with the openfn-api-specs conformer, then maps
+each operation to its resource group. A snippet covers a resource if it sends a
+request to it, whether or not the request passes the spec's schemas; the
+Snippets tab shows what each snippet reached and whether it ran clean. It needs
+clones of both sibling repos with dependencies installed, `npm i -g @openfn/cli`,
+and root for the few systems that need host aliasing. Re-run it and commit the
+result whenever snippets change.
 
 ## Ingesting data schemas from OpenAPI
 

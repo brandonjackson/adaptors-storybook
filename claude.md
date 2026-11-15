@@ -27,7 +27,7 @@ repo owns the third:
 
 **The goal here is every spec resource covered by at least one snippet that
 runs clean.** A "resource" is a `##` group in the adaptor's `endpoints.md` in
-openfn-api-specs. Today: 181 of 1,867 resources (9.7%) across 65 measurable
+openfn-api-specs. Today: 187 of 1,907 resources (9.8%) across 62 measured
 adaptors. Steer by it:
 
 - **Pick work** from the Overview page's coverage table (sort by snippets):
@@ -40,7 +40,7 @@ adaptors. Steer by it:
   (calls that match no spec operation), is either wrong or has found a spec
   gap. Check the adaptor source and vendor docs to tell which; a real gap
   belongs in openfn-api-specs.
-- **"Not measured" is not 0%.** Adaptors with no openfn-mocker mock (39 today)
+- **"Not measured" is not 0%.** Adaptors with no openfn-mocker mock (38 today)
   can't have their snippets run. Their next step is a mock in openfn-mocker,
   not more snippets here.
 - **Every snippet change re-measures.** After editing `snippets.json`, run

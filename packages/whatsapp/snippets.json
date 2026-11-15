@@ -1,16 +1,50 @@
 {
   "CREATE": {
     "Send Freeform Message": {
-      "description": "Send a freeform text message (within 24-hour window only).",
-      "code": "// Send a freeform text message via the WhatsApp Business API.\n// Only allowed within the 24-hour customer-service window.\nrequest('POST', 'messages', {\n  messaging_product: 'whatsapp',\n  to:   $.data.toPhone,        // E.164, no '+' (e.g. '254712345678')\n  type: 'text',\n  text: { body: $.data.body },\n});"
+      "description": "Send a freeform text message (within the 24-hour customer service window only).",
+      "code": "// Send a freeform text message via the WhatsApp Business API.\n// Only allowed within the 24-hour customer service window.\nrequest('POST', 'messages', {\n  messaging_product: 'whatsapp',\n  recipient_type: 'individual',\n  to:   $.data.toPhone,        // E.164, no '+' (e.g. '254712345678')\n  type: 'text',\n  text: { body: $.data.body },\n});"
     },
     "Send Media Message": {
-      "description": "Send a media message (document, image, video, or audio) within 24-hour window.",
-      "code": "// Send a media attachment. `type` is one of image | video | document | audio.\nrequest('POST', 'messages', {\n  messaging_product: 'whatsapp',\n  to:   $.data.toPhone,\n  type: 'image',\n  image: {\n    // Either a public URL...\n    link: $.data.imageUrl,\n    // ...or `id` referencing a previously uploaded media id.\n    caption: $.data.caption,\n  },\n});"
+      "description": "Send a media message (document, image, video, or audio) within the 24-hour window.",
+      "code": "// Send a media attachment. `type` is one of image | video | document | audio.\nrequest('POST', 'messages', {\n  messaging_product: 'whatsapp',\n  recipient_type: 'individual',\n  to:   $.data.toPhone,\n  type: 'image',\n  image: {\n    // Either a public URL...\n    link: $.data.imageUrl,\n    // ...or `id` referencing a previously uploaded media id.\n    caption: $.data.caption,\n  },\n});"
     },
     "Send Template Message": {
-      "description": "Sends an approved template message.",
-      "code": "// Send an approved WhatsApp template message.\nrequest('POST', 'messages', {\n  messaging_product: 'whatsapp',\n  to:   $.data.toPhone,\n  type: 'template',\n  template: {\n    name: 'hello_world',\n    language: { code: 'en_US' },\n    // Template body variables, if your template uses {{1}}, {{2}}, ...\n    // components: [{\n    //   type: 'body',\n    //   parameters: [{ type: 'text', text: $.data.firstName }],\n    // }],\n  },\n});"
+      "description": "Send an approved template message. Templates can start a conversation outside the 24-hour window.",
+      "code": "// Send an approved WhatsApp template message.\nrequest('POST', 'messages', {\n  messaging_product: 'whatsapp',\n  recipient_type: 'individual',\n  to:   $.data.toPhone,\n  type: 'template',\n  template: {\n    name: 'hello_world',\n    language: { code: 'en_US', policy: 'deterministic' },\n    // Template body variables, if your template uses {{1}}, {{2}}, ...\n    // components: [{\n    //   type: 'body',\n    //   parameters: [{ type: 'text', text: $.data.firstName }],\n    // }],\n  },\n});"
+    },
+    "Create QR Code Deep Link": {
+      "description": "Create a QR code and wa.me deep link that opens a chat with a prefilled message.",
+      "code": "// Create a QR code that opens a chat with this business number,\n// prefilled with a message (max 140 characters).\nrequest('POST', 'message_qrdls', {\n  prefilled_message: 'Register for the vaccination drive',\n  generate_qr_image: 'PNG', // or 'SVG'\n});\n// state.data.deep_link_url and state.data.qr_image_url hold the link and image."
+    },
+    "Block User": {
+      "description": "Block a WhatsApp user from messaging this business number.",
+      "code": "// Block one or more users by phone number or WhatsApp ID.\nrequest('POST', 'block_users', {\n  messaging_product: 'whatsapp',\n  block_users: [{ user: $.data.phone }],\n});"
+    },
+    "Update Business Profile": {
+      "description": "Update the business profile shown to WhatsApp users.",
+      "code": "// Update the profile users see when they open the chat.\nrequest('POST', 'whatsapp_business_profile', {\n  messaging_product: 'whatsapp',\n  about: 'Appointment reminders and test results.',\n  email: 'hello@clinic.example.org',\n  vertical: 'HEALTH',\n});"
+    },
+    "Enable Cart and Catalog": {
+      "description": "Turn on the shopping cart and show the product catalog for this number.",
+      "code": "// Commerce settings are set with query parameters, not a body.\nrequest('POST', 'whatsapp_commerce_settings', undefined, {\n  query: { is_cart_enabled: true, is_catalog_visible: true },\n});"
+    }
+  },
+  "SEARCH": {
+    "Get Phone Number Status": {
+      "description": "Read the quality rating and verified name of the business phone number.",
+      "code": "// An empty path addresses the phone number node itself.\nrequest('GET', '', undefined, {\n  query: { fields: 'display_phone_number,verified_name,quality_rating' },\n});"
+    },
+    "Get Business Profile": {
+      "description": "Read the business profile of the configured phone number.",
+      "code": "request('GET', 'whatsapp_business_profile', undefined, {\n  query: { fields: 'about,address,description,email,websites,vertical' },\n});\n// state.data.data[0] holds the profile."
+    },
+    "List Blocked Users": {
+      "description": "List the users blocked from messaging this business number.",
+      "code": "request('GET', 'block_users');\n// state.data.data is an array of { messaging_product, wa_id }."
+    },
+    "List QR Code Deep Links": {
+      "description": "List the QR codes and deep links created for this number.",
+      "code": "request('GET', 'message_qrdls');\n// Each item has code, prefilled_message and deep_link_url."
     }
   }
 }

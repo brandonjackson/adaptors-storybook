@@ -6,11 +6,11 @@
     },
     "Upload CSV Export": {
       "description": "Writes rows as a CSV file to S3, e.g. a daily beneficiary or payment list for a partner to pick up.",
-      "code": "// Build a CSV from rows and upload it to S3.\nput({\n  key: `exports/payments-${new Date().toISOString().slice(0, 10)}.csv`,\n  body: [\n    'beneficiary_id,name,amount,currency',\n    ...$.data.payments.map(p => `${p.beneficiaryId},${p.name},${p.amount},${p.currency}`),\n  ].join('\\n'),\n  contentType: 'text/csv',\n});"
+      "code": "// Build a CSV from rows and upload it to S3.\nput({\n  key: `exports/payments-${new Date().toISOString().slice(0, 10)}.csv`,\n  body: state =>\n    [\n      'beneficiary_id,name,amount,currency',\n      ...state.data.payments.map(p => `${p.beneficiaryId},${p.name},${p.amount},${p.currency}`),\n    ].join('\\n'),\n  contentType: 'text/csv',\n});"
     },
     "Upload Encrypted File": {
       "description": "Uploads a file with server-side encryption, for sensitive health or registry data.",
-      "code": "// Upload a sensitive file with server-side encryption.\nput({\n  key: `lab-results/${$.data.facilityCode}/${$.data.fileName}`,\n  body: Buffer.from($.data.fileBase64, 'base64'), // decode an attachment\n  contentType: $.data.mimeType, // e.g. 'application/pdf'\n  serverSideEncryption: 'AES256', // or 'aws:kms'\n});"
+      "code": "// Upload a sensitive file with server-side encryption.\nput({\n  key: `lab-results/${$.data.facilityCode}/${$.data.fileName}`,\n  body: state => Buffer.from(state.data.fileBase64, 'base64'), // decode an attachment\n  contentType: $.data.mimeType, // e.g. 'application/pdf'\n  serverSideEncryption: 'AES256', // or 'aws:kms'\n});"
     },
     "Archive Each Record Separately": {
       "description": "Writes one S3 object per record in a batch.",

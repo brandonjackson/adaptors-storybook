@@ -27,7 +27,7 @@ repo owns the third:
 
 **The goal here is every spec resource covered by at least one snippet that
 runs clean.** A "resource" is a `##` group in the adaptor's `endpoints.md` in
-openfn-api-specs. Today: 205 of 1,993 resources (10.3%) across 63 measured
+openfn-api-specs. Today: 213 of 2,076 resources (10.3%) across 63 measured
 adaptors. Steer by it:
 
 - **Pick work** from the Overview page's coverage table (sort by snippets):

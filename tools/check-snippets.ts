@@ -412,6 +412,12 @@ async function checkAdaptor(d: Deps, adaptor: string): Promise<SnippetCoverage> 
 
   const conformer = d.createConformer(spec);
   const prefix = leadingPrefix(spec);
+  // The mock's mount can stand for a base-URL path the spec writes into its
+  // paths; openfn-mocker records it as its ledger's `pathPrefix` and prepends
+  // it to every exchange before matching (aws-s3: the SDK addresses the bucket
+  // by host, so `/key` is the spec's `/{Bucket}/key`). Do the same here.
+  const ledgerPath = join(MOCKER_DIR, 'src/systems', system, 'conformance.json');
+  const ledgerPrefix: string = existsSync(ledgerPath) ? (JSON.parse(readFileSync(ledgerPath, 'utf8')).pathPrefix ?? '').replace(/\/+$/, '') : '';
   const mock = await startMock(d, system);
   const results: SnippetResult[] = [];
   try {
@@ -422,7 +428,8 @@ async function checkAdaptor(d: Deps, adaptor: string): Promise<SnippetCoverage> 
       const operations = new Set<string>();
       const offSpec = new Set<string>();
       let violations = 0;
-      for (const e of own) {
+      for (const raw of own) {
+        const e = ledgerPrefix ? { ...raw, path: ledgerPrefix + (raw.path.startsWith('/') ? raw.path : `/${raw.path}`) } : raw;
         let ex = e;
         let m = conformer.match(e.method, e.path);
         if (!m && prefix && !e.path.startsWith(prefix + '/')) {

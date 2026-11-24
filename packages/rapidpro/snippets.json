@@ -10,15 +10,15 @@
     },
     "Start Flow For Contacts": {
       "description": "Starts a flow (e.g. an ANC reminder or survey) for specific contacts.",
-      "code": "// Enrol a patient into the antenatal care reminder flow.\nstartFlow({\n  // Flow UUID from RapidPro.\n  flow: $.configuration.ancFlowUuid,\n  // Contact UUIDs, e.g. from an earlier upsertContact().\n  contacts: [$.data.uuid],\n  // Don't restart people who have already been through this flow.\n  restart_participants: false,\n});"
+      "code": "// Enrol a patient into the antenatal care reminder flow.\nstartFlow({\n  // Flow UUID, from the flow's page in RapidPro.\n  flow: 'f5901b62-ba76-4003-9c62-72fdacc1b7b7',\n  // Contact UUIDs, e.g. from an earlier upsertContact().\n  contacts: [$.data.uuid],\n  // Don't restart people who have already been through this flow.\n  restart_participants: false,\n});"
     },
     "Start Flow By Phone Number": {
       "description": "Starts a flow for phone numbers directly, passing extra data into the flow as params.",
-      "code": "// Start a payment confirmation survey for a list of recipients.\nstartFlow({\n  flow: $.configuration.surveyFlowUuid,\n  // URNs work even if the contact doesn't exist yet.\n  urns: $.data.recipients.map(r => `tel:${r.phone}`),\n  // Skip contacts that are already active in another flow.\n  exclude_active: true,\n  // Available in the flow as @trigger.params.\n  params: { payment_cycle: $.data.cycle, amount: $.data.amount },\n});"
+      "code": "// Start a payment confirmation survey for a list of recipients.\n// Build the URN list first: written inside startFlow()'s arguments,\n// `$.data.recipients.map(...)` compiles to a reference to `.map` itself\n// rather than a call on the data.\nfn(state => {\n  state.urns = state.data.recipients.map(r => `tel:${r.phone}`);\n  return state;\n});\n\nstartFlow({\n  // Flow UUID, from the flow's page in RapidPro.\n  flow: '3c3f2b1a-9a43-4c8e-8e0c-5b1f0a6d2e71',\n  // URNs work even if the contact doesn't exist yet.\n  urns: $.urns,\n  // Skip contacts that are already active in another flow.\n  exclude_active: true,\n  // Available in the flow as @trigger.params.\n  params: { payment_cycle: $.data.cycle, amount: $.data.amount },\n});"
     },
     "Start Flow For Group": {
       "description": "Starts a flow for every contact in one or more groups.",
-      "code": "// Start the monthly check-in flow for all community health workers.\nstartFlow({\n  flow: $.configuration.checkInFlowUuid,\n  groups: [$.data.chwGroupUuid],\n  restart_participants: true,\n});"
+      "code": "// Start the monthly check-in flow for all community health workers.\nstartFlow({\n  // Flow UUID, from the flow's page in RapidPro.\n  flow: '7d2e9c4b-1f6a-4b3d-a8e5-2c9f0b7e6d14',\n  groups: [$.data.chwGroupUuid],\n  restart_participants: true,\n});"
     },
     "Send SMS Broadcast": {
       "description": "Sends a one-off message to phone numbers and/or existing contacts.",

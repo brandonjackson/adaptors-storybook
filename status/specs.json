@@ -1,20 +1,20 @@
 {
   "$comment": "Synced from openfn-api-specs by `node tools/sync-coverage.mjs`; do not edit by hand.",
   "source": "https://raw.githubusercontent.com/brandonjackson/openfn-api-specs/main/specs/adaptors/manifest.json",
-  "dataUpdatedAt": "2026-11-02",
+  "dataUpdatedAt": "2026-11-24",
   "adaptors": {
     "arcgis": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 6,
-      "resourceGroups": 3,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "partial-docs",
+      "operations": 1400,
+      "resourceGroups": 70,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "asana": {
       "hasOpenapi": true,
@@ -24,23 +24,23 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 249,
-      "resourceGroups": 49,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "operations": 271,
+      "resourceGroups": 52,
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "aws-s3": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "converted",
-      "upstreamFormat": "aws-api-model",
+      "upstreamFormat": "smithy-2.0",
       "coverage": "full",
-      "completeness": "best-effort",
-      "completenessReason": "third-party-spec",
-      "operations": 97,
+      "completeness": "complete",
+      "completenessReason": null,
+      "operations": 112,
       "resourceGroups": 3,
-      "capturedAt": "2026-09-03",
-      "lastCheckedAt": "2026-09-03"
+      "capturedAt": "2026-11-18",
+      "lastCheckedAt": "2026-11-18"
     },
     "azure-storage": {
       "hasOpenapi": true,
@@ -52,21 +52,21 @@
       "completenessReason": null,
       "operations": 69,
       "resourceGroups": 8,
-      "capturedAt": "2026-09-03",
-      "lastCheckedAt": "2026-09-03"
+      "capturedAt": "2026-11-23",
+      "lastCheckedAt": "2026-11-23"
     },
     "beyonic": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 3,
-      "resourceGroups": 3,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "partial-docs",
+      "operations": 27,
+      "resourceGroups": 11,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "bigquery": {
       "hasOpenapi": true,
@@ -76,36 +76,36 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 47,
+      "operations": 49,
       "resourceGroups": 8,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "browserless": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "found-openapi",
+      "upstreamFormat": "openapi-3.0",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 4,
-      "resourceGroups": 4,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 106,
+      "resourceGroups": 18,
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "cartodb": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 5,
-      "resourceGroups": 2,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "origin": "found-openapi",
+      "upstreamFormat": "openapi-3.0",
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "partial-docs",
+      "operations": 37,
+      "resourceGroups": 10,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "chatgpt": {
       "hasOpenapi": true,
@@ -115,10 +115,10 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 288,
-      "resourceGroups": 41,
-      "capturedAt": "2026-09-03",
-      "lastCheckedAt": "2026-09-03"
+      "operations": 388,
+      "resourceGroups": 47,
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "cht": {
       "hasOpenapi": true,
@@ -130,34 +130,34 @@
       "completenessReason": null,
       "operations": 86,
       "resourceGroups": 12,
-      "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "claude": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "found-openapi",
+      "upstreamFormat": "openapi-3.1",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 8,
-      "resourceGroups": 2,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 394,
+      "resourceGroups": 15,
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "collections": {
       "hasOpenapi": true,
       "rest": false,
       "origin": "synthesized",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 7,
-      "resourceGroups": 2,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 6,
+      "resourceGroups": 1,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "commcare": {
       "hasOpenapi": true,
@@ -177,26 +177,26 @@
       "rest": false,
       "origin": "synthesized",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 7,
-      "resourceGroups": 2,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 10,
+      "resourceGroups": 1,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "dagu": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "synthesized",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 4,
-      "resourceGroups": 2,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "private-api",
+      "operations": 5,
+      "resourceGroups": 3,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "dhis2": {
       "hasOpenapi": true,
@@ -206,10 +206,10 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 2574,
+      "operations": 2575,
       "resourceGroups": 182,
-      "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
+      "capturedAt": "2026-11-23",
+      "lastCheckedAt": "2026-11-23"
     },
     "divoc": {
       "hasOpenapi": true,
@@ -229,13 +229,13 @@
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 8,
-      "resourceGroups": 4,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "docs-only",
+      "operations": 3304,
+      "resourceGroups": 606,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "erpnext": {
       "hasOpenapi": true,
@@ -268,13 +268,13 @@
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 1,
-      "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "partial-docs",
+      "operations": 41,
+      "resourceGroups": 28,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "fhir": {
       "hasOpenapi": true,
@@ -286,86 +286,86 @@
       "completenessReason": null,
       "operations": 1872,
       "resourceGroups": 147,
-      "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "fhir-4": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "converted",
+      "upstreamFormat": "json-schema",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 31,
-      "resourceGroups": 7,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 1810,
+      "resourceGroups": 142,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "fhir-eswatini": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "converted",
+      "upstreamFormat": "json-schema",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 31,
-      "resourceGroups": 7,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 1872,
+      "resourceGroups": 147,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "fhir-fr": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "converted",
+      "upstreamFormat": "json-schema",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 31,
-      "resourceGroups": 7,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 1872,
+      "resourceGroups": 147,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "fhir-ndr-et": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "converted",
+      "upstreamFormat": "json-schema",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 31,
-      "resourceGroups": 7,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 1872,
+      "resourceGroups": 147,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "flutterwave": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 10,
-      "resourceGroups": 3,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "docs-only",
+      "operations": 57,
+      "resourceGroups": 18,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-23"
     },
     "formsg": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "synthesized",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
       "operations": 3,
-      "resourceGroups": 3,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "resourceGroups": 1,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "gemini": {
       "hasOpenapi": true,
@@ -375,10 +375,10 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 85,
-      "resourceGroups": 22,
-      "capturedAt": "2026-09-03",
-      "lastCheckedAt": "2026-09-03"
+      "operations": 88,
+      "resourceGroups": 23,
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "ghana-bdr": {
       "hasOpenapi": true,
@@ -414,10 +414,10 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 79,
+      "operations": 91,
       "resourceGroups": 15,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "godata": {
       "hasOpenapi": true,
@@ -440,10 +440,10 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 64,
+      "operations": 68,
       "resourceGroups": 14,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "googlehealthcare": {
       "hasOpenapi": true,
@@ -455,8 +455,8 @@
       "completenessReason": null,
       "operations": 154,
       "resourceGroups": 24,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "googlesheets": {
       "hasOpenapi": true,
@@ -468,8 +468,8 @@
       "completenessReason": null,
       "operations": 17,
       "resourceGroups": 4,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "hive": {
       "hasOpenapi": true,
@@ -489,39 +489,39 @@
       "rest": false,
       "origin": "synthesized",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 6,
+      "operations": 10,
       "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "hubtel": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 2,
-      "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "docs-only",
+      "operations": 9,
+      "resourceGroups": 3,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "ibipimo": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "private-api",
       "operations": 4,
       "resourceGroups": 4,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "ihris": {
       "hasOpenapi": true,
@@ -541,39 +541,39 @@
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 6,
-      "resourceGroups": 3,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "docs-only",
+      "operations": 194,
+      "resourceGroups": 26,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-14"
     },
     "intuit": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 10,
-      "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "docs-only",
+      "operations": 176,
+      "resourceGroups": 47,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "khanacademy": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 13,
-      "resourceGroups": 7,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "partial-docs",
+      "operations": 32,
+      "resourceGroups": 9,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "kobotoolbox": {
       "hasOpenapi": true,
@@ -606,13 +606,13 @@
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 4,
-      "resourceGroups": 2,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "vendor-defunct",
+      "operations": 11,
+      "resourceGroups": 5,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "mailchimp": {
       "hasOpenapi": true,
@@ -622,10 +622,10 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 298,
-      "resourceGroups": 30,
-      "capturedAt": "2026-09-03",
-      "lastCheckedAt": "2026-09-03"
+      "operations": 309,
+      "resourceGroups": 31,
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "mailgun": {
       "hasOpenapi": true,
@@ -635,49 +635,49 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 265,
-      "resourceGroups": 40,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "operations": 411,
+      "resourceGroups": 60,
+      "capturedAt": "2026-11-20",
+      "lastCheckedAt": "2026-11-23"
     },
     "maximo": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 13,
-      "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "docs-only",
+      "operations": 60,
+      "resourceGroups": 14,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "medicmobile": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 4,
-      "resourceGroups": 4,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "docs-only",
+      "operations": 135,
+      "resourceGroups": 19,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "memento": {
       "hasOpenapi": true,
       "rest": false,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "converted",
+      "upstreamFormat": "api-blueprint",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 6,
-      "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 9,
+      "resourceGroups": 4,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "minio": {
       "hasOpenapi": true,
@@ -697,26 +697,26 @@
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 2,
-      "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "private-api",
+      "operations": 9,
+      "resourceGroups": 3,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "mojatax": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 3,
-      "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "upstreamFormat": "adaptor-surface",
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "private-api",
+      "operations": 2,
+      "resourceGroups": 2,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "mongodb": {
       "hasOpenapi": true,
@@ -729,20 +729,20 @@
       "operations": 3,
       "resourceGroups": 3,
       "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "lastCheckedAt": "2026-11-13"
     },
     "monnify": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "found-openapi",
+      "upstreamFormat": "openapi-3.0",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 7,
-      "resourceGroups": 4,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 77,
+      "resourceGroups": 16,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "motherduck": {
       "hasOpenapi": true,
@@ -762,13 +762,13 @@
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 6,
-      "resourceGroups": 2,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "docs-only",
+      "operations": 52,
+      "resourceGroups": 18,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "msgraph": {
       "hasOpenapi": true,
@@ -778,10 +778,10 @@
       "coverage": "subset",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 2605,
-      "resourceGroups": 191,
-      "capturedAt": "2026-09-14",
-      "lastCheckedAt": "2026-09-14"
+      "operations": 2677,
+      "resourceGroups": 194,
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "mssql": {
       "hasOpenapi": true,
@@ -794,7 +794,7 @@
       "operations": 10,
       "resourceGroups": 3,
       "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "lastCheckedAt": "2026-11-13"
     },
     "msupply": {
       "hasOpenapi": true,
@@ -812,15 +812,15 @@
     "mtn-momo": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "converted",
+      "upstreamFormat": "azure-apim-data-api",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 13,
-      "resourceGroups": 4,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 56,
+      "resourceGroups": 20,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "mysql": {
       "hasOpenapi": true,
@@ -833,7 +833,7 @@
       "operations": 4,
       "resourceGroups": 2,
       "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "lastCheckedAt": "2026-11-13"
     },
     "nexmo": {
       "hasOpenapi": true,
@@ -871,21 +871,21 @@
       "completenessReason": null,
       "operations": 186,
       "resourceGroups": 34,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "odoo": {
       "hasOpenapi": true,
       "rest": false,
-      "origin": "synthesized",
-      "upstreamFormat": "adaptor-surface",
+      "origin": "generated",
+      "upstreamFormat": "docs",
       "coverage": "full",
       "completeness": "best-effort",
       "completenessReason": "rpc-transport",
-      "operations": 2,
-      "resourceGroups": 2,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-09-03"
+      "operations": 5,
+      "resourceGroups": 3,
+      "capturedAt": "2026-11-14",
+      "lastCheckedAt": "2026-11-14"
     },
     "openboxes": {
       "hasOpenapi": true,
@@ -931,13 +931,13 @@
       "rest": false,
       "origin": "synthesized",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 22,
-      "resourceGroups": 8,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 40,
+      "resourceGroups": 11,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "openhim": {
       "hasOpenapi": true,
@@ -963,7 +963,7 @@
       "operations": 136,
       "resourceGroups": 22,
       "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
+      "lastCheckedAt": "2026-11-23"
     },
     "openlmis": {
       "hasOpenapi": true,
@@ -988,8 +988,8 @@
       "completenessReason": "third-party-spec",
       "operations": 554,
       "resourceGroups": 99,
-      "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "openspp": {
       "hasOpenapi": true,
@@ -1015,33 +1015,33 @@
       "operations": 15,
       "resourceGroups": 6,
       "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "lastCheckedAt": "2026-11-13"
     },
     "pesapal": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 7,
-      "resourceGroups": 3,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "partial-docs",
+      "operations": 15,
+      "resourceGroups": 4,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "ping": {
       "hasOpenapi": true,
-      "rest": false,
+      "rest": true,
       "origin": "synthesized",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 5,
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "private-api",
+      "operations": 3,
       "resourceGroups": 3,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "postgresql": {
       "hasOpenapi": true,
@@ -1054,7 +1054,7 @@
       "operations": 10,
       "resourceGroups": 3,
       "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "lastCheckedAt": "2026-11-13"
     },
     "primero": {
       "hasOpenapi": true,
@@ -1085,15 +1085,15 @@
     "puntosolidario-rd": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "synthesized",
-      "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
+      "origin": "found-openapi",
+      "upstreamFormat": "openapi-3.0",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 6,
-      "resourceGroups": 3,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 935,
+      "resourceGroups": 104,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "rapidpro": {
       "hasOpenapi": true,
@@ -1103,10 +1103,10 @@
       "coverage": "full",
       "completeness": "best-effort",
       "completenessReason": "docs-only",
-      "operations": 8,
-      "resourceGroups": 4,
-      "capturedAt": "2026-09-14",
-      "lastCheckedAt": "2026-09-14"
+      "operations": 49,
+      "resourceGroups": 29,
+      "capturedAt": "2026-11-24",
+      "lastCheckedAt": "2026-11-24"
     },
     "redis": {
       "hasOpenapi": true,
@@ -1119,7 +1119,7 @@
       "operations": 10,
       "resourceGroups": 10,
       "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "lastCheckedAt": "2026-11-13"
     },
     "resourcemap": {
       "hasOpenapi": true,
@@ -1184,20 +1184,20 @@
       "operations": 5,
       "resourceGroups": 5,
       "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "lastCheckedAt": "2026-11-13"
     },
     "siuben-rd": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "synthesized",
+      "origin": "generated",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 6,
-      "resourceGroups": 4,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "private-api",
+      "operations": 4,
+      "resourceGroups": 2,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "stripe": {
       "hasOpenapi": true,
@@ -1207,23 +1207,23 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 587,
-      "resourceGroups": 76,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "operations": 612,
+      "resourceGroups": 78,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "sunbird-rc": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "found-openapi",
+      "origin": "generated",
       "upstreamFormat": "openapi-3.0",
-      "coverage": "subset",
-      "completeness": "complete",
-      "completenessReason": null,
-      "operations": 6,
-      "resourceGroups": 3,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "derived-from-vendor-source",
+      "operations": 70,
+      "resourceGroups": 14,
+      "capturedAt": "2026-11-14",
+      "lastCheckedAt": "2026-11-14"
     },
     "surveycto": {
       "hasOpenapi": true,
@@ -1233,10 +1233,10 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 50,
-      "resourceGroups": 9,
-      "capturedAt": "2026-09-14",
-      "lastCheckedAt": "2026-09-14"
+      "operations": 53,
+      "resourceGroups": 10,
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "telerivet": {
       "hasOpenapi": true,
@@ -1246,23 +1246,23 @@
       "coverage": "full",
       "completeness": "complete",
       "completenessReason": null,
-      "operations": 168,
+      "operations": 173,
       "resourceGroups": 18,
-      "capturedAt": "2026-09-03",
-      "lastCheckedAt": "2026-09-03"
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "testing": {
       "hasOpenapi": true,
       "rest": false,
       "origin": "synthesized",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 7,
-      "resourceGroups": 7,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 1,
+      "resourceGroups": 1,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "twilio": {
       "hasOpenapi": true,
@@ -1274,21 +1274,21 @@
       "completenessReason": null,
       "operations": 197,
       "resourceGroups": 75,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-07-06"
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "varo": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "synthesized",
       "upstreamFormat": "adaptor-surface",
-      "coverage": null,
-      "completeness": null,
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
       "operations": 5,
-      "resourceGroups": 5,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "resourceGroups": 3,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "vtiger": {
       "hasOpenapi": true,
@@ -1301,9 +1301,22 @@
       "operations": 13,
       "resourceGroups": 1,
       "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-09-14"
+      "lastCheckedAt": "2026-11-14"
     },
     "whatsapp": {
+      "hasOpenapi": true,
+      "rest": true,
+      "origin": "found-openapi",
+      "upstreamFormat": "openapi-3.1",
+      "coverage": "full",
+      "completeness": "complete",
+      "completenessReason": null,
+      "operations": 113,
+      "resourceGroups": 55,
+      "capturedAt": "2026-11-15",
+      "lastCheckedAt": "2026-11-15"
+    },
+    "wigal-sms": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
@@ -1311,49 +1324,36 @@
       "coverage": "full",
       "completeness": "best-effort",
       "completenessReason": "docs-only",
-      "operations": 106,
-      "resourceGroups": 14,
-      "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
-    },
-    "wigal-sms": {
-      "hasOpenapi": true,
-      "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 5,
-      "resourceGroups": 2,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 9,
+      "resourceGroups": 4,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     },
     "zata": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "generated",
-      "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
+      "origin": "found-openapi",
+      "upstreamFormat": "openapi-3.1",
+      "coverage": "full",
+      "completeness": "complete",
       "completenessReason": null,
-      "operations": 26,
-      "resourceGroups": 9,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "operations": 106,
+      "resourceGroups": 19,
+      "capturedAt": "2026-11-21",
+      "lastCheckedAt": "2026-11-21"
     },
     "zoho": {
       "hasOpenapi": true,
       "rest": true,
       "origin": "generated",
       "upstreamFormat": "docs",
-      "coverage": null,
-      "completeness": null,
-      "completenessReason": null,
-      "operations": 5,
-      "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": null
+      "coverage": "full",
+      "completeness": "best-effort",
+      "completenessReason": "docs-only",
+      "operations": 77,
+      "resourceGroups": 12,
+      "capturedAt": "2026-11-13",
+      "lastCheckedAt": "2026-11-13"
     }
   }
 }

@@ -431,10 +431,12 @@ async function checkAdaptor(d: Deps, adaptor: string): Promise<SnippetCoverage> 
       for (const raw of own) {
         const e = ledgerPrefix ? { ...raw, path: ledgerPrefix + (raw.path.startsWith('/') ? raw.path : `/${raw.path}`) } : raw;
         let ex = e;
-        let m = conformer.match(e.method, e.path);
+        // The body goes along: some APIs select the operation by a form or JSON
+        // body field (vtiger's `operation=create`), which only the body carries.
+        let m = conformer.match(e.method, e.path, e.requestBody);
         if (!m && prefix && !e.path.startsWith(prefix + '/')) {
           ex = { ...e, path: prefix + e.path };
-          m = conformer.match(ex.method, ex.path);
+          m = conformer.match(ex.method, ex.path, ex.requestBody);
         }
         if (!m) {
           offSpec.add(`${e.method.toUpperCase()} ${e.path.split('?')[0]}`);

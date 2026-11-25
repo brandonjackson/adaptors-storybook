@@ -23,6 +23,10 @@
     "Create Contacts In Bulk": {
       "description": "Creates one contact for each item in a list.",
       "code": "// Create a contact for each person in the payload.\neach(\n  '$.data.people[*]',\n  postElement({\n    operation: 'create',\n    elementType: 'Contacts',\n    element: {\n      firstname: $.data.firstName,\n      lastname: $.data.lastName,\n      email: $.data.email,\n      assigned_user_id: $.configuration.assignedUserId,\n    },\n  })\n);"
+    },
+    "Convert Lead": {
+      "description": "Converts a qualified lead into an organization and a contact (convertlead); the result maps each module to the new record's id.",
+      "code": "// Convert a lead once it qualifies. Each entity to create names its module\n// and carries that module's mandatory fields.\npostElement({\n  operation: 'convertlead',\n  element: {\n    leadId: $.data.leadId, // e.g. '10x12'\n    assignedTo: $.configuration.assignedUserId,\n    entities: {\n      Accounts: { create: true, name: 'Accounts', accountname: $.data.organization },\n      Contacts: { create: true, name: 'Contacts', lastname: $.data.lastName },\n    },\n  },\n});"
     }
   },
   "SEARCH": {

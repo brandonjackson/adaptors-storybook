@@ -1,7 +1,7 @@
 {
   "$comment": "Synced from openfn-api-specs by `node tools/sync-coverage.mjs`; do not edit by hand.",
   "source": "https://raw.githubusercontent.com/brandonjackson/openfn-api-specs/main/specs/adaptors/manifest.json",
-  "dataUpdatedAt": "2026-11-24",
+  "dataUpdatedAt": "2026-11-26",
   "adaptors": {
     "arcgis": {
       "hasOpenapi": true,
@@ -351,7 +351,7 @@
       "completenessReason": "docs-only",
       "operations": 57,
       "resourceGroups": 18,
-      "capturedAt": "2026-11-13",
+      "capturedAt": "2026-11-16",
       "lastCheckedAt": "2026-11-23"
     },
     "formsg": {
@@ -767,8 +767,8 @@
       "completenessReason": "docs-only",
       "operations": 52,
       "resourceGroups": 18,
-      "capturedAt": "2026-11-13",
-      "lastCheckedAt": "2026-11-13"
+      "capturedAt": "2026-11-16",
+      "lastCheckedAt": "2026-11-16"
     },
     "msgraph": {
       "hasOpenapi": true,
@@ -897,8 +897,8 @@
       "completenessReason": "docs-only",
       "operations": 295,
       "resourceGroups": 55,
-      "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
+      "capturedAt": "2026-11-16",
+      "lastCheckedAt": "2026-11-16"
     },
     "opencrvs": {
       "hasOpenapi": true,
@@ -921,10 +921,10 @@
       "coverage": "full",
       "completeness": "best-effort",
       "completenessReason": "partial-docs",
-      "operations": 1057,
-      "resourceGroups": 276,
-      "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
+      "operations": 1426,
+      "resourceGroups": 298,
+      "capturedAt": "2026-11-26",
+      "lastCheckedAt": "2026-11-26"
     },
     "openfn": {
       "hasOpenapi": true,
@@ -1298,10 +1298,10 @@
       "coverage": "full",
       "completeness": "best-effort",
       "completenessReason": "docs-only",
-      "operations": 13,
-      "resourceGroups": 1,
-      "capturedAt": "2026-07-06",
-      "lastCheckedAt": "2026-11-14"
+      "operations": 35,
+      "resourceGroups": 8,
+      "capturedAt": "2026-11-25",
+      "lastCheckedAt": "2026-11-25"
     },
     "whatsapp": {
       "hasOpenapi": true,

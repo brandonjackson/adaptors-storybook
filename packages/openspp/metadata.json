@@ -3,15 +3,16 @@
   "product": "OpenSPP",
   "homepage": "https://openspp.org",
   "status": "stub",
-
-  "apiStyle": "sdk",
-  "baseUrls": ["https://dev.newlogic-demo.com"],
-
+  "apiStyle": "rest",
+  "baseUrls": [
+    "https://{host}/api/v2/spp"
+  ],
   "auth": {
-    "schemes": ["basic"],
-    "docs": "https://docs.openspp.org"
+    "schemes": [
+      "oauth2-client-credentials"
+    ],
+    "docs": "https://docs.openspp.org/reference/modules/spp_api_v2"
   },
-
   "sources": [
     {
       "kind": "docs-index",
@@ -19,23 +20,20 @@
       "notes": "OpenSPP documentation site"
     },
     {
-      "kind": "sdk-repo",
-      "url": "https://github.com/OpenSPP/openspp",
-      "language": "python",
-      "notes": "OpenSPP Odoo modules (social protection)"
+      "kind": "docs",
+      "url": "https://docs.openspp.org/reference/modules/spp_api_v2",
+      "notes": "REST API v2 module reference"
     },
     {
       "kind": "sdk-repo",
-      "url": "https://github.com/vettloffah/odoo-await",
-      "language": "javascript",
-      "notes": "odoo-await client used by the adaptor (Odoo JSON-RPC)"
+      "url": "https://github.com/OpenSPP/OpenSPP2",
+      "language": "python",
+      "notes": "OpenSPP 2 (Odoo 19) modules; spp_api_v2* hold the FastAPI routers the REST API v2 is built from"
     }
   ],
-
   "webhooks": {
     "supported": false,
     "docs": ""
   },
-
-  "notes": "Built on Odoo; adapter uses Odoo external API (JSON-RPC/XML-RPC) via odoo-await."
+  "notes": "Adaptor 4.x calls the OpenSPP REST API v2 (spp_api_v2, FastAPI, base path /api/v2/spp) with OAuth 2.0 client credentials; records are addressed by external identifier system|value. Up to 3.x the adaptor used the Odoo external API (XML-RPC) via odoo-await."
 }

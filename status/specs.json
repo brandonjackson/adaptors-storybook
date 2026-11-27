@@ -1,7 +1,7 @@
 {
   "$comment": "Synced from openfn-api-specs by `node tools/sync-coverage.mjs`; do not edit by hand.",
   "source": "https://raw.githubusercontent.com/brandonjackson/openfn-api-specs/main/specs/adaptors/manifest.json",
-  "dataUpdatedAt": "2026-11-26",
+  "dataUpdatedAt": "2026-11-27",
   "adaptors": {
     "arcgis": {
       "hasOpenapi": true,
@@ -994,15 +994,15 @@
     "openspp": {
       "hasOpenapi": true,
       "rest": true,
-      "origin": "synthesized",
-      "upstreamFormat": "adaptor-surface",
+      "origin": "generated",
+      "upstreamFormat": "vendor-source",
       "coverage": "full",
       "completeness": "best-effort",
       "completenessReason": "rpc-transport",
-      "operations": 33,
-      "resourceGroups": 14,
-      "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
+      "operations": 112,
+      "resourceGroups": 26,
+      "capturedAt": "2026-11-27",
+      "lastCheckedAt": "2026-11-27"
     },
     "pdfshift": {
       "hasOpenapi": true,

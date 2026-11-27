@@ -1,54 +1,78 @@
 {
   "CREATE": {
     "Register Individual": {
-      "description": "Registers a new individual in the social registry.",
-      "code": "// Register a new individual (e.g. from a field enrolment form).\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state =>\n  createIndividual({\n    name: state.data.fullName, // e.g. 'Amina Diallo'\n    birthdate: state.data.dateOfBirth, // 'YYYY-MM-DD'\n    gender: state.data.gender,\n    phone: state.data.phone,\n    address: state.data.village,\n  })(state)\n);"
+      "description": "Registers a new individual in the social registry from an enrolment form.",
+      "code": "// Register a new individual (e.g. from a field enrolment form).\n// Every record needs at least one identifier: system is the ID type's namespace URI.\ncreateIndividual({\n  identifier: [{ system: 'urn:openspp:vocab:id-type#national_id', value: 'SL-2001' }], // e.g. $.data.nationalId\n  name: { family: 'Bangura', given: 'Fatima' },\n  birthDate: '1992-04-11',\n  gender: { coding: [{ system: 'urn:iso:std:iso:5218', code: '2' }] }, // ISO 5218: 1 male, 2 female\n  telecom: [{ system: 'phone', value: '+23276000123' }],\n});\n// The created Individual is in state.data."
     },
     "Register Household Group": {
-      "description": "Registers a new group registrant, such as a household.",
-      "code": "// Register a household as a group registrant.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state =>\n  createGroup({\n    name: `${state.data.headOfHousehold} Household`,\n    phone: state.data.phone,\n    address: state.data.village,\n  })(state)\n);"
+      "description": "Registers a new household (group) in the social registry.",
+      "code": "// Register a household.\ncreateGroup({\n  identifier: [{ system: 'urn:openspp:vocab:id-type#household_id', value: 'HH-BAN-01' }], // e.g. $.data.householdId\n  name: 'Bangura Household',\n  groupType: 'household', // household | family | organization | other\n});"
     },
     "Add Member To Household": {
-      "description": "Adds an individual to a group with a role, e.g. head of household.",
-      "code": "// Link an individual to a household group.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state =>\n  addToGroup(\n    // 1) Group spp_id.\n    state.data.groupSppId,\n    // 2) Individual spp_id.\n    state.data.individualSppId,\n    // 3) Optional role in the group.\n    'Head'\n  )(state)\n);"
+      "description": "Adds an individual to a household with a membership role.",
+      "code": "// Add an individual to a household as a child.\n// Throws a 409 error if they're already a member; use request() with PATCH\n// /Group/{group}/member/{individual} to change an existing member's role.\naddToGroup(\n  'urn:openspp:vocab:id-type#household_id|HH-SES-01',\n  'urn:openspp:vocab:id-type#national_id|SL-1004',\n  'child' // a code from urn:openspp:vocab:group-membership-type, e.g. head, spouse, child\n);"
+    },
+    "Remove Member From Household": {
+      "description": "Ends an individual's membership of a household.",
+      "code": "// End a membership, e.g. when someone moves out. The end date defaults to now.\nremoveFromGroup(\n  'urn:openspp:vocab:id-type#household_id|HH-KAM-01',\n  'urn:openspp:vocab:id-type#national_id|SL-1002',\n  { reason: 'Moved out' }\n);"
     },
     "Update Individual": {
-      "description": "Updates details on an existing individual registrant.",
-      "code": "// Update an individual's contact details.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state =>\n  updateIndividual(\n    // 1) Individual spp_id.\n    state.data.individualSppId,\n    // 2) Fields to change.\n    {\n      phone: state.data.newPhone,\n      address: state.data.newAddress,\n    }\n  )(state)\n);"
+      "description": "Updates some fields of an individual; fields left out are unchanged.",
+      "code": "// Correct a date of birth. This is a JSON Merge Patch: fields you leave out\n// stay as they are, and null clears a field.\nupdateIndividual('urn:openspp:vocab:id-type#national_id|SL-1003', {\n  birthDate: '1990-02-21',\n});"
     },
     "Enroll In Program": {
-      "description": "Enrolls an individual or group in a social protection programme.",
-      "code": "// Enrol a registrant in a programme, e.g. a cash transfer.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state =>\n  enroll(\n    // 1) Registrant spp_id (individual or group).\n    state.data.sppId,\n    // 2) Programme id.\n    state.data.programId // e.g. 'PROG_2023_00000001'\n  )(state)\n);"
+      "description": "Enrolls a registrant in a program, creating the membership if needed.",
+      "code": "// Enroll an individual in a program. Beneficiaries are references:\n// 'Individual/system|value' or 'Group/system|value'.\n// If they are already enrolled, the existing membership is returned unchanged.\nenroll(\n  'Individual/urn:openspp:vocab:id-type#national_id|SL-1004',\n  'urn:openspp:program|school-feeding'\n);"
     },
     "Unenroll From Program": {
-      "description": "Removes an individual or group from a programme.",
-      "code": "// Exit a registrant from a programme.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state =>\n  unenroll(\n    // 1) Registrant spp_id.\n    state.data.sppId,\n    // 2) Programme id.\n    state.data.programId\n  )(state)\n);"
+      "description": "Exits a registrant's enrolled membership of a program.",
+      "code": "// Exit a household from a program at the end of the month.\nunenroll(\n  'Group/urn:openspp:vocab:id-type#household_id|HH-KAM-01',\n  'urn:openspp:program|cash-transfer-2024',\n  { exitDate: '2026-09-30' }\n);"
     }
   },
   "SEARCH": {
-    "Search Individuals": {
-      "description": "Searches individual registrants with an Odoo-style domain filter.",
-      "code": "// Find individuals by phone number.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state =>\n  searchIndividual(\n    // 1) Domain: list of [field, operator, value] conditions.\n    [['phone', '=', state.data.phone]],\n    // 2) Options: limit, offset, order.\n    { limit: 10 }\n  )(state)\n);"
-    },
     "Get Individual": {
-      "description": "Gets one individual registrant by spp_id.",
-      "code": "// Fetch an individual by spp_id.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state => getIndividual(state.data.individualSppId)(state)); // e.g. 'IND_Q4VGGZPF'"
+      "description": "Gets one individual by identifier.",
+      "code": "// Fetch an individual by external identifier (system|value).\n// elements trims the response to the fields you need.\ngetIndividual('urn:openspp:vocab:id-type#national_id|SL-1001', { elements: ['identifier', 'name', 'birthDate'] });"
+    },
+    "Search Individuals": {
+      "description": "Searches individuals by name and date of birth, a page at a time.",
+      "code": "// Children born since 2010 in the Kamara family, 50 per page.\n// Results are in state.data; state.response.page has { total, next }.\nsearchIndividual(\n  { name: 'Kamara', birthdate: 'ge2010-01-01' },\n  { count: 50, offset: 0 }\n);"
+    },
+    "Get Household": {
+      "description": "Gets one household (group) by identifier.",
+      "code": "// Fetch a household by its identifier.\ngetGroup('urn:openspp:vocab:id-type#household_id|HH-KAM-01');"
+    },
+    "Search Households": {
+      "description": "Searches households by name.",
+      "code": "// Households whose name contains 'Household'.\nsearchGroup({ name: 'Household' }, { count: 20 });"
     },
     "Get Household Members": {
-      "description": "Lists the members of a group registrant.",
-      "code": "// List the members of a household group.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state =>\n  getGroupMembers(\n    // 1) Group spp_id.\n    state.data.groupSppId,\n    // 2) Options: limit, offset, order.\n    { limit: 50 }\n  )(state)\n);"
+      "description": "Lists the members of a household, optionally only those with a given role.",
+      "code": "// The head of a household. Leave out role to list every member.\ngetGroupMembers('urn:openspp:vocab:id-type#household_id|HH-KAM-01', { role: 'head' });"
     },
-    "Get Enrolled Programs": {
-      "description": "Lists the programmes an individual or group is enrolled in.",
-      "code": "// Check which programmes a registrant is enrolled in.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state => getEnrolledPrograms(state.data.sppId)(state));"
+    "Get Individual's Households": {
+      "description": "Lists every group an individual belongs to, using request() for an endpoint without a named function.",
+      "code": "// request() reaches any /api/v2/spp endpoint. Identifiers in paths must be URL-encoded.\nrequest(\n  'GET',\n  `/Individual/${encodeURIComponent('urn:openspp:vocab:id-type#national_id|SL-1001')}/groups`\n);"
+    },
+    "Get Program": {
+      "description": "Gets one program by identifier.",
+      "code": "getProgram('urn:openspp:program|cash-transfer-2024');"
     },
     "List Programs": {
-      "description": "Lists programmes configured in OpenSPP.",
-      "code": "// List programmes (name and program_id).\ngetPrograms({ limit: 100 });"
+      "description": "Lists programs that target households.",
+      "code": "// Programs page with a cursor: pass lastId from state.response.page.next for the next page.\ngetPrograms({ targetType: 'group', count: 10 });"
     },
-    "Search Areas": {
-      "description": "Searches administrative areas, e.g. to map a district code to an area.",
-      "code": "// Find an area by its code.\n// openspp operations don't resolve $ references, so call them inside fn() with state values.\nfn(state => searchArea([['code', '=', state.data.districtCode]])(state));"
+    "Get Enrolled Programs": {
+      "description": "Lists the programs a household is enrolled in.",
+      "code": "// Each result is a ProgramMembership with a program reference.\ngetEnrolledPrograms('Group/urn:openspp:vocab:id-type#household_id|HH-KAM-01');"
+    },
+    "Get Service Point": {
+      "description": "Gets a service point (pay point / agent) by name.",
+      "code": "getServicePoint('Bo Pay Point');"
+    },
+    "Search Service Points": {
+      "description": "Finds active service points in a country.",
+      "code": "searchServicePoint({ country: 'SL', contractActive: true });"
     }
   }
 }

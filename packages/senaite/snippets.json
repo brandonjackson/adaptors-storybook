@@ -2,45 +2,57 @@
   "CREATE": {
     "Create Sample From Lab Order": {
       "description": "Registers a sample (AnalysisRequest) in a client's folder from an EMR lab order.",
-      "code": "// Create a sample (AnalysisRequest) inside a client, e.g. from an OpenMRS lab order.\n// Paths are relative to the credential's baseUrl (…/@@API/senaite/v1).\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Create an AnalysisRequest in the client folder with this UID.\n  `AnalysisRequest/create/${$.data.clientUid}`,\n  // 3) Options: the sample fields go in the body.\n  {\n    body: {\n      Contact: $.data.contactUid,\n      SampleType: $.data.sampleTypeUid,\n      DateSampled: $.data.collectedAt,\n      ClientSampleID: $.data.orderNumber,\n      // UIDs of the AnalysisServices to run.\n      Analyses: $.data.testUids,\n    },\n  }\n);"
+      "code": "// Create a sample (AnalysisRequest) inside a client, e.g. from an OpenMRS lab order.\n// baseUrl is the SENAITE site root; JSON API paths start with @@API/senaite/v1.\nrequest(\n  // 1) HTTP method.\n  'POST',\n  // 2) Create an AnalysisRequest in the client folder with this UID.\n  '@@API/senaite/v1/AnalysisRequest/create/c1000000000000000000000000000001', // e.g. $.data.clientUid\n  // 3) Options: the sample fields go in the body.\n  {\n    body: {\n      Contact: $.data.contactUid,\n      SampleType: $.data.sampleTypeUid,\n      DateSampled: $.data.collectedAt,\n      ClientSampleID: $.data.orderNumber,\n      // UIDs of the AnalysisServices to run.\n      Analyses: ['5e000000000000000000000000000001'], // e.g. $.data.testUids\n    },\n  }\n);"
     },
     "Create Client": {
       "description": "Adds a referring facility as a SENAITE client.",
-      "code": "// Create a Client (e.g. a referring health facility).\nrequest('POST', 'Client/create', {\n  body: {\n    title: $.data.facilityName,\n    ClientID: $.data.facilityCode,\n    parent_path: '/senaite/clients',\n  },\n});"
+      "code": "// Create a Client (e.g. a referring health facility).\nrequest('POST', '@@API/senaite/v1/Client/create', {\n  body: {\n    title: $.data.facilityName,\n    ClientID: $.data.facilityCode,\n    parent_path: '/senaite/clients',\n  },\n});"
     },
     "Receive Sample": {
       "description": "Runs the receive workflow transition on a sample when it arrives at the lab.",
-      "code": "// Update a sample and run a workflow transition on it.\nrequest('POST', `AnalysisRequest/update/${$.data.sampleUid}`, {\n  body: {\n    // Workflow transition to run after the update.\n    transition: 'receive',\n    Remarks: 'Received via courier from district hospital',\n  },\n});"
+      "code": "// Update a sample and run a workflow transition on it.\nrequest('POST', '@@API/senaite/v1/AnalysisRequest/update/a5000000000000000000000000000001', { // e.g. $.data.sampleUid\n  body: {\n    // Workflow transition to run after the update.\n    transition: 'receive',\n    Remarks: 'Received via courier from district hospital',\n  },\n});"
     },
     "Update Object By UID": {
       "description": "Updates any SENAITE object's fields by UID.",
-      "code": "// Update fields on any object (portal type inferred from the UID).\nrequest('POST', `update/${$.data.uid}`, {\n  body: {\n    Phone: $.data.phone,\n    EmailAddress: $.data.email,\n  },\n});"
+      "code": "// Update fields on any object (portal type inferred from the UID).\nrequest('POST', '@@API/senaite/v1/update/c1000000000000000000000000000001', { // e.g. $.data.uid\n  body: {\n    Phone: $.data.phone,\n    EmailAddress: $.data.email,\n  },\n});"
     },
     "Deactivate Client": {
       "description": "Deactivates (soft-deletes) a client; SENAITE keeps the audit trail.",
-      "code": "// Deactivate an object. SENAITE does not hard-delete content.\nrequest('POST', `Client/delete/${$.data.clientUid}`);"
+      "code": "// Deactivate an object. SENAITE does not hard-delete content.\nrequest('POST', '@@API/senaite/v1/Client/delete/c1000000000000000000000000000002'); // e.g. $.data.clientUid"
+    },
+    "Create Sample Partitions": {
+      "description": "Splits a received sample into partitions (aliquots), moving the chosen analyses into each. Needs senaite.jsonapi 2.7.0 or later.",
+      "code": "// Split a received sample into two partitions (senaite.jsonapi 2.7.0+).\n// The listed analyses move from the primary sample into the partition.\nrequest('POST', '@@API/senaite/v1/partition', {\n  body: {\n    uid: 'a5000000000000000000000000000001', // e.g. $.data.sampleUid\n    partitions: [\n      { analyses: [] }, // e.g. $.data.analysisUids\n      { analyses: [], internal_use: true },\n    ],\n  },\n});"
     }
   },
   "SEARCH": {
     "Get Published Results": {
       "description": "Fetches samples published since a date, with full data, to send results back to an EMR or DHIS2.",
-      "code": "// Find samples published recently, returning full object data.\nrequest('GET', 'search', {\n  query: {\n    portal_type: 'AnalysisRequest',\n    catalog: 'senaite_catalog_sample',\n    review_state: 'published',\n    modified_since: '2d',\n    complete: 'yes',\n    limit: 100,\n  },\n});"
+      "code": "// Find samples published recently, returning full object data.\nrequest('GET', '@@API/senaite/v1/search', {\n  query: {\n    portal_type: 'AnalysisRequest',\n    catalog: 'senaite_catalog_sample',\n    review_state: 'published',\n    modified_since: '2d',\n    complete: 'yes',\n    limit: 100,\n  },\n});"
     },
     "Find Sample By Client Sample ID": {
       "description": "Looks up a sample using the order number from the EMR.",
-      "code": "// Find a sample by the client's own sample/order id.\nrequest('GET', 'AnalysisRequest', {\n  query: {\n    getClientSampleID: $.data.orderNumber,\n    catalog: 'senaite_catalog_sample',\n    complete: 'yes',\n  },\n});"
+      "code": "// Find a sample by the client's own sample/order id.\nrequest('GET', '@@API/senaite/v1/AnalysisRequest', {\n  query: {\n    getClientSampleID: $.data.orderNumber,\n    catalog: 'senaite_catalog_sample',\n    complete: 'yes',\n  },\n});"
     },
     "Get Object By UID": {
       "description": "Reads one sample, client or other object by UID.",
-      "code": "// Read a single object by UID.\nrequest('GET', `AnalysisRequest/${$.data.sampleUid}`);"
+      "code": "// Read a single object by UID.\nrequest('GET', '@@API/senaite/v1/AnalysisRequest/a5000000000000000000000000000001'); // e.g. $.data.sampleUid"
     },
     "List Analysis Services": {
       "description": "Lists the tests the lab offers, e.g. to map EMR test concepts to SENAITE UIDs.",
-      "code": "// List active analysis services.\nrequest('GET', 'AnalysisService', {\n  query: { review_state: 'active', complete: 'yes', limit: 200 },\n});"
+      "code": "// List active analysis services.\nrequest('GET', '@@API/senaite/v1/AnalysisService', {\n  query: { review_state: 'active', complete: 'yes', limit: 200 },\n});"
     },
     "List Clients": {
       "description": "Lists all client facilities.",
-      "code": "// List clients.\nrequest('GET', 'Client', { query: { complete: 'yes' } });"
+      "code": "// List clients.\nrequest('GET', '@@API/senaite/v1/Client', { query: { complete: 'yes' } });"
+    },
+    "Get Required Sample Fields": {
+      "description": "Reads a portal type's schema to see which fields a create needs and which reference other objects. Needs senaite.jsonapi 2.7.0 or later.",
+      "code": "// Which fields does a sample need? (senaite.jsonapi 2.7.0+)\n// Each field has name, type, required, readonly and, for references, allowed_types.\nrequest('GET', '@@API/senaite/v1/schema/AnalysisRequest');\nfn(state => {\n  state.required = state.data.fields.filter(f => f.required).map(f => f.name);\n  return state;\n});"
+    },
+    "Get Available Transitions": {
+      "description": "Lists the workflow transitions that can run on an object right now, so a job can pick a valid transition id. Needs senaite.jsonapi 2.7.0 or later.",
+      "code": "// What can be done with this sample now? (senaite.jsonapi 2.7.0+)\nrequest('GET', '@@API/senaite/v1/workflow/a5000000000000000000000000000001'); // e.g. $.data.sampleUid\n// state.data: { review_state, transitions: [{ id, title }] }"
     }
   }
 }

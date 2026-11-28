@@ -1,7 +1,7 @@
 {
   "$comment": "Synced from openfn-api-specs by `node tools/sync-coverage.mjs`; do not edit by hand.",
   "source": "https://raw.githubusercontent.com/brandonjackson/openfn-api-specs/main/specs/adaptors/manifest.json",
-  "dataUpdatedAt": "2026-11-27",
+  "dataUpdatedAt": "2026-11-28",
   "adaptors": {
     "arcgis": {
       "hasOpenapi": true,
@@ -1168,10 +1168,10 @@
       "coverage": "full",
       "completeness": "best-effort",
       "completenessReason": "docs-only",
-      "operations": 35,
-      "resourceGroups": 9,
-      "capturedAt": "2026-09-13",
-      "lastCheckedAt": "2026-09-13"
+      "operations": 47,
+      "resourceGroups": 11,
+      "capturedAt": "2026-11-28",
+      "lastCheckedAt": "2026-11-28"
     },
     "sftp": {
       "hasOpenapi": true,
